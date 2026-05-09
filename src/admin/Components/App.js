@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   HashRouter as Router,
   Routes,
@@ -14,6 +14,7 @@ import OurPlugins from "../../../../bpl-tools/Admin/OurPlugins";
 import Blocks from "../../../../bpl-tools/Admin/Blocks";
 import Layout from "./Layout";
 import Welcome from "./Welcome";
+import Settings from "./Settings";
 import { demoInfo, pricingInfo } from "../utils/data";
 
 const App = (props) => {
@@ -94,6 +95,7 @@ const App = (props) => {
           <Route path="blocks" element={<Blocks {...appProps} />} />
 
           <Route path="our-plugins" element={<OurPlugins {...appProps} />} />
+          <Route path="settings" element={<Settings {...appProps} />} />
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Route>
       </Routes>

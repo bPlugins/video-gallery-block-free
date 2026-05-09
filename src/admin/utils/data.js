@@ -22,6 +22,8 @@ export const dashboardInfo = (info) => {
     vgbDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,
+    uninstallNonce,
+    deleteDataOnUninstall,
   } = info;
 
   const proSuffix = isPremium ? " Pro" : "";
@@ -36,6 +38,8 @@ export const dashboardInfo = (info) => {
     isPremium,
     hasPro,
     licenseActiveNonce,
+    uninstallNonce,
+    deleteDataOnUninstall,
     disabledBlocks: vgbDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,

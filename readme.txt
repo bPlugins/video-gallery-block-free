@@ -14,7 +14,7 @@ Video Gallery Block lets you create responsive YouTube, Vimeo, and HTML5 video g
 == Source Code ==
 
 The non-minified source code for this plugin is available on our public repository:
-[GitHub Repository](https://github.com/bPlugins/video-gallery-block)
+[GitHub Repository](https://github.com/bPlugins/video-gallery-block-free)
 
 == Description ==
 
@@ -190,7 +190,7 @@ Pro users receive priority email support.
 
 == Changelog ==
 
-= 1.1.2 - 07 May 2026 =
+= 1.1.2 - 09 May 2026 =
 * Compliance: Standardized text domain to match plugin slug.
 * Compliance: Added human-readable source code link.
 * Compliance: Removed prohibited trialware file access restrictions.

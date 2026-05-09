@@ -12,3 +12,136 @@
 }
 
 @import '../../../bpl-tools/Admin/style.scss';
+
+.bPlDashboardSettings {
+	max-width: 1200px;
+	padding: 32px !important;
+	margin: 0 auto;
+
+	h2 {
+		font-size: 24px;
+		font-weight: 600;
+		color: var(--bpl-dashboard-title-color, #001737);
+		margin-bottom: 10px;
+	}
+
+	p {
+		font-size: 16px;
+		max-width: 700px;
+		color: var(--bpl-dashboard-content-color, #1B2E4B);
+		margin-bottom: 24px;
+	}
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 10px 0 24px 0;
+
+		li {
+			font-size: 14px;
+			position: relative;
+			color: rgba(var(--bpl-dashboard-title-color-rgb, #001737), 0.75);
+			background: transparent;
+			border-radius: 5px;
+			padding-left: 22px;
+
+			&::before {
+				content: '';
+				width: 6px;
+				height: 6px;
+				position: absolute;
+				top: 50%;
+				left: 7px;
+				transform: translateY(-50%);
+				background: currentColor;
+				border-radius: 50%;
+			}
+		}
+	}
+
+	.settingsWarning {
+		color: #b45309;
+		font-weight: 500;
+	}
+
+	.settingsControl {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		margin-top: 16px;
+		padding-top: 16px;
+		border-top: 1px solid #485e9033;
+	}
+
+	.toggleControl {
+		position: relative;
+		display: inline-block;
+		width: 44px;
+		height: 24px;
+		flex-shrink: 0;
+
+		input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+
+			&:checked+.toggleSlider {
+				background: var(--bpl-dashboard-primary-color);
+
+				&::before {
+					transform: translateX(20px);
+				}
+			}
+
+			&:disabled+.toggleSlider {
+				opacity: 0.6;
+			}
+		}
+
+		.toggleSlider {
+			position: absolute;
+			inset: 0;
+			background: #cbd5e1;
+			border-radius: 24px;
+			cursor: pointer;
+			transition: background 0.2s;
+
+			&::before {
+				content: '';
+				position: absolute;
+				width: 18px;
+				height: 18px;
+				left: 3px;
+				bottom: 3px;
+				background: #fff;
+				border-radius: 50%;
+				transition: transform 0.2s;
+			}
+		}
+	}
+
+	.toggleLabel {
+		font-size: 13px;
+		color: var(--bpl-dashboard-content-color);
+	}
+
+	.settingsNotice {
+		margin-top: 14px;
+		padding: 10px 14px;
+		border-radius: 6px;
+		font-size: 13px;
+		font-weight: 500;
+
+		&.success {
+			background: #f0fdf4;
+			color: #166534;
+			border: 1px solid #bbf7d0;
+		}
+
+		&.warning {
+			background: #fffbeb;
+			color: #92400e;
+			border: 1px solid #fde68a;
+		}
+	}
+}

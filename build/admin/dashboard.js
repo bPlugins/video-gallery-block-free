@@ -9024,8 +9024,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "../plugin-slug/node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "../plugin-slug/node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "../plugin-slug/node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! react-router-dom */ "../plugin-slug/node_modules/react-router/dist/index.js");
 /* harmony import */ var _bpl_tools_Admin_Demos__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../bpl-tools/Admin/Demos */ "../bpl-tools/Admin/Demos/index.js");
 /* harmony import */ var _bpl_tools_Admin_Pricing__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../bpl-tools/Admin/Pricing */ "../bpl-tools/Admin/Pricing/index.js");
 /* harmony import */ var _bpl_tools_Admin_FeatureCompare__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../bpl-tools/Admin/FeatureCompare */ "../bpl-tools/Admin/FeatureCompare/index.js");
@@ -9034,7 +9034,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _bpl_tools_Admin_Blocks__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../bpl-tools/Admin/Blocks */ "../bpl-tools/Admin/Blocks/index.js");
 /* harmony import */ var _Layout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Layout */ "./src/admin/Components/Layout.js");
 /* harmony import */ var _Welcome__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Welcome */ "./src/admin/Components/Welcome.js");
-/* harmony import */ var _utils_data__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../utils/data */ "./src/admin/utils/data.js");
+/* harmony import */ var _Settings__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./Settings */ "./src/admin/Components/Settings.js");
+/* harmony import */ var _utils_data__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../utils/data */ "./src/admin/utils/data.js");
+
 
 
 
@@ -9083,58 +9085,63 @@ const App = props => {
     status,
     onChange: handleBlocksChange
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.HashRouter, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Routes, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.HashRouter, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Routes, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "/",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Layout__WEBPACK_IMPORTED_MODULE_7__["default"], {
       ...appProps
     })
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     index: true,
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Welcome__WEBPACK_IMPORTED_MODULE_8__["default"], {
       ...appProps
     })
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "welcome",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Welcome__WEBPACK_IMPORTED_MODULE_8__["default"], {
       ...appProps
     })
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "demos",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Demos__WEBPACK_IMPORTED_MODULE_1__["default"], {
-      demoInfo: _utils_data__WEBPACK_IMPORTED_MODULE_9__.demoInfo,
+      demoInfo: _utils_data__WEBPACK_IMPORTED_MODULE_10__.demoInfo,
       ...appProps
     })
-  }), !isPremium && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), !isPremium && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "pricing",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Pricing__WEBPACK_IMPORTED_MODULE_2__["default"], {
-      pricingInfo: _utils_data__WEBPACK_IMPORTED_MODULE_9__.pricingInfo,
+      pricingInfo: _utils_data__WEBPACK_IMPORTED_MODULE_10__.pricingInfo,
       options: {},
       ...appProps
     })
-  }), !isPremium && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), !isPremium && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "feature-comparison",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_FeatureCompare__WEBPACK_IMPORTED_MODULE_3__["default"], {
       plans: ["free", "pro"],
       ...appProps
     })
-  }), hasPro && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), hasPro && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "activation",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Activation__WEBPACK_IMPORTED_MODULE_4__["default"], {
       ...appProps
     })
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "blocks",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Blocks__WEBPACK_IMPORTED_MODULE_6__["default"], {
       ...appProps
     })
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "our-plugins",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_OurPlugins__WEBPACK_IMPORTED_MODULE_5__["default"], {
       ...appProps
     })
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
+    path: "settings",
+    element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings__WEBPACK_IMPORTED_MODULE_9__["default"], {
+      ...appProps
+    })
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Route, {
     path: "*",
-    element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Navigate, {
+    element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_12__.Navigate, {
       to: "/welcome",
       replace: true
     })
@@ -9181,6 +9188,9 @@ const navigation = [{
 }, {
   name: 'Activation',
   href: '/activation'
+}, {
+  name: 'Settings',
+  href: '/settings'
 }];
 const Layout = props => {
   const {
@@ -9205,6 +9215,87 @@ const Layout = props => {
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Outlet, null)));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Layout);
+
+/***/ }),
+
+/***/ "./src/admin/Components/Settings.js":
+/*!******************************************!*\
+  !*** ./src/admin/Components/Settings.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+
+const Settings = ({
+  deleteDataOnUninstall,
+  uninstallNonce,
+  adminUrl
+}) => {
+  const [enabled, setEnabled] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(deleteDataOnUninstall);
+  const [notice, setNotice] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('');
+  const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const handleToggle = () => {
+    const newValue = !enabled;
+
+    // Show confirm dialog when enabling (destructive action)
+    if (newValue) {
+      const confirmed = window.confirm((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Are you sure? This will permanently delete all Video Gallery Block posts and settings when the plugin is uninstalled.', 'video-gallery-block'));
+      if (!confirmed) return;
+    }
+    setIsLoading(true);
+    setNotice('');
+    const formData = new FormData();
+    formData.append('action', 'vgbSaveUninstallOption');
+    formData.append('nonce', uninstallNonce);
+    formData.append('enabled', String(newValue));
+    fetch(`${adminUrl}admin-ajax.php`, {
+      method: 'POST',
+      body: formData
+    }).then(res => res.json()).then(res => {
+      if (res.success) {
+        setEnabled(res.data.enabled);
+        setNotice(res.data.message);
+      } else {
+        setNotice(res.data?.message || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Failed to save setting.', 'video-gallery-block'));
+      }
+    }).catch(() => {
+      setNotice((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Failed to save setting. Network error.', 'video-gallery-block'));
+    }).finally(() => {
+      setIsLoading(false);
+    });
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "bPlDashboardSettings bPlDashboardCard"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Delete Data on Uninstall', 'video-gallery-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('When enabled, all plugin data will be permanently deleted when you uninstall (delete) the plugin. This includes:', 'video-gallery-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("ul", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('All video gallery block posts', 'video-gallery-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("li", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('All plugin settings and configurations', 'video-gallery-block'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
+    className: "settingsWarning"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('⚠️ This action cannot be undone. Your data will be safe if you only deactivate the plugin.', 'video-gallery-block')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "settingsControl"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    className: "toggleControl"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "checkbox",
+    checked: enabled,
+    onChange: handleToggle,
+    disabled: isLoading
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "toggleSlider"
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "toggleLabel"
+  }, enabled ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Data will be deleted on uninstall', 'video-gallery-block') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Data will be preserved on uninstall', 'video-gallery-block'))), notice && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `settingsNotice ${enabled ? 'warning' : 'success'}`
+  }, notice));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Settings);
 
 /***/ }),
 
@@ -9362,7 +9453,9 @@ const dashboardInfo = info => {
     licenseActiveNonce,
     vgbDisabledBlocks,
     disabledBlocksNonce,
-    adminUrl
+    adminUrl,
+    uninstallNonce,
+    deleteDataOnUninstall
   } = info;
   const proSuffix = isPremium ? " Pro" : "";
   return {
@@ -9374,6 +9467,8 @@ const dashboardInfo = info => {
     isPremium,
     hasPro,
     licenseActiveNonce,
+    uninstallNonce,
+    deleteDataOnUninstall,
     disabledBlocks: vgbDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,
@@ -12901,6 +12996,17 @@ module.exports = window["wp"]["components"];
 
 "use strict";
 module.exports = window["wp"]["data"];
+
+/***/ }),
+
+/***/ "@wordpress/i18n":
+/*!******************************!*\
+  !*** external ["wp","i18n"] ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = window["wp"]["i18n"];
 
 /***/ })
 

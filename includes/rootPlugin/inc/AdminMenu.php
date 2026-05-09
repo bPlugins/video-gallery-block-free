@@ -26,7 +26,9 @@ class AdminMenu  {
                     'nonce' => wp_create_nonce('vgb_activation_nonce'),
                     'licenseActiveNonce' => wp_create_nonce('vgb_activation_nonce'),
                     'disabledBlocksNonce' => wp_create_nonce('vgb_disabled_blocks'),
-                    'vgbDisabledBlocks' => get_option('vgbDisabledBlocks', [])                 
+                    'uninstallNonce' => wp_create_nonce('vgb_activation_nonce'),
+                    'vgbDisabledBlocks' => get_option('vgbDisabledBlocks', []),
+                    'deleteDataOnUninstall' => get_option('vgb_delete_data_on_uninstall', false),
                 ] ) ); ?>'
             ></div>
         <?php

@@ -1,48 +1,43 @@
-## Plugin Setup
-1. Find an appropriate [plugin-slug](https://wordpress.org/plugins/) according to the solution of the plugin.
-2. Write the min 4-5 character prefix, plugin name, short description(up to 150 chars), long description (min 3-4 para), keywords(min 4), block name, and block description in a temporary notebook.
-2. If your block is not part of `b-blocks`, then the text domain should be your `plugin-slug`.
-4. Apply 1st and 2nd list data to this template with case sensitivity: uppercase for uppercase, lowercase for lowercase, title case for title case, and camel case for camel case. (for the block name try different way to search (blockname, blockName, BlockName, Block Name, block name))
-5. Complete the `readme.txt` file.
-6. The main element is `.wp-block-b-blocks-{blockname}`, and its immediate child is `.bBlocksBlockName`. Do not apply width or columns for the main element.
-7. Write appropriate class and ID names for the elements.
-8. Add the initial roadmap for the plugin in the `todo.txt`.
-9. If you skip one of these, we will not provide any support for the project.
-10. Enjoy CODING!
+# Video Gallery Block
 
-The folder structure that `plugin-zip` accepts is:
+Display your videos as a gallery in a professional way directly in the WordPress Gutenberg editor.
 
-```
-/plugin-name
-	plugin-name.php
-	uninstall.php
-	/languages
-	/includes
-	/admin
-		/js
-		/css
-		/images
-	/public
-		/js
-		/css
-		/images
-```
+[Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight and powerful WordPress plugin that allows you to create responsive video galleries, grids, and lightbox popups with ease.
 
-**If you want to add custom folders, you have to add those folder names to the {files} array in the `package.json` file.**
+[![Video Gallery Block Banner](https://ps.w.org/video-gallery-block/assets/banner-772x250.png)](https://bplugins.com/products/video-gallery-block)
 
-### Required packages for this project
-```json
-"dependencies": {
-	"immer": "latest"
-},
-"devDependencies": {
-	"@wordpress/scripts": "latest",
-	"eslint-webpack-plugin": "latest"
-}
-```
+## 🚀 Key Features – Free Version
+- **Responsive Video Gallery Block**: Automatically adapts to desktop, tablet, and mobile screens.
+- **Album & Filter System**: Organize videos into albums with a smooth filtering experience.
+- **Multiple Video Sources**: Support for YouTube, Vimeo, Wistia, and self-hosted HTML5 videos.
+- **Lightbox Integration**: High-performance lightbox for an immersive viewing experience.
+- **Custom Styling**: Control spacing, columns, backgrounds, and shadows without code.
+- **Optimized Performance**: Assets only load when the block is active on the page.
 
-## Editor Setup
-#### For this project use this setup in your IDE Editor. Preferred `Cursor`. If you want to set another setup for your personal/portfolio/example/tutorial project, use another IDE Editor. Setup the `Cursor` IDE using the provided `*.code-profile`
+## 💎 Pro Features
+Extend your gallery with **Video Gallery Block Pro**:
+- **8+ Premium Blocks**: Slider, Carousel, Playlist, Masonry, and more.
+- **Advanced Layouts**: Masonry grids and mixed aspect ratios.
+- **Parallax Backgrounds**: Create stunning video sections with parallax effects.
+- **WooCommerce Integration**: Display product videos in carousels.
+- **Priority Support**: Access to expert assistance and regular updates.
 
-## Not Working after installed on Taste Wp
-#### When you run 'npm run bundle' on a block plugin, the zip file may not work properly. If any issue is encountered, please build and zip it manually.
+[Explore Pro Version →](https://bplugins.com/products/video-gallery-block/pricing/)
+
+## 🛠️ Installation
+1. Log in to your WordPress dashboard.
+2. Go to **Plugins > Add New**.
+3. Search for "Video Gallery Block".
+4. Click **Install Now** and then **Activate**.
+
+## 📖 How to Use
+1. Open the Block Editor (Gutenberg) on any Page or Post.
+2. Search for the **Video Gallery Block**.
+3. Use the block settings in the sidebar to add videos, set columns, and customize the design.
+4. Publish your page and enjoy your professional video gallery!
+
+## 📜 License
+This project is licensed under the GPLv3 or later.
+
+---
+[bPlugins](https://bplugins.com) | [Support](https://bplugins.com/support/) | [Live Demo](https://bblockswp.com/demo/video-gallery)

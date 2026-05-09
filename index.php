@@ -26,7 +26,6 @@ if (function_exists('vgb_fs')) {
     define('VGB_DIR_PATH', plugin_dir_path(__FILE__));
    
 	require_once VGB_DIR_PATH . '/includes/fs-lite.php';
-    require_once VGB_DIR_PATH . '/includes/utility/functions.php';
     require_once VGB_DIR_PATH . '/includes/rootPlugin/plugin.php';
 
     // Main plugin class

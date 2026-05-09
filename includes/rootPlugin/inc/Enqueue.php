@@ -18,7 +18,7 @@ class Enqueue {
             wp_set_script_translations( 'vgb-admin-dashboard', 'video-gallery-block', VGB_DIR_PATH . 'languages' );
             wp_localize_script('vgb-admin-dashboard-js', 'vgbAdmin', [
                 'ajaxUrl' => admin_url('admin-ajax.php'),
-                'nonce' => wp_create_nonce('vgb_activation_nonce'),
+               // 'nonce' => wp_create_nonce('vgb_activation_nonce'),
             ]);
         }
     }

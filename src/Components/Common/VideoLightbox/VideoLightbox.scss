@@ -1,0 +1,53 @@
+.common-video-lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  animation: commonFadeIn 0.3s ease-out;
+
+  .lightbox-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 85vh;
+  }
+
+  .lightbox-video {
+    width: 100%;
+    max-height: 80vh;
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 36px;
+    height: 36px;
+    background: white;
+    color: #111;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@keyframes commonFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

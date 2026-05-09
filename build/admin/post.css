@@ -1,0 +1,50 @@
+/*!***********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ../plugin-slug/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!../plugin-slug/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!../plugin-slug/node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/admin/post.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************/
+.bPlAdminShortcode {
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+}
+.bPlAdminShortcode input {
+  cursor: pointer;
+  text-align: center;
+  border: none;
+  outline: none;
+  background-color: #146EF5;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.bPlAdminShortcode .tooltip {
+  visibility: hidden;
+  width: 140px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.bPlAdminShortcode .tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+.bPlAdminShortcode:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*# sourceMappingURL=post.css.map*/

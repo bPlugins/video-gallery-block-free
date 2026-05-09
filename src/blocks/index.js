@@ -1,0 +1,1 @@
+import "./video-gallery-block";

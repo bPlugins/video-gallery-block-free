@@ -58,22 +58,8 @@ class VGB_REST_Handler {
 			wp_send_json_success( $db_data );
 		}
 	}
-
-	/**
-	 * Handle AJAX for premium check (from RestAPI).
-	 */
-	public function handle_premium_checker() {
-		$nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : null;
-		if ( ! wp_verify_nonce( $nonce, 'wp_ajax' ) ) {
-			wp_send_json_error( 'Invalid Request' );
-		}
-
-		wp_send_json_success( array(
-			'isPipe' => function_exists( 'vgb_IsPremium' ) ? vgb_IsPremium() : false,
-		) );
-	}
 	
-
+	
 	/**
 	 * Register settings (from RestAPI).
 	 */

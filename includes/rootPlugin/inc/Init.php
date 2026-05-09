@@ -72,20 +72,16 @@ class Init {
                 register_block_type( $block_path );
                 continue;
             }
-
+            
             if ( in_array( $block_name, $disabled_blocks, true ) ) {
                 continue;
             }
-			
-			register_block_type( $block_path );
-			
+			register_block_type( $block_path );			
         }
     }
 
     /**
      * Dynamically lock the block editor once a video gallery layout has been selected.
-     * This allows the initial selection block to replace itself, but prevents further
-     * modifications once the layout is set.
      */
     function vgb_dynamic_template_lock( $settings, $context ) {
         if ( ! empty( $context->post ) && $context->post->post_type === 'video-gallery-block' ) {

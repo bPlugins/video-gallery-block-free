@@ -38,7 +38,6 @@ import {
   perUnit,
   emUnit,
 } from "../../../../../../../bpl-tools/utils/options";
-import { FrontShortCode } from "../../../../../../../bpl-tools/ProControls";
 
 import { generalStyleTabs, videoSizeOptions } from "../../../utils/options";
 import ItemSettings from "./ItemSettings";
@@ -125,11 +124,11 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody addRemoveItems"
-                    title={__("Add or Remove Albums", "video-gallery")}>
+                    title={__("Add or Remove Albums", "video-gallery-block")}>
                     {albums.map((album, index) => (
                       <PanelRow key={index}>
                         <Label className="">
-                          {__(`Al ${index + 1}:`, "video-gallery")}
+                          {__(`Al ${index + 1}:`, "video-gallery-block")}
                         </Label>
                         <TextControl
                           value={album}
@@ -141,7 +140,7 @@ const Settings = ({
                         />
 
                         <Tooltip
-                          text={__("Remove this album", "video-gallery")}
+                          text={__("Remove this album", "video-gallery-block")}
                           placement="top"
                           position="top">
                           <Button
@@ -163,19 +162,19 @@ const Settings = ({
 
                     <div className="addItem mt15">
                       <Button
-                        label={__("Add New Album", "video-gallery")}
+                        label={__("Add New Album", "video-gallery-block")}
                         onClick={() =>
                           setAttributes({ albums: [...albums, ""] })
                         }>
                         <Dashicon icon="plus" />
-                        {__("Add New Album", "video-gallery")}
+                        {__("Add New Album", "video-gallery-block")}
                       </Button>
                     </div>
                   </PanelBody>
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Videos", "video-gallery")}>
+                    title={__("Videos", "video-gallery-block")}>
                     <ItemsPanel
                       {...itemsProps}
                       newItem={newItem}
@@ -187,11 +186,11 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Layout Settings", "video-gallery")}
+                    title={__("Layout Settings", "video-gallery-block")}
                     initialOpen={false}>
                     <PanelRow>
                       <Label className="mb5">
-                        {__("Columns:", "video-gallery")}
+                        {__("Columns:", "video-gallery-block")}
                       </Label>
                       <Device />
                     </PanelRow>
@@ -210,7 +209,7 @@ const Settings = ({
 
                     <NumberControl
                       className="mt20"
-                      label={__("Column Gap:", "video-gallery")}
+                      label={__("Column Gap:", "video-gallery-block")}
                       labelPosition="left"
                       value={columnGap}
                       onChange={(val) =>
@@ -220,7 +219,7 @@ const Settings = ({
 
                     <NumberControl
                       className="mt20"
-                      label={__("Row Gap:", "video-gallery")}
+                      label={__("Row Gap:", "video-gallery-block")}
                       labelPosition="left"
                       value={rowGap}
                       onChange={(val) =>
@@ -232,7 +231,7 @@ const Settings = ({
                       className="mt20"
                       label={__(
                         "Popup video width as aspect ratio",
-                        "bplugins",
+                        "video-gallery-block",
                       )}
                       checked={isPopupWidthAsRatio}
                       onChange={(val) =>
@@ -243,11 +242,11 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Filter", "video-gallery")}
+                    title={__("Filter", "video-gallery-block")}
                     initialOpen={false}>
                     <PanelRow>
                       <Label className="">
-                        {__("Common Label", "video-gallery")}
+                        {__("Common Label", "video-gallery-block")}
                       </Label>
                       <TextControl
                         value={filter?.commonLabel}
@@ -262,17 +261,17 @@ const Settings = ({
                     <span>
                       {__(
                         "If you want to show the common label, leave it blank.",
-                        "video-gallery",
+                        "video-gallery-block",
                       )}
                     </span>
                   </PanelBody>
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Options", "video-gallery")}
+                    title={__("Options", "video-gallery-block")}
                     initialOpen={false}>
                     <BButtonGroup
-                      label={__("Video Fit:", "video-gallery")}
+                      label={__("Video Fit:", "video-gallery-block")}
                       options={videoSizeOptions}
                       value={options?.objectFit}
                       onChange={(value) =>
@@ -284,7 +283,7 @@ const Settings = ({
 
                     <ToggleControl
                       className="mt20"
-                      label={__("Show Caption on Thumbnail", "video-gallery")}
+                      label={__("Show Caption on Thumbnail", "video-gallery-block")}
                       checked={options?.showCaptionOnThumbnail}
                       onChange={(val) =>
                         setAttributes({
@@ -304,9 +303,9 @@ const Settings = ({
                 <>
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Gallery", "video-gallery")}>
+                    title={__("Gallery", "video-gallery-block")}>
                     <Background
-                      label={__("Background:", "video-gallery")}
+                      label={__("Background:", "video-gallery-block")}
                       value={background}
                       onChange={(val) => setAttributes({ background: val })}
                       defaults={{ color: "#fff" }}
@@ -314,7 +313,7 @@ const Settings = ({
 
                     <SpaceControl
                       className="mt20"
-                      label={__("Padding:", "video-gallery")}
+                      label={__("Padding:", "video-gallery-block")}
                       value={padding}
                       onChange={(val) => setAttributes({ padding: val })}
                       defaults={{ vertical: "10px", horizontal: "10px" }}
@@ -322,7 +321,7 @@ const Settings = ({
 
                     <BorderControl
                       className="mt20"
-                      label={__("Border:", "video-gallery")}
+                      label={__("Border:", "video-gallery-block")}
                       value={border}
                       onChange={(val) => setAttributes({ border: val })}
                       defaults={{ radius: "5px" }}
@@ -330,7 +329,7 @@ const Settings = ({
 
                     <ShadowControl
                       className="mt20"
-                      label={__("Shadow:", "video-gallery")}
+                      label={__("Shadow:", "video-gallery-block")}
                       value={shadow}
                       onChange={(val) => setAttributes({ shadow: val })}
                       defaults={[
@@ -347,10 +346,10 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Filter", "video-gallery")}
+                    title={__("Filter", "video-gallery-block")}
                     initialOpen={false}>
                     <Typography
-                      label={__("Button Typography:", "video-gallery")}
+                      label={__("Button Typography:", "video-gallery-block")}
                       value={filterBtnTypo}
                       onChange={(val) => setAttributes({ filterBtnTypo: val })}
                       defaults={{
@@ -359,7 +358,7 @@ const Settings = ({
                     />
 
                     <ColorsControl
-                      label={__("Button Colors")}
+                      label={__("Button Colors", "video-gallery-block")}
                       value={filterBtnColors}
                       onChange={(val) =>
                         setAttributes({ filterBtnColors: val })
@@ -368,7 +367,7 @@ const Settings = ({
                     />
 
                     <ColorsControl
-                      label={__("Button Hover/Active Colors")}
+                      label={__("Button Hover/Active Colors", "video-gallery-block")}
                       value={filterBtnHoverColors}
                       onChange={(val) =>
                         setAttributes({ filterBtnHoverColors: val })
@@ -379,10 +378,10 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("Item", "video-gallery")}
+                    title={__("Item", "video-gallery-block")}
                     initialOpen={false}>
                     <UnitControl
-                      label={__("Height:", "video-gallery")}
+                      label={__("Height:", "video-gallery-block")}
                       labelPosition="left"
                       value={itemHeight}
                       onChange={(val) => setAttributes({ itemHeight: val })}
@@ -390,7 +389,7 @@ const Settings = ({
                     />
 
                     <Typography
-                      label={__("Caption Typography:", "video-gallery")}
+                      label={__("Caption Typography:", "video-gallery-block")}
                       labelPosition="left"
                       className="mt20"
                       value={styles?.caption?.typography}
@@ -410,7 +409,7 @@ const Settings = ({
                     />
 
                     <ColorsControl
-                      label={__("Caption Colors:", "video-gallery")}
+                      label={__("Caption Colors:", "video-gallery-block")}
                       value={styles?.caption?.colors}
                       className="mt20"
                       labelPosition="left"
@@ -426,7 +425,7 @@ const Settings = ({
                     />
 
                     <SpaceControl
-                      label={__("Caption Padding:", "video-gallery")}
+                      label={__("Caption Padding:", "video-gallery-block")}
                       labelPosition="left"
                       className="mt20"
                       value={styles?.caption?.padding}
@@ -444,10 +443,10 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody"
-                    title={__("LightBox Caption", "video-gallery")}
+                    title={__("LightBox Caption", "video-gallery-block")}
                     initialOpen={false}>
                     <Typography
-                      label={__("Caption Typography:", "video-gallery")}
+                      label={__("Caption Typography:", "video-gallery-block")}
                       labelPosition="left"
                       value={styles?.lightBoxCaption?.typography}
                       onChange={(val) =>
@@ -466,7 +465,7 @@ const Settings = ({
                     />
 
                     <ColorsControl
-                      label={__("Caption Colors:", "video-gallery")}
+                      label={__("Caption Colors:", "video-gallery-block")}
                       value={styles?.lightBoxCaption?.colors}
                       className="mt20"
                       labelPosition="left"
@@ -487,7 +486,7 @@ const Settings = ({
                     />
 
                     <SpaceControl
-                      label={__("Caption Padding:", "video-gallery")}
+                      label={__("Caption Padding:", "video-gallery-block")}
                       labelPosition="left"
                       className="mt20"
                       value={styles?.lightBoxCaption?.padding}
@@ -517,7 +516,7 @@ const Settings = ({
       <BlockControls>
         <ToolbarGroup className="bPlToolbar">
           <ToolbarButton
-            label={__("Add New Video", "video-gallery")}
+            label={__("Add New Video", "video-gallery-block")}
             onClick={addVideo}>
             <Dashicon icon="plus" />
           </ToolbarButton>

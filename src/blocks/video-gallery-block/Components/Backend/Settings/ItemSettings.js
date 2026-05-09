@@ -50,25 +50,25 @@ const ItemSettings = ({
         value={video}
         types={["video"]}
         onChange={(val) => updateVideo("video", val)}
-        placeholder={__("Video url", "video-player")}
+        placeholder={__("Video url", "video-gallery-block")}
       />
 
       <InlineMediaUpload
         value={poster}
         types={["image"]}
         onChange={(val) => updateVideo("poster", val)}
-        placeholder={__("Poster url", "video-player")}
+        placeholder={__("Poster url", "video-gallery-block")}
       />
 
       <PanelRow className="mt10">
-        <Label className="">{__("Caption:", "video-gallery")}</Label>
+        <Label className="">{__("Caption:", "video-gallery-block")}</Label>
         <TextControl
           value={caption}
           onChange={(val) => updateVideo("caption", val)}
         />
       </PanelRow>
 
-      <Label>{__("Select Albums:", "video-gallery")}</Label>
+      <Label>{__("Select Albums:", "video-gallery-block")}</Label>
       {attributes.albums.map((alb) => {
         const isInc = albs.includes(alb);
 

@@ -12,11 +12,9 @@ import FeatureCompare from "../../../../bpl-tools/Admin/FeatureCompare";
 import Activation from "../../../../bpl-tools/Admin/Activation";
 import OurPlugins from "../../../../bpl-tools/Admin/OurPlugins";
 import Blocks from "../../../../bpl-tools/Admin/Blocks";
-
 import Layout from "./Layout";
 import Welcome from "./Welcome";
 import { demoInfo, pricingInfo } from "../utils/data";
-import useBlocksSettings from "../utils/hook";
 
 const App = (props) => {
   const {
@@ -25,7 +23,6 @@ const App = (props) => {
     disabledBlocks: initialDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,
-    licenseActiveNonce,
   } = props;
 
   const [disabledBlocks, setDisabledBlocks] = useState(
@@ -66,17 +63,6 @@ const App = (props) => {
     onChange: handleBlocksChange,
   };
 
-  // const actions = {
-  //   status: "vgb_get_license_status",
-  //   activate: "vgb_activate_freemius_license",
-  //   deactivate: "vgb_deactivate_freemius_license",
-  // };
-
-  // const { data, internalStatus, saveToBackend, isLoading } = useBlocksSettings(
-  //   actions,
-  //   licenseActiveNonce,
-  // );
-
   return (
     <Router>
       <Routes>
@@ -102,28 +88,10 @@ const App = (props) => {
             />
           )}
           {hasPro && (
-            <Route
-              path="activation"
-              element={
-                <Activation
-                  {...appProps}
-                />
-              }
-            />
+            <Route path="activation" element={<Activation {...appProps} />} />
           )}
 
-          <Route
-            path="blocks"
-            element={
-              <Blocks
-                {...appProps}
-                // disabledBlocks={data}
-                // isLoading={isLoading}
-                // status={internalStatus}
-                // onChange={saveToBackend}
-              />
-            }
-          />
+          <Route path="blocks" element={<Blocks {...appProps} />} />
 
           <Route path="our-plugins" element={<OurPlugins {...appProps} />} />
           <Route path="*" element={<Navigate to="/welcome" replace />} />

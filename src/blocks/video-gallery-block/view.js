@@ -12,7 +12,7 @@ import { prefix } from "./utils/data";
 import { sanitizeHTML } from "../../../../bpl-tools/utils/common";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const galleryEls = document.querySelectorAll(".wp-block-vgb-video-gallery");
+  const galleryEls = document.querySelectorAll(".wp-block-vgb-video-gallery-block");
   galleryEls.forEach((galleryEl) => {
     const attributes = JSON.parse(galleryEl.dataset.attributes);
 

@@ -54,6 +54,8 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
+// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
+(() => {
 /*!***************************!*\
   !*** ./src/admin/post.js ***!
   \***************************/
@@ -86,6 +88,8 @@ window.copyBPlAdminShortcode = id => {
 //       }, 1000);
 //   });
 // ")
+})();
+
 /******/ })()
 ;
 //# sourceMappingURL=post.js.map

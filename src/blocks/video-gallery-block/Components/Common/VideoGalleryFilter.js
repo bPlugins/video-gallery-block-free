@@ -6,7 +6,7 @@ const VideoGalleryFilter = ({ attributes, id, itemWidth, setItemWidth }) => {
     align,
     albums,
     videos,
-    columns,
+    columns = { desktop: 3, tablet: 2, mobile: 1 },
     columnGap,
     rowGap,
     filter = { show: true, commonLabel: "All Videos" },
@@ -14,13 +14,41 @@ const VideoGalleryFilter = ({ attributes, id, itemWidth, setItemWidth }) => {
     border,
     itemHeight,
   } = attributes;
+
+  // Handle case where columns might be stored as a number or incomplete object
+  const colSettings = typeof columns === 'number' 
+    ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
+    : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
   const { commonLabel } = filter || {};
 
   const vgbColumn = useRef(null);
 
   useEffect(() => {
-    setItemWidth(vgbColumn.current.clientWidth);
-  }, [vgbColumn.current, align, columns, columnGap, rowGap, padding, border]);
+    const updateWidth = () => {
+      if (vgbColumn.current) {
+        const width = vgbColumn.current.clientWidth;
+        if (width > 0) {
+          setItemWidth(width);
+        }
+      }
+    };
+
+    const observer = new ResizeObserver(updateWidth);
+    if (vgbColumn.current) {
+      observer.observe(vgbColumn.current);
+    }
+
+    // Initial check
+    updateWidth();
+
+    // Fallback for environment shifts
+    const timer = setTimeout(updateWidth, 1000);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [vgbColumn, align, columns, columnGap, rowGap, padding, border]);
 
   // Icotope
   useEffect(() => {
@@ -80,7 +108,7 @@ const VideoGalleryFilter = ({ attributes, id, itemWidth, setItemWidth }) => {
       </div>
 
       <div
-        className={`vgbColumnSizer columns-${columns.desktop} columns-tablet-${columns.tablet} columns-mobile-${columns.mobile}`}>
+        className={`vgbColumnSizer columns-${colSettings.desktop} columns-tablet-${colSettings.tablet} columns-mobile-${colSettings.mobile}`}>
         <div className="vgbColumn" ref={vgbColumn}></div>
       </div>
     </>

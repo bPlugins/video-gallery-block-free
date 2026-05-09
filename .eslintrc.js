@@ -19,7 +19,6 @@ module.exports = {
     Plyr: "readonly",
     lodash: "readonly",
     Chart: "readonly",
-    vgbpipecheck: "readonly",
     vgbDisabledBlocks: "readonly",
   },
   parserOptions: {

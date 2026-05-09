@@ -24,7 +24,12 @@ const Style = ({ attributes, id, itemWidth }) => {
     itemHeight,
     options,
     styles,
+    columns = { desktop: 3, tablet: 2, mobile: 1 },
   } = attributes;
+
+  const colSettings = typeof columns === "number"
+    ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
+    : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
 
   const videoGallerySl = `#${id} .${prefix}`;
   const buttonSl = `${videoGallerySl} .filter button`;
@@ -72,7 +77,7 @@ const Style = ({ attributes, id, itemWidth }) => {
 			grid-column-gap: ${columnGap}px;
 		}
 		${videoGallerySl} .videoGallery .galleryItem{
-			width: ${itemWidth}px;
+			width: ${itemWidth ? `${itemWidth}px` : `${100 / (colSettings.desktop || 3)}%`};
 			height: ${itemHeight};
 			margin-bottom: ${rowGap}px;
 		}

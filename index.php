@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Video Gallery Block
+ * Plugin Name: Video Gallery Block Free
  * Description: Display your videos as gallery in a professional way.
  * Version: 1.1.2
  * Author: bPlugins
@@ -72,25 +72,12 @@ if (function_exists('vgb_fs')) {
             public function vgbEnqueueBlockEditorAssets() {
                 $disabledBlocks = get_option( 'vgbDisabledBlocks', [] );
                 $disabledBlocks = is_array( $disabledBlocks ) ? $disabledBlocks : [];
-                $editor_scripts = [
-                    'vgb-video-gallery-editor-script',
-                ];
-                // Localize + Inline for each script
-                foreach ( $editor_scripts as $handle ) {
-                    if ( wp_script_is( $handle, 'registered' ) ) {
-                        wp_localize_script(
-                            $handle,
-                            'vgbDisabledBlocks',
-                            $disabledBlocks
-                        );
-                        wp_add_inline_script(
-                            $handle,
-                            'var vgbpipecheck = ' . wp_json_encode( vgb_IsPremium() ) . ';',
-                            'before'
-                        );
-                        wp_set_script_translations( $handle, 'video-gallery-block', VGB_DIR_PATH . 'languages' );
-                    }
-                }
+				wp_localize_script(
+					'vgb-video-gallery-editor-script',
+					'vgbDisabledBlocks',
+					$disabledBlocks
+				);
+				wp_set_script_translations( 'vgb-video-gallery-editor-script', 'video-gallery-block', VGB_DIR_PATH . 'languages' );
             }
         }
         new VGBPlugin();

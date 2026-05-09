@@ -93,9 +93,6 @@ const Settings = ({
     setActiveIndex,
   };
 
-  const isPremium = Boolean(vgbpipecheck ?? false);
-  const isGalleryPostType = ["video-gallery-block", "free", "pro"].includes(currentPostType);
-
   return (
     <>
       <InspectorControls>
@@ -527,7 +524,7 @@ const Settings = ({
         </ToolbarGroup>
 
         <div style={{ display: "flex", alignItems: "center" }}>
-          <LivePreview isPremium={isPremium} />
+          <LivePreview isPremium={false} />
         </div>
       </BlockControls>
     </>

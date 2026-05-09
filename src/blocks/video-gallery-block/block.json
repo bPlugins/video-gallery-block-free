@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "vgb/video-gallery",
+  "name": "vgb/video-gallery-block",
   "title": "Video Gallery",
   "description": "Display your videos as gallery in a professional way.",
   "category": "videoblocks",
   "keywords": ["video", "gallery", "filter"],
-  "textdomain": "video-gallery",
+  "textdomain": "video-gallery-block",
   "attributes": {
     "align": {
       "type": "string",

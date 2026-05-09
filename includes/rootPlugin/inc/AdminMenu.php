@@ -22,8 +22,6 @@ class AdminMenu  {
                 id='vgbDashboard'
                 data-info='<?php echo esc_attr( wp_json_encode( [
                     'version' => VGB_PLUGIN_VERSION,
-                    'isPremium' => vgb_IsPremium(),
-                    'hasPro' => VGB_HAS_PRO,
                     'adminUrl' => admin_url(), 
                     'nonce' => wp_create_nonce('vgb_activation_nonce'),
                     'licenseActiveNonce' => wp_create_nonce('vgb_activation_nonce'),

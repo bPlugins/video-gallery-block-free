@@ -17,35 +17,36 @@ class VGB_REST_Handler {
 	/**
 	 * Handle AJAX for disabling blocks (from Dashboard).
 	 */
-	public function handle_disabled_blocks() {
-		$nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : null;
-		if ( ! wp_verify_nonce( $nonce, 'vgb_disabled_blocks' ) ) {
-			wp_send_json_error( 'Invalid Request' );
-		}
+	// public function handle_disabled_blocks() {
+	// 	$nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : null;
+	// 	if ( ! wp_verify_nonce( $nonce, 'vgb_disabled_blocks' ) ) {
+	// 		wp_send_json_error( 'Invalid Request' );
+	// 	}
 
-		$data    = json_decode( stripslashes( $_POST['data'] ), true );
-		$db_data = get_option( 'vgbDisabledBlocks', [] );
+	// 	$data    = json_decode( stripslashes( $_POST['data'] ), true );
+	// 	$db_data = get_option( 'vgbDisabledBlocks', [] );
 		
-		if ( ! isset( $data ) && $db_data ) {
-			wp_send_json_success( $db_data );
-		}
-		update_option( 'vgbDisabledBlocks', $data );
-		wp_send_json_success( $data );
-	}
+	// 	if ( ! isset( $data ) && $db_data ) {
+	// 		wp_send_json_success( $db_data );
+	// 	}
+	// 	update_option( 'vgbDisabledBlocks', $data );
+	// 	wp_send_json_success( $data );
+	// }
 
 	/**
 	 * Handle AJAX for premium check (from RestAPI).
 	 */
-	public function handle_premium_checker() {
-		$nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : null;
-		if ( ! wp_verify_nonce( $nonce, 'wp_ajax' ) ) {
-			wp_send_json_error( 'Invalid Request' );
-		}
+	// public function handle_premium_checker() {
+	// 	$nonce = isset( $_POST['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ) : null;
+	// 	if ( ! wp_verify_nonce( $nonce, 'wp_ajax' ) ) {
+	// 		wp_send_json_error( 'Invalid Request' );
+	// 	}
 
-		wp_send_json_success( array(
-			'isPipe' => vgb_IsPremium(),
-		) );
-	}
+	// 	wp_send_json_success( array(
+	// 		'isPipe' => vgb_IsPremium(),
+	// 	) );
+	// }
+	
 
 	/**
 	 * Register settings (from RestAPI).

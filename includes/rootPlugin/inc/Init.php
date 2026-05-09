@@ -45,7 +45,7 @@ class Init {
             'publicly_queryable' => false,
             'item_published' => 'Video Gallery Published',
             'item_updated' => 'Video Gallery Updated',
-            'template' => [['vgb/video-gallery']],
+            'template' => [['vgb/video-gallery-block']],
             'template_lock' => 'all',
         ]);
 
@@ -76,10 +76,9 @@ class Init {
             if ( in_array( $block_name, $disabled_blocks, true ) ) {
                 continue;
             }
-
-			// if( function_exists('vgb_fs') && vgb_fs()->can_use_premium_code() ) {
-				register_block_type( $block_path );
-			// }
+			
+			register_block_type( $block_path );
+			
         }
     }
 

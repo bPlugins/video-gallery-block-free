@@ -8,7 +8,7 @@ import Style from "../Common/Style";
 import VideoGalleryFilter from "../Common/VideoGalleryFilter";
 import { prefix } from "../../utils/data";
 import { getYoutubeThumbnail } from "../../utils/functions";
-import { FrontShortCode } from "../../../../../../bpl-tools/ProControls";
+import FrontShortCode from "./FrontShortCode/FrontShortCode";
 
 const Edit = (props) => {
   const {
@@ -22,7 +22,7 @@ const Edit = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [itemWidth, setItemWidth] = useState("");
   const id = `${prefix}-${clientId}`;
-  const { isSetup, videos, options } = attributes;
+  const { videos, options } = attributes;
   const blockProps = useBlockProps({
     id: id,
   });
@@ -43,12 +43,14 @@ const Edit = (props) => {
       />
 
       <div {...blockProps} id={id}>
+
         {isGalleryPostType && (
           <FrontShortCode
             postType={currentPostType}
             shortCode={`[video_gallery id=${currentPostId}]`}
           />
         )}
+
         {/* <div {...useBlockProps()} id={id}> */}
         <Style attributes={attributes} id={id} itemWidth={itemWidth} />
 

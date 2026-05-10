@@ -160,7 +160,8 @@
   cursor: pointer;
 }
 .wp-block-vgb-video-gallery-block .videoGallery {
-  display: inline-block;
+  display: block;
+  width: 100%;
   padding: 1px;
   margin: 0 auto;
 }

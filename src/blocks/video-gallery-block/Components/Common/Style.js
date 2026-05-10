@@ -9,7 +9,7 @@ import {
 
 import { prefix } from "../../utils/data";
 
-const Style = ({ attributes, id, itemWidth }) => {
+const Style = ({ attributes, id, itemWidth, isEditor }) => {
   const {
     columnGap,
     rowGap,
@@ -66,6 +66,21 @@ const Style = ({ attributes, id, itemWidth }) => {
 			${getBorderCSS(border)}
 			box-shadow: ${shadow ? getMultiShadowCSS(shadow) : "0px 25px 30px -20px #0003"};
 		}
+		${videoGallerySl} .videoGallery {
+			display: ${isEditor ? "grid" : "block"};
+			${
+        isEditor
+          ? `
+				grid-template-columns: repeat(${colSettings.desktop}, 1fr);
+				grid-column-gap: ${columnGap}px;
+				grid-row-gap: ${rowGap}px;
+			`
+          : `
+				position: relative;
+			`
+      }
+			width: 100%;
+		}
 		${buttonSl}{
 			${getColorsCSS(filterBtnColors)}
 		}
@@ -73,14 +88,52 @@ const Style = ({ attributes, id, itemWidth }) => {
 		${buttonSl}.current{
 			${getColorsCSS(filterBtnHoverColors)}
 		}
-		${videoGallerySl} .vgbColumnSizer {
-			grid-column-gap: ${columnGap}px;
-		}
+		
 		${videoGallerySl} .videoGallery .galleryItem{
-			width: ${itemWidth ? `${itemWidth}px` : `${100 / (colSettings.desktop || 3)}%`};
+			display: ${isEditor ? "block" : "inline-block"};
+			vertical-align: top;
+			width: ${isEditor ? "100%" : (itemWidth ? `${itemWidth}px` : `${100 / (colSettings.desktop || 3)}%`)};
 			height: ${itemHeight};
 			margin-bottom: ${rowGap}px;
+			margin-right: ${!isEditor ? `${columnGap}px` : "0"};
+			position: relative;
+			box-sizing: border-box;
 		}
+
+		/* Remove margin from last item in row on frontend */
+		${!isEditor ? `
+			${videoGallerySl} .videoGallery .galleryItem:nth-child(${colSettings.desktop}n) {
+				margin-right: 0;
+			}
+		` : ""}
+
+		${
+      !isEditor
+        ? `
+			@media (max-width: 768px) {
+				${videoGallerySl} .videoGallery .galleryItem {
+					width: ${100 / (colSettings.tablet || 2)}%;
+				}
+			}
+			@media (max-width: 576px) {
+				${videoGallerySl} .videoGallery .galleryItem {
+					width: ${100 / (colSettings.mobile || 1)}%;
+				}
+			}
+		`
+        : `
+			@media (max-width: 768px) {
+				${videoGallerySl} .videoGallery {
+					grid-template-columns: repeat(${colSettings.tablet}, 1fr);
+				}
+			}
+			@media (max-width: 576px) {
+				${videoGallerySl} .videoGallery {
+					grid-template-columns: repeat(${colSettings.mobile}, 1fr);
+				}
+			}
+		`
+    }
 
 		.wp-block-vgb-video-gallery-block .galleryFigure img, .wp-block-vgb-video-gallery-block .react-thumbnail-generator img {
 			object-fit: ${options.objectFit};

@@ -11,10 +11,88 @@ import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
 const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
   const { videos, options } = attributes;
-
   const [itemWidth, setItemWidth] = useState("");
   const galleryRef = useRef(null);
+  const isotopeRef = useRef(null);
 
+  const { columns = { desktop: 3, tablet: 2, mobile: 1 }, columnGap, rowGap } = attributes;
+
+  const colSettings = typeof columns === "number"
+    ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
+    : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
+
+  // Calculate and Update Width
+  useEffect(() => {
+    const updateWidth = () => {
+      if (galleryRef.current) {
+        const containerWidth = galleryRef.current.clientWidth;
+        if (containerWidth > 0) {
+          const cols = colSettings.desktop || 3;
+          const gap = columnGap || 0;
+          // Calculate item width accounting for gaps
+          const totalGap = gap * (cols - 1);
+          const calculatedWidth = (containerWidth - totalGap) / cols;
+          setItemWidth(Math.floor(calculatedWidth));
+        }
+      }
+    };
+
+    const observer = new ResizeObserver(updateWidth);
+    if (galleryRef.current) {
+      observer.observe(galleryRef.current);
+    }
+
+    updateWidth();
+    const timer = setTimeout(updateWidth, 500);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [columns, columnGap, id]);
+
+  // Isotope Initialization
+  useEffect(() => {
+    // Disable Isotope in the editor to prevent layout issues (Gutenberg iframes, etc.)
+    // Standard CSS Grid/Flex handles the layout perfectly in the editor.
+    if (!galleryRef.current || setActiveIndex) return;
+
+    const $ = window.jQuery;
+    if (!$ || !$.fn.isotope) return;
+
+    const isoOptions = {
+      itemSelector: ".galleryItem",
+      layoutMode: "fitRows",
+      stagger: 30,
+      transitionDuration: "0.5s",
+      percentPosition: true,
+      fitRows: {
+        gutter: 0 // We handle gutter via margins/width
+      }
+    };
+
+    const $gallery = $(galleryRef.current);
+    isotopeRef.current = $gallery.isotope(isoOptions);
+
+    const handleLayout = () => {
+      if (isotopeRef.current) {
+        isotopeRef.current.isotope("layout");
+      }
+    };
+
+    const timer = setTimeout(handleLayout, 500);
+    window.addEventListener('resize', handleLayout);
+
+    return () => {
+      if (isotopeRef.current) {
+        isotopeRef.current.isotope("destroy");
+      }
+      window.removeEventListener('resize', handleLayout);
+      clearTimeout(timer);
+    };
+  }, [videos, columnGap, itemWidth, id]);
+
+  // Fancybox Initialization for Frontend
   useEffect(() => {
     if (galleryRef.current) {
       Fancybox.bind(galleryRef.current, "[data-fancybox]", {
@@ -34,36 +112,41 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
         },
         contentClick: "toggleZoom",
         on: {
-          done: () => {
-            const videoEls = document.querySelectorAll(
-              `.${id}-fancyBox .fancybox__html5video`
+          done: (fancybox, slide) => {
+            // Use a more robust selector to find video elements
+            const videoEls = slide.getContentEl().querySelectorAll(
+              `video, .fancybox__html5video`
             );
 
-            if (typeof Plyr !== "undefined") {
-              Plyr.setup(videoEls, {
-                controls: controlsHandler({
-                  "play-large": true,
-                  restart: false,
-                  rewind: true,
-                  play: true,
-                  "fast-forward": true,
-                  progress: true,
-                  "current-time": true,
-                  duration: false,
-                  mute: true,
-                  volume: true,
-                  pip: false,
-                  airplay: false,
-                  settings: true,
-                  download: false,
-                  fullscreen: true,
-                }),
-                clickToPlay: false,
-                loop: { active: false },
-                muted: false,
-                autoplay: false,
-                resetOnEnd: false,
-                hideControls: true,
+            if (typeof Plyr !== "undefined" && videoEls.length > 0) {
+              videoEls.forEach(el => {
+                if (!el.plyr) {
+                  new Plyr(el, {
+                    controls: controlsHandler({
+                      "play-large": true,
+                      restart: false,
+                      rewind: true,
+                      play: true,
+                      "fast-forward": true,
+                      progress: true,
+                      "current-time": true,
+                      duration: false,
+                      mute: true,
+                      volume: true,
+                      pip: false,
+                      airplay: false,
+                      settings: true,
+                      download: false,
+                      fullscreen: true,
+                    }),
+                    clickToPlay: false,
+                    loop: { active: false },
+                    muted: false,
+                    autoplay: false,
+                    resetOnEnd: false,
+                    hideControls: true,
+                  });
+                }
               });
             }
           },
@@ -78,7 +161,12 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
 
   return (
     <>
-      <Style attributes={attributes} id={id} itemWidth={itemWidth} />
+      <Style
+        attributes={attributes}
+        id={id}
+        itemWidth={itemWidth}
+        isEditor={!!setActiveIndex}
+      />
 
       <div className={prefix}>
         <VideoGalleryFilter
@@ -133,35 +221,39 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
                         on: {
                           done: (fancybox, slide) => {
                             // Use a more robust selector to find video elements
-                            const videoEls = document.querySelectorAll(
-                              `.${id}-fancyBox video, .${id}-fancyBox .fancybox__html5video`
+                            const videoEls = slide.getContentEl().querySelectorAll(
+                              `video, .fancybox__html5video`
                             );
 
                             if (typeof Plyr !== "undefined" && videoEls.length > 0) {
-                              Plyr.setup(videoEls, {
-                                controls: controlsHandler({
-                                  "play-large": true,
-                                  restart: false,
-                                  rewind: true,
-                                  play: true,
-                                  "fast-forward": true,
-                                  progress: true,
-                                  "current-time": true,
-                                  duration: false,
-                                  mute: true,
-                                  volume: true,
-                                  pip: false,
-                                  airplay: false,
-                                  settings: true,
-                                  download: false,
-                                  fullscreen: true,
-                                }),
-                                clickToPlay: false,
-                                loop: { active: false },
-                                muted: false,
-                                autoplay: false,
-                                resetOnEnd: false,
-                                hideControls: true,
+                              videoEls.forEach(el => {
+                                if (!el.plyr) {
+                                  new Plyr(el, {
+                                    controls: controlsHandler({
+                                      "play-large": true,
+                                      restart: false,
+                                      rewind: true,
+                                      play: true,
+                                      "fast-forward": true,
+                                      progress: true,
+                                      "current-time": true,
+                                      duration: false,
+                                      mute: true,
+                                      volume: true,
+                                      pip: false,
+                                      airplay: false,
+                                      settings: true,
+                                      download: false,
+                                      fullscreen: true,
+                                    }),
+                                    clickToPlay: false,
+                                    loop: { active: false },
+                                    muted: false,
+                                    autoplay: false,
+                                    resetOnEnd: false,
+                                    hideControls: true,
+                                  });
+                                }
                               });
                             }
                           },

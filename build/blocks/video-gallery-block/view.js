@@ -1010,7 +1010,8 @@ __webpack_require__.r(__webpack_exports__);
 const Style = ({
   attributes,
   id,
-  itemWidth
+  itemWidth,
+  isEditor
 }) => {
   const {
     columnGap,
@@ -1077,6 +1078,17 @@ const Style = ({
 			${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_1__.getBorderCSS)(border)}
 			box-shadow: ${shadow ? (0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_1__.getMultiShadowCSS)(shadow) : "0px 25px 30px -20px #0003"};
 		}
+		${videoGallerySl} .videoGallery {
+			display: ${isEditor ? "grid" : "block"};
+			${isEditor ? `
+				grid-template-columns: repeat(${colSettings.desktop}, 1fr);
+				grid-column-gap: ${columnGap}px;
+				grid-row-gap: ${rowGap}px;
+			` : `
+				position: relative;
+			`}
+			width: 100%;
+		}
 		${buttonSl}{
 			${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_1__.getColorsCSS)(filterBtnColors)}
 		}
@@ -1084,14 +1096,48 @@ const Style = ({
 		${buttonSl}.current{
 			${(0,_bpl_tools_utils_getCSS__WEBPACK_IMPORTED_MODULE_1__.getColorsCSS)(filterBtnHoverColors)}
 		}
-		${videoGallerySl} .vgbColumnSizer {
-			grid-column-gap: ${columnGap}px;
-		}
+		
 		${videoGallerySl} .videoGallery .galleryItem{
-			width: ${itemWidth ? `${itemWidth}px` : `${100 / (colSettings.desktop || 3)}%`};
+			display: ${isEditor ? "block" : "inline-block"};
+			vertical-align: top;
+			width: ${isEditor ? "100%" : itemWidth ? `${itemWidth}px` : `${100 / (colSettings.desktop || 3)}%`};
 			height: ${itemHeight};
 			margin-bottom: ${rowGap}px;
+			margin-right: ${!isEditor ? `${columnGap}px` : "0"};
+			position: relative;
+			box-sizing: border-box;
 		}
+
+		/* Remove margin from last item in row on frontend */
+		${!isEditor ? `
+			${videoGallerySl} .videoGallery .galleryItem:nth-child(${colSettings.desktop}n) {
+				margin-right: 0;
+			}
+		` : ""}
+
+		${!isEditor ? `
+			@media (max-width: 768px) {
+				${videoGallerySl} .videoGallery .galleryItem {
+					width: ${100 / (colSettings.tablet || 2)}%;
+				}
+			}
+			@media (max-width: 576px) {
+				${videoGallerySl} .videoGallery .galleryItem {
+					width: ${100 / (colSettings.mobile || 1)}%;
+				}
+			}
+		` : `
+			@media (max-width: 768px) {
+				${videoGallerySl} .videoGallery {
+					grid-template-columns: repeat(${colSettings.tablet}, 1fr);
+				}
+			}
+			@media (max-width: 576px) {
+				${videoGallerySl} .videoGallery {
+					grid-template-columns: repeat(${colSettings.mobile}, 1fr);
+				}
+			}
+		`}
 
 		.wp-block-vgb-video-gallery-block .galleryFigure img, .wp-block-vgb-video-gallery-block .react-thumbnail-generator img {
 			object-fit: ${options.objectFit};
@@ -1163,6 +1209,92 @@ const VideoGallery = ({
   } = attributes;
   const [itemWidth, setItemWidth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const galleryRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const isotopeRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  const {
+    columns = {
+      desktop: 3,
+      tablet: 2,
+      mobile: 1
+    },
+    columnGap,
+    rowGap
+  } = attributes;
+  const colSettings = typeof columns === "number" ? {
+    desktop: columns,
+    tablet: Math.max(1, columns - 1),
+    mobile: 1
+  } : {
+    ...{
+      desktop: 3,
+      tablet: 2,
+      mobile: 1
+    },
+    ...columns
+  };
+
+  // Calculate and Update Width
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    const updateWidth = () => {
+      if (galleryRef.current) {
+        const containerWidth = galleryRef.current.clientWidth;
+        if (containerWidth > 0) {
+          const cols = colSettings.desktop || 3;
+          const gap = columnGap || 0;
+          // Calculate item width accounting for gaps
+          const totalGap = gap * (cols - 1);
+          const calculatedWidth = (containerWidth - totalGap) / cols;
+          setItemWidth(Math.floor(calculatedWidth));
+        }
+      }
+    };
+    const observer = new ResizeObserver(updateWidth);
+    if (galleryRef.current) {
+      observer.observe(galleryRef.current);
+    }
+    updateWidth();
+    const timer = setTimeout(updateWidth, 500);
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
+  }, [columns, columnGap, id]);
+
+  // Isotope Initialization
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    // Disable Isotope in the editor to prevent layout issues (Gutenberg iframes, etc.)
+    // Standard CSS Grid/Flex handles the layout perfectly in the editor.
+    if (!galleryRef.current || setActiveIndex) return;
+    const $ = window.jQuery;
+    if (!$ || !$.fn.isotope) return;
+    const isoOptions = {
+      itemSelector: ".galleryItem",
+      layoutMode: "fitRows",
+      stagger: 30,
+      transitionDuration: "0.5s",
+      percentPosition: true,
+      fitRows: {
+        gutter: 0 // We handle gutter via margins/width
+      }
+    };
+    const $gallery = $(galleryRef.current);
+    isotopeRef.current = $gallery.isotope(isoOptions);
+    const handleLayout = () => {
+      if (isotopeRef.current) {
+        isotopeRef.current.isotope("layout");
+      }
+    };
+    const timer = setTimeout(handleLayout, 500);
+    window.addEventListener('resize', handleLayout);
+    return () => {
+      if (isotopeRef.current) {
+        isotopeRef.current.isotope("destroy");
+      }
+      window.removeEventListener('resize', handleLayout);
+      clearTimeout(timer);
+    };
+  }, [videos, columnGap, itemWidth, id]);
+
+  // Fancybox Initialization for Frontend
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (galleryRef.current) {
       _fancyapps_ui__WEBPACK_IMPORTED_MODULE_1__.Fancybox.bind(galleryRef.current, "[data-fancybox]", {
@@ -1182,35 +1314,40 @@ const VideoGallery = ({
         },
         contentClick: "toggleZoom",
         on: {
-          done: () => {
-            const videoEls = document.querySelectorAll(`.${id}-fancyBox .fancybox__html5video`);
-            if (typeof Plyr !== "undefined") {
-              Plyr.setup(videoEls, {
-                controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.controlsHandler)({
-                  "play-large": true,
-                  restart: false,
-                  rewind: true,
-                  play: true,
-                  "fast-forward": true,
-                  progress: true,
-                  "current-time": true,
-                  duration: false,
-                  mute: true,
-                  volume: true,
-                  pip: false,
-                  airplay: false,
-                  settings: true,
-                  download: false,
-                  fullscreen: true
-                }),
-                clickToPlay: false,
-                loop: {
-                  active: false
-                },
-                muted: false,
-                autoplay: false,
-                resetOnEnd: false,
-                hideControls: true
+          done: (fancybox, slide) => {
+            // Use a more robust selector to find video elements
+            const videoEls = slide.getContentEl().querySelectorAll(`video, .fancybox__html5video`);
+            if (typeof Plyr !== "undefined" && videoEls.length > 0) {
+              videoEls.forEach(el => {
+                if (!el.plyr) {
+                  new Plyr(el, {
+                    controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.controlsHandler)({
+                      "play-large": true,
+                      restart: false,
+                      rewind: true,
+                      play: true,
+                      "fast-forward": true,
+                      progress: true,
+                      "current-time": true,
+                      duration: false,
+                      mute: true,
+                      volume: true,
+                      pip: false,
+                      airplay: false,
+                      settings: true,
+                      download: false,
+                      fullscreen: true
+                    }),
+                    clickToPlay: false,
+                    loop: {
+                      active: false
+                    },
+                    muted: false,
+                    autoplay: false,
+                    resetOnEnd: false,
+                    hideControls: true
+                  });
+                }
               });
             }
           }
@@ -1224,7 +1361,8 @@ const VideoGallery = ({
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Style__WEBPACK_IMPORTED_MODULE_4__["default"], {
     attributes: attributes,
     id: id,
-    itemWidth: itemWidth
+    itemWidth: itemWidth,
+    isEditor: !!setActiveIndex
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: _utils_data__WEBPACK_IMPORTED_MODULE_7__.prefix
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_VideoGalleryFilter__WEBPACK_IMPORTED_MODULE_5__["default"], {
@@ -1277,34 +1415,38 @@ const VideoGallery = ({
             on: {
               done: (fancybox, slide) => {
                 // Use a more robust selector to find video elements
-                const videoEls = document.querySelectorAll(`.${id}-fancyBox video, .${id}-fancyBox .fancybox__html5video`);
+                const videoEls = slide.getContentEl().querySelectorAll(`video, .fancybox__html5video`);
                 if (typeof Plyr !== "undefined" && videoEls.length > 0) {
-                  Plyr.setup(videoEls, {
-                    controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.controlsHandler)({
-                      "play-large": true,
-                      restart: false,
-                      rewind: true,
-                      play: true,
-                      "fast-forward": true,
-                      progress: true,
-                      "current-time": true,
-                      duration: false,
-                      mute: true,
-                      volume: true,
-                      pip: false,
-                      airplay: false,
-                      settings: true,
-                      download: false,
-                      fullscreen: true
-                    }),
-                    clickToPlay: false,
-                    loop: {
-                      active: false
-                    },
-                    muted: false,
-                    autoplay: false,
-                    resetOnEnd: false,
-                    hideControls: true
+                  videoEls.forEach(el => {
+                    if (!el.plyr) {
+                      new Plyr(el, {
+                        controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.controlsHandler)({
+                          "play-large": true,
+                          restart: false,
+                          rewind: true,
+                          play: true,
+                          "fast-forward": true,
+                          progress: true,
+                          "current-time": true,
+                          duration: false,
+                          mute: true,
+                          volume: true,
+                          pip: false,
+                          airplay: false,
+                          settings: true,
+                          download: false,
+                          fullscreen: true
+                        }),
+                        clickToPlay: false,
+                        loop: {
+                          active: false
+                        },
+                        muted: false,
+                        autoplay: false,
+                        resetOnEnd: false,
+                        hideControls: true
+                      });
+                    }
                   });
                 }
               }
@@ -1387,59 +1529,6 @@ const VideoGalleryFilter = ({
   const {
     commonLabel
   } = filter || {};
-  const vgbColumn = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const updateWidth = () => {
-      if (vgbColumn.current) {
-        const width = vgbColumn.current.clientWidth;
-        if (width > 0) {
-          setItemWidth(width);
-        }
-      }
-    };
-    const observer = new ResizeObserver(updateWidth);
-    if (vgbColumn.current) {
-      observer.observe(vgbColumn.current);
-    }
-
-    // Initial check
-    updateWidth();
-
-    // Fallback for environment shifts
-    const timer = setTimeout(updateWidth, 1000);
-    return () => {
-      observer.disconnect();
-      clearTimeout(timer);
-    };
-  }, [vgbColumn, align, columns, columnGap, rowGap, padding, border]);
-
-  // Icotope
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    const isoOptions = {
-      filter: commonLabel ? "*" : `.${lodash.camelCase(albums[0])}`,
-      itemSelector: ".galleryItem",
-      masonry: {
-        fitWidth: true,
-        gutter: columnGap
-      },
-      stagger: 30,
-      transitionDuration: "0.5s"
-    };
-    const vgbIso = $(`#${id}-gallery`).isotope(isoOptions);
-    vgbIso.isotope("destroy");
-    vgbIso.isotope(isoOptions);
-
-    // Filter items on button click
-    $(`#${id}-filter`).on("click", "button", function () {
-      $(`#${id}-filter .current`).removeClass("current");
-      $(this).addClass("current");
-      const filterValue = $(this).attr("data-filter");
-      vgbIso.isotope({
-        ...isoOptions,
-        filter: filterValue
-      });
-    });
-  }, [commonLabel, align, videos?.length, columns, columnGap, rowGap, itemHeight, itemWidth, padding, border]);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     id: `${id}-filter`,
     className: "filter"
@@ -1450,12 +1539,7 @@ const VideoGalleryFilter = ({
     className: index === 0 && !commonLabel ? "current" : "",
     key: lodash.camelCase(alb),
     "data-filter": `.${lodash.camelCase(alb)}`
-  }, alb))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: `vgbColumnSizer columns-${colSettings.desktop} columns-tablet-${colSettings.tablet} columns-mobile-${colSettings.mobile}`
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "vgbColumn",
-    ref: vgbColumn
-  })));
+  }, alb))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VideoGalleryFilter);
 

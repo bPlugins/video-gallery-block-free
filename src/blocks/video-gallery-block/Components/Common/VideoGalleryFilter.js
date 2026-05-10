@@ -21,74 +21,6 @@ const VideoGalleryFilter = ({ attributes, id, itemWidth, setItemWidth }) => {
     : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
   const { commonLabel } = filter || {};
 
-  const vgbColumn = useRef(null);
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (vgbColumn.current) {
-        const width = vgbColumn.current.clientWidth;
-        if (width > 0) {
-          setItemWidth(width);
-        }
-      }
-    };
-
-    const observer = new ResizeObserver(updateWidth);
-    if (vgbColumn.current) {
-      observer.observe(vgbColumn.current);
-    }
-
-    // Initial check
-    updateWidth();
-
-    // Fallback for environment shifts
-    const timer = setTimeout(updateWidth, 1000);
-
-    return () => {
-      observer.disconnect();
-      clearTimeout(timer);
-    };
-  }, [vgbColumn, align, columns, columnGap, rowGap, padding, border]);
-
-  // Icotope
-  useEffect(() => {
-    const isoOptions = {
-      filter: commonLabel ? "*" : `.${lodash.camelCase(albums[0])}`,
-      itemSelector: ".galleryItem",
-      masonry: {
-        fitWidth: true,
-        gutter: columnGap,
-      },
-      stagger: 30,
-      transitionDuration: "0.5s",
-    };
-
-    const vgbIso = $(`#${id}-gallery`).isotope(isoOptions);
-    vgbIso.isotope("destroy");
-    vgbIso.isotope(isoOptions);
-
-    // Filter items on button click
-    $(`#${id}-filter`).on("click", "button", function () {
-      $(`#${id}-filter .current`).removeClass("current");
-      $(this).addClass("current");
-
-      const filterValue = $(this).attr("data-filter");
-
-      vgbIso.isotope({ ...isoOptions, filter: filterValue });
-    });
-  }, [
-    commonLabel,
-    align,
-    videos?.length,
-    columns,
-    columnGap,
-    rowGap,
-    itemHeight,
-    itemWidth,
-    padding,
-    border,
-  ]);
-
   return (
     <>
       <div id={`${id}-filter`} className="filter">
@@ -107,10 +39,6 @@ const VideoGalleryFilter = ({ attributes, id, itemWidth, setItemWidth }) => {
         ))}
       </div>
 
-      <div
-        className={`vgbColumnSizer columns-${colSettings.desktop} columns-tablet-${colSettings.tablet} columns-mobile-${colSettings.mobile}`}>
-        <div className="vgbColumn" ref={vgbColumn}></div>
-      </div>
     </>
   );
 };

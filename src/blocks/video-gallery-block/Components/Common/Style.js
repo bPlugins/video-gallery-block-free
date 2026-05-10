@@ -9,7 +9,7 @@ import {
 
 import { prefix } from "../../utils/data";
 
-const Style = ({ attributes, id, itemWidth, isEditor }) => {
+const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
   const {
     columnGap,
     rowGap,
@@ -99,6 +99,13 @@ const Style = ({ attributes, id, itemWidth, isEditor }) => {
 			position: relative;
 			box-sizing: border-box;
 		}
+
+		/* Editor filtering: hide non-matching items */
+		${isEditor && activeFilter !== "*" ? `
+			${videoGallerySl} .videoGallery .galleryItem:not(${activeFilter}) {
+				display: none;
+			}
+		` : ""}
 
 		/* Remove margin from last item in row on frontend */
 		${!isEditor ? `

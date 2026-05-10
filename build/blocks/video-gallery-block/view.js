@@ -1011,7 +1011,8 @@ const Style = ({
   attributes,
   id,
   itemWidth,
-  isEditor
+  isEditor,
+  activeFilter
 }) => {
   const {
     columnGap,
@@ -1107,6 +1108,13 @@ const Style = ({
 			position: relative;
 			box-sizing: border-box;
 		}
+
+		/* Editor filtering: hide non-matching items */
+		${isEditor && activeFilter !== "*" ? `
+			${videoGallerySl} .videoGallery .galleryItem:not(${activeFilter}) {
+				display: none;
+			}
+		` : ""}
 
 		/* Remove margin from last item in row on frontend */
 		${!isEditor ? `
@@ -1208,6 +1216,7 @@ const VideoGallery = ({
     options
   } = attributes;
   const [itemWidth, setItemWidth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const [activeFilter, setActiveFilter] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("*");
   const galleryRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const isotopeRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
   const {
@@ -1301,9 +1310,9 @@ const VideoGallery = ({
         mainClass: `vgbFancyBox ${id}-fancyBox`,
         Toolbar: {
           display: {
-            left: [],
+            left: ["counter"],
             middle: [],
-            right: ["slideshow", "close"]
+            right: ["share", "zoom", "slideshow", "fullscreen", "close"]
           }
         },
         Carousel: {
@@ -1362,14 +1371,17 @@ const VideoGallery = ({
     attributes: attributes,
     id: id,
     itemWidth: itemWidth,
-    isEditor: !!setActiveIndex
+    isEditor: !!setActiveIndex,
+    activeFilter: activeFilter
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: _utils_data__WEBPACK_IMPORTED_MODULE_7__.prefix
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_VideoGalleryFilter__WEBPACK_IMPORTED_MODULE_5__["default"], {
     attributes: attributes,
     id: id,
     itemWidth: itemWidth,
-    setItemWidth: setItemWidth
+    setItemWidth: setItemWidth,
+    activeFilter: activeFilter,
+    setActiveFilter: setActiveFilter
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     id: `${id}-gallery`,
     className: "videoGallery",
@@ -1400,9 +1412,9 @@ const VideoGallery = ({
             mainClass: `vgbFancyBox ${id}-fancyBox`,
             Toolbar: {
               display: {
-                left: [],
+                left: ["counter"],
                 middle: [],
-                right: ["slideshow", "close"]
+                right: ["share", "zoom", "slideshow", "fullscreen", "close"]
               }
             },
             Carousel: {
@@ -1484,6 +1496,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash */ "lodash");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_1__);
+
 
 
 const $ = jQuery;
@@ -1491,7 +1506,9 @@ const VideoGalleryFilter = ({
   attributes,
   id,
   itemWidth,
-  setItemWidth
+  setItemWidth,
+  activeFilter,
+  setActiveFilter
 }) => {
   const {
     align,
@@ -1514,7 +1531,7 @@ const VideoGalleryFilter = ({
   } = attributes;
 
   // Handle case where columns might be stored as a number or incomplete object
-  const colSettings = typeof columns === 'number' ? {
+  const colSettings = typeof columns === "number" ? {
     desktop: columns,
     tablet: Math.max(1, columns - 1),
     mobile: 1
@@ -1529,17 +1546,39 @@ const VideoGalleryFilter = ({
   const {
     commonLabel
   } = filter || {};
+
+  // Handle filter button clicks
+  const handleFilterClick = (filterValue, e) => {
+    // Update React state (handles editor and frontend visual)
+    setActiveFilter(filterValue);
+
+    // Trigger Isotope (for frontend animation)
+    const $ = window.jQuery;
+    if ($ && $.fn.isotope) {
+      const $gallery = $(`#${id}-gallery`);
+      if ($gallery.length) {
+        $gallery.isotope({
+          filter: filterValue
+        });
+      }
+    }
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     id: `${id}-filter`,
     className: "filter"
   }, commonLabel && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     "data-filter": "*",
-    className: "current"
-  }, commonLabel), albums?.map((alb, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
-    className: index === 0 && !commonLabel ? "current" : "",
-    key: lodash.camelCase(alb),
-    "data-filter": `.${lodash.camelCase(alb)}`
-  }, alb))));
+    className: activeFilter === "*" ? "current" : "",
+    onClick: e => handleFilterClick("*", e)
+  }, commonLabel), albums?.map((alb, index) => {
+    const filterVal = `.${lodash__WEBPACK_IMPORTED_MODULE_1___default().camelCase(alb)}`;
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      className: activeFilter === filterVal ? "current" : "",
+      key: lodash__WEBPACK_IMPORTED_MODULE_1___default().camelCase(alb),
+      "data-filter": filterVal,
+      onClick: e => handleFilterClick(filterVal, e)
+    }, alb);
+  })));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VideoGalleryFilter);
 
@@ -2904,6 +2943,16 @@ module.exports = window["React"];
 /***/ ((module) => {
 
 module.exports = window["ReactDOM"];
+
+/***/ }),
+
+/***/ "lodash":
+/*!*************************!*\
+  !*** external "lodash" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = window["lodash"];
 
 /***/ }),
 

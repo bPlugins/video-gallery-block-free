@@ -12,6 +12,7 @@ import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
   const { videos, options } = attributes;
   const [itemWidth, setItemWidth] = useState("");
+  const [activeFilter, setActiveFilter] = useState("*");
   const galleryRef = useRef(null);
   const isotopeRef = useRef(null);
 
@@ -99,9 +100,9 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
         mainClass: `vgbFancyBox ${id}-fancyBox`,
         Toolbar: {
           display: {
-            left: [],
+            left: ["counter"],
             middle: [],
-            right: ["slideshow", "close"],
+            right: ["share", "zoom", "slideshow", "fullscreen", "close"],
           },
         },
         Carousel: {
@@ -166,6 +167,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
         id={id}
         itemWidth={itemWidth}
         isEditor={!!setActiveIndex}
+        activeFilter={activeFilter}
       />
 
       <div className={prefix}>
@@ -174,6 +176,8 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
           id={id}
           itemWidth={itemWidth}
           setItemWidth={setItemWidth}
+          activeFilter={activeFilter}
+          setActiveFilter={setActiveFilter}
         />
 
         <div id={`${id}-gallery`} className="videoGallery" ref={galleryRef}>
@@ -206,9 +210,15 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
                         mainClass: `vgbFancyBox ${id}-fancyBox`,
                         Toolbar: {
                           display: {
-                            left: [],
+                            left: ["counter"],
                             middle: [],
-                            right: ["slideshow", "close"],
+                            right: [
+                              "share",
+                              "zoom",
+                              "slideshow",
+                              "fullscreen",
+                              "close",
+                            ],
                           },
                         },
                         Carousel: {

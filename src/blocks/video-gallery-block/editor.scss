@@ -199,3 +199,16 @@
   }
 }
 
+.wp-block-vgb-video-gallery-block {
+  .galleryItem {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block;
+    
+    &:hover, &:focus, &:active {
+      text-decoration: none !important;
+      color: inherit !important;
+      outline: none;
+    }
+  }
+}

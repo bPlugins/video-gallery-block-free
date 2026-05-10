@@ -1093,7 +1093,7 @@ const Style = ({
 			margin-bottom: ${rowGap}px;
 		}
 
-		.wp-block-vgb-video-gallery .galleryFigure img, .wp-block-vgb-video-gallery .react-thumbnail-generator img {
+		.wp-block-vgb-video-gallery-block .galleryFigure img, .wp-block-vgb-video-gallery-block .react-thumbnail-generator img {
 			object-fit: ${options.objectFit};
 		}
 
@@ -1117,6 +1117,216 @@ const Style = ({
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Style);
+
+/***/ }),
+
+/***/ "./src/blocks/video-gallery-block/Components/Common/VideoGallery.js":
+/*!**************************************************************************!*\
+  !*** ./src/blocks/video-gallery-block/Components/Common/VideoGallery.js ***!
+  \**************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _fancyapps_ui__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @fancyapps/ui */ "../plugin-slug/node_modules/@fancyapps/ui/dist/index.js");
+/* harmony import */ var react_video_thumbnail__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-video-thumbnail */ "../plugin-slug/node_modules/react-video-thumbnail/dist/bundle.js");
+/* harmony import */ var react_video_thumbnail__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_video_thumbnail__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _fancyapps_ui_dist_fancybox_fancybox_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @fancyapps/ui/dist/fancybox/fancybox.css */ "../plugin-slug/node_modules/@fancyapps/ui/dist/fancybox/fancybox.css");
+/* harmony import */ var _Style__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Style */ "./src/blocks/video-gallery-block/Components/Common/Style.js");
+/* harmony import */ var _VideoGalleryFilter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./VideoGalleryFilter */ "./src/blocks/video-gallery-block/Components/Common/VideoGalleryFilter.js");
+/* harmony import */ var _utils_functions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../utils/functions */ "./src/blocks/video-gallery-block/utils/functions.js");
+/* harmony import */ var _utils_data__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../utils/data */ "./src/blocks/video-gallery-block/utils/data.js");
+/* harmony import */ var _bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../../../bpl-tools/utils/common */ "../bpl-tools/utils/common.js");
+
+
+
+
+
+
+
+
+
+
+const VideoGallery = ({
+  attributes,
+  id,
+  activeIndex,
+  setActiveIndex
+}) => {
+  const {
+    videos,
+    options
+  } = attributes;
+  const [itemWidth, setItemWidth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
+  const galleryRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (galleryRef.current) {
+      _fancyapps_ui__WEBPACK_IMPORTED_MODULE_1__.Fancybox.bind(galleryRef.current, "[data-fancybox]", {
+        mainClass: `vgbFancyBox ${id}-fancyBox`,
+        Toolbar: {
+          display: {
+            left: [],
+            middle: [],
+            right: ["slideshow", "close"]
+          }
+        },
+        Carousel: {
+          infinite: false
+        },
+        Thumbs: {
+          autoStart: true
+        },
+        contentClick: "toggleZoom",
+        on: {
+          done: () => {
+            const videoEls = document.querySelectorAll(`.${id}-fancyBox .fancybox__html5video`);
+            if (typeof Plyr !== "undefined") {
+              Plyr.setup(videoEls, {
+                controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.controlsHandler)({
+                  "play-large": true,
+                  restart: false,
+                  rewind: true,
+                  play: true,
+                  "fast-forward": true,
+                  progress: true,
+                  "current-time": true,
+                  duration: false,
+                  mute: true,
+                  volume: true,
+                  pip: false,
+                  airplay: false,
+                  settings: true,
+                  download: false,
+                  fullscreen: true
+                }),
+                clickToPlay: false,
+                loop: {
+                  active: false
+                },
+                muted: false,
+                autoplay: false,
+                resetOnEnd: false,
+                hideControls: true
+              });
+            }
+          }
+        }
+      });
+    }
+    return () => {
+      _fancyapps_ui__WEBPACK_IMPORTED_MODULE_1__.Fancybox.destroy();
+    };
+  }, [videos, id]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Style__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    attributes: attributes,
+    id: id,
+    itemWidth: itemWidth
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: _utils_data__WEBPACK_IMPORTED_MODULE_7__.prefix
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_VideoGalleryFilter__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    attributes: attributes,
+    id: id,
+    itemWidth: itemWidth,
+    setItemWidth: setItemWidth
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    id: `${id}-gallery`,
+    className: "videoGallery",
+    ref: galleryRef
+  }, videos?.map((item, index) => {
+    const {
+      video,
+      poster,
+      caption = "",
+      albs
+    } = item;
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      key: index,
+      className: `galleryItem ${albs?.map(c => lodash.camelCase(c)).join(" ")} ${setActiveIndex && index === activeIndex ? "bPlNowEditing" : ""}`,
+      "data-fancybox": true,
+      href: video || poster,
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (setActiveIndex) {
+          setActiveIndex(index);
+          _fancyapps_ui__WEBPACK_IMPORTED_MODULE_1__.Fancybox.show(videos.map(v => ({
+            src: v.video || v.poster,
+            thumb: v.poster || (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.getYoutubeThumbnail)(v.video),
+            caption: (0,_bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_8__.sanitizeHTML)(v.caption || "")
+          })), {
+            startIndex: index,
+            mainClass: `vgbFancyBox ${id}-fancyBox`,
+            Toolbar: {
+              display: {
+                left: [],
+                middle: [],
+                right: ["slideshow", "close"]
+              }
+            },
+            Carousel: {
+              infinite: false
+            },
+            Thumbs: {
+              autoStart: true
+            },
+            contentClick: "toggleZoom",
+            on: {
+              done: (fancybox, slide) => {
+                // Use a more robust selector to find video elements
+                const videoEls = document.querySelectorAll(`.${id}-fancyBox video, .${id}-fancyBox .fancybox__html5video`);
+                if (typeof Plyr !== "undefined" && videoEls.length > 0) {
+                  Plyr.setup(videoEls, {
+                    controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.controlsHandler)({
+                      "play-large": true,
+                      restart: false,
+                      rewind: true,
+                      play: true,
+                      "fast-forward": true,
+                      progress: true,
+                      "current-time": true,
+                      duration: false,
+                      mute: true,
+                      volume: true,
+                      pip: false,
+                      airplay: false,
+                      settings: true,
+                      download: false,
+                      fullscreen: true
+                    }),
+                    clickToPlay: false,
+                    loop: {
+                      active: false
+                    },
+                    muted: false,
+                    autoplay: false,
+                    resetOnEnd: false,
+                    hideControls: true
+                  });
+                }
+              }
+            }
+          });
+        }
+      },
+      "data-caption": (0,_bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_8__.sanitizeHTML)(caption)
+    }, poster || (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.getYoutubeThumbnail)(video) ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("figure", {
+      className: "galleryFigure"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
+      src: poster || (0,_utils_functions__WEBPACK_IMPORTED_MODULE_6__.getYoutubeThumbnail)(video)
+    })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((react_video_thumbnail__WEBPACK_IMPORTED_MODULE_2___default()), {
+      width: 600,
+      videoUrl: video,
+      snapshotAtTime: 2
+    }), options?.showCaptionOnThumbnail && caption && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "galleryItemCaption"
+    }, (0,_bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_8__.sanitizeHTML)(caption)));
+  }))));
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (VideoGallery);
 
 /***/ }),
 
@@ -3427,24 +3637,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "../plugin-slug/node_modules/react-dom/client.js");
-/* harmony import */ var _fancyapps_ui__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @fancyapps/ui */ "../plugin-slug/node_modules/@fancyapps/ui/dist/index.js");
-/* harmony import */ var react_video_thumbnail__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-video-thumbnail */ "../plugin-slug/node_modules/react-video-thumbnail/dist/bundle.js");
-/* harmony import */ var react_video_thumbnail__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_video_thumbnail__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _fancyapps_ui_dist_fancybox_fancybox_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @fancyapps/ui/dist/fancybox/fancybox.css */ "../plugin-slug/node_modules/@fancyapps/ui/dist/fancybox/fancybox.css");
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/video-gallery-block/style.scss");
-/* harmony import */ var _Components_Common_Style__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Components/Common/Style */ "./src/blocks/video-gallery-block/Components/Common/Style.js");
-/* harmony import */ var _Components_Common_VideoGalleryFilter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Components/Common/VideoGalleryFilter */ "./src/blocks/video-gallery-block/Components/Common/VideoGalleryFilter.js");
-/* harmony import */ var _utils_functions__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./utils/functions */ "./src/blocks/video-gallery-block/utils/functions.js");
-/* harmony import */ var _utils_data__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./utils/data */ "./src/blocks/video-gallery-block/utils/data.js");
-/* harmony import */ var _bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../bpl-tools/utils/common */ "../bpl-tools/utils/common.js");
-
-
-
-
-
-
-
-
+/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./style.scss */ "./src/blocks/video-gallery-block/style.scss");
+/* harmony import */ var _Components_Common_VideoGallery__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Components/Common/VideoGallery */ "./src/blocks/video-gallery-block/Components/Common/VideoGallery.js");
 
 
 
@@ -3453,114 +3647,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const galleryEls = document.querySelectorAll(".wp-block-vgb-video-gallery-block");
   galleryEls.forEach(galleryEl => {
     const attributes = JSON.parse(galleryEl.dataset.attributes);
-    (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(galleryEl).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(RenderVideoGallery, {
+    (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(galleryEl).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_Common_VideoGallery__WEBPACK_IMPORTED_MODULE_3__["default"], {
       attributes: attributes,
       id: galleryEl.id
     }));
     galleryEl?.removeAttribute("data-attributes");
   });
 });
-const RenderVideoGallery = ({
-  attributes,
-  id
-}) => {
-  const {
-    videos,
-    options
-  } = attributes;
-  const [itemWidth, setItemWidth] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const galleryRef = (0,react__WEBPACK_IMPORTED_MODULE_0__.useRef)(null);
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    _fancyapps_ui__WEBPACK_IMPORTED_MODULE_2__.Fancybox.bind(galleryRef.current, "[data-fancybox]", {
-      mainClass: `vgbFancyBox ${id}-fancyBox`,
-      Toolbar: {
-        display: {
-          left: [],
-          middle: [],
-          right: ["slideshow", "close"]
-        }
-      },
-      Carousel: {
-        infinite: false
-      },
-      Thumbs: false,
-      contentClick: "toggleZoom",
-      // 'toggleZoom' | 'toggleCover' | 'toggleMax' | 'zoomToFit' | 'zoomToMax' | 'iterateZoom' | false | 'close' | 'next' | 'prev'
-      on: {
-        done: () => {
-          const videoEls = document.querySelectorAll(`.${id}-fancyBox .fancybox__html5video`);
-          Plyr.setup(videoEls, {
-            controls: (0,_utils_functions__WEBPACK_IMPORTED_MODULE_8__.controlsHandler)({
-              "play-large": true,
-              restart: false,
-              rewind: true,
-              play: true,
-              "fast-forward": true,
-              progress: true,
-              "current-time": true,
-              duration: false,
-              mute: true,
-              volume: true,
-              pip: false,
-              airplay: false,
-              settings: true,
-              download: false,
-              fullscreen: true
-            }),
-            clickToPlay: false,
-            loop: {
-              active: false
-            },
-            muted: false,
-            autoplay: false,
-            resetOnEnd: false,
-            hideControls: true
-          });
-        }
-      }
-    });
-  }, []);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_Common_Style__WEBPACK_IMPORTED_MODULE_6__["default"], {
-    attributes: attributes,
-    id: id,
-    itemWidth: itemWidth
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: _utils_data__WEBPACK_IMPORTED_MODULE_9__.prefix
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_Common_VideoGalleryFilter__WEBPACK_IMPORTED_MODULE_7__["default"], {
-    attributes: attributes,
-    id: id,
-    itemWidth: itemWidth,
-    setItemWidth: setItemWidth
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    id: `${id}-gallery`,
-    className: "videoGallery",
-    ref: galleryRef
-  }, videos?.map((item, index) => {
-    const {
-      video,
-      poster,
-      caption = "",
-      albs
-    } = item;
-    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
-      key: index,
-      className: `galleryItem ${albs?.map(c => lodash.camelCase(c)).join(" ")}`,
-      "data-fancybox": true,
-      href: video || poster,
-      "data-caption": (0,_bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_10__.sanitizeHTML)(caption)
-    }, poster || (0,_utils_functions__WEBPACK_IMPORTED_MODULE_8__.getYoutubeThumbnail)(video) ? (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("figure", {
-      className: "galleryFigure"
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("img", {
-      src: poster || (0,_utils_functions__WEBPACK_IMPORTED_MODULE_8__.getYoutubeThumbnail)(video)
-    })) : (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)((react_video_thumbnail__WEBPACK_IMPORTED_MODULE_3___default()), {
-      width: 600,
-      videoUrl: video,
-      snapshotAtTime: 2
-    }), options?.showCaptionOnThumbnail && caption && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-      className: "galleryItemCaption"
-    }, (0,_bpl_tools_utils_common__WEBPACK_IMPORTED_MODULE_10__.sanitizeHTML)(caption)));
-  }))));
-};
 })();
 
 /******/ })()

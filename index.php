@@ -62,22 +62,28 @@ if (function_exists('vgb_fs')) {
                     true
                 );
                 wp_enqueue_script('isotope');
-            }
 
-            public function wpEnqueueScripts() {
                 wp_register_script('plyr', VGB_PUBLIC_DIR . 'js/plyr.js', [], '3.8.4', true);
                 wp_register_style('plyr', VGB_PUBLIC_DIR . 'css/plyr.css', [], '3.8.4');
             }
 
+            public function wpEnqueueScripts() {
+                wp_enqueue_script('plyr');
+                wp_enqueue_style('plyr');
+            }
+
             public function vgbEnqueueBlockEditorAssets() {
+                wp_enqueue_script('plyr');
+                wp_enqueue_style('plyr');
+
                 $disabledBlocks = get_option( 'vgbDisabledBlocks', [] );
                 $disabledBlocks = is_array( $disabledBlocks ) ? $disabledBlocks : [];
 				wp_localize_script(
-					'vgb-video-gallery-editor-script',
+					'vgb-video-gallery-block-editor-script',
 					'vgbDisabledBlocks',
 					$disabledBlocks
 				);
-				wp_set_script_translations( 'vgb-video-gallery-editor-script', 'video-gallery-block', VGB_DIR_PATH . 'languages' );
+				wp_set_script_translations( 'vgb-video-gallery-block-editor-script', 'video-gallery-block', VGB_DIR_PATH . 'languages' );
             }
         }
         new VGBPlugin();

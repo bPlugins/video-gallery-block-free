@@ -1,13 +1,80 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { Fancybox } from "@fancyapps/ui";
 import VideoThumbnail from "react-video-thumbnail";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
+
 import Style from "./Style";
 import VideoGalleryFilter from "./VideoGalleryFilter";
+import { controlsHandler, getYoutubeThumbnail } from "../../utils/functions";
 import { prefix } from "../../utils/data";
-import { getYoutubeThumbnail } from "../../utils/functions";
+import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
-const VideoGallery = ({ attributes, id, isBackend = false, custom = {} }) => {
+const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
   const { videos, options } = attributes;
+
   const [itemWidth, setItemWidth] = useState("");
+  const galleryRef = useRef(null);
+
+  useEffect(() => {
+    if (galleryRef.current) {
+      Fancybox.bind(galleryRef.current, "[data-fancybox]", {
+        mainClass: `vgbFancyBox ${id}-fancyBox`,
+        Toolbar: {
+          display: {
+            left: [],
+            middle: [],
+            right: ["slideshow", "close"],
+          },
+        },
+        Carousel: {
+          infinite: false,
+        },
+        Thumbs: {
+          autoStart: true,
+        },
+        contentClick: "toggleZoom",
+        on: {
+          done: () => {
+            const videoEls = document.querySelectorAll(
+              `.${id}-fancyBox .fancybox__html5video`
+            );
+
+            if (typeof Plyr !== "undefined") {
+              Plyr.setup(videoEls, {
+                controls: controlsHandler({
+                  "play-large": true,
+                  restart: false,
+                  rewind: true,
+                  play: true,
+                  "fast-forward": true,
+                  progress: true,
+                  "current-time": true,
+                  duration: false,
+                  mute: true,
+                  volume: true,
+                  pip: false,
+                  airplay: false,
+                  settings: true,
+                  download: false,
+                  fullscreen: true,
+                }),
+                clickToPlay: false,
+                loop: { active: false },
+                muted: false,
+                autoplay: false,
+                resetOnEnd: false,
+                hideControls: true,
+              });
+            }
+          },
+        },
+      });
+    }
+
+    return () => {
+      Fancybox.destroy();
+    };
+  }, [videos, id]);
 
   return (
     <>
@@ -21,41 +88,89 @@ const VideoGallery = ({ attributes, id, isBackend = false, custom = {} }) => {
           setItemWidth={setItemWidth}
         />
 
-        <div id={id} className="videoGallery">
+        <div id={`${id}-gallery`} className="videoGallery" ref={galleryRef}>
           {videos?.map((item, index) => {
-            const { video, poster, albs } = item;
+            const { video, poster, caption = "", albs } = item;
 
-            return isBackend ? (
-              <div
-                onClick={() => custom.setActiveIndex(index)}
-                className={`galleryItem ${albs
-                  ?.map((c) => lodash.camelCase(c))
-                  .join(" ")} ${
-                  index === custom.activeIndex ? "bPlNowEditing" : ""
-                }`}>
-                {poster || getYoutubeThumbnail(video) ? (
-                  <figure className="galleryFigure">
-                    <img src={poster || getYoutubeThumbnail(video)} />
-                  </figure>
-                ) : (
-                  <VideoThumbnail
-                    width={600}
-                    videoUrl={video}
-                    snapshotAtTime={2}
-                  />
-                )}
-                {options?.showCaptionOnThumbnail && item?.caption && (
-                  <div className="galleryItemCaption">{item?.caption}</div>
-                )}
-              </div>
-            ) : (
+            return (
               <a
                 key={index}
                 className={`galleryItem ${albs
                   ?.map((c) => lodash.camelCase(c))
-                  .join(" ")}`}
+                  .join(" ")} ${
+                  setActiveIndex && index === activeIndex ? "bPlNowEditing" : ""
+                }`}
                 data-fancybox
-                href={video || poster}>
+                href={video || poster}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  if (setActiveIndex) {
+                    setActiveIndex(index);
+                    Fancybox.show(
+                      videos.map((v) => ({
+                        src: v.video || v.poster,
+                        thumb: v.poster || getYoutubeThumbnail(v.video),
+                        caption: sanitizeHTML(v.caption || ""),
+                      })),
+                      {
+                        startIndex: index,
+                        mainClass: `vgbFancyBox ${id}-fancyBox`,
+                        Toolbar: {
+                          display: {
+                            left: [],
+                            middle: [],
+                            right: ["slideshow", "close"],
+                          },
+                        },
+                        Carousel: {
+                          infinite: false,
+                        },
+                        Thumbs: {
+                          autoStart: true,
+                        },
+                        contentClick: "toggleZoom",
+                        on: {
+                          done: (fancybox, slide) => {
+                            // Use a more robust selector to find video elements
+                            const videoEls = document.querySelectorAll(
+                              `.${id}-fancyBox video, .${id}-fancyBox .fancybox__html5video`
+                            );
+
+                            if (typeof Plyr !== "undefined" && videoEls.length > 0) {
+                              Plyr.setup(videoEls, {
+                                controls: controlsHandler({
+                                  "play-large": true,
+                                  restart: false,
+                                  rewind: true,
+                                  play: true,
+                                  "fast-forward": true,
+                                  progress: true,
+                                  "current-time": true,
+                                  duration: false,
+                                  mute: true,
+                                  volume: true,
+                                  pip: false,
+                                  airplay: false,
+                                  settings: true,
+                                  download: false,
+                                  fullscreen: true,
+                                }),
+                                clickToPlay: false,
+                                loop: { active: false },
+                                muted: false,
+                                autoplay: false,
+                                resetOnEnd: false,
+                                hideControls: true,
+                              });
+                            }
+                          },
+                        },
+                      }
+                    );
+                  }
+                }}
+                data-caption={sanitizeHTML(caption)}>
                 {poster || getYoutubeThumbnail(video) ? (
                   <figure className="galleryFigure">
                     <img src={poster || getYoutubeThumbnail(video)} />
@@ -67,8 +182,10 @@ const VideoGallery = ({ attributes, id, isBackend = false, custom = {} }) => {
                     snapshotAtTime={2}
                   />
                 )}
-                {options?.showCaptionOnThumbnail && item?.caption && (
-                  <div className="galleryItemCaption">{item?.caption}</div>
+                {options?.showCaptionOnThumbnail && caption && (
+                  <div className="galleryItemCaption">
+                    {sanitizeHTML(caption)}
+                  </div>
                 )}
               </a>
             );
@@ -78,4 +195,5 @@ const VideoGallery = ({ attributes, id, isBackend = false, custom = {} }) => {
     </>
   );
 };
+
 export default VideoGallery;

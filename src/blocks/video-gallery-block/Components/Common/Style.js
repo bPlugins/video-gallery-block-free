@@ -48,6 +48,32 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter, galleryRef }
     const captionStyles = styles?.lightBoxCaption;
     if (!captionStyles) return;
 
+    // Load Google Font in the main document so Fancybox can use it outside the iframe
+    const typo = captionStyles.typography || {};
+    const isEmptyFamily = !typo.fontFamily || typo.fontFamily === "Default";
+    if (!isEmptyFamily && typo.isUploadFont !== false) {
+      const fontVariant = typo.fontVariant || 400;
+      let linkQuery = "";
+      if (fontVariant !== 400) {
+        if (fontVariant === "400i") {
+          linkQuery = ":ital@1";
+        } else if (String(fontVariant).includes("00i")) {
+          linkQuery = `:ital,wght@1,${String(fontVariant).replace("00i", "00")}`;
+        } else {
+          linkQuery = `:wght@${fontVariant}`;
+        }
+      }
+      
+      const fontUrl = `https://fonts.googleapis.com/css2?family=${typo.fontFamily.split(" ").join("+")}${linkQuery}&display=swap`;
+      
+      if (!document.querySelector(`link[href="${fontUrl}"]`)) {
+        const linkEl = document.createElement("link");
+        linkEl.rel = "stylesheet";
+        linkEl.href = fontUrl;
+        document.head.appendChild(linkEl);
+      }
+    }
+
     const applyStylesToCaption = (el) => {
       // Apply typography
       const typo = captionStyles.typography || {};
@@ -75,6 +101,9 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter, galleryRef }
         const bgVal = colors.bgType === "gradient" ? colors.gradient : colors.bg;
         if (bgVal) el.style.setProperty("background", bgVal, "important");
       }
+
+      el.style.setProperty("box-sizing", "border-box", "important");
+      el.style.setProperty("overflow", "hidden", "important");
 
       // Apply padding
       const padding = captionStyles.padding;
@@ -288,4 +317,5 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter, galleryRef }
     />
   );
 };
+
 export default Style;

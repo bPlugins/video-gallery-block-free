@@ -6,7 +6,6 @@ import {
   getSpaceCSS,
   getTypoCSS,
 } from "../../../../../../bpl-tools/utils/getCSS";
-
 import { prefix } from "../../utils/data";
 
 const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
@@ -27,16 +26,18 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
     columns = { desktop: 3, tablet: 2, mobile: 1 },
   } = attributes;
 
-  const colSettings = typeof columns === "number"
-    ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
-    : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
+  const colSettings =
+    typeof columns === "number"
+      ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
+      : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
 
   const videoGallerySl = `#${id} .${prefix}`;
   const buttonSl = `${videoGallerySl} .filter button`;
   const fancyMainSl = `.${id}-fancyBox`;
   const itemCaption = `${videoGallerySl} .videoGallery .galleryItemCaption`;
-  const lightBoxCaption = `.vgbFancyBox .has-caption .f-caption`;
-  const videoSizeFit = `.vgbFancyBox .fancybox__carousel .fancybox__slide .f-html5video`;
+  const lightBoxCaption = `${fancyMainSl} .f-caption, ${fancyMainSl} .fancybox__caption, ${fancyMainSl} .fancybox__caption-inner`;
+	const videoSizeFit = `${fancyMainSl} .f-html5video, ${fancyMainSl} .fancybox__html5video`;
+	const editorLightBoxCaption = `${fancyMainSl} .f-caption`;
 
   return (
     <style
@@ -48,7 +49,8 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
 
 		${getTypoCSS(buttonSl, filterBtnTypo)?.styles}
 		${getTypoCSS(itemCaption, styles?.caption?.typography)?.styles}
-		${getTypoCSS(lightBoxCaption, styles?.lightBoxCaption?.typography)?.styles}
+		${getTypoCSS(lightBoxCaption, styles?.lightBoxCaption?.typography)?.styles?.replace(/;/g, " !important;")}
+		${getTypoCSS(editorLightBoxCaption, styles?.lightBoxCaption?.typography)?.styles?.replace(/;/g, " !important;")}
 		
 		${itemCaption}{
 			${getColorsCSS(styles?.caption?.colors)}
@@ -56,8 +58,13 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
 		}
 		
 		${lightBoxCaption}{
-			${getColorsCSS(styles?.lightBoxCaption?.colors)}
-			padding: ${getSpaceCSS(styles?.lightBoxCaption?.padding)};
+			${getColorsCSS(styles?.lightBoxCaption?.colors)?.replace(/;/g, " !important;")}
+			padding: ${getSpaceCSS(styles?.lightBoxCaption?.padding)} !important;
+		}
+		
+		${editorLightBoxCaption}{
+			${getColorsCSS(styles?.lightBoxCaption?.colors)?.replace(/;/g, " !important;")}
+			padding: ${getSpaceCSS(styles?.lightBoxCaption?.padding)} !important;
 		}
 
 		${videoGallerySl}{
@@ -66,6 +73,7 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
 			${getBorderCSS(border)}
 			box-shadow: ${shadow ? getMultiShadowCSS(shadow) : "0px 25px 30px -20px #0003"};
 		}
+
 		${videoGallerySl} .videoGallery {
 			display: ${isEditor ? "grid" : "block"};
 			${
@@ -81,9 +89,11 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
       }
 			width: 100%;
 		}
+
 		${buttonSl}{
 			${getColorsCSS(filterBtnColors)}
 		}
+
 		${buttonSl}:hover,
 		${buttonSl}.current{
 			${getColorsCSS(filterBtnHoverColors)}
@@ -92,7 +102,13 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
 		${videoGallerySl} .videoGallery .galleryItem{
 			display: ${isEditor ? "block" : "inline-block"};
 			vertical-align: top;
-			width: ${isEditor ? "100%" : (itemWidth ? `${itemWidth}px` : `${100 / (colSettings.desktop || 3)}%`)};
+			width: ${
+        isEditor
+          ? "100%"
+          : itemWidth
+          ? `${itemWidth}px`
+          : `${100 / (colSettings.desktop || 3)}%`
+      };
 			height: ${itemHeight};
 			margin-bottom: ${rowGap}px;
 			margin-right: ${!isEditor ? `${columnGap}px` : "0"};
@@ -100,19 +116,27 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter }) => {
 			box-sizing: border-box;
 		}
 
-		/* Editor filtering: hide non-matching items */
-		${isEditor && activeFilter !== "*" ? `
+		
+		${
+      isEditor && activeFilter !== "*"
+        ? `
 			${videoGallerySl} .videoGallery .galleryItem:not(${activeFilter}) {
 				display: none;
 			}
-		` : ""}
+		`
+        : ""
+    }
 
-		/* Remove margin from last item in row on frontend */
-		${!isEditor ? `
+		
+		${
+      !isEditor
+        ? `
 			${videoGallerySl} .videoGallery .galleryItem:nth-child(${colSettings.desktop}n) {
 				margin-right: 0;
 			}
-		` : ""}
+		`
+        : ""
+    }
 
 		${
       !isEditor

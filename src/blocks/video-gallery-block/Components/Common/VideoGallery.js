@@ -16,11 +16,16 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
   const galleryRef = useRef(null);
   const isotopeRef = useRef(null);
 
-  const { columns = { desktop: 3, tablet: 2, mobile: 1 }, columnGap, rowGap } = attributes;
+  const {
+    columns = { desktop: 3, tablet: 2, mobile: 1 },
+    columnGap,
+    rowGap,
+  } = attributes;
 
-  const colSettings = typeof columns === "number"
-    ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
-    : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
+  const colSettings =
+    typeof columns === "number"
+      ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
+      : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
 
   // Calculate and Update Width
   useEffect(() => {
@@ -68,8 +73,8 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
       transitionDuration: "0.5s",
       percentPosition: true,
       fitRows: {
-        gutter: 0 // We handle gutter via margins/width
-      }
+        gutter: 0, // We handle gutter via margins/width
+      },
     };
 
     const $gallery = $(galleryRef.current);
@@ -82,13 +87,13 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
     };
 
     const timer = setTimeout(handleLayout, 500);
-    window.addEventListener('resize', handleLayout);
+    window.addEventListener("resize", handleLayout);
 
     return () => {
       if (isotopeRef.current) {
         isotopeRef.current.isotope("destroy");
       }
-      window.removeEventListener('resize', handleLayout);
+      window.removeEventListener("resize", handleLayout);
       clearTimeout(timer);
     };
   }, [videos, columnGap, itemWidth, id]);
@@ -98,6 +103,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
     if (galleryRef.current) {
       Fancybox.bind(galleryRef.current, "[data-fancybox]", {
         mainClass: `vgbFancyBox ${id}-fancyBox`,
+        container: galleryRef.current,
         Toolbar: {
           display: {
             left: ["counter"],
@@ -115,12 +121,12 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
         on: {
           done: (fancybox, slide) => {
             // Use a more robust selector to find video elements
-            const videoEls = slide.getContentEl().querySelectorAll(
-              `video, .fancybox__html5video`
-            );
+            const videoEls = slide
+              .getContentEl()
+              .querySelectorAll(`video, .fancybox__html5video`);
 
             if (typeof Plyr !== "undefined" && videoEls.length > 0) {
-              videoEls.forEach(el => {
+              videoEls.forEach((el) => {
                 if (!el.plyr) {
                   new Plyr(el, {
                     controls: controlsHandler({
@@ -159,6 +165,100 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
       Fancybox.destroy();
     };
   }, [videos, id]);
+
+  // Apply lightbox caption styles directly via inline styles in the editor
+  // This bypasses CSS specificity issues where Fancybox's own styles override the <style> tag
+  useEffect(() => {
+    if (!setActiveIndex || !galleryRef.current) return; // Editor only
+
+    const { styles } = attributes;
+    const captionStyles = styles?.lightBoxCaption;
+    if (!captionStyles) return;
+
+    const applyStylesToCaption = (el) => {
+      // Apply typography
+      const typo = captionStyles.typography || {};
+      if (typo.fontFamily && typo.fontFamily !== "Default") {
+        el.style.setProperty("font-family", `'${typo.fontFamily}', ${typo.fontCategory || "sans-serif"}`, "important");
+      }
+      if (typo.fontSize) {
+        const size = typo.fontSize?.desktop || typo.fontSize;
+        if (size) {
+          const sizeVal = typeof size === "number" ? `${size}px` : size;
+          el.style.setProperty("font-size", sizeVal, "important");
+        }
+      }
+      if (typo.fontWeight) el.style.setProperty("font-weight", typo.fontWeight, "important");
+      if (typo.fontStyle) el.style.setProperty("font-style", typo.fontStyle, "important");
+      if (typo.textTransform) el.style.setProperty("text-transform", typo.textTransform, "important");
+      if (typo.textDecoration) el.style.setProperty("text-decoration", typo.textDecoration, "important");
+      if (typo.lineHeight) el.style.setProperty("line-height", typo.lineHeight, "important");
+      if (typo.letterSpace) el.style.setProperty("letter-spacing", typo.letterSpace, "important");
+
+      // Apply colors
+      const colors = captionStyles.colors || {};
+      if (colors.color) el.style.setProperty("color", colors.color, "important");
+      if (colors.bg || colors.gradient) {
+        const bgVal = colors.bgType === "gradient" ? colors.gradient : colors.bg;
+        if (bgVal) el.style.setProperty("background", bgVal, "important");
+      }
+
+      // Apply padding
+      const padding = captionStyles.padding;
+      if (padding) {
+        const { side = 2, vertical = "0px", horizontal = "0px", top = "0px", right = "0px", bottom = "0px", left = "0px" } = padding;
+        const paddingVal = side === 2 ? `${vertical} ${horizontal}` : `${top} ${right} ${bottom} ${left}`;
+        el.style.setProperty("padding", paddingVal, "important");
+      }
+    };
+
+    // Apply to any currently visible captions
+    const applyCurrent = () => {
+      const doc1 = document;
+      const doc2 = galleryRef.current?.ownerDocument;
+      
+      const elements = new Set();
+      if (doc1) doc1.querySelectorAll(".f-caption").forEach(el => elements.add(el));
+      if (doc2) doc2.querySelectorAll(".f-caption").forEach(el => elements.add(el));
+      
+      elements.forEach(applyStylesToCaption);
+    };
+    applyCurrent();
+
+    // Watch for Fancybox dynamically adding caption elements
+    const observer = new MutationObserver((mutations) => {
+      let shouldApply = false;
+      for (const mutation of mutations) {
+        for (const node of mutation.addedNodes) {
+          if (node.nodeType === 1) {
+            if (
+              node.classList?.contains("f-caption") || 
+              node.classList?.contains("fancybox__container") ||
+              node.classList?.contains("vgbFancyBox") ||
+              node.querySelector?.(".f-caption") ||
+              node.querySelector?.(".fancybox__container")
+            ) {
+              shouldApply = true;
+              break;
+            }
+          }
+        }
+        if (shouldApply) break;
+      }
+      
+      if (shouldApply) {
+        applyCurrent();
+      }
+    });
+
+    const doc1 = document;
+    const doc2 = galleryRef.current?.ownerDocument;
+    
+    if (doc1?.body) observer.observe(doc1.body, { childList: true, subtree: true });
+    if (doc2?.body && doc2 !== doc1) observer.observe(doc2.body, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [attributes.styles?.lightBoxCaption, setActiveIndex]);
 
   return (
     <>
@@ -207,6 +307,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
                       })),
                       {
                         startIndex: index,
+                        container: galleryRef.current,
                         mainClass: `vgbFancyBox ${id}-fancyBox`,
                         Toolbar: {
                           display: {
@@ -231,12 +332,15 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
                         on: {
                           done: (fancybox, slide) => {
                             // Use a more robust selector to find video elements
-                            const videoEls = slide.getContentEl().querySelectorAll(
-                              `video, .fancybox__html5video`
-                            );
+                            const videoEls = slide
+                              .getContentEl()
+                              .querySelectorAll(`video, .fancybox__html5video`);
 
-                            if (typeof Plyr !== "undefined" && videoEls.length > 0) {
-                              videoEls.forEach(el => {
+                            if (
+                              typeof Plyr !== "undefined" &&
+                              videoEls.length > 0
+                            ) {
+                              videoEls.forEach((el) => {
                                 if (!el.plyr) {
                                   new Plyr(el, {
                                     controls: controlsHandler({
@@ -268,7 +372,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
                             }
                           },
                         },
-                      }
+                      },
                     );
                   }
                 }}

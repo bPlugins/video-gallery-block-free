@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Video Gallery Block Free
+ * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
  * Version: 1.1.2
  * Author: bPlugins
@@ -8,8 +8,6 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain: video-gallery-block
- * @fs_premium_only vendor/freemius, /includes/fs.php, /build/blocks/index.js, /build/blocks/index.css, /build/blocks/index.asset.php, /build/blocks/index.js.LICENSE.txt, /build/blocks/lightbox-video-gallery, /build/blocks/masonry-video-grid, /build/blocks/parallax-row-video-gallery, /build/blocks/slider-autoplay-video, /build/blocks/video-carousel-gallery, /build/blocks/video-playlist-gallery, /build/blocks/video-slider, /build/blocks/video-testimonial-section, /includes/video-stats-api.php, /includes/woocommerce-integration.php, /public/images/video-gallery-block-banner.gif, /includes/LicenseActivation.php
- * @fs_free_only /vendor/freemius-lite, /includes/fs-lite.php, /public/images/blocks.png
  */
 
 if (!defined('ABSPATH')) {

@@ -1640,29 +1640,20 @@ const $ = jQuery;
 const VideoGalleryFilter = ({
   attributes,
   id,
-  itemWidth,
-  setItemWidth,
   activeFilter,
   setActiveFilter
 }) => {
   const {
-    align,
     albums,
-    videos,
     columns = {
       desktop: 3,
       tablet: 2,
       mobile: 1
     },
-    columnGap,
-    rowGap,
     filter = {
       show: true,
       commonLabel: "All Videos"
-    },
-    padding,
-    border,
-    itemHeight
+    }
   } = attributes;
 
   // Handle case where columns might be stored as a number or incomplete object

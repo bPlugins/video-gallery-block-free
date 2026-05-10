@@ -1,5 +1,9 @@
 <?php
 namespace VGB;
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 class Enqueue {
     function __construct() {
         add_action( 'admin_enqueue_scripts', [$this, 'adminEnqueueScripts']);

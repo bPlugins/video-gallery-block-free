@@ -1,6 +1,10 @@
 <?php
 namespace VGB;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 class ShortCode {
     function __construct() {
         add_shortcode('video_gallery', [$this, 'vgb_shortcode']);

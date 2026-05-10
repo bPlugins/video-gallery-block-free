@@ -16,8 +16,6 @@ const slug = "video-gallery-block";
 export const dashboardInfo = (info) => {
   const {
     version,
-    isPremium,
-    hasPro,
     licenseActiveNonce,
     vgbDisabledBlocks,
     disabledBlocksNonce,
@@ -26,17 +24,13 @@ export const dashboardInfo = (info) => {
     deleteDataOnUninstall,
   } = info;
 
-  const proSuffix = isPremium ? " Pro" : "";
-
   return {
-    name: `Video Gallery Block${proSuffix}`,
-    displayName: `Video Gallery Block${proSuffix} - Display your videos as a gallery in a professional way`,
+    name: `Video Gallery Block`,
+    displayName: `Video Gallery Block - Display your videos as a gallery in a professional way`,
     description:
       "A lightweight Gutenberg block plugin for WordPress that lets you easily create responsive video galleries with albums, filters, captions, and lightbox support. Showcase YouTube, Vimeo, Wistia, or self hosted videos in a lightbox grid layout directly in the block editor.",
     slug,
     version,
-    isPremium,
-    hasPro,
     licenseActiveNonce,
     uninstallNonce,
     deleteDataOnUninstall,
@@ -49,10 +43,6 @@ export const dashboardInfo = (info) => {
       logo: `https://ps.w.org/${slug}/assets/icon-128x128.png`,
       banner: `https://ps.w.org/${slug}/assets/banner-772x250.png`,
       thumbnail: `https://bplugins.com/wp-content/uploads/2026/01/video-gallery-block.png`,
-      //   thumbnail: `https://bplugins.com/wp-content/themes/b-technologies/assets/images/products/${slug}.png`,
-      // proThumbnail: `https://bplugins.com/wp-content/uploads/2026/01/3d-image-gallery.png`,
-      //   video: "https://www.youtube.com/watch?v=milYZrqLJsE",
-      //   isYoutube: true,
     },
     pages: {
       org: `https://wordpress.org/plugins/${slug}/`,

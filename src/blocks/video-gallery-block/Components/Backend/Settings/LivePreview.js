@@ -3,14 +3,14 @@ import { Button, Popover } from "@wordpress/components";
 import CheckProVersion from "../../../../../Components/CheckProVersion";
 
 const LivePreview = (props) => {
-  const { isPremium } = props;
+  const { isPro } = props;
   const [isVisible, setIsVisible] = useState(false);
   const buttonRef = useRef();
   const togglePreview = () => setIsVisible(!isVisible);
 
   return (
     <>
-      {!isPremium && (
+      {!isPro && (
         <Button
           style={{
             padding: "6px 12px",

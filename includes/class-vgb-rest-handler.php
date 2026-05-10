@@ -47,6 +47,10 @@ class VGB_REST_Handler {
 			wp_send_json_error( 'Invalid Request' );
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( 'You do not have permission to perform this action.' );
+		}
+
 		$data = isset( $_POST['data'] ) ? json_decode( wp_unslash( $_POST['data'] ), true ) : null;
 		
 		if ( is_array( $data ) ) {

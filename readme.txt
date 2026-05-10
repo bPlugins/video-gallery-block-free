@@ -190,7 +190,7 @@ Pro users receive priority email support.
 
 == Changelog ==
 
-= 1.1.2 - 09 May 2026 =
+= 1.1.2 - 10 May 2026 =
 * Compliance: Standardized text domain to match plugin slug.
 * Compliance: Added human-readable source code link.
 * Compliance: Removed prohibited trialware file access restrictions.
@@ -235,6 +235,14 @@ Pro users receive priority email support.
 = 1.0.0 =
 * Initial release.
 
+== Development ==
+
+This plugin uses modern JavaScript (React/ES6) compiled via Webpack.
+To compile the source code, please follow these steps:
+1. Clone the repository: `git clone https://github.com/bPlugins/video-gallery-block-free.git`
+2. Navigate to the plugin directory: `cd video-gallery-block-free`
+3. Install dependencies: `npm install`
+4. Compile the production assets: `npm run build`
 
 == Upgrade Notice ==
 

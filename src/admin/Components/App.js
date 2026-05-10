@@ -9,7 +9,7 @@ import {
 import Demos from "../../../../bpl-tools/Admin/Demos";
 import Pricing from "../../../../bpl-tools/Admin/Pricing";
 import FeatureCompare from "../../../../bpl-tools/Admin/FeatureCompare";
-import Activation from "../../../../bpl-tools/Admin/Activation";
+// import Activation from "../../../../bpl-tools/Admin/Activation";
 import OurPlugins from "../../../../bpl-tools/Admin/OurPlugins";
 import Blocks from "../../../../bpl-tools/Admin/Blocks";
 import Layout from "./Layout";
@@ -19,8 +19,6 @@ import { demoInfo, pricingInfo } from "../utils/data";
 
 const App = (props) => {
   const {
-    isPremium,
-    hasPro,
     disabledBlocks: initialDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,
@@ -74,23 +72,18 @@ const App = (props) => {
             path="demos"
             element={<Demos demoInfo={demoInfo} {...appProps} />}
           />
-          {!isPremium && (
-            <Route
-              path="pricing"
-              element={
-                <Pricing pricingInfo={pricingInfo} options={{}} {...appProps} />
-              }
-            />
-          )}
-          {!isPremium && (
-            <Route
-              path="feature-comparison"
-              element={<FeatureCompare plans={["free", "pro"]} {...appProps} />}
-            />
-          )}
-          {hasPro && (
-            <Route path="activation" element={<Activation {...appProps} />} />
-          )}
+
+          <Route
+            path="pricing"
+            element={
+              <Pricing pricingInfo={pricingInfo} options={{}} {...appProps} />
+            }
+          />
+
+          <Route
+            path="feature-comparison"
+            element={<FeatureCompare plans={["free", "pro"]} {...appProps} />}
+          />
 
           <Route path="blocks" element={<Blocks {...appProps} />} />
 

@@ -1,5 +1,9 @@
 <?php
 namespace VGB;
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
 class CustomColumn {
     function __construct() {
         add_filter(

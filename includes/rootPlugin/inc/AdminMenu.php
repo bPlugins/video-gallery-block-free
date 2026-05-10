@@ -1,6 +1,10 @@
 <?php
 namespace VGB;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 class AdminMenu  {
     function __construct() {
         add_action('admin_menu', [$this, 'adminMenu']);

@@ -523,7 +523,7 @@ const Settings = ({
         </ToolbarGroup>
 
         <div style={{ display: "flex", alignItems: "center" }}>
-          <LivePreview isPremium={false} />
+          <LivePreview isPro={false} />
         </div>
       </BlockControls>
     </>

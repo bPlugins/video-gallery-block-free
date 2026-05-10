@@ -247,7 +247,7 @@ To compile the source code, please follow these steps:
 == Upgrade Notice ==
 
 
-= 1.1.2 - 07 May 2026 =
+= 1.1.2 - 10 May 2026 =
 * Compliance updates and security enhancements for directory guidelines.
 
 = 1.1.1 - 12 Aug 2025 =

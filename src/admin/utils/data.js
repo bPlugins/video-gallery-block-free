@@ -57,6 +57,13 @@ export const dashboardInfo = (info) => {
     },
     changelogs: [
       {
+        version: "1.1.2 - 10 May 2026",
+        list: [
+          "Compliance updates and security enhancements for directory guidelines.",
+        ],
+        type: "update",
+      },
+      {
         version: "1.1.1 - 12 Aug 2025",
         list: [
           "Fixed minor issues.",

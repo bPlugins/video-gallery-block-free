@@ -49,10 +49,7 @@ const Settings = ({
   setAttributes,
   activeIndex,
   setActiveIndex,
-  device,
-  clientId,
-  currentPostId,
-  currentPostType,
+  device
 }) => {
   const {
     albums,

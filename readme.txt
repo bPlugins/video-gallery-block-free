@@ -190,6 +190,9 @@ Pro users receive priority email support.
 
 == Changelog ==
 
+= 1.1.3 - 12 May 2026 =
+* Bug Fix: Freemius-Lite SDK issues.
+
 = 1.1.2 - 10 May 2026 =
 * Compliance: Standardized text domain to match plugin slug.
 * Compliance: Added human-readable source code link.
@@ -246,9 +249,16 @@ To compile the source code, please follow these steps:
 
 == Upgrade Notice ==
 
+= 1.1.3 - 12 May 2026 =
+* Bug Fix: Freemius-Lite SDK issues.
 
 = 1.1.2 - 10 May 2026 =
-* Compliance updates and security enhancements for directory guidelines.
+* Compliance: Standardized text domain to match plugin slug.
+* Compliance: Added human-readable source code link.
+* Compliance: Removed prohibited trialware file access restrictions.
+* Security: Added sanitization and escaping to settings and shortcodes.
+* Security: Added ABSPATH checks to all PHP files.
+* Maintenance: Updated Plyr.js to latest stable version.
 
 = 1.1.1 - 12 Aug 2025 =
 * Fixed minor issues.

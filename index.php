@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Author: bPlugins
  * Author URI: https://bplugins.com
  * License: GPLv3
@@ -18,7 +18,7 @@ if (function_exists('vgb_fs')) {
     vgb_fs()->set_basename(true, __FILE__);
 } else {
     // Constants
-    define('VGB_PLUGIN_VERSION', (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') ? time() : '1.1.2');
+    define('VGB_PLUGIN_VERSION', (isset($_SERVER['HTTP_HOST']) && $_SERVER['HTTP_HOST'] === 'localhost') ? time() : '1.1.3');
     define('VGB_DIR_URL', plugin_dir_url(__FILE__));
     define('VGB_PUBLIC_DIR', VGB_DIR_URL . 'public/');
     define('VGB_DIR_PATH', plugin_dir_path(__FILE__));

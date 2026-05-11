@@ -18,8 +18,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
 
   const {
     columns = { desktop: 3, tablet: 2, mobile: 1 },
-    columnGap,
-    rowGap,
+    columnGap
   } = attributes;
 
   const colSettings =

@@ -8,8 +8,6 @@ class VGB_REST_Handler {
 
 	public function __construct() {
 		add_action( 'wp_ajax_vgb_disabled_blocks', array( $this, 'handle_disabled_blocks' ) );
-		add_action( 'wp_ajax_vgbPremiumChecker', array( $this, 'handle_premium_checker' ) );
-		add_action( 'wp_ajax_nopriv_vgbPremiumChecker', array( $this, 'handle_premium_checker' ) );
 		add_action( 'wp_ajax_vgbSaveUninstallOption', array( $this, 'handle_uninstall_option' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'rest_api_init', array( $this, 'register_settings' ) );

@@ -4,7 +4,7 @@ Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 7.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -191,7 +191,7 @@ Pro users receive priority email support.
 == Changelog ==
 
 = 1.1.3 - 12 May 2026 =
-* Bug Fix: Freemius-Lite SDK issues.
+* Update: Freemius-Lite SDK.
 
 = 1.1.2 - 10 May 2026 =
 * Compliance: Standardized text domain to match plugin slug.
@@ -246,53 +246,3 @@ To compile the source code, please follow these steps:
 2. Navigate to the plugin directory: `cd video-gallery-block-free`
 3. Install dependencies: `npm install`
 4. Compile the production assets: `npm run build`
-
-== Upgrade Notice ==
-
-= 1.1.3 - 12 May 2026 =
-* Bug Fix: Freemius-Lite SDK issues.
-
-= 1.1.2 - 10 May 2026 =
-* Compliance: Standardized text domain to match plugin slug.
-* Compliance: Added human-readable source code link.
-* Compliance: Removed prohibited trialware file access restrictions.
-* Security: Added sanitization and escaping to settings and shortcodes.
-* Security: Added ABSPATH checks to all PHP files.
-* Maintenance: Updated Plyr.js to latest stable version.
-
-= 1.1.1 - 12 Aug 2025 =
-* Fixed minor issues.
-* Added 8 new block styles.
-* Added new shortcode styles.
-* Added new dashboard.
-
-= 1.1.0 - 30 Jan 2025 =
-* Updated Fancybox library to v5.
-
-= 1.0.8 - 27 Nov 2024 =
-* Added option to hide the "All" album filter.
-
-= 1.0.7 - 27 Nov 2024 =
-* Added custom label option for common filter.
-
-= 1.0.6 =
-* Added gallery shadow options.
-
-= 1.0.5 =
-* Improved vertical video height handling.
-
-= 1.0.4 =
-* Added video captions.
-* Prevented loading scripts when block is not used.
-
-= 1.0.3 =
-* Added translation support.
-
-= 1.0.2 =
-* Fixed add/remove video issues.
-
-= 1.0.1 =
-* Automatic video thumbnail generation.
-
-= 1.0.0 =
-* Initial release.

@@ -9,15 +9,9 @@ const VideoGalleryFilter = ({
 }) => {
   const {
     albums,
-    // columns = { desktop: 3, tablet: 2, mobile: 1 },
     filter = { show: true, commonLabel: "All Videos" },
   } = attributes;
 
-  // // Handle case where columns might be stored as a number or incomplete object
-  // const colSettings =
-  //   typeof columns === "number"
-  //     ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
-  //     : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
   const { commonLabel } = filter || {};
 
   // Handle filter button clicks

@@ -58,7 +58,7 @@ export const dashboardInfo = (info) => {
     changelogs: [
       {
         version: "1.1.3 - 12 May 2026",
-        list: ["Bug Fix: Freemius-Lite SDK issues."],
+        list: ["Updated: Freemius-Lite SDK."],
         type: "update",
       },
       {

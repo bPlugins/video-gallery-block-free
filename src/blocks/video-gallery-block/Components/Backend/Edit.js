@@ -22,7 +22,7 @@ const Edit = (props) => {
     id: id,
   });
 
-  const isGalleryPostType = ["video-gallery-block", "free", "pro"].includes(
+  const isGalleryPostType = ["video-gallery-block"].includes(
     currentPostType,
   );
 

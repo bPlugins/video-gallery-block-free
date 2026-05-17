@@ -1,8 +1,11 @@
 <?php
 /**
- * Plugin Name: Video Gallery Block
+ * Plugin Name: Video Gallery Block Free
  * Description: Display your videos as gallery in a professional way.
  * Version: 1.1.3
+ * Requires at least: 6.5
+ * Tested up to: 6.9
+ * Requires PHP: 7.1
  * Author: bPlugins
  * Author URI: https://bplugins.com
  * License: GPLv3

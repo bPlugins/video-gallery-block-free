@@ -1,5 +1,5 @@
 <?php
-namespace VGB;
+namespace VIDGALBLK;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;

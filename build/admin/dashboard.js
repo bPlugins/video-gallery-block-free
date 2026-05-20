@@ -8374,7 +8374,7 @@ const App = props => {
     setDisabledBlocks(updatedBlocks);
     setStatus("loading");
     const formData = new FormData();
-    formData.append("action", "vgb_disabled_blocks");
+    formData.append("action", "vidgalblk_disabled_blocks");
     formData.append("_wpnonce", disabledBlocksNonce);
     formData.append("data", JSON.stringify(updatedBlocks));
     fetch(`${adminUrl}admin-ajax.php`, {
@@ -8552,7 +8552,7 @@ const Settings = ({
     setIsLoading(true);
     setNotice("");
     const formData = new FormData();
-    formData.append("action", "vgbSaveUninstallOption");
+    formData.append("action", "vidgalblkSaveUninstallOption");
     formData.append("nonce", uninstallNonce);
     formData.append("enabled", String(newValue));
     fetch(`${adminUrl}admin-ajax.php`, {
@@ -8744,7 +8744,7 @@ const dashboardInfo = info => {
   const {
     version,
     licenseActiveNonce,
-    vgbDisabledBlocks,
+    vidgalblkDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,
     uninstallNonce,
@@ -8759,7 +8759,7 @@ const dashboardInfo = info => {
     licenseActiveNonce,
     uninstallNonce,
     deleteDataOnUninstall,
-    disabledBlocks: vgbDisabledBlocks,
+    disabledBlocks: vidgalblkDisabledBlocks,
     disabledBlocksNonce,
     adminUrl,
     allBlocks: _blocks__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -8781,6 +8781,10 @@ const dashboardInfo = info => {
       public_key: "pk_02d017aab6844d54db3238a59e91c"
     },
     changelogs: [{
+      version: "1.1.4 - 20 May 2026",
+      list: ["Compliance: Renamed plugin prefix from 'vgb' to 'vidgalblk' (4+ characters) per WordPress.org guidelines.", "Compliance: Prefixed generic 'admin-post' script handles with plugin-specific prefix."],
+      type: "update"
+    }, {
       version: "1.1.3 - 12 May 2026",
       list: ["Updated: Freemius-Lite SDK."],
       type: "update"
@@ -8827,42 +8831,42 @@ const demoInfo = {
     url: "https://bblockswp.com/demo/video-gallery-block-default/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.testimonialIcon,
-    title: "Video Testimonial Section",
+    title: "Video Testimonial Section (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-video-testimonial-section/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.parallaxRowIcon,
-    title: "Parallax Row Video Gallery",
+    title: "Parallax Row Video Gallery (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-parallax-row-video-gallery/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.videoSliderIcon,
-    title: "Video Slider",
+    title: "Video Slider (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-video-slider/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.sliderAutoplayIcon,
-    title: "Slider Autoplay Video",
+    title: "Slider Autoplay Video (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-slider-autoplay-video/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.lightBoxIcon,
-    title: "Lightbox Gallery",
+    title: "Lightbox Gallery (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-lightbox-video-gallery/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.masonryVideoGridIcon,
-    title: "Masonry Video Grid",
+    title: "Masonry Video Grid (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-masonry-video-grid/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.videoPlaylistIcon,
-    title: "Video Playlist Gallery",
+    title: "Video Playlist Gallery (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-video-playlist-gallery/"
   }, {
     icon: _Components_Common_utils_icons__WEBPACK_IMPORTED_MODULE_0__.videoCarouselIcon,
-    title: "Video Carousel Gallery",
+    title: "Video Carousel Gallery (Pro)",
     type: "iframe",
     url: "https://bblockswp.com/demo/video-gallery-block-video-carousel-gallery/"
   }]
@@ -12366,7 +12370,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  const dashboardEl = document.getElementById("vgbDashboard");
+  const dashboardEl = document.getElementById("vidgalblkDashboard");
   const info = JSON.parse(dashboardEl.dataset.info);
   (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(dashboardEl).render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Components_App__WEBPACK_IMPORTED_MODULE_3__["default"], {
     ...(0,_utils_data__WEBPACK_IMPORTED_MODULE_4__.dashboardInfo)(info)

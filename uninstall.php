@@ -5,7 +5,7 @@
  * Cleans up plugin data when the plugin is deleted from the admin.
  * Only runs if the user has opted in via the "Delete data on uninstall" setting.
  *
- * @package VGB
+ * @package VIDGALBLK
  */
 
 // Exit if not called by WordPress.
@@ -13,7 +13,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$isDeleteData = get_option( 'vgb_delete_data_on_uninstall', false );
+$isDeleteData = get_option( 'vidgalblk_delete_data_on_uninstall', false );
 
 if ( ! $isDeleteData ) {
 	return;
@@ -22,17 +22,16 @@ if ( ! $isDeleteData ) {
 global $wpdb;
 
 // 1. Delete all 'video-gallery-block' custom post type posts and their meta/revisions efficiently.
-$vgb_post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", 'video-gallery-block' ) );
+$vidgalblk_post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", 'video-gallery-block' ) );
 
-if ( ! empty( $vgb_post_ids ) ) {
-	foreach ( $vgb_post_ids as $post_id ) {
+if ( ! empty( $vidgalblk_post_ids ) ) {
+	foreach ( $vidgalblk_post_ids as $post_id ) {
 		wp_delete_post( $post_id, true ); // Force delete (bypass trash).
 	}
 }
 
 // 2. Delete plugin options.
-delete_option( 'vgb_delete_data_on_uninstall' );
-delete_option( 'vgbDisabledBlocks' );
-delete_option( 'vgbAPIKey' );
-delete_option( 'vgbUtils' );
-
+delete_option( 'vidgalblk_delete_data_on_uninstall' );
+delete_option( 'vidgalblkDisabledBlocks' );
+delete_option( 'vidgalblkAPIKey' );
+delete_option( 'vidgalblkUtils' );

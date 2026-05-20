@@ -1,1 +1,1 @@
-export const prefix = 'vgbVideoGallery';
+export const prefix = 'vidgalblkVideoGallery';

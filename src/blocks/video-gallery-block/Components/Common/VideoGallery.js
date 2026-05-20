@@ -101,7 +101,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
   useEffect(() => {
     if (galleryRef.current) {
       Fancybox.bind(galleryRef.current, "[data-fancybox]", {
-        mainClass: `vgbFancyBox ${id}-fancyBox`,
+        mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
         container: galleryRef.current,
         Toolbar: {
           display: {
@@ -214,7 +214,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
                       {
                         startIndex: index,
                         container: galleryRef.current,
-                        mainClass: `vgbFancyBox ${id}-fancyBox`,
+                        mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
                         Toolbar: {
                           display: {
                             left: ["counter"],

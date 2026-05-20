@@ -70567,7 +70567,7 @@ const CheckProVersion = () => {
     className: "bplg-actions"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.Button, {
     className: "bplg-btn bplg-btn-primary",
-    href: "edit.php?post_type=video-gallery-block&page=vgb-help-demo#/pricing",
+    href: "edit.php?post_type=video-gallery-block&page=vidgalblk-help-demo#/pricing",
     target: "_blank"
   }, "Upgrade to Pro"))));
 };
@@ -70889,7 +70889,7 @@ const Edit = props => {
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)({
     id: id
   });
-  const isGalleryPostType = ["video-gallery-block", "free", "pro"].includes(currentPostType);
+  const isGalleryPostType = ["video-gallery-block"].includes(currentPostType);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings_Settings__WEBPACK_IMPORTED_MODULE_3__["default"], {
     attributes: attributes,
     setAttributes: setAttributes,
@@ -71756,7 +71756,7 @@ const Style = ({
       for (const mutation of mutations) {
         for (const node of mutation.addedNodes) {
           if (node.nodeType === 1) {
-            if (node.classList?.contains("f-caption") || node.classList?.contains("fancybox__container") || node.classList?.contains("vgbFancyBox") || node.querySelector?.(".f-caption") || node.querySelector?.(".fancybox__container")) {
+            if (node.classList?.contains("f-caption") || node.classList?.contains("fancybox__container") || node.classList?.contains("vidgalblkFancyBox") || node.querySelector?.(".f-caption") || node.querySelector?.(".fancybox__container")) {
               shouldApply = true;
               break;
             }
@@ -72044,7 +72044,7 @@ const VideoGallery = ({
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (galleryRef.current) {
       _fancyapps_ui__WEBPACK_IMPORTED_MODULE_1__.Fancybox.bind(galleryRef.current, "[data-fancybox]", {
-        mainClass: `vgbFancyBox ${id}-fancyBox`,
+        mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
         container: galleryRef.current,
         Toolbar: {
           display: {
@@ -72149,7 +72149,7 @@ const VideoGallery = ({
           })), {
             startIndex: index,
             container: galleryRef.current,
-            mainClass: `vgbFancyBox ${id}-fancyBox`,
+            mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
             Toolbar: {
               display: {
                 left: ["counter"],
@@ -72308,7 +72308,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   prefix: () => (/* binding */ prefix)
 /* harmony export */ });
-const prefix = 'vgbVideoGallery';
+const prefix = 'vidgalblkVideoGallery';
 
 /***/ }),
 

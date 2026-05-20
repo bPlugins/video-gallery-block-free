@@ -1,15 +1,15 @@
 <?php
 if ( !defined( 'ABSPATH' ) ) { exit; }
 
- if (!function_exists('vgb_fs')) {
-        function vgb_fs() {
-            global $vgb_fs;
-            if (!isset($vgb_fs)) {
-                require_once VGB_DIR_PATH . 'vendor/freemius-lite/start.php';
-                $vgb_fs = fs_lite_dynamic_init([
+ if (!function_exists('vidgalblk_fs')) {
+        function vidgalblk_fs() {
+            global $vidgalblk_fs;
+            if (!isset($vidgalblk_fs)) {
+                require_once VIDGALBLK_DIR_PATH . 'vendor/freemius-lite/start.php';
+                $vidgalblk_fs = fs_lite_dynamic_init([
                     'id'                  => '20637',
                     'slug'                => 'video-gallery-block',
-                    '__FILE__'            => VGB_DIR_PATH . 'index.php',
+                    '__FILE__'            => VIDGALBLK_DIR_PATH . 'index.php',
                     'premium_slug'        => 'video-gallery-block-pro',
                     'type'                => 'plugin',
                     'public_key'          => 'pk_02d017aab6844d54db3238a59e91c',
@@ -20,13 +20,13 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
                     'has_paid_plans'      => true,
                     'menu'                => array(
                         'slug'           => 'edit.php?post_type=video-gallery-block',
-                        'first-path'     => 'edit.php?post_type=video-gallery-block&page=vgb-help-demo#/welcome',
+                        'first-path'     => 'edit.php?post_type=video-gallery-block&page=vidgalblk-help-demo#/welcome',
                         'support'        => false,
                     ),
                 ]); 
             }
-            return $vgb_fs;
+            return $vidgalblk_fs;
         }
-        vgb_fs();
-        do_action('vgb_fs_loaded');
+        vidgalblk_fs();
+        do_action('vidgalblk_fs_loaded');
     }

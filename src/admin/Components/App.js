@@ -34,7 +34,7 @@ const App = (props) => {
     setStatus("loading");
 
     const formData = new FormData();
-    formData.append("action", "vgb_disabled_blocks");
+    formData.append("action", "vidgalblk_disabled_blocks");
     formData.append("_wpnonce", disabledBlocksNonce);
     formData.append("data", JSON.stringify(updatedBlocks));
 

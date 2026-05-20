@@ -94,7 +94,7 @@ const CheckProVersion = () => {
         <div className="bplg-actions">
           <Button
             className="bplg-btn bplg-btn-primary"
-            href="edit.php?post_type=video-gallery-block&page=vgb-help-demo#/pricing"
+            href="edit.php?post_type=video-gallery-block&page=vidgalblk-help-demo#/pricing"
             target="_blank">
             Upgrade to Pro
           </Button>

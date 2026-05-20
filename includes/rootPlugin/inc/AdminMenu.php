@@ -1,5 +1,5 @@
 <?php
-namespace VGB;
+namespace VIDGALBLK;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -15,7 +15,7 @@ class AdminMenu  {
             __('Help - bPlugins', 'video-gallery-block'),
             __('Help & Demos', 'video-gallery-block'),
             'manage_options',
-            'vgb-help-demo',
+            'vidgalblk-help-demo',
             [$this, 'renderDashboardPage']
         );
     }
@@ -23,16 +23,16 @@ class AdminMenu  {
     function renderDashboardPage(){
         ?>
             <div
-                id='vgbDashboard'
+                id='vidgalblkDashboard'
                 data-info='<?php echo esc_attr( wp_json_encode( [
-                    'version' => VGB_PLUGIN_VERSION,
+                    'version' => VIDGALBLK_PLUGIN_VERSION,
                     'adminUrl' => admin_url(), 
-                    'nonce' => wp_create_nonce('vgb_activation_nonce'),
-                    'licenseActiveNonce' => wp_create_nonce('vgb_activation_nonce'),
-                    'disabledBlocksNonce' => wp_create_nonce('vgb_disabled_blocks'),
-                    'uninstallNonce' => wp_create_nonce('vgb_activation_nonce'),
-                    'vgbDisabledBlocks' => get_option('vgbDisabledBlocks', []),
-                    'deleteDataOnUninstall' => get_option('vgb_delete_data_on_uninstall', false),
+                    'nonce' => wp_create_nonce('vidgalblk_activation_nonce'),
+                    'licenseActiveNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
+                    'disabledBlocksNonce' => wp_create_nonce('vidgalblk_disabled_blocks'),
+                    'uninstallNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
+                    'vidgalblkDisabledBlocks' => get_option('vidgalblkDisabledBlocks', []),
+                    'deleteDataOnUninstall' => get_option('vidgalblk_delete_data_on_uninstall', false),
                 ] ) ); ?>'
             ></div>
         <?php

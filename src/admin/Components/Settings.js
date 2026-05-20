@@ -25,7 +25,7 @@ const Settings = ({ deleteDataOnUninstall, uninstallNonce, adminUrl }) => {
     setNotice("");
 
     const formData = new FormData();
-    formData.append("action", "vgbSaveUninstallOption");
+    formData.append("action", "vidgalblkSaveUninstallOption");
     formData.append("nonce", uninstallNonce);
     formData.append("enabled", String(newValue));
 

@@ -1,5 +1,5 @@
 <?php
-namespace VGB;
+namespace VIDGALBLK;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -7,9 +7,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class ShortCode {
     function __construct() {
-        add_shortcode('video_gallery', [$this, 'vgb_shortcode']);
+        add_shortcode('video_gallery', [$this, 'vidgalblk_shortcode']);
     }
-    function vgb_shortcode($atts){
+    function vidgalblk_shortcode($atts){
         $atts = shortcode_atts( array(
             'id' => 0,
         ), $atts, 'video_gallery' );

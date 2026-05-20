@@ -4,17 +4,12 @@ Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 Requires PHP: 7.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Video Gallery Block lets you create responsive YouTube, Vimeo, and HTML5 video galleries with grid layouts, filters, and lightbox in Gutenberg.
-
-== Source Code ==
-
-The non-minified source code for this plugin is available on our public repository:
-[GitHub Repository](https://github.com/bPlugins/video-gallery-block-free)
 
 == Description ==
 
@@ -123,6 +118,45 @@ Other plugins by our team:
 [**Advanced Post Block**](https://bplugins.com/products/advanced-post-block/) – Show posts and custom posts in different layouts.
 
 
+== Source Code ==
+
+The non-minified source code for this plugin is available on our public repository:
+[GitHub Repository](https://github.com/bPlugins/video-gallery-block-free)
+
+== Third-Party Libraries ==
+
+= bpl-tools =
+* Source / GitHub: https://github.com/bPlugins/bpl-tools
+* License: GPL-2.0-or-later – https://www.gnu.org/licenses/gpl-2.0.html
+* Purpose: Shared utility library providing admin dashboard components and common Gutenberg editor controls.
+* External Services: The library may connect to bPlugins, WordPress.org, and Freemius services for product data and checkout functionality. See full details: https://github.com/bPlugins/bpl-tools#external-requests--why-they-are-made
+
+= Freemius Lite SDK =
+
+* **Source:** [https://bplugins.com/](https://bplugins.com/)
+* **GitHub:** [https://github.com/bPlugins/freemius-lite-sdk](https://github.com/bPlugins/freemius-lite-sdk)
+* **License:** GPL-2.0-or-later – [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
+* **Purpose:** Provides an opt-in consent form for usage tracking and analytics to help improve the plugin. No data is sent before explicit user consent.
+* **External Services:** Communicates with `api.bplugins.com` (activation events) and `wp.freemius.com` (opt-in processing) only after user opt-in. See [bPlugins Privacy Policy](https://bplugins.com/privacy-policy) and [Freemius Privacy Policy](https://freemius.com/privacy/).
+
+
+= bPlugins API =
+
+* **Service URL:** [https://api.bplugins.com](https://api.bplugins.com)
+* **Purpose:** The plugin's admin dashboard fetches product comparison data and pricing information to display relevant upgrade options and feature details.
+* **Data Sent:** Only the plugin slug is transmitted; no personal or site data is collected.
+* **Terms of Service:** [https://bplugins.com/terms-of-service/](https://bplugins.com/terms-of-service/)
+* **Privacy Policy:** [https://bplugins.com/privacy-policy/](https://bplugins.com/privacy-policy/)
+
+= WordPress.org Plugins API =
+
+* **Service URL:** [https://api.wordpress.org/plugins/info/1.2/](https://api.wordpress.org/plugins/info/1.2/)
+* **Purpose:** The admin dashboard queries the official WordPress.org Plugins API to retrieve and display a curated list of other plugins by the same author ("Our Plugins" section).
+* **Data Sent:** Plugin slugs and author name; no personal or site data is collected.
+* **Terms of Service:** [https://wordpress.org/about/tos/](https://wordpress.org/about/tos/)
+* **Privacy Policy:** [https://wordpress.org/about/privacy/](https://wordpress.org/about/privacy/)
+
+
 == Installation ==
 
 = From Gutenberg Editor =
@@ -143,6 +177,16 @@ Other plugins by our team:
 
 1. Upload the plugin folder to `/wp-content/plugins/`.
 2. Activate the plugin from the Plugins menu.
+
+
+== Development ==
+
+This plugin uses modern JavaScript (React/ES6) compiled via Webpack.
+To compile the source code, please follow these steps:
+1. Clone the repository: `git clone https://github.com/bPlugins/video-gallery-block-free.git`
+2. Navigate to the plugin directory: `cd video-gallery-block-free`
+3. Install dependencies: `npm install`
+4. Compile the production assets: `npm run build`
 
 
 == Frequently Asked Questions ==
@@ -189,6 +233,10 @@ Pro users receive priority email support.
 
 
 == Changelog ==
+
+= 1.1.4 - 20 May 2026 =
+* Compliance: Renamed plugin prefix from 'vgb' to 'vidgalblk' (4+ characters) per WordPress.org guidelines.
+* Compliance: Prefixed generic 'admin-post' script handles with plugin-specific prefix.
 
 = 1.1.3 - 12 May 2026 =
 * Update: Freemius-Lite SDK.
@@ -237,12 +285,3 @@ Pro users receive priority email support.
 
 = 1.0.0 =
 * Initial release.
-
-== Development ==
-
-This plugin uses modern JavaScript (React/ES6) compiled via Webpack.
-To compile the source code, please follow these steps:
-1. Clone the repository: `git clone https://github.com/bPlugins/video-gallery-block-free.git`
-2. Navigate to the plugin directory: `cd video-gallery-block-free`
-3. Install dependencies: `npm install`
-4. Compile the production assets: `npm run build`

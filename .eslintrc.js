@@ -19,7 +19,7 @@ module.exports = {
     Plyr: "readonly",
     lodash: "readonly",
     Chart: "readonly",
-    vgbDisabledBlocks: "readonly",
+    vidgalblkDisabledBlocks: "readonly",
   },
   parserOptions: {
     ecmaFeatures: {

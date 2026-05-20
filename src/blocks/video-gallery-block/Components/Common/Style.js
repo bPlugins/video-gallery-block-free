@@ -136,7 +136,7 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter, galleryRef }
             if (
               node.classList?.contains("f-caption") || 
               node.classList?.contains("fancybox__container") ||
-              node.classList?.contains("vgbFancyBox") ||
+              node.classList?.contains("vidgalblkFancyBox") ||
               node.querySelector?.(".f-caption") ||
               node.querySelector?.(".fancybox__container")
             ) {

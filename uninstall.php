@@ -32,6 +32,4 @@ if ( ! empty( $vidgalblk_post_ids ) ) {
 
 // 2. Delete plugin options.
 delete_option( 'vidgalblk_delete_data_on_uninstall' );
-delete_option( 'vidgalblkDisabledBlocks' );
 delete_option( 'vidgalblkAPIKey' );
-delete_option( 'vidgalblkUtils' );

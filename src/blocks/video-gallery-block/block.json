@@ -20,9 +20,9 @@
       "type": "array",
       "default": [
         {
-          "video": "https://cdn.jsdelivr.net/npm/big-buck-bunny-1080p@0.0.6/video.mp4",
-          "poster": "https://cdn.jsdelivr.net/npm/big-buck-bunny-1080p@0.0.6/poster.jpg",
-          "caption": "Big Buck Bunny",
+          "video": "https://files.vidstack.io/sprite-fight/720p.mp4",
+          "poster": "https://files.vidstack.io/sprite-fight/poster.webp",
+          "caption": "Sprite Fight",
           "albs": []
         }
       ]

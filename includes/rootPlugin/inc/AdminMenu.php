@@ -29,9 +29,7 @@ class AdminMenu  {
                     'adminUrl' => admin_url(), 
                     'nonce' => wp_create_nonce('vidgalblk_activation_nonce'),
                     'licenseActiveNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
-                    'disabledBlocksNonce' => wp_create_nonce('vidgalblk_disabled_blocks'),
                     'uninstallNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
-                    'vidgalblkDisabledBlocks' => get_option('vidgalblkDisabledBlocks', []),
                     'deleteDataOnUninstall' => get_option('vidgalblk_delete_data_on_uninstall', false),
                 ] ) ); ?>'
             ></div>

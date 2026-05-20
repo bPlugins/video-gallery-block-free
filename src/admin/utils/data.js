@@ -17,8 +17,6 @@ export const dashboardInfo = (info) => {
   const {
     version,
     licenseActiveNonce,
-    vidgalblkDisabledBlocks,
-    disabledBlocksNonce,
     adminUrl,
     uninstallNonce,
     deleteDataOnUninstall,
@@ -34,8 +32,6 @@ export const dashboardInfo = (info) => {
     licenseActiveNonce,
     uninstallNonce,
     deleteDataOnUninstall,
-    disabledBlocks: vidgalblkDisabledBlocks,
-    disabledBlocksNonce,
     adminUrl,
     allBlocks: blocks,
     displayOurPlugins: true,

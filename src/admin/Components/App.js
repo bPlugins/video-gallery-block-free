@@ -9,7 +9,6 @@ import {
 import Demos from "../../../../bpl-tools/Admin/Demos";
 import Pricing from "../../../../bpl-tools/Admin/Pricing";
 import FeatureCompare from "../../../../bpl-tools/Admin/FeatureCompare";
-// import Activation from "../../../../bpl-tools/Admin/Activation";
 import OurPlugins from "../../../../bpl-tools/Admin/OurPlugins";
 import Blocks from "../../../../bpl-tools/Admin/Blocks";
 import Layout from "./Layout";
@@ -18,77 +17,33 @@ import Settings from "./Settings";
 import { demoInfo, pricingInfo } from "../utils/data";
 
 const App = (props) => {
-  const {
-    disabledBlocks: initialDisabledBlocks,
-    disabledBlocksNonce,
-    adminUrl,
-  } = props;
-
-  const [disabledBlocks, setDisabledBlocks] = useState(
-    initialDisabledBlocks || [],
-  );
-  const [status, setStatus] = useState("");
-
-  const handleBlocksChange = (updatedBlocks) => {
-    setDisabledBlocks(updatedBlocks);
-    setStatus("loading");
-
-    const formData = new FormData();
-    formData.append("action", "vidgalblk_disabled_blocks");
-    formData.append("_wpnonce", disabledBlocksNonce);
-    formData.append("data", JSON.stringify(updatedBlocks));
-
-    fetch(`${adminUrl}admin-ajax.php`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setStatus("success");
-        } else {
-          setStatus("error");
-        }
-      })
-      .catch(() => {
-        setStatus("error");
-      });
-  };
-
-  const appProps = {
-    ...props,
-    disabledBlocks,
-    status,
-    onChange: handleBlocksChange,
-  };
-
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout {...appProps} />}>
-          <Route index element={<Welcome {...appProps} />} />
-          <Route path="welcome" element={<Welcome {...appProps} />} />
+        <Route path="/" element={<Layout {...props} />}>
+          <Route index element={<Welcome {...props} />} />
+          <Route path="welcome" element={<Welcome {...props} />} />
           <Route
             path="demos"
-            element={<Demos demoInfo={demoInfo} {...appProps} />}
+            element={<Demos demoInfo={demoInfo} {...props} />}
           />
 
           <Route
             path="pricing"
             element={
-              <Pricing pricingInfo={pricingInfo} options={{}} {...appProps} />
+              <Pricing pricingInfo={pricingInfo} options={{}} {...props} />
             }
           />
 
           <Route
             path="feature-comparison"
-            element={<FeatureCompare plans={["free", "pro"]} {...appProps} />}
+            element={<FeatureCompare plans={["free", "pro"]} {...props} />}
           />
 
-          <Route path="blocks" element={<Blocks {...appProps} />} />
+          <Route path="blocks" element={<Blocks {...props} />} />
 
-          <Route path="our-plugins" element={<OurPlugins {...appProps} />} />
-          <Route path="settings" element={<Settings {...appProps} />} />
+          <Route path="our-plugins" element={<OurPlugins {...props} />} />
+          <Route path="settings" element={<Settings {...props} />} />
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Route>
       </Routes>

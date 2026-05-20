@@ -8355,7 +8355,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// import Activation from "../../../../bpl-tools/Admin/Activation";
 
 
 
@@ -8363,87 +8362,54 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const App = props => {
-  const {
-    disabledBlocks: initialDisabledBlocks,
-    disabledBlocksNonce,
-    adminUrl
-  } = props;
-  const [disabledBlocks, setDisabledBlocks] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(initialDisabledBlocks || []);
-  const [status, setStatus] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
-  const handleBlocksChange = updatedBlocks => {
-    setDisabledBlocks(updatedBlocks);
-    setStatus("loading");
-    const formData = new FormData();
-    formData.append("action", "vidgalblk_disabled_blocks");
-    formData.append("_wpnonce", disabledBlocksNonce);
-    formData.append("data", JSON.stringify(updatedBlocks));
-    fetch(`${adminUrl}admin-ajax.php`, {
-      method: "POST",
-      body: formData
-    }).then(res => res.json()).then(data => {
-      if (data.success) {
-        setStatus("success");
-      } else {
-        setStatus("error");
-      }
-    }).catch(() => {
-      setStatus("error");
-    });
-  };
-  const appProps = {
-    ...props,
-    disabledBlocks,
-    status,
-    onChange: handleBlocksChange
-  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.HashRouter, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Routes, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "/",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Layout__WEBPACK_IMPORTED_MODULE_6__["default"], {
-      ...appProps
+      ...props
     })
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     index: true,
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Welcome__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "welcome",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Welcome__WEBPACK_IMPORTED_MODULE_7__["default"], {
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "demos",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Demos__WEBPACK_IMPORTED_MODULE_1__["default"], {
       demoInfo: _utils_data__WEBPACK_IMPORTED_MODULE_9__.demoInfo,
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "pricing",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Pricing__WEBPACK_IMPORTED_MODULE_2__["default"], {
       pricingInfo: _utils_data__WEBPACK_IMPORTED_MODULE_9__.pricingInfo,
       options: {},
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "feature-comparison",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_FeatureCompare__WEBPACK_IMPORTED_MODULE_3__["default"], {
       plans: ["free", "pro"],
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "blocks",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_Blocks__WEBPACK_IMPORTED_MODULE_5__["default"], {
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "our-plugins",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_bpl_tools_Admin_OurPlugins__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "settings",
     element: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Settings__WEBPACK_IMPORTED_MODULE_8__["default"], {
-      ...appProps
+      ...props
     })
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     path: "*",
@@ -8744,8 +8710,6 @@ const dashboardInfo = info => {
   const {
     version,
     licenseActiveNonce,
-    vidgalblkDisabledBlocks,
-    disabledBlocksNonce,
     adminUrl,
     uninstallNonce,
     deleteDataOnUninstall
@@ -8759,8 +8723,6 @@ const dashboardInfo = info => {
     licenseActiveNonce,
     uninstallNonce,
     deleteDataOnUninstall,
-    disabledBlocks: vidgalblkDisabledBlocks,
-    disabledBlocksNonce,
     adminUrl,
     allBlocks: _blocks__WEBPACK_IMPORTED_MODULE_1__["default"],
     displayOurPlugins: true,

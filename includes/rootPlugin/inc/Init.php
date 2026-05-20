@@ -49,7 +49,6 @@ class Init {
             'template_lock' => 'all',
         ]);
 
-		wp_set_script_translations( 'vidgalblk-video-gallery-editor-script', 'video-gallery-block', VIDGALBLK_DIR_PATH . 'languages' );
 	}
 
 	function vidgalblk_register_blocks() {
@@ -60,23 +59,8 @@ class Init {
             return;
         }
 
-        $disabled_blocks = get_option( 'vidgalblkDisabledBlocks', [] );
-        if ( ! is_array( $disabled_blocks ) ) {
-            $disabled_blocks = [];
-        }
-
         foreach ( $all_blocks as $block_path ) {
-            $block_name = basename( $block_path );
-
-            if ( $block_name === 'video-gallery-block' ) {
-                register_block_type( $block_path );
-                continue;
-            }
-            
-            if ( in_array( $block_name, $disabled_blocks, true ) ) {
-                continue;
-            }
-			register_block_type( $block_path );			
+			register_block_type( $block_path );
         }
     }
 

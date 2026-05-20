@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: Video Gallery Block Free
+ * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.1.4
+ * Version: 1.1.3
  * Requires at least: 6.5
  * Tested up to: 6.9
  * Requires PHP: 7.1
@@ -21,7 +21,7 @@ if (function_exists('vidgalblk_fs')) {
     vidgalblk_fs()->set_basename(true, __FILE__);
 } else {
     // Constants
-    define('VIDGALBLK_PLUGIN_VERSION', (isset($_SERVER['HTTP_HOST']) && 'localhost' === sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']))) ? time() : '1.1.4');
+    define('VIDGALBLK_PLUGIN_VERSION', (isset($_SERVER['HTTP_HOST']) && 'localhost' === sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']))) ? time() : '1.1.3');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));

@@ -4,7 +4,7 @@ Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
 Requires at least: 6.5
 Tested up to: 6.9
-Stable tag: 1.1.4
+Stable tag: 1.1.3
 Requires PHP: 7.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -234,12 +234,9 @@ Pro users receive priority email support.
 
 == Changelog ==
 
-= 1.1.4 - 20 May 2026 =
-* Compliance: Renamed plugin prefix from 'vgb' to 'vidgalblk' (4+ characters) per WordPress.org guidelines.
-* Compliance: Prefixed generic 'admin-post' script handles with plugin-specific prefix.
-
-= 1.1.3 - 12 May 2026 =
-* Update: Freemius-Lite SDK.
+= 1.1.3 - 20 May 2026 =
+* Fixed: Prefixed generic 'admin-post' script handles with plugin-specific prefix.
+* Security: Fixed directory guideline issues.
 
 = 1.1.2 - 10 May 2026 =
 * Compliance: Standardized text domain to match plugin slug.

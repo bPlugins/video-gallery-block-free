@@ -13,16 +13,19 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$isDeleteData = get_option( 'vidgalblk_delete_data_on_uninstall', false );
+$vidgalblk_is_delete_data = get_option( 'vidgalblk_delete_data_on_uninstall', false );
 
-if ( ! $isDeleteData ) {
+if ( ! $vidgalblk_is_delete_data ) {
 	return;
 }
 
-global $wpdb;
-
 // 1. Delete all 'video-gallery-block' custom post type posts and their meta/revisions efficiently.
-$vidgalblk_post_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type = %s", 'video-gallery-block' ) );
+$vidgalblk_post_ids = get_posts( array(
+	'post_type'   => 'video-gallery-block',
+	'post_status' => 'any',
+	'numberposts' => -1,
+	'fields'      => 'ids',
+) );
 
 if ( ! empty( $vidgalblk_post_ids ) ) {
 	foreach ( $vidgalblk_post_ids as $post_id ) {

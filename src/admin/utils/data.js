@@ -53,22 +53,18 @@ export const dashboardInfo = (info) => {
     },
     changelogs: [
       {
-        version: "1.1.4 - 20 May 2026",
+        version: "1.1.3 - 20 May 2026",
         list: [
-          "Compliance: Renamed plugin prefix from 'vgb' to 'vidgalblk' (4+ characters) per WordPress.org guidelines.",
-          "Compliance: Prefixed generic 'admin-post' script handles with plugin-specific prefix.",
+          "Fixed: Prefixed generic 'admin-post' script handles with plugin-specific prefix.",
+          "Security: Fixed directory guideline issues.",
         ],
-        type: "update",
-      },
-      {
-        version: "1.1.3 - 12 May 2026",
-        list: ["Updated: Freemius-Lite SDK."],
         type: "update",
       },
       {
         version: "1.1.2 - 10 May 2026",
         list: [
           "Compliance updates and security enhancements for directory guidelines.",
+          "Updated: Freemius-Lite SDK.",
         ],
         type: "update",
       },

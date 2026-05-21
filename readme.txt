@@ -3,9 +3,9 @@ Contributors: bplugins, abuhayat, charlescormier, himur98
 Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
 Requires at least: 6.5
-Tested up to: 6.9
+Tested up to: 7.0
 Stable tag: 1.1.3
-Requires PHP: 7.1
+Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -132,29 +132,26 @@ The non-minified source code for this plugin is available on our public reposito
 * External Services: The library may connect to bPlugins, WordPress.org, and Freemius services for product data and checkout functionality. See full details: https://github.com/bPlugins/bpl-tools#external-requests--why-they-are-made
 
 = Freemius Lite SDK =
-
 * **Source:** [https://bplugins.com/](https://bplugins.com/)
 * **GitHub:** [https://github.com/bPlugins/freemius-lite-sdk](https://github.com/bPlugins/freemius-lite-sdk)
 * **License:** GPL-2.0-or-later – [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
 * **Purpose:** Provides an opt-in consent form for usage tracking and analytics to help improve the plugin. No data is sent before explicit user consent.
 * **External Services:** Communicates with `api.bplugins.com` (activation events) and `wp.freemius.com` (opt-in processing) only after user opt-in. See [bPlugins Privacy Policy](https://bplugins.com/privacy-policy) and [Freemius Privacy Policy](https://freemius.com/privacy/).
 
+= Isotope =
+* Source / Website: https://isotope.metafizzy.co/
+* License: GPL-3.0 – https://isotope.metafizzy.co/license.html
+* Purpose: Layout library to filter and sort video gallery items.
 
-= bPlugins API =
+= Plyr =
+* Source / GitHub: https://github.com/sampotts/plyr
+* License: MIT – https://github.com/sampotts/plyr/blob/master/LICENSE.md
+* Purpose: Media player control wrapper for YouTube, Vimeo, and self-hosted HTML5 video files.
 
-* **Service URL:** [https://api.bplugins.com](https://api.bplugins.com)
-* **Purpose:** The plugin's admin dashboard fetches product comparison data and pricing information to display relevant upgrade options and feature details.
-* **Data Sent:** Only the plugin slug is transmitted; no personal or site data is collected.
-* **Terms of Service:** [https://bplugins.com/terms-of-service/](https://bplugins.com/terms-of-service/)
-* **Privacy Policy:** [https://bplugins.com/privacy-policy/](https://bplugins.com/privacy-policy/)
-
-= WordPress.org Plugins API =
-
-* **Service URL:** [https://api.wordpress.org/plugins/info/1.2/](https://api.wordpress.org/plugins/info/1.2/)
-* **Purpose:** The admin dashboard queries the official WordPress.org Plugins API to retrieve and display a curated list of other plugins by the same author ("Our Plugins" section).
-* **Data Sent:** Plugin slugs and author name; no personal or site data is collected.
-* **Terms of Service:** [https://wordpress.org/about/tos/](https://wordpress.org/about/tos/)
-* **Privacy Policy:** [https://wordpress.org/about/privacy/](https://wordpress.org/about/privacy/)
+= Fancybox =
+* Source / Website: https://fancyapps.com/fancybox/
+* License: GPL-3.0 – https://fancyapps.com/license/
+* Purpose: Lightbox library used to pop up and play videos when clicked in the gallery layout.
 
 
 == Installation ==

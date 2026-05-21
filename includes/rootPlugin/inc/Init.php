@@ -9,16 +9,6 @@ class Init {
         add_filter( 'block_editor_settings_all', [ $this, 'vidgalblk_dynamic_template_lock' ], 10, 2 );
     }
     function onInit() {
-		register_setting(
-			'vidgalblkPluginSettings',
-			'vidgalblkAPIKey',
-			[
-				'default'		    => '',
-				'show_in_rest'	    => current_user_can( 'manage_options' ),
-				'type'			    => 'string',
-				'sanitize_callback' => 'sanitize_text_field',
-			]
-		);
 		$this->vidgalblk_register_blocks();
 		register_post_type('video-gallery-block', [
 			'label' => __('Video Gallery', 'video-gallery-block'),

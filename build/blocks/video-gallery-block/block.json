@@ -184,7 +184,6 @@
   "editorScript": [
     "file:./index.js",
     "jquery",
-    "lodash",
     "isotope"
   ],
   "editorStyle": "file:./index.css",
@@ -196,7 +195,6 @@
   "viewScript": [
     "file:./view.js",
     "jquery",
-    "lodash",
     "isotope",
     "plyr"
   ]

@@ -27,10 +27,17 @@ export const getYoutubeTitle = async (url) => {
     const data = await response.json();
     return data.title || false;
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching YouTube title:", error);
     return false;
   }
 };
 
-
-
+export const camelCase = (str) => {
+  if (typeof str !== "string") return "";
+  return str
+    .replace(/[^a-zA-Z0-9]+/g, " ")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+(.)/g, (match, group) => group.toUpperCase());
+};

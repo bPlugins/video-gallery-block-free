@@ -5,7 +5,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import Style from "./Style";
 import VideoGalleryFilter from "./VideoGalleryFilter";
-import { controlsHandler, getYoutubeThumbnail } from "../../utils/functions";
+import { controlsHandler, getYoutubeThumbnail, camelCase } from "../../utils/functions";
 import { prefix } from "../../utils/data";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
@@ -194,7 +194,7 @@ const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
               <a
                 key={index}
                 className={`galleryItem ${albs
-                  ?.map((c) => lodash.camelCase(c))
+                  ?.map((c) => camelCase(c))
                   .join(" ")} ${
                   setActiveIndex && index === activeIndex ? "bPlNowEditing" : ""
                 }`}

@@ -1,4 +1,4 @@
-import lodash from "lodash";
+import { camelCase } from "../../utils/functions";
 // const $ = jQuery;
 
 const VideoGalleryFilter = ({
@@ -15,7 +15,7 @@ const VideoGalleryFilter = ({
   const { commonLabel } = filter || {};
 
   // Handle filter button clicks
-  const handleFilterClick = (filterValue, e) => {
+  const handleFilterClick = (filterValue) => {
     // Update React state (handles editor and frontend visual)
     setActiveFilter(filterValue);
 
@@ -36,18 +36,18 @@ const VideoGalleryFilter = ({
           <button
             data-filter="*"
             className={activeFilter === "*" ? "current" : ""}
-            onClick={(e) => handleFilterClick("*", e)}>
+            onClick={() => handleFilterClick("*")}>
             {commonLabel}
           </button>
         )}
         {albums?.map((alb) => {
-          const filterVal = `.${lodash.camelCase(alb)}`;
+          const filterVal = `.${camelCase(alb)}`;
           return (
             <button
               className={activeFilter === filterVal ? "current" : ""}
-              key={lodash.camelCase(alb)}
+              key={camelCase(alb)}
               data-filter={filterVal}
-              onClick={(e) => handleFilterClick(filterVal, e)}>
+              onClick={() => handleFilterClick(filterVal)}>
               {alb}
             </button>
           );

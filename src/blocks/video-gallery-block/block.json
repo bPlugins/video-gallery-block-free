@@ -174,9 +174,9 @@
       "link": "https://www.youtube.com/watch?v=Pa5WSaRVRho"
     }
   },
-  "editorScript": ["file:./index.js", "jquery", "lodash", "isotope"],
+  "editorScript": ["file:./index.js", "jquery", "isotope"],
   "editorStyle": "file:./index.css",
   "style": ["file:./view.css", "plyr"],
   "render": "file:./render.php",
-  "viewScript": ["file:./view.js", "jquery", "lodash", "isotope", "plyr"]
+  "viewScript": ["file:./view.js", "jquery", "isotope", "plyr"]
 }

@@ -19,7 +19,7 @@ const Edit = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const id = `${prefix}-${clientId}`;
   const blockProps = useBlockProps({
-    id: id,
+    id,
   });
 
   const isGalleryPostType = ["video-gallery-block"].includes(

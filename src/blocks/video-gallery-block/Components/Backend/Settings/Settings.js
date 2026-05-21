@@ -49,7 +49,7 @@ const Settings = ({
   setAttributes,
   activeIndex,
   setActiveIndex,
-  device
+  device,
 }) => {
   const {
     albums,
@@ -242,25 +242,21 @@ const Settings = ({
                     title={__("Filter", "video-gallery-block")}
                     initialOpen={false}>
                     <PanelRow>
-                      <Label className="">
-                        {__("Common Label", "video-gallery-block")}
-                      </Label>
                       <TextControl
+                        label={__("Common Filter", "video-gallery-block")}
+                        labelPosition="left"
                         value={filter?.commonLabel}
                         onChange={(val) =>
                           setAttributes({
                             filter: { ...filter, commonLabel: val },
                           })
                         }
+                        help={__(
+                          "If you want to show the common label, leave it blank.",
+                          "video-gallery-block",
+                        )}
                       />
                     </PanelRow>
-
-                    <span>
-                      {__(
-                        "If you want to show the common label, leave it blank.",
-                        "video-gallery-block",
-                      )}
-                    </span>
                   </PanelBody>
 
                   <PanelBody
@@ -268,7 +264,7 @@ const Settings = ({
                     title={__("Options", "video-gallery-block")}
                     initialOpen={false}>
                     <BButtonGroup
-                      label={__("Video Fit:", "video-gallery-block")}
+                      label={__("Poster Fit:", "video-gallery-block")}
                       options={videoSizeOptions}
                       value={options?.objectFit}
                       onChange={(value) =>
@@ -280,7 +276,10 @@ const Settings = ({
 
                     <ToggleControl
                       className="mt20"
-                      label={__("Show Caption on Thumbnail", "video-gallery-block")}
+                      label={__(
+                        "Show Caption on Thumbnail",
+                        "video-gallery-block",
+                      )}
                       checked={options?.showCaptionOnThumbnail}
                       onChange={(val) =>
                         setAttributes({
@@ -364,7 +363,10 @@ const Settings = ({
                     />
 
                     <ColorsControl
-                      label={__("Button Hover/Active Colors", "video-gallery-block")}
+                      label={__(
+                        "Button Hover/Active Colors",
+                        "video-gallery-block",
+                      )}
                       value={filterBtnHoverColors}
                       onChange={(val) =>
                         setAttributes({ filterBtnHoverColors: val })

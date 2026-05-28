@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Video Gallery Block
+ * Plugin Name: Video Gallery Block Free
  * Description: Display your videos as gallery in a professional way.
  * Version: 1.1.3
  * Requires at least: 6.5
@@ -60,7 +60,7 @@ if (function_exists('vidgalblk_fs')) {
 			public function enqueueBlockEditorAssets(){
 				wp_add_inline_script( 'vgb-video-gallery-block-editor-script', sprintf(
 					'const vidgalblkpricingurl = %s;',
-					wp_json_encode( admin_url( 'edit.php?post_type=video-gallery-block#/pricing' ) )
+					wp_json_encode( admin_url( 'edit.php?post_type=video-gallery-block&page=vidgalblk-help-demo#pricing' ) )
 				), 'before' );
 			}
 

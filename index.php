@@ -34,6 +34,7 @@ if (function_exists('vidgalblk_fs')) {
         class VidGalBlkPlugin {
             public function __construct() {
                 add_action('enqueue_block_assets', [$this, 'enqueueBlockAssets']);
+                add_action( 'enqueue_block_editor_assets', [$this, 'enqueueBlockEditorAssets'] );
                 add_action('enqueue_block_editor_assets', [$this, 'vidgalblkEnqueueBlockEditorAssets']);
             }
 
@@ -49,6 +50,20 @@ if (function_exists('vidgalblk_fs')) {
                 wp_register_script('plyr', VIDGALBLK_PUBLIC_DIR . 'js/plyr.js', [], '3.8.4', true);
                 wp_register_style('plyr', VIDGALBLK_PUBLIC_DIR . 'css/plyr.css', [], '3.8.4');
             }
+
+
+            	/**
+			 * Enqueues assets for the block editor.
+			 * 
+			 * @return void
+			 */
+			public function enqueueBlockEditorAssets(){
+				wp_add_inline_script( 'vgb-video-gallery-block-editor-script', sprintf(
+					'const vidgalblkpricingurl = %s;',
+					wp_json_encode( admin_url( 'edit.php?post_type=video-gallery-block#/pricing' ) )
+				), 'before' );
+			}
+
 
             public function vidgalblkEnqueueBlockEditorAssets() {
                 wp_enqueue_script('plyr');

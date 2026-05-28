@@ -54,8 +54,6 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
-(() => {
 /*!***************************!*\
   !*** ./src/admin/post.js ***!
   \***************************/
@@ -73,8 +71,6 @@ window.copyBPlAdminShortcode = id => {
     tooltip.innerHTML = wp.i18n.__('Copy To Clipboard', 'video-gallery-block');
   }, 1500);
 };
-})();
-
 /******/ })()
 ;
 //# sourceMappingURL=post.js.map

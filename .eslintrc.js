@@ -20,6 +20,7 @@ module.exports = {
     lodash: "readonly",
     Chart: "readonly",
     vidgalblkDisabledBlocks: "readonly",
+    vidgalblkpricingurl: "readonly",
   },
   parserOptions: {
     ecmaFeatures: {

@@ -42,6 +42,8 @@ import {
 import { generalStyleTabs, videoSizeOptions } from "../../../utils/options";
 import ItemSettings from "./ItemSettings";
 import { updateData } from "../../../../../../../bpl-tools/utils/functions";
+import { AdvertiseCard } from "../../../../../../../bpl-tools/ProControls";
+import { pricingUrl } from "../../../utils/data";
 import LivePreview from "./LivePreview";
 
 const Settings = ({
@@ -510,6 +512,8 @@ const Settings = ({
             </>
           )}
         </TabPanel>
+
+        <AdvertiseCard planLink={pricingUrl} />
       </InspectorControls>
 
       <BlockControls>

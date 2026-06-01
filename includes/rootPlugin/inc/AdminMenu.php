@@ -15,7 +15,7 @@ class AdminMenu  {
             __('Help - bPlugins', 'video-gallery-block'),
             __('Help & Demos', 'video-gallery-block'),
             'manage_options',
-            'vidgalblk-help-demo',
+            'vgb-help-demo',
             [$this, 'renderDashboardPage']
         );
     }
@@ -28,7 +28,6 @@ class AdminMenu  {
                     'version' => VIDGALBLK_PLUGIN_VERSION,
                     'adminUrl' => admin_url(), 
                     'nonce' => wp_create_nonce('vidgalblk_activation_nonce'),
-                    'licenseActiveNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
                     'uninstallNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
                     'deleteDataOnUninstall' => get_option('vidgalblk_delete_data_on_uninstall', false),
                 ] ) ); ?>'

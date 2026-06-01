@@ -53,7 +53,7 @@ export const dashboardInfo = (info) => {
     },
     changelogs: [
       {
-        version: "1.1.3 - 20 May 2026",
+        version: "1.1.3 - 21 May 2026",
         list: [
           "Fixed: Prefixed generic 'admin-post' script handles with plugin-specific prefix.",
           "Security: Fixed directory guideline issues.",

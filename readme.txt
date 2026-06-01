@@ -1,4 +1,4 @@
-=== Video Gallery Block - Display your videos as a gallery in a professional way ===
+=== Video Gallery Block ===
 Contributors: bplugins, abuhayat, charlescormier, himur98
 Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
@@ -9,7 +9,7 @@ Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Video Gallery Block lets you create responsive YouTube, Vimeo, and HTML5 video galleries with grid layouts, filters, and lightbox in Gutenberg.
+Display your videos as a gallery in a professional way.
 
 == Description ==
 
@@ -231,7 +231,7 @@ Pro users receive priority email support.
 
 == Changelog ==
 
-= 1.1.3 - 20 May 2026 =
+= 1.1.3 - 21 May 2026 =
 * Fixed: Prefixed generic 'admin-post' script handles with plugin-specific prefix.
 * Security: Fixed directory guideline issues.
 

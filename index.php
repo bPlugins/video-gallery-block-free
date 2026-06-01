@@ -1,5 +1,5 @@
 <?php
-/**
+/** 
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
  * Version: 1.1.3
@@ -17,8 +17,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-if (function_exists('vidgalblk_fs')) {
-    vidgalblk_fs()->set_basename(true, __FILE__);
+if (function_exists('vgb_fs')) {
+    vgb_fs()->set_basename(true, __FILE__);
 } else {
     // Constants
     define('VIDGALBLK_PLUGIN_VERSION', (isset($_SERVER['HTTP_HOST']) && 'localhost' === sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']))) ? time() : '1.1.3');

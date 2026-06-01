@@ -3,7 +3,7 @@ import "./style.scss";
 import VideoGallery from "./Components/Common/VideoGallery";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const galleryEls = document.querySelectorAll(".wp-block-vgb-video-gallery-block");
+  const galleryEls = document.querySelectorAll(".wp-block-vgb-video-gallery");
   galleryEls.forEach((galleryEl) => {
     const attributes = JSON.parse(galleryEl.dataset.attributes);
 

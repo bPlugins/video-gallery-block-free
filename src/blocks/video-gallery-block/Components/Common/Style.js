@@ -289,7 +289,7 @@ const Style = ({ attributes, id, itemWidth, isEditor, activeFilter, galleryRef }
 		`
     }
 
-		.wp-block-vgb-video-gallery-block .galleryFigure img, .wp-block-vgb-video-gallery-block .react-thumbnail-generator img {
+		.wp-block-vgb-video-gallery .galleryFigure img, .wp-block-vgb-video-gallery .react-thumbnail-generator img {
 			object-fit: ${options.objectFit};
 		}
 

@@ -60,7 +60,7 @@ if (function_exists('vgb_fs')) {
 			public function enqueueBlockEditorAssets(){
 				wp_add_inline_script( 'vgb-video-gallery-block-editor-script', sprintf(
 					'const vidgalblkpricingurl = %s;',
-					wp_json_encode( admin_url( 'edit.php?post_type=video-gallery-block&page=vidgalblk-help-demo#pricing' ) )
+					wp_json_encode( admin_url( 'edit.php?post_type=video-gallery-block&page=vgb-help-demo#pricing' ) )
 				), 'before' );
 			}
 

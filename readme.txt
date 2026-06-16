@@ -4,20 +4,20 @@ Donate link: https://www.buymeacoffee.com/abuhayat
 Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.1.3
+Stable tag: 1.4.0
 Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Display your videos as a gallery in a professional way.
+Display your videos as a gallery in a professional way
 
 == Description ==
 
 [Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight WordPress video gallery plugin that lets you create responsive video galleries, grids, and lightbox popups directly inside the Gutenberg block editor.
 
-[Video Gallery Block](https://bplugins.com/products/video-gallery-block) | [Pricing](https://bplugins.com/products/video-gallery-block/pricing/) | [Support](https://bplugins.com/support/)| [Demo](https://bblockswp.com/demo/video-gallery)
+**[Video Gallery Block](https://bplugins.com/products/video-gallery-block)** | **[Pricing](https://bplugins.com/products/video-gallery-block/pricing/)** | **[Support](https://bplugins.com/support/)** | **[Demo](https://bblockswp.com/demo/video-gallery)**
 
-Display YouTube, Vimeo, Wistia, or self-hosted HTML5 videos in clean and modern gallery layouts without writing any code. Organize videos using albums and filters, show them in responsive grids, and open videos in a smooth lightbox popup for a better viewing experience.
+Display YouTube, Vimeo, self-hosted HTML5, or Wistia videos (supported in select Pro blocks) in clean and modern gallery layouts without writing any code. Organize videos using albums and filters, show them in responsive grids, and open videos in a smooth lightbox popup for a better viewing experience.
 
 This Gutenberg video gallery block is perfect for creating video portfolios, testimonial sections, product video showcases, YouTube galleries, and Vimeo collections on any WordPress website.
 
@@ -27,7 +27,7 @@ The free version includes everything needed to build responsive video galleries 
 - **Responsive Video Gallery Block**: Create video galleries with clean grid layouts that automatically adapt to desktop, tablet, and mobile screens.
 - **Album & Filter System**: Organize videos into albums and allow visitors to filter videos by category.
 - **Responsive Column Layouts**: Set different column numbers for Desktop, Tablet, and Mobile devices.
-- **Multiple Video Sources**: Add videos from YouTube, Vimeo, Wistia, or self-hosted HTML5 video files.
+- **Multiple Video Sources**: Add videos from YouTube and Vimeo (Wistia & self-hosted HTML5 video files supported in Pro).
 - **Custom Styling Controls**: Adjust gallery spacing, padding, borders, backgrounds, and shadows directly from the block settings.
 - **Automatic or Custom Thumbnails**: Automatically generate thumbnails from videos or upload custom poster images.
 - **Video Captions**: Add captions or titles to each video displayed in the gallery.
@@ -40,7 +40,7 @@ The free version includes everything needed to build responsive video galleries 
 
 == Pro Features Include ==
 
-- **8 Premium Video Blocks**: Includes advanced blocks such as Video Slider, Carousel, Playlist Gallery, and Masonry Video Grid.
+- **31 Premium Video Blocks**: Includes advanced blocks such as Video Slider, Carousel, Playlist Gallery, Masonry Video Grid, Lightbox Video Gallery, Parallax Row Video Gallery, Slider Autoplay Video, Video Testimonial Section, Video Podcast Episodes, Video Stories, Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
 - **Masonry & Mixed Ratio Layouts**: Display videos in dynamic masonry galleries or mixed aspect ratio grids.
 - **Video Sliders & Carousels**: Create interactive video sliders with autoplay and navigation controls.
 - **Playlist Video Gallery**: Build organized video playlists with navigation and sequential playback.
@@ -118,42 +118,6 @@ Other plugins by our team:
 [**Advanced Post Block**](https://bplugins.com/products/advanced-post-block/) – Show posts and custom posts in different layouts.
 
 
-== Source Code ==
-
-The non-minified source code for this plugin is available on our public repository:
-[GitHub Repository](https://github.com/bPlugins/video-gallery-block-free)
-
-== Third-Party Libraries ==
-
-= bpl-tools =
-* Source / GitHub: https://github.com/bPlugins/bpl-tools
-* License: GPL-2.0-or-later – https://www.gnu.org/licenses/gpl-2.0.html
-* Purpose: Shared utility library providing admin dashboard components and common Gutenberg editor controls.
-* External Services: The library may connect to bPlugins, WordPress.org, and Freemius services for product data and checkout functionality. See full details: https://github.com/bPlugins/bpl-tools#external-requests--why-they-are-made
-
-= Freemius Lite SDK =
-* **Source:** [https://bplugins.com/](https://bplugins.com/)
-* **GitHub:** [https://github.com/bPlugins/freemius-lite-sdk](https://github.com/bPlugins/freemius-lite-sdk)
-* **License:** GPL-2.0-or-later – [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
-* **Purpose:** Provides an opt-in consent form for usage tracking and analytics to help improve the plugin. No data is sent before explicit user consent.
-* **External Services:** Communicates with `api.bplugins.com` (activation events) and `wp.freemius.com` (opt-in processing) only after user opt-in. See [bPlugins Privacy Policy](https://bplugins.com/privacy-policy) and [Freemius Privacy Policy](https://freemius.com/privacy/).
-
-= Isotope =
-* Source / Website: https://isotope.metafizzy.co/
-* License: GPL-3.0 – https://isotope.metafizzy.co/license.html
-* Purpose: Layout library to filter and sort video gallery items.
-
-= Plyr =
-* Source / GitHub: https://github.com/sampotts/plyr
-* License: MIT – https://github.com/sampotts/plyr/blob/master/LICENSE.md
-* Purpose: Media player control wrapper for YouTube, Vimeo, and self-hosted HTML5 video files.
-
-= Fancybox =
-* Source / Website: https://fancyapps.com/fancybox/
-* License: GPL-3.0 – https://fancyapps.com/license/
-* Purpose: Lightbox library used to pop up and play videos when clicked in the gallery layout.
-
-
 == Installation ==
 
 = From Gutenberg Editor =
@@ -174,16 +138,6 @@ The non-minified source code for this plugin is available on our public reposito
 
 1. Upload the plugin folder to `/wp-content/plugins/`.
 2. Activate the plugin from the Plugins menu.
-
-
-== Development ==
-
-This plugin uses modern JavaScript (React/ES6) compiled via Webpack.
-To compile the source code, please follow these steps:
-1. Clone the repository: `git clone https://github.com/bPlugins/video-gallery-block-free.git`
-2. Navigate to the plugin directory: `cd video-gallery-block-free`
-3. Install dependencies: `npm install`
-4. Compile the production assets: `npm run build`
 
 
 == Frequently Asked Questions ==
@@ -207,7 +161,7 @@ Yes. You can create unlimited galleries across your site.
 Yes. The gallery is fully responsive.
 
 = Can I use my own video files? =
-Yes. You can use YouTube, Vimeo, Wistia, and self-hosted HTML5 videos (Pro).
+Yes. You can use YouTube and Vimeo in the free version. Self-hosted HTML5 and Wistia video sources are supported in select Pro layouts.
 
 = How do I get support? =
 Free users can use the WordPress.org support forum.  
@@ -227,21 +181,39 @@ Pro users receive priority email support.
 9. Video Carousel.
 10. Gutenberg Block Settings.
 11. Classic Shortcode Generator.
+12. Video Shorts Reel.
+13. Video Showcase Wall.
+14. Video Curriculum Accordion.
+15. Video Hotspot Scene.
+16. Video Tabs Gallery.
+17. Video Scrollytelling Showcase.
+18. Video Timeline Gallery.
+19. Video Bento Grid.
+20. Video Comparison Gallery.
+21. Video Justified Gallery.
+22. Video Expanding Panels.
+23. Video Wall with Floating Player (PiP).
+24. Video Swipe Deck.
+25. Video Marquee Wall.
+26. Video Flip Cards Gallery.
+27. Video Map Gallery.
+28. Video Stories.
+29. Video Podcast Episodes.
+30. Video Property Tour Gallery.
+31. Video Workout Planner.
+32. Video Wedding Story Gallery.
+33. Video Menu Showcase.
+34. Video Feature Tour.
 
 
 == Changelog ==
 
-= 1.1.3 - 21 May 2026 =
-* Fixed: Prefixed generic 'admin-post' script handles with plugin-specific prefix.
-* Security: Fixed directory guideline issues.
+= 1.4.0 =
+* Added 24 new premium blocks including Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Stories, Video Podcast Episodes, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
+* Minor fixes and styling updates.
 
 = 1.1.2 - 10 May 2026 =
-* Compliance: Standardized text domain to match plugin slug.
-* Compliance: Added human-readable source code link.
-* Compliance: Removed prohibited trialware file access restrictions.
-* Security: Added sanitization and escaping to settings and shortcodes.
-* Security: Added ABSPATH checks to all PHP files.
-* Maintenance: Updated Plyr.js to latest stable version.
+* Compliance updates and security enhancements for directory guidelines.
 
 = 1.1.1 - 12 Aug 2025 =
 * Fixed minor issues.

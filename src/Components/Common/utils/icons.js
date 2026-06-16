@@ -215,6 +215,73 @@ export const videoSliderIcon = (
   </svg>
 );
 
+// Video Shorts Reel Icon
+export const videoShortsReelIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vsr-icon">
+    <rect x="7" y="2" width="10" height="20" rx="2.5" />
+    <polygon points="11,9 11,15 16,12" fill={iconColor} stroke="none" />
+    <line x1="3" y1="6" x2="3" y2="18" />
+    <line x1="21" y1="6" x2="21" y2="18" />
+  </svg>
+);
+
+// Video Showcase Wall Icon
+export const videoShowcaseWallIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vsw-icon">
+    <rect x="2.5" y="4" width="8" height="6" rx="1.2" />
+    <rect x="13.5" y="4" width="8" height="6" rx="1.2" />
+    <rect x="2.5" y="14" width="8" height="6" rx="1.2" />
+    <rect x="13.5" y="14" width="8" height="6" rx="1.2" />
+    <polygon
+      points="5.6,5.9 5.6,8.1 7.4,7 5.6,5.9"
+      fill={iconColor}
+      stroke="none"
+    />
+  </svg>
+);
+
+// Video Curriculum Accordion Icon
+export const videoCurriculumAccordionIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vca-icon">
+    <rect x="3" y="3.5" width="18" height="5" rx="1.4" />
+    <polygon points="6.3,5 6.3,7 8,6 6.3,5" fill={iconColor} stroke="none" />
+    <polyline points="16.5,5 18.2,6.6 16.5,8.2" />
+    <rect x="3" y="11" width="18" height="5" rx="1.4" />
+    <line x1="6" y1="13.5" x2="14" y2="13.5" />
+    <rect x="3" y="18.5" width="18" height="2.2" rx="1.1" />
+  </svg>
+);
+
 // Video Testimonial Icon
 export const testimonialIcon = (
   <svg
@@ -223,7 +290,7 @@ export const testimonialIcon = (
     // width="512.000000pt"
     // height="512.000000pt"
     width={24}
-    height={24} 
+    height={24}
     viewBox="0 0 512.000000 512.000000"
     preserveAspectRatio="xMidYMid meet"
     className="video-testimonial-section"
@@ -233,5 +300,662 @@ export const testimonialIcon = (
       <path d="M2361 3840 c-48 -11 -83 -40 -108 -90 -23 -44 -23 -45 -23 -550 0 -505 0 -506 23 -550 31 -63 76 -90 146 -90 55 0 60 3 486 258 478 287 475 284 475 382 0 97 -3 99 -405 342 -533 321 -519 314 -594 298z m509 -640 c0 -3 -70 -46 -155 -97 l-155 -92 0 189 0 189 155 -92 c85 -51 155 -94 155 -97z" />
       <path d="M1345 2702 c-224 -67 -392 -239 -449 -459 -21 -79 -21 -240 -1 -318 21 -78 63 -169 107 -226 l35 -46 -45 -28 c-110 -70 -223 -200 -282 -326 -55 -117 -70 -203 -70 -388 0 -148 2 -170 20 -199 59 -97 220 -98 279 -2 14 24 19 59 24 178 8 214 44 311 155 414 110 103 198 132 402 132 204 0 292 -29 402 -132 111 -103 147 -200 155 -414 7 -164 16 -192 75 -228 45 -27 131 -27 176 0 64 39 72 65 72 251 0 185 -15 271 -70 388 -59 124 -170 254 -282 327 l-44 29 34 45 c81 104 122 235 122 383 0 120 -18 196 -71 298 -74 142 -201 253 -352 307 -96 35 -298 42 -392 14z m313 -341 c54 -28 115 -88 144 -143 19 -36 23 -58 23 -138 0 -109 -17 -152 -85 -220 -68 -68 -111 -85 -220 -85 -80 0 -102 4 -138 23 -55 30 -115 90 -143 144 -27 52 -36 164 -20 225 24 87 119 186 205 213 54 17 186 6 234 -19z" />
     </g>
+  </svg>
+);
+
+// Video Hotspot Scene Icon
+export const videoHotspotSceneIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vhs-icon">
+    <rect x="2.5" y="4" width="19" height="13" rx="2" />
+    <circle cx="9" cy="10.5" r="2.4" fill={iconColor} stroke="none" />
+    <circle cx="9" cy="10.5" r="4.2" opacity="0.5" />
+    <line x1="6" y1="20.5" x2="18" y2="20.5" />
+  </svg>
+);
+
+export const videoTabsGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vtg-icon">
+    <path d="M3 7.5h5l1.5-2H21" />
+    <rect x="3" y="7.5" width="18" height="12.5" rx="2" />
+    <polygon
+      points="10.5 11.5 15 14.5 10.5 17.5 10.5 11.5"
+      fill={iconColor}
+      stroke="none"
+    />
+  </svg>
+);
+
+export const videoScrollytellingShowcaseIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vss-icon">
+    <line x1="3" y1="5" x2="9" y2="5" />
+    <line x1="3" y1="9" x2="8" y2="9" />
+    <line x1="3" y1="13" x2="9" y2="13" />
+    <line x1="3" y1="17" x2="8" y2="17" />
+    <rect x="12.5" y="4.5" width="9" height="11" rx="1.6" />
+    <polygon
+      points="15.5 7.5 19 9.75 15.5 12 15.5 7.5"
+      fill={iconColor}
+      stroke="none"
+    />
+    <path d="M17 18v2.5" />
+    <path d="M15 20.5h4" />
+  </svg>
+);
+
+export const videoTimelineGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vtl-icon">
+    <line x1="12" y1="3" x2="12" y2="21" />
+    <circle cx="12" cy="6.5" r="2" fill={iconColor} stroke="none" />
+    <circle cx="12" cy="17.5" r="2" fill={iconColor} stroke="none" />
+    <rect x="3" y="4.5" width="6" height="4" rx="1" />
+    <rect x="15" y="15.5" width="6" height="4" rx="1" />
+  </svg>
+);
+
+export const videoBentoGridIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vbg-icon">
+    <rect x="3" y="3" width="10" height="10" rx="1.5" />
+    <rect x="15" y="3" width="6" height="6" rx="1.5" />
+    <rect x="15" y="11" width="6" height="10" rx="1.5" />
+    <rect x="3" y="15" width="10" height="6" rx="1.5" />
+    <polygon points="6.5 6 10 8 6.5 10 6.5 6" fill={iconColor} stroke="none" />
+  </svg>
+);
+
+export const videoComparisonGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vcg-icon">
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <line x1="12" y1="3" x2="12" y2="21" />
+    <circle cx="12" cy="12" r="2.4" fill={iconColor} stroke="none" />
+    <polyline points="7.5 10 5.5 12 7.5 14" />
+    <polyline points="16.5 10 18.5 12 16.5 14" />
+  </svg>
+);
+
+export const videoJustifiedGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vjg-icon">
+    <rect x="3" y="4" width="8" height="6" rx="1" />
+    <rect x="13" y="4" width="8" height="6" rx="1" />
+    <rect x="3" y="12" width="5" height="8" rx="1" />
+    <rect x="10" y="12" width="11" height="8" rx="1" />
+    <polygon points="6 6 8.5 7 6 8 6 6" fill={iconColor} stroke="none" />
+  </svg>
+);
+
+export const videoExpandingPanelsIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vep-icon">
+    <rect x="3" y="4" width="3.5" height="16" rx="1" />
+    <rect x="7.5" y="4" width="9" height="16" rx="1" />
+    <rect x="17.5" y="4" width="3.5" height="16" rx="1" />
+    <polygon
+      points="10.5 9.5 14 12 10.5 14.5 10.5 9.5"
+      fill={iconColor}
+      stroke="none"
+    />
+  </svg>
+);
+
+export const videoPipWallIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vpw-icon">
+    <rect x="3" y="4" width="8" height="6" rx="1" />
+    <rect x="13" y="4" width="8" height="6" rx="1" />
+    <rect x="3" y="12" width="8" height="6" rx="1" />
+    <rect
+      x="12"
+      y="12"
+      width="9"
+      height="7"
+      rx="1.5"
+      fill={iconColor}
+      fillOpacity="0.12"
+    />
+    <polygon
+      points="15 14 18.5 15.5 15 17 15 14"
+      fill={iconColor}
+      stroke="none"
+    />
+  </svg>
+);
+
+export const videoSwipeDeckIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vsd-icon">
+    <rect
+      x="6"
+      y="5"
+      width="11"
+      height="15"
+      rx="2"
+      transform="rotate(-8 6 5)"
+      opacity="0.5"
+    />
+    <rect
+      x="8"
+      y="4"
+      width="11"
+      height="15"
+      rx="2"
+      transform="rotate(6 8 4)"
+      opacity="0.75"
+    />
+    <rect
+      x="7"
+      y="4"
+      width="11"
+      height="15"
+      rx="2"
+      fill={iconColor}
+      fillOpacity="0.12"
+    />
+    <polygon points="11 8 15 11 11 14 11 8" fill={iconColor} stroke="none" />
+  </svg>
+);
+
+export const videoMarqueeWallIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke={iconColor}
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vmw-icon">
+    <rect
+      x="1.5"
+      y="4"
+      width="6"
+      height="6"
+      rx="1"
+      fill={iconColor}
+      fillOpacity="0.12"
+    />
+    <rect
+      x="9"
+      y="4"
+      width="6"
+      height="6"
+      rx="1"
+      fill={iconColor}
+      fillOpacity="0.25"
+    />
+    <rect
+      x="16.5"
+      y="4"
+      width="6"
+      height="6"
+      rx="1"
+      fill={iconColor}
+      fillOpacity="0.12"
+    />
+    <rect
+      x="1.5"
+      y="14"
+      width="6"
+      height="6"
+      rx="1"
+      fill={iconColor}
+      fillOpacity="0.25"
+    />
+    <rect
+      x="9"
+      y="14"
+      width="6"
+      height="6"
+      rx="1"
+      fill={iconColor}
+      fillOpacity="0.12"
+    />
+    <rect
+      x="16.5"
+      y="14"
+      width="6"
+      height="6"
+      rx="1"
+      fill={iconColor}
+      fillOpacity="0.25"
+    />
+  </svg>
+);
+
+export const videoFlipCardsGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vfc-icon">
+    <rect
+      x="3"
+      y="5"
+      width="7"
+      height="14"
+      rx="1.5"
+      fill="#136EF5"
+      fillOpacity="0.12"
+    />
+    <rect
+      x="14"
+      y="5"
+      width="7"
+      height="14"
+      rx="1.5"
+      fill="#136EF5"
+      fillOpacity="0.25"
+    />
+    <path d="M10.5 12h3" strokeDasharray="1.4 1.6" />
+    <path d="M12 4.2c1.7 1.3 1.7 14.3 0 15.6" opacity="0.5" />
+    <polygon points="16 9.5 19 12 16 14.5" fill="#136EF5" stroke="none" />
+  </svg>
+);
+
+export const videoStoriesIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vst-icon">
+    <circle cx="7" cy="9" r="5" fill="#136EF5" fillOpacity="0.1" />
+    <circle cx="7" cy="9" r="2.4" fill="#136EF5" stroke="none" />
+    <circle cx="17" cy="9" r="5" />
+    <path d="M15.4 9l3.4-2v4l-3.4-2z" fill="#136EF5" stroke="none" />
+    <path d="M3 18h18" opacity="0.6" />
+    <path d="M5 21h14" opacity="0.35" />
+  </svg>
+);
+
+export const videoMapGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vmg-icon">
+    <path
+      d="M1 6l7-3 8 3 7-3v15l-7 3-8-3-7 3V6z"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M8 3v15M16 6v15" opacity="0.6" />
+    <path
+      d="M13 9.5a3 3 0 1 0-6 0c0 2.2 3 4.5 3 4.5s3-2.3 3-4.5z"
+      fill="#136EF5"
+      fillOpacity="0.25"
+    />
+    <circle cx="10" cy="9.4" r="1" fill="#136EF5" stroke="none" />
+  </svg>
+);
+
+export const videoPodcastEpisodesIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vpe-icon">
+    <rect
+      x="2"
+      y="4"
+      width="20"
+      height="12"
+      rx="2"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M10.5 8l4 2-4 2V8z" fill="#136EF5" stroke="none" />
+    <circle cx="9" cy="20" r="1.4" fill="#136EF5" stroke="none" />
+    <path d="M11.2 18.6a3 3 0 0 1 4.2 0" opacity="0.7" />
+    <path d="M13 16.8a5.4 5.4 0 0 1 6 0" opacity="0.45" />
+  </svg>
+);
+
+export const videoPropertyTourGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vptg-icon">
+    <rect
+      x="1.5"
+      y="6"
+      width="12"
+      height="12"
+      rx="1.5"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M6 12.5l3 1.7-3 1.7v-3.4z" fill="#136EF5" stroke="none" />
+    <path
+      d="M16 8.5l3.2-2.6L22.5 8.5v9.5h-6.5V8.5z"
+      fill="#136EF5"
+      fillOpacity="0.18"
+    />
+    <path d="M18 18v-3.5h2.5V18" />
+    <path d="M14.5 9.5h7" opacity="0.5" />
+  </svg>
+);
+
+export const videoWorkoutPlannerIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vwp-icon">
+    <rect
+      x="2.5"
+      y="4"
+      width="19"
+      height="5"
+      rx="1.4"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M6 5.6l2.4 1.4L6 8.4V5.6z" fill="#136EF5" stroke="none" />
+    <line x1="11" y1="6.5" x2="18.5" y2="6.5" opacity="0.55" />
+    <path d="M3 14.5h2M19 14.5h2" />
+    <rect
+      x="5"
+      y="13"
+      width="2.2"
+      height="3"
+      rx="0.5"
+      fill="#136EF5"
+      fillOpacity="0.2"
+    />
+    <rect
+      x="16.8"
+      y="13"
+      width="2.2"
+      height="3"
+      rx="0.5"
+      fill="#136EF5"
+      fillOpacity="0.2"
+    />
+    <line x1="7.2" y1="14.5" x2="16.8" y2="14.5" />
+    <rect
+      x="2.5"
+      y="19"
+      width="13"
+      height="2.2"
+      rx="1.1"
+      fill="#136EF5"
+      fillOpacity="0.15"
+    />
+  </svg>
+);
+
+export const videoWeddingStoryGalleryIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vwsg-icon">
+    <rect
+      x="2.5"
+      y="3.5"
+      width="19"
+      height="11"
+      rx="1.6"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M10 6.6l4 2.4-4 2.4V6.6z" fill="#136EF5" stroke="none" />
+    <rect
+      x="2.5"
+      y="16.8"
+      width="4"
+      height="4"
+      rx="0.8"
+      fill="#136EF5"
+      fillOpacity="0.18"
+    />
+    <rect
+      x="7.5"
+      y="16.8"
+      width="4"
+      height="4"
+      rx="0.8"
+      fill="#136EF5"
+      fillOpacity="0.18"
+    />
+    <rect
+      x="12.5"
+      y="16.8"
+      width="4"
+      height="4"
+      rx="0.8"
+      fill="#136EF5"
+      fillOpacity="0.18"
+    />
+    <rect
+      x="17.5"
+      y="16.8"
+      width="4"
+      height="4"
+      rx="0.8"
+      fill="#136EF5"
+      fillOpacity="0.18"
+    />
+  </svg>
+);
+
+export const videoMenuShowcaseIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vms-icon">
+    <rect
+      x="3"
+      y="3.5"
+      width="8"
+      height="8"
+      rx="1.4"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M6 5.8l2.4 1.4L6 8.6V5.8z" fill="#136EF5" stroke="none" />
+    <rect
+      x="13"
+      y="3.5"
+      width="8"
+      height="8"
+      rx="1.4"
+      fill="#136EF5"
+      fillOpacity="0.1"
+    />
+    <path d="M16 5.8l2.4 1.4L16 8.6V5.8z" fill="#136EF5" stroke="none" />
+    <line x1="3" y1="15" x2="14" y2="15" opacity="0.6" />
+    <line x1="3" y1="18.4" x2="11" y2="18.4" opacity="0.45" />
+    <circle cx="18.5" cy="17" r="2.4" fill="#136EF5" fillOpacity="0.18" />
+  </svg>
+);
+
+export const videoFeatureTourIcon = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width={24}
+    height={24}
+    fill="none"
+    stroke="#136EF5"
+    strokeWidth={1.6}
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="vft-icon">
+    <circle cx="4.5" cy="5.5" r="1.4" fill="#136EF5" stroke="none" />
+    <circle
+      cx="4.5"
+      cy="12"
+      r="1.4"
+      fill="#136EF5"
+      fillOpacity="0.35"
+      stroke="none"
+    />
+    <circle
+      cx="4.5"
+      cy="18.5"
+      r="1.4"
+      fill="#136EF5"
+      fillOpacity="0.35"
+      stroke="none"
+    />
+    <line x1="4.5" y1="6.9" x2="4.5" y2="17.1" opacity="0.4" />
+    <rect
+      x="9.5"
+      y="4.5"
+      width="11"
+      height="15"
+      rx="1.6"
+      fill="#136EF5"
+      fillOpacity="0.08"
+    />
+    <polygon points="13 9 17.5 12 13 15 13 9" fill="#136EF5" stroke="none" />
   </svg>
 );

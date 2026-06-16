@@ -5,23 +5,31 @@ import {
   Navigate,
 } from "react-router-dom";
 
+import Welcome from "../../../../bpl-tools/Admin/Welcome";
 import Demos from "../../../../bpl-tools/Admin/Demos";
 import Pricing from "../../../../bpl-tools/Admin/Pricing";
 import FeatureCompare from "../../../../bpl-tools/Admin/FeatureCompare";
 import OurPlugins from "../../../../bpl-tools/Admin/OurPlugins";
 import Blocks from "../../../../bpl-tools/Admin/Blocks";
 import Layout from "./Layout";
-import Welcome from "./Welcome";
-import Settings from "./Settings";
-import { demoInfo, pricingInfo } from "../utils/data";
+import Settings from "../../../../bpl-tools/Admin/Settings";
+import { demoInfo, pricingInfo, welcomeInfo } from "../utils/data";
 
 const App = (props) => {
+  const { adminUrl } = props;
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout {...props} />}>
-          <Route index element={<Welcome {...props} />} />
-          <Route path="welcome" element={<Welcome {...props} />} />
+          <Route
+            index
+            element={<Welcome {...props} {...welcomeInfo(adminUrl)} />}
+          />
+          <Route
+            path="welcome"
+            element={<Welcome {...props} {...welcomeInfo(adminUrl)} />}
+          />
           <Route
             path="demos"
             element={<Demos demoInfo={demoInfo} {...props} />}
@@ -42,7 +50,10 @@ const App = (props) => {
           <Route path="blocks" element={<Blocks {...props} />} />
 
           <Route path="our-plugins" element={<OurPlugins {...props} />} />
-          <Route path="settings" element={<Settings {...props} />} />
+          <Route
+            path="settings"
+            element={<Settings {...props} ajaxAction="vidgalblkSaveUninstallOption" />}
+          />
           <Route path="*" element={<Navigate to="/welcome" replace />} />
         </Route>
       </Routes>

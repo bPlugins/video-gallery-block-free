@@ -208,8 +208,16 @@ Pro users receive priority email support.
 
 == Changelog ==
 
-= 1.4.0 =
-* Added 24 new premium blocks including Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Stories, Video Podcast Episodes, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
+= 1.4.0 - 18 June 2026 =
+* Added 23 new premium blocks including Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Stories, Video Podcast Episodes, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
+* Introduced a redesigned admin dashboard with an improved user experience.
+* Performance: Greatly improved page performance when several video blocks are used on the same page.
+* Performance: Videos no longer load data in the background — they now load only when played (on hover or click), reducing bandwidth and CPU usage and keeping scrolling smooth.
+* Parallax Row Video Gallery: Fixed scroll stuttering by switching the parallax effect to GPU-accelerated, requestAnimationFrame-based updates and rendering posters instead of video elements until played.
+* Video Carousel Gallery: Cards now show a poster image and load the video only on hover; off-screen videos are fully released.
+* Video Slider: Now uses click-to-play, so videos no longer stream in the background.
+* Video Testimonial Section: Idle cards render lightweight poster images instead of video elements, and card heights are now consistent.
+* Video Playlist Gallery: Up Next durations now load lazily, and fixed an issue where selecting a video from the playlist did not start playing.
 * Minor fixes and styling updates.
 
 = 1.1.2 - 10 May 2026 =

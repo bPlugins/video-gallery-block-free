@@ -118,6 +118,60 @@ Other plugins by our team:
 [**Advanced Post Block**](https://bplugins.com/products/advanced-post-block/) – Show posts and custom posts in different layouts.
 
 
+== Source Code ==
+
+The non-minified source code for this plugin is available on our public repository:
+[GitHub Repository](https://github.com/bPlugins/video-gallery-block-free)
+
+
+== Third-Party Libraries ==
+
+This plugin uses the following third-party libraries:
+
+* [plyr](https://github.com/sampotts/plyr) - MIT License (bundled at `public/js/plyr.js`, powers the video player UI)
+* [Isotope](https://github.com/metafizzy/isotope) - GPL-3.0 License (bundled at `public/js/isotope.pkgd.min.js`, powers video filtering and grid layouts)
+
+= bpl-tools =
+* Source / GitHub: https://github.com/bPlugins/bpl-tools
+* License: GPL-2.0-or-later – https://www.gnu.org/licenses/gpl-2.0.html
+* Purpose: Shared utility library providing admin dashboard components and common Gutenberg editor controls.
+* External Services: The library may connect to bPlugins, WordPress.org, and Freemius services for product data and checkout functionality. See full details: https://github.com/bPlugins/bpl-tools#external-requests--why-they-are-made
+
+As the external service functionality is handled by bpl-tools as a third-party library, the following services are utilized:
+
+= bPlugins API =
+* Service URL: https://api.bplugins.com
+* Purpose: The plugin's admin dashboard fetches product comparison data and pricing information to display relevant upgrade options and feature details.
+* Data Sent: Only the plugin slug is transmitted; no personal or site data is collected.
+* Terms of Service: https://bplugins.com/terms-of-service/
+* Privacy Policy: https://bplugins.com/privacy-policy/
+
+= WordPress.org Plugins API =
+* Service URL: https://api.wordpress.org/plugins/info/1.2/
+* Purpose: The admin dashboard queries the official WordPress.org Plugins API to retrieve and display a curated list of other plugins by the same author ("Our Plugins" section).
+* Data Sent: Plugin slugs and author name; no personal or site data is collected.
+* Terms of Service: https://wordpress.org/about/tos/
+* Privacy Policy: https://wordpress.org/about/privacy/
+
+= Freemius API =
+* Service URL: https://api.freemius.com
+* Purpose: Handles license activation, premium feature verification, update checks, and opt-in telemetry for both free and pro versions.
+* Data Sent: Site URL, admin email, license keys, and version numbers.
+* Terms of Service: https://freemius.com/terms/
+* Privacy Policy: https://freemius.com/privacy/
+
+== Build Process ==
+
+This plugin uses a build process to generate the production assets (JS/CSS) located in the `build/` directory. The human-readable source code is available in the `src/` directory.
+
+To build the plugin from source:
+1. Clone the repository: https://github.com/bPlugins/video-gallery-block-free
+2. Install dependencies: `npm install`
+3. Run the build command: `npm run build`
+
+Build Tools Used: Webpack, Babel, PostCSS, Gulp.
+
+
 == Installation ==
 
 = From Gutenberg Editor =

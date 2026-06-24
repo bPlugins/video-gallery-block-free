@@ -1,25 +1,38 @@
 === Video Gallery Block ===
 Contributors: bplugins, abuhayat, charlescormier, himur98
 Donate link: https://www.buymeacoffee.com/abuhayat
-Tags: block, video gallery, youtube video gallery, vimeo video gallery, masonry video gallery
+Tags: block, video gallery, youtube gallery, vimeo gallery, video gallery block
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Display your videos as a gallery in a professional way
+Create responsive video galleries with YouTube, Vimeo, albums, filters, and lightbox popups in Gutenberg.
 
 == Description ==
 
-[Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight WordPress video gallery plugin that lets you create responsive video galleries, grids, and lightbox popups directly inside the Gutenberg block editor.
+[Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight WordPress video gallery plugin that lets you create responsive video galleries, YouTube video galleries, Vimeo video galleries, and video showcase sections directly inside the Gutenberg block editor.
 
 **[Video Gallery Block](https://bplugins.com/products/video-gallery-block)** | **[Pricing](https://bplugins.com/products/video-gallery-block/pricing/)** | **[Support](https://bplugins.com/support/)** | **[Demo](https://bblockswp.com/demo/video-gallery)**
 
-Display YouTube, Vimeo, self-hosted HTML5, or Wistia videos (supported in select Pro blocks) in clean and modern gallery layouts without writing any code. Organize videos using albums and filters, show them in responsive grids, and open videos in a smooth lightbox popup for a better viewing experience.
+Display YouTube, Vimeo, self-hosted HTML5, or Wistia videos in responsive video galleries, playlist video galleries, and showcase layouts without writing any code.
 
 This Gutenberg video gallery block is perfect for creating video portfolios, testimonial sections, product video showcases, YouTube galleries, and Vimeo collections on any WordPress website.
+
+=== Perfect For ===
+
+Video Gallery Block is ideal for creating video portfolios, product video showcases, customer testimonial videos, YouTube galleries, Vimeo galleries, training libraries, course videos, and video collections.
+
+- Video portfolios
+- Product video galleries
+- Customer testimonial videos
+- YouTube video galleries
+- Vimeo video galleries
+- Training video libraries
+- Online course videos
+- Video showcase sections
 
 === Key Features – Free Version ===
 The free version includes everything needed to build responsive video galleries in the Gutenberg editor.
@@ -35,7 +48,8 @@ The free version includes everything needed to build responsive video galleries 
 - **Optimized Script Loading**: Scripts only load when the block is used, helping maintain site performance.
 - **Translation Ready**: Fully compatible with multilingual websites.
 
-=== Video Gallery Block Pro – Unlock Advanced Video Layouts ===
+
+=== Video Gallery Block Pro – Advanced Video Galleries, Sliders & Playlists ===
 [Video Gallery Block Pro](https://bplugins.com/products/video-gallery-block/pricing/) extends the plugin with additional Gutenberg video blocks and advanced gallery layouts.
 
 == Pro Features Include ==
@@ -196,8 +210,23 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Frequently Asked Questions ==
 
+= What is the best Gutenberg video gallery plugin? =
+Video Gallery Block helps you create responsive video galleries, YouTube galleries, Vimeo galleries, and video showcase sections directly in the Gutenberg editor.
+
+= Can I create a YouTube video gallery in WordPress? =
+Yes. The free version supports YouTube videos and lets you organize them into responsive video gallery layouts.
+
+= Can I create a Vimeo video gallery in WordPress? =
+Yes. Vimeo videos are supported and can be displayed in responsive video galleries.
+
+= Can I create a video playlist gallery in WordPress? =
+Yes. The Pro version includes a Playlist Video Gallery block with navigation and sequential video playback.
+
+= Can I create a video gallery without Elementor? =
+Yes. Video Gallery Block works directly inside the WordPress Gutenberg editor without requiring Elementor or other page builders.
+
 = Is Video Gallery Block free? =
-Yes. The free version includes albums, filters, captions, thumbnails, and basic styling. A Pro version is available with advanced features.
+Yes. The free version includes responsive video galleries, YouTube and Vimeo support, albums, filters, thumbnails, captions, and lightbox video popups. A Pro version is available with advanced layouts and features.
 
 = What extra features are included in Pro? =
 Pro unlocks sliders, carousels, advanced layouts, typography controls, and additional video sources.
@@ -224,17 +253,17 @@ Pro users receive priority email support.
 
 == Screenshots ==
 
-1. Video Gallery Block – Default Layout.
-2. Video Testimonial Section.
-3. Parallax Video Gallery.
-4. Video Slider.
-5. Autoplay Video Slider.
-6. Lightbox Video Gallery.
-7. Masonry Video Grid.
-8. Video Playlist Gallery.
-9. Video Carousel.
-10. Gutenberg Block Settings.
-11. Classic Shortcode Generator.
+1. Responsive Video Gallery Layout
+2. Video Testimonial Gallery
+3. Parallax Video Gallery
+4. Video Slider Gallery
+5. Autoplay Video Slider
+6. Lightbox Video Gallery
+7. Masonry Video Gallery
+8. Video Playlist Gallery
+9. Video Carousel Gallery
+10. Video Gallery Block Settings
+11. Video Gallery Shortcode Generator.
 12. Video Shorts Reel.
 13. Video Showcase Wall.
 14. Video Curriculum Accordion.
@@ -261,6 +290,9 @@ Pro users receive priority email support.
 
 
 == Changelog ==
+
+= 1.4.1 - 24 June 2026 =
+* Improved block metadata, keywords, and search discoverability in the Gutenberg editor.
 
 = 1.4.0 - 18 June 2026 =
 * Added 23 new premium blocks including Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Stories, Video Podcast Episodes, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.

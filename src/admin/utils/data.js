@@ -194,6 +194,13 @@ export const welcomeInfo = (adminUrl = "") => ({
   // Changelogs — each list item starts with <strong>Type:</strong> for badges
   changelogs: [
     {
+      version: "1.4.1 - 24 June 2026",
+      type: "update",
+      list: [
+        __("<strong>Update:</strong> Improved block metadata, keywords, and search discoverability in the Gutenberg editor.", "video-gallery-block"),
+      ],
+    },
+    {
       version: "1.4.0 - 18 June 2026",
       type: "new",
       list: [

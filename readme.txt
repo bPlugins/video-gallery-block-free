@@ -1,7 +1,7 @@
-=== Video Gallery Block ===
+=== Video Gallery Block - YouTube, Vimeo, Playlist & Lightbox ===
 Contributors: bplugins, abuhayat, charlescormier, himur98
 Donate link: https://www.buymeacoffee.com/abuhayat
-Tags: block, video gallery, youtube gallery, vimeo gallery, video gallery block
+Tags: block, video gallery, youtube gallery, vimeo gallery, video playlist
 Requires at least: 6.5
 Tested up to: 7.0
 Stable tag: 1.4.1
@@ -9,30 +9,29 @@ Requires PHP: 7.4
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Create responsive video galleries with YouTube, Vimeo, albums, filters, and lightbox popups in Gutenberg.
+Responsive video gallery block for Gutenberg with YouTube, Vimeo, albums, category filters, thumbnails, captions & lightbox video popups.
 
 == Description ==
 
-[Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight WordPress video gallery plugin that lets you create responsive video galleries, YouTube video galleries, Vimeo video galleries, and video showcase sections directly inside the Gutenberg block editor.
+[Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight WordPress video gallery plugin that lets you create responsive video galleries, YouTube video galleries, Vimeo video galleries, and video collections directly inside the Gutenberg block editor.
 
 **[Video Gallery Block](https://bplugins.com/products/video-gallery-block)** | **[Pricing](https://bplugins.com/products/video-gallery-block/pricing/)** | **[Support](https://bplugins.com/support/)** | **[Demo](https://bblockswp.com/demo/video-gallery)**
 
-Display YouTube, Vimeo, self-hosted HTML5, or Wistia videos in responsive video galleries, playlist video galleries, and showcase layouts without writing any code.
+Display YouTube and Vimeo videos in responsive video galleries with albums, filters, thumbnails, captions, and lightbox popups — without writing any code. Pro adds self-hosted HTML5 & Wistia sources plus advanced layouts like sliders, carousels, masonry, and playlist galleries.
 
-This Gutenberg video gallery block is perfect for creating video portfolios, testimonial sections, product video showcases, YouTube galleries, and Vimeo collections on any WordPress website.
+This Gutenberg video gallery block is perfect for creating video portfolios, product video galleries, YouTube galleries, and Vimeo collections on any WordPress website.
 
 === Perfect For ===
 
-Video Gallery Block is ideal for creating video portfolios, product video showcases, customer testimonial videos, YouTube galleries, Vimeo galleries, training libraries, course videos, and video collections.
+Video Gallery Block is ideal for creating video portfolios, product video galleries, YouTube galleries, Vimeo galleries, training video libraries, course videos, and blog video collections.
 
 - Video portfolios
 - Product video galleries
-- Customer testimonial videos
 - YouTube video galleries
 - Vimeo video galleries
 - Training video libraries
 - Online course videos
-- Video showcase sections
+- Blog video galleries
 
 === Key Features – Free Version ===
 The free version includes everything needed to build responsive video galleries in the Gutenberg editor.
@@ -211,7 +210,7 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 == Frequently Asked Questions ==
 
 = What is the best Gutenberg video gallery plugin? =
-Video Gallery Block helps you create responsive video galleries, YouTube galleries, Vimeo galleries, and video showcase sections directly in the Gutenberg editor.
+Video Gallery Block helps you create responsive video galleries, YouTube galleries, Vimeo galleries, and video collections directly in the Gutenberg editor.
 
 = Can I create a YouTube video gallery in WordPress? =
 Yes. The free version supports YouTube videos and lets you organize them into responsive video gallery layouts.

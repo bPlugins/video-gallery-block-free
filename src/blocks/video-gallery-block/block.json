@@ -3,8 +3,8 @@
   "apiVersion": 3,
   "name": "vgb/video-gallery",
   "title": "Video Gallery Block",
-  "description": "Display your videos as gallery in a professional way.",
-  "category": "videoblocks",
+  "description": "Create responsive video galleries with YouTube, Vimeo, albums, filters, and lightbox popups in the Gutenberg editor.",
+  "category": "widgets",
   "keywords": [
     "video gallery",
     "video gallery block",
@@ -13,7 +13,9 @@
     "youtube gallery",
     "vimeo gallery",
     "playlist",
-    "lightbox"
+    "lightbox",
+    "video grid",
+    "video showcase"
   ],
   "textdomain": "video-gallery-block",
   "attributes": {

@@ -2,13 +2,20 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "vgb/video-gallery",
-  "title": "Video Gallery",
-  "description": "Display your videos as gallery in a professional way.",
-  "category": "videoblocks",
+  "title": "Video Gallery Block",
+  "description": "Create responsive video galleries with YouTube, Vimeo, albums, filters, and lightbox popups in the Gutenberg editor.",
+  "category": "widgets",
   "keywords": [
+    "video gallery",
+    "video gallery block",
     "video",
     "gallery",
-    "filter"
+    "youtube gallery",
+    "vimeo gallery",
+    "playlist",
+    "lightbox",
+    "video grid",
+    "video showcase"
   ],
   "textdomain": "video-gallery-block",
   "attributes": {

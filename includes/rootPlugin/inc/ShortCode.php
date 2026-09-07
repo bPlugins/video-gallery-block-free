@@ -50,11 +50,28 @@ class ShortCode {
                 return '';
         }
     }
+    /**
+     * Render the gallery a Video Gallery post holds.
+     *
+     * The block name is checked rather than the output being run through
+     * `wp_kses_post()`. That filter was doing two unhelpful things: it could not
+     * make the output any safer -- `render.php` escapes everything it prints,
+     * and the block declares `html: false` so there is no raw markup to launder
+     * -- while it silently removed the `<script type="application/ld+json">`
+     * that carries the video SEO markup, since kses allows no `<script>` at
+     * all. So a gallery placed with the shortcode described none of its videos
+     * to search engines, and one placed with the block described all of them.
+     *
+     * Checking the name is the stricter half of what kses was standing in for:
+     * before, whatever block happened to be first got rendered.
+     */
     function displayContent( $post ){
         $blocks = parse_blocks( $post->post_content );
-        if ( empty( $blocks ) ) {
+
+        if ( empty( $blocks[0]['blockName'] ) || 'vgb/video-gallery' !== $blocks[0]['blockName'] ) {
             return '';
         }
-        return wp_kses_post( render_block( $blocks[0] ) );
+
+        return render_block( $blocks[0] );
     }
 }

@@ -8,29 +8,123 @@ export const controlsHandler = (controls) => {
   return newControls;
 };
 
+/**
+ * The Plyr options used for every lightbox video, in the editor and on the
+ * front end. Kept in one place so the two call sites cannot drift apart.
+ */
+export const plyrOptions = {
+  controls: controlsHandler({
+    "play-large": true,
+    restart: false,
+    rewind: true,
+    play: true,
+    "fast-forward": true,
+    progress: true,
+    "current-time": true,
+    duration: false,
+    mute: true,
+    volume: true,
+    pip: false,
+    airplay: false,
+    settings: true,
+    download: false,
+    fullscreen: true,
+  }),
+  clickToPlay: false,
+  loop: { active: false },
+  muted: false,
+  autoplay: false,
+  resetOnEnd: false,
+  hideControls: true,
+};
+
+/**
+ * Pull the 11-character video id out of any shape of YouTube URL.
+ *
+ * The list matters: `shorts/` and `live/` are how a lot of YouTube links look
+ * now, and the old single-regex version matched neither, so those videos came
+ * through with no thumbnail at all.
+ */
 export const getYoutubeId = (url) => {
-  if (!url) return false;
-  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-  const match = url.match(regExp);
-  return match && match[2].length === 11 ? match[2] : false;
-};
+  if (!url || typeof url !== "string") return false;
 
-export const getYoutubeThumbnail = (url) => {
-  const id = getYoutubeId(url);
-  return id ? `https://img.youtube.com/vi/${id}/maxresdefault.jpg` : false;
-};
+  const patterns = [
+    /youtu\.be\/([\w-]{11})/,
+    /youtube\.com\/watch\?(?:.*&)?v=([\w-]{11})/,
+    /youtube\.com\/(?:embed|v|shorts|live)\/([\w-]{11})/,
+    /youtube\.com\/u\/\w+\/([\w-]{11})/,
+  ];
 
-export const getYoutubeTitle = async (url) => {
-  if (!url) return false;
-  try {
-    const response = await fetch(`https://noembed.com/embed?url=${url}`);
-    const data = await response.json();
-    return data.title || false;
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error("Error fetching YouTube title:", error);
-    return false;
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
   }
+
+  return false;
+};
+
+/**
+ * Thumbnails YouTube can be asked for, best first.
+ *
+ * `maxresdefault.jpg` does not exist for every video -- anything uploaded at a
+ * lower resolution 404s -- and a 404 here is a visibly broken image in the
+ * grid. So it is the first guess, not the only one, and the <img> steps down
+ * this list on error.
+ */
+export const getYoutubeThumbnails = (url) => {
+  const id = getYoutubeId(url);
+  if (!id) return [];
+
+  return [
+    `https://img.youtube.com/vi/${id}/maxresdefault.jpg`,
+    `https://img.youtube.com/vi/${id}/sddefault.jpg`,
+    `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+  ];
+};
+
+export const getYoutubeThumbnail = (url) => getYoutubeThumbnails(url)[0] || false;
+
+export const getVimeoId = (url) => {
+  if (!url || typeof url !== "string") return false;
+  const match = url.match(/vimeo\.com\/(?:video\/|channels\/[\w-]+\/|groups\/[\w-]+\/videos\/)?(\d{6,})/);
+  return match ? match[1] : false;
+};
+
+/**
+ * A CSS-safe class for an album.
+ *
+ * Derived from the album's position in the `albums` array rather than from its
+ * name. The name cannot be used: slugifying it dropped every non-Latin
+ * character, so a Bengali, Cyrillic or CJK album name produced an empty class
+ * and a `.` selector, and a name starting with a digit produced an invalid one.
+ * Both broke filtering outright. Two albums whose names slugified the same
+ * ("Music Videos" and "music-videos") also collided.
+ *
+ * @param {Array}  albums The block's album list.
+ * @param {string} album  The album to get a class for.
+ * @return {string} Class name, or '' if the album is not in the list.
+ */
+export const albumClass = (albums, album) => {
+  const index = Array.isArray(albums) ? albums.indexOf(album) : -1;
+  return index < 0 ? "" : `vgbAlb${index}`;
+};
+
+/** Classes for every album a video belongs to. */
+export const albumClasses = (albums, albs) =>
+  (Array.isArray(albs) ? albs : [])
+    .map((alb) => albumClass(albums, alb))
+    .filter(Boolean)
+    .join(" ");
+
+/**
+ * Plain text for an `alt` attribute, from a caption that may contain markup.
+ */
+export const captionText = (caption) => {
+  if (!caption || typeof caption !== "string") return "";
+  return caption
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/g, " ")
+    .trim();
 };
 
 export const camelCase = (str) => {

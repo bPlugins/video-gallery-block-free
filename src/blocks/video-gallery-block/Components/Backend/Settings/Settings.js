@@ -20,7 +20,6 @@ import {
 import {
   Label,
   Background,
-  BBlocksAds,
   Device,
   ColorsControl,
   HelpPanel,
@@ -39,8 +38,13 @@ import {
   emUnit,
 } from "../../../../../../../bpl-tools/utils/options";
 
-import { generalStyleTabs, videoSizeOptions } from "../../../utils/options";
+import {
+  generalStyleTabs,
+  videoSizeOptions,
+  aspectRatioOptions,
+} from "../../../utils/options";
 import ItemSettings from "./ItemSettings";
+import BulkImport from "./BulkImport";
 import { updateData } from "../../../../../../../bpl-tools/utils/functions";
 import { AdvertiseCard } from "../../../../../../../bpl-tools/ProControls";
 import { pricingUrl } from "../../../utils/data";
@@ -69,6 +73,7 @@ const Settings = ({
     filterBtnColors,
     filterBtnHoverColors,
     itemHeight,
+    aspectRatio,
     options,
     styles,
   } = attributes;
@@ -94,10 +99,6 @@ const Settings = ({
   return (
     <>
       <InspectorControls>
-        <div className="bPlInspectorInfo">
-          <BBlocksAds />
-        </div>
-
         <TabPanel
           className="bPlTabPanel"
           activeClass="activeTab"
@@ -173,6 +174,17 @@ const Settings = ({
 
                   <PanelBody
                     className="bPlPanelBody"
+                    title={__("Import Videos", "video-gallery-block")}
+                    initialOpen={false}>
+                    <BulkImport
+                      attributes={attributes}
+                      setAttributes={setAttributes}
+                      setActiveIndex={setActiveIndex}
+                    />
+                  </PanelBody>
+
+                  <PanelBody
+                    className="bPlPanelBody"
                     title={__("Videos", "video-gallery-block")}>
                     <ItemsPanel
                       {...itemsProps}
@@ -194,7 +206,7 @@ const Settings = ({
                       <Device />
                     </PanelRow>
                     <RangeControl
-                      value={columns[device]}
+                      value={columns?.[device]}
                       onChange={(val) => {
                         setAttributes({
                           columns: { ...columns, [device]: val },
@@ -243,22 +255,36 @@ const Settings = ({
                     className="bPlPanelBody"
                     title={__("Filter", "video-gallery-block")}
                     initialOpen={false}>
-                    <PanelRow>
-                      <TextControl
-                        label={__("Common Filter", "video-gallery-block")}
-                        labelPosition="left"
-                        value={filter?.commonLabel}
-                        onChange={(val) =>
-                          setAttributes({
-                            filter: { ...filter, commonLabel: val },
-                          })
-                        }
-                        help={__(
-                          "If you want to show the common label, leave it blank.",
-                          "video-gallery-block",
-                        )}
-                      />
-                    </PanelRow>
+                    <ToggleControl
+                      label={__("Show Filter Bar", "video-gallery-block")}
+                      checked={false !== filter?.show}
+                      onChange={(val) =>
+                        setAttributes({ filter: { ...filter, show: val } })
+                      }
+                      help={__(
+                        "The filter bar only appears when the gallery has at least one album.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    {false !== filter?.show && (
+                      <PanelRow className="mt20">
+                        <TextControl
+                          label={__("Common Filter", "video-gallery-block")}
+                          labelPosition="left"
+                          value={filter?.commonLabel}
+                          onChange={(val) =>
+                            setAttributes({
+                              filter: { ...filter, commonLabel: val },
+                            })
+                          }
+                          help={__(
+                            'Label for the button that shows every video, for example "All Videos".',
+                            "video-gallery-block",
+                          )}
+                        />
+                      </PanelRow>
+                    )}
                   </PanelBody>
 
                   <PanelBody
@@ -292,6 +318,21 @@ const Settings = ({
                           ),
                         })
                       }
+                    />
+
+                    <ToggleControl
+                      className="mt20"
+                      label={__("Video SEO markup", "video-gallery-block")}
+                      checked={false !== options?.videoSchema}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(options, val, "videoSchema"),
+                        })
+                      }
+                      help={__(
+                        "Describes each video to Google and AI search so it can appear as a video result. Only videos that have a caption and a thumbnail are described — turn this off if your SEO plugin already does it.",
+                        "video-gallery-block",
+                      )}
                     />
                   </PanelBody>
                 </>
@@ -381,13 +422,30 @@ const Settings = ({
                     className="bPlPanelBody"
                     title={__("Item", "video-gallery-block")}
                     initialOpen={false}>
-                    <UnitControl
-                      label={__("Height:", "video-gallery-block")}
-                      labelPosition="left"
-                      value={itemHeight}
-                      onChange={(val) => setAttributes({ itemHeight: val })}
-                      units={[pxUnit(), perUnit(), emUnit()]}
+                    <BButtonGroup
+                      label={__("Thumbnail Shape:", "video-gallery-block")}
+                      options={aspectRatioOptions}
+                      value={aspectRatio || ""}
+                      onChange={(val) => setAttributes({ aspectRatio: val })}
                     />
+
+                    {/*
+                      Only one of the two sizes a tile: a ratio makes the
+                      height meaningless, so the height control goes away
+                      rather than sitting there doing nothing. Galleries built
+                      before this option existed keep their fixed height,
+                      because "" is the default.
+                    */}
+                    {!aspectRatio && (
+                      <UnitControl
+                        className="mt20"
+                        label={__("Height:", "video-gallery-block")}
+                        labelPosition="left"
+                        value={itemHeight}
+                        onChange={(val) => setAttributes({ itemHeight: val })}
+                        units={[pxUnit(), perUnit(), emUnit()]}
+                      />
+                    )}
 
                     <Typography
                       label={__("Caption Typography:", "video-gallery-block")}

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.4.1
+ * Version: 1.4.4
  * Requires at least: 6.5
  * Tested up to: 7.0
  * Requires PHP: 7.4
@@ -20,14 +20,32 @@ if (!defined('ABSPATH')) {
 if (function_exists('vgb_fs')) {
     vgb_fs()->set_basename(true, __FILE__);
 } else {
-    // Constants
-    define('VIDGALBLK_PLUGIN_VERSION', (isset($_SERVER['HTTP_HOST']) && 'localhost' === sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']))) ? time() : '1.4.1');
+    /*
+     * Constants.
+     *
+     * The version doubles as the asset cache-buster. Timestamping it defeats
+     * caching entirely, so that is now limited to a site that is both on
+     * `localhost` and actually in debug mode -- it used to happen on any site
+     * served from that host name, cached or not.
+     */
+    define('VIDGALBLK_PLUGIN_VERSION', (
+        defined('WP_DEBUG') && WP_DEBUG
+        && isset($_SERVER['HTTP_HOST'])
+        && 'localhost' === sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']))
+    ) ? time() : '1.4.4');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));
-   
+
 	require_once VIDGALBLK_DIR_PATH . '/includes/fs-lite.php';
+
+    // Used by the block's server-side render; loaded before anything can render.
+    require_once VIDGALBLK_DIR_PATH . '/includes/helpers.php';
+
     require_once VIDGALBLK_DIR_PATH . '/includes/rootPlugin/plugin.php';
+
+    // Ready-made sections for the inserter.
+    require_once VIDGALBLK_DIR_PATH . '/includes/patterns.php';
 
     // Main plugin class
     if (!class_exists('VidGalBlkPlugin')) {
@@ -49,6 +67,10 @@ if (function_exists('vgb_fs')) {
 
                 wp_register_script('plyr', VIDGALBLK_PUBLIC_DIR . 'js/plyr.js', [], '3.8.4', true);
                 wp_register_style('plyr', VIDGALBLK_PUBLIC_DIR . 'css/plyr.css', [], '3.8.4');
+
+                // The front-end script has translatable strings of its own now
+                // (the accessible label on a thumbnail with no caption).
+                wp_set_script_translations( 'vgb-video-gallery-view-script', 'video-gallery-block', VIDGALBLK_DIR_PATH . 'languages' );
             }
 
 
@@ -58,7 +80,14 @@ if (function_exists('vgb_fs')) {
 			 * @return void
 			 */
 			public function enqueueBlockEditorAssets(){
-				wp_add_inline_script( 'vgb-video-gallery-block-editor-script', sprintf(
+				/*
+				 * The handle is the one core generates from the block name and
+				 * the block.json field: vgb/video-gallery + editorScript. It was
+				 * written here as `vgb-video-gallery-block-editor-script`, which
+				 * is not a handle that exists -- so this URL was never injected
+				 * and the editor never loaded its translations either.
+				 */
+				wp_add_inline_script( 'vgb-video-gallery-editor-script', sprintf(
 					'const vidgalblkpricingurl = %s;',
 					wp_json_encode( admin_url( 'edit.php?post_type=video-gallery-block&page=vgb-help-demo#pricing' ) )
 				), 'before' );
@@ -69,7 +98,7 @@ if (function_exists('vgb_fs')) {
                 wp_enqueue_script('plyr');
                 wp_enqueue_style('plyr');
 
-				wp_set_script_translations( 'vgb-video-gallery-block-editor-script', 'video-gallery-block', VIDGALBLK_DIR_PATH . 'languages' );
+				wp_set_script_translations( 'vgb-video-gallery-editor-script', 'video-gallery-block', VIDGALBLK_DIR_PATH . 'languages' );
             }
         }
         new VidGalBlkPlugin();

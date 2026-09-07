@@ -6,7 +6,7 @@ import {
   InlineMediaUpload,
   Label,
 } from "../../../../../../../bpl-tools/Components";
-import { getYoutubeTitle, getYoutubeId } from "../../../utils/functions";
+import { getVideoOembed } from "../../../utils/oembed";
 
 const ItemSettings = ({
   attributes,
@@ -17,31 +17,44 @@ const ItemSettings = ({
 }) => {
   const items = attributes[arrKey];
   const { video = "", poster = "", caption = "", albs = [] } = items[index];
+  const albums = attributes.albums || [];
 
-  const updateVideo = async (property, val, otherIndex = null) => {
+  const updateVideo = async (property, val) => {
     const newVideos = produce(attributes[arrKey], (draft) => {
       draft[index][property] = val;
-
-      if (null !== otherIndex) {
-        draft[index][property][otherIndex] = val;
-      } else {
-        draft[index][property] = val;
-      }
     });
 
     setAttributes({ [arrKey]: newVideos });
     setActiveIndex && setActiveIndex(index);
 
-    if (property === "video" && getYoutubeId(val)) {
-      const title = await getYoutubeTitle(val);
-
-      if (title && !caption) {
-        const videosWithTitle = produce(newVideos, (draft) => {
-          draft[index]["caption"] = title;
-        });
-        setAttributes({ [arrKey]: videosWithTitle });
-      }
+    if ("video" !== property) {
+      return;
     }
+
+    /*
+     * Fill in what the provider can tell us, for the fields still empty.
+     *
+     * The poster matters as much as the title: the grid shows posters, and for
+     * Vimeo there is no thumbnail URL that can be worked out from the video URL
+     * the way YouTube's can. Without this a Vimeo video came through as an
+     * empty tile unless the person uploaded a poster by hand.
+     */
+    const meta = await getVideoOembed(val);
+
+    if (!meta) {
+      return;
+    }
+
+    const withMeta = produce(newVideos, (draft) => {
+      if (meta.title && !caption) {
+        draft[index].caption = meta.title;
+      }
+      if (meta.thumbnail && !poster) {
+        draft[index].poster = meta.thumbnail;
+      }
+    });
+
+    setAttributes({ [arrKey]: withMeta });
   };
 
   return (
@@ -68,24 +81,28 @@ const ItemSettings = ({
         />
       </PanelRow>
 
-      <Label>{__("Select Albums:", "video-gallery-block")}</Label>
-      {attributes.albums.map((alb) => {
-        const isInc = albs.includes(alb);
+      {!!albums.length && (
+        <>
+          <Label>{__("Select Albums:", "video-gallery-block")}</Label>
+          {albums.map((alb, albIndex) => {
+            const isInc = albs.includes(alb);
 
-        return (
-          <CheckboxControl
-            label={alb}
-            key={alb}
-            checked={isInc}
-            onChange={(val) => {
-              updateVideo(
-                "albs",
-                val ? [...albs, alb] : albs.filter((id) => id !== alb)
-              );
-            }}
-          />
-        );
-      })}
+            return (
+              <CheckboxControl
+                label={alb}
+                key={albIndex}
+                checked={isInc}
+                onChange={(val) => {
+                  updateVideo(
+                    "albs",
+                    val ? [...albs, alb] : albs.filter((id) => id !== alb),
+                  );
+                }}
+              />
+            );
+          })}
+        </>
+      )}
     </>
   );
 };

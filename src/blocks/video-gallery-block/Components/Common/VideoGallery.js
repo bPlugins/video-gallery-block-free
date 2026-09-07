@@ -1,303 +1,271 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
+import { __, sprintf } from "@wordpress/i18n";
 import { Fancybox } from "@fancyapps/ui";
 import VideoThumbnail from "react-video-thumbnail";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import Style from "./Style";
 import VideoGalleryFilter from "./VideoGalleryFilter";
-import { controlsHandler, getYoutubeThumbnail, camelCase } from "../../utils/functions";
+import {
+  albumClasses,
+  captionText,
+  getVimeoId,
+  getYoutubeId,
+  getYoutubeThumbnails,
+  plyrOptions,
+} from "../../utils/functions";
 import { prefix } from "../../utils/data";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
-const VideoGallery = ({ attributes, id, activeIndex, setActiveIndex }) => {
-  const { videos, options } = attributes;
-  const [itemWidth, setItemWidth] = useState("");
-  const [activeFilter, setActiveFilter] = useState("*");
+/**
+ * Turn the <video> in a lightbox slide into a Plyr player.
+ */
+const initPlyr = (slide) => {
+  const videoEls = slide
+    ?.getContentEl?.()
+    ?.querySelectorAll("video, .fancybox__html5video");
+
+  if (typeof Plyr === "undefined" || !videoEls?.length) {
+    return;
+  }
+
+  videoEls.forEach((el) => {
+    if (!el.plyr) {
+      new Plyr(el, plyrOptions);
+    }
+  });
+};
+
+/**
+ * Shared lightbox configuration.
+ *
+ * No `container`: the lightbox belongs to <body>, so it covers the screen. It
+ * used to be mounted inside the gallery itself, which put it underneath any
+ * themed ancestor with `overflow: hidden`, a `transform`, or a stacking
+ * context of its own -- and then it was clipped rather than covering anything.
+ */
+const fancyboxOptions = (id) => ({
+  mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
+  Toolbar: {
+    display: {
+      left: ["counter"],
+      middle: [],
+      right: ["share", "zoom", "slideshow", "fullscreen", "close"],
+    },
+  },
+  Carousel: { infinite: false },
+  Thumbs: { autoStart: true },
+  contentClick: "toggleZoom",
+  on: { done: (fancybox, slide) => initPlyr(slide) },
+});
+
+/**
+ * A thumbnail that steps down through the sources it could have.
+ *
+ * A poster the user set wins; then anything the server resolved (this is how a
+ * Vimeo thumbnail arrives); then YouTube's own thumbnails, best first. Stepping
+ * down on `error` is what stops a missing `maxresdefault.jpg` -- YouTube does
+ * not have one for every video -- from showing as a broken image.
+ */
+const Thumbnail = ({ video, poster, thumb, caption }) => {
+  const candidates = useMemo(
+    () =>
+      [...new Set([poster, thumb, ...getYoutubeThumbnails(video)].filter(Boolean))],
+    [poster, thumb, video],
+  );
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => setIndex(0), [candidates]);
+
+  if (!candidates.length) {
+    /*
+     * Nothing to point at, so fall back to grabbing a frame out of the video
+     * itself -- but only for a file the browser could actually read. Handing a
+     * YouTube or Vimeo page URL to a <video> element cannot work: it fails on
+     * CORS and leaves nothing but errors in the console. Those tiles get the
+     * empty-tile background from the stylesheet instead.
+     */
+    if (getYoutubeId(video) || getVimeoId(video)) {
+      return null;
+    }
+
+    return <VideoThumbnail width={600} videoUrl={video} snapshotAtTime={2} />;
+  }
+
+  if (index >= candidates.length) {
+    return null;
+  }
+
+  return (
+    <figure className="galleryFigure">
+      <img
+        src={candidates[index]}
+        alt={captionText(caption)}
+        loading="lazy"
+        decoding="async"
+        onError={() => setIndex((current) => current + 1)}
+      />
+    </figure>
+  );
+};
+
+const VideoGallery = ({
+  attributes,
+  id,
+  thumbs,
+  activeIndex,
+  setActiveIndex,
+}) => {
+  const { videos, albums, options, filter } = attributes;
+  const [activeAlbum, setActiveAlbum] = useState("*");
   const galleryRef = useRef(null);
-  const isotopeRef = useRef(null);
 
-  const {
-    columns = { desktop: 3, tablet: 2, mobile: 1 },
-    columnGap
-  } = attributes;
+  const isEditor = !!setActiveIndex;
 
-  const colSettings =
-    typeof columns === "number"
-      ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
-      : { ...{ desktop: 3, tablet: 2, mobile: 1 }, ...columns };
+  /*
+   * Which videos are on screen.
+   *
+   * Filtering happens here rather than by hiding items with CSS, which is what
+   * Isotope used to do. Two things fall out of that: the lightbox now cycles
+   * only the videos the visitor can actually see, and filtering no longer needs
+   * jQuery and Isotope to be present and working -- it used to fail silently
+   * when they were not, which is a common outcome on sites that defer or
+   * dequeue jQuery.
+   *
+   * The original index is carried along because the editor needs it to know
+   * which item is being edited.
+   */
+  const visibleVideos = useMemo(() => {
+    const list = (Array.isArray(videos) ? videos : [])
+      .map((item, index) => ({ item, index }))
+      // An entry with neither a video nor a poster has nothing to show and
+      // nowhere to go. The editor keeps it -- that is a row someone is still
+      // filling in -- but a visitor should not be given a dead tile, and
+      // render.php leaves it out of the server markup for the same reason.
+      .filter(({ item }) => item && (isEditor || item.video || item.poster));
 
-  // Calculate and Update Width
-  useEffect(() => {
-    const updateWidth = () => {
-      if (galleryRef.current) {
-        const containerWidth = galleryRef.current.clientWidth;
-        if (containerWidth > 0) {
-          const cols = colSettings.desktop || 3;
-          const gap = columnGap || 0;
-          // Calculate item width accounting for gaps
-          const totalGap = gap * (cols - 1);
-          const calculatedWidth = (containerWidth - totalGap) / cols;
-          setItemWidth(Math.floor(calculatedWidth));
-        }
-      }
-    };
-
-    const observer = new ResizeObserver(updateWidth);
-    if (galleryRef.current) {
-      observer.observe(galleryRef.current);
+    if ("*" === activeAlbum) {
+      return list;
     }
 
-    updateWidth();
-    const timer = setTimeout(updateWidth, 500);
+    return list.filter(({ item }) =>
+      (Array.isArray(item?.albs) ? item.albs : []).includes(activeAlbum),
+    );
+  }, [videos, activeAlbum, isEditor]);
+
+  // An album that has been renamed or deleted must not leave the gallery stuck
+  // on a filter that now matches nothing.
+  useEffect(() => {
+    if ("*" !== activeAlbum && !(albums || []).includes(activeAlbum)) {
+      setActiveAlbum("*");
+    }
+  }, [albums, activeAlbum]);
+
+  // Lightbox, front end only -- in the editor it is opened imperatively below
+  // so that clicking a thumbnail also selects that video for editing.
+  useEffect(() => {
+    if (isEditor || !galleryRef.current) return;
+
+    const container = galleryRef.current;
+    Fancybox.bind(container, "[data-fancybox]", fancyboxOptions(id));
 
     return () => {
-      observer.disconnect();
-      clearTimeout(timer);
+      /*
+       * `unbind`, not `destroy`. `Fancybox.destroy()` is static and tears down
+       * every instance on the page, so a second gallery unmounting used to
+       * break the first one -- and any other plugin using Fancybox with it.
+       */
+      Fancybox.unbind(container);
+      Fancybox.close();
     };
-  }, [columns, columnGap, id]);
+  }, [id, isEditor]);
 
-  // Isotope Initialization
-  useEffect(() => {
-    // Disable Isotope in the editor to prevent layout issues (Gutenberg iframes, etc.)
-    // Standard CSS Grid/Flex handles the layout perfectly in the editor.
-    if (!galleryRef.current || setActiveIndex) return;
+  const openEditorLightbox = (index) => {
+    setActiveIndex(index);
 
-    const $ = window.jQuery;
-    if (!$ || !$.fn.isotope) return;
-
-    const isoOptions = {
-      itemSelector: ".galleryItem",
-      layoutMode: "fitRows",
-      stagger: 30,
-      transitionDuration: "0.5s",
-      percentPosition: true,
-      fitRows: {
-        gutter: 0, // We handle gutter via margins/width
+    Fancybox.show(
+      videos.map((video) => ({
+        src: video.video || video.poster,
+        thumb: video.poster || getYoutubeThumbnails(video.video)[0] || "",
+        caption: sanitizeHTML(video.caption || ""),
+      })),
+      {
+        startIndex: index,
+        ...fancyboxOptions(id),
       },
-    };
+    );
+  };
 
-    const $gallery = $(galleryRef.current);
-    isotopeRef.current = $gallery.isotope(isoOptions);
-
-    const handleLayout = () => {
-      if (isotopeRef.current) {
-        isotopeRef.current.isotope("layout");
-      }
-    };
-
-    const timer = setTimeout(handleLayout, 500);
-    window.addEventListener("resize", handleLayout);
-
-    return () => {
-      if (isotopeRef.current) {
-        isotopeRef.current.isotope("destroy");
-      }
-      window.removeEventListener("resize", handleLayout);
-      clearTimeout(timer);
-    };
-  }, [videos, columnGap, itemWidth, id]);
-
-  // Fancybox Initialization for Frontend
-  useEffect(() => {
-    if (galleryRef.current) {
-      Fancybox.bind(galleryRef.current, "[data-fancybox]", {
-        mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
-        container: galleryRef.current,
-        Toolbar: {
-          display: {
-            left: ["counter"],
-            middle: [],
-            right: ["share", "zoom", "slideshow", "fullscreen", "close"],
-          },
-        },
-        Carousel: {
-          infinite: false,
-        },
-        Thumbs: {
-          autoStart: true,
-        },
-        contentClick: "toggleZoom",
-        on: {
-          done: (fancybox, slide) => {
-            // Use a more robust selector to find video elements
-            const videoEls = slide
-              .getContentEl()
-              .querySelectorAll(`video, .fancybox__html5video`);
-
-            if (typeof Plyr !== "undefined" && videoEls.length > 0) {
-              videoEls.forEach((el) => {
-                if (!el.plyr) {
-                  new Plyr(el, {
-                    controls: controlsHandler({
-                      "play-large": true,
-                      restart: false,
-                      rewind: true,
-                      play: true,
-                      "fast-forward": true,
-                      progress: true,
-                      "current-time": true,
-                      duration: false,
-                      mute: true,
-                      volume: true,
-                      pip: false,
-                      airplay: false,
-                      settings: true,
-                      download: false,
-                      fullscreen: true,
-                    }),
-                    clickToPlay: false,
-                    loop: { active: false },
-                    muted: false,
-                    autoplay: false,
-                    resetOnEnd: false,
-                    hideControls: true,
-                  });
-                }
-              });
-            }
-          },
-        },
-      });
-    }
-
-    return () => {
-      Fancybox.destroy();
-    };
-  }, [videos, id]);
+  const showFilter =
+    false !== filter?.show && !!albums?.length && !!filter?.commonLabel;
 
   return (
     <>
       <Style
         attributes={attributes}
         id={id}
-        itemWidth={itemWidth}
-        isEditor={!!setActiveIndex}
-        activeFilter={activeFilter}
+        isEditor={isEditor}
         galleryRef={galleryRef}
       />
 
       <div className={prefix}>
-        <VideoGalleryFilter
-          attributes={attributes}
-          id={id}
-          itemWidth={itemWidth}
-          setItemWidth={setItemWidth}
-          activeFilter={activeFilter}
-          setActiveFilter={setActiveFilter}
-        />
+        {showFilter && (
+          <VideoGalleryFilter
+            attributes={attributes}
+            id={id}
+            activeAlbum={activeAlbum}
+            setActiveAlbum={setActiveAlbum}
+          />
+        )}
 
         <div id={`${id}-gallery`} className="videoGallery" ref={galleryRef}>
-          {videos?.map((item, index) => {
+          {visibleVideos.map(({ item, index }) => {
             const { video, poster, caption = "", albs } = item;
+            const label = captionText(caption);
 
             return (
               <a
                 key={index}
-                className={`galleryItem ${albs
-                  ?.map((c) => camelCase(c))
-                  .join(" ")} ${
-                  setActiveIndex && index === activeIndex ? "bPlNowEditing" : ""
+                className={`galleryItem ${albumClasses(albums, albs)} ${
+                  isEditor && index === activeIndex ? "bPlNowEditing" : ""
                 }`}
                 data-fancybox
                 href={video || poster}
+                aria-label={
+                  label ||
+                  sprintf(
+                    /* translators: %d: video number within the gallery. */
+                    __("Play video %d", "video-gallery-block"),
+                    index + 1,
+                  )
+                }
                 onClick={(e) => {
+                  if (!isEditor) return;
                   e.preventDefault();
                   e.stopPropagation();
-                  if (setActiveIndex) {
-                    setActiveIndex(index);
-                    Fancybox.show(
-                      videos.map((v) => ({
-                        src: v.video || v.poster,
-                        thumb: v.poster || getYoutubeThumbnail(v.video),
-                        caption: sanitizeHTML(v.caption || ""),
-                      })),
-                      {
-                        startIndex: index,
-                        container: galleryRef.current,
-                        mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
-                        Toolbar: {
-                          display: {
-                            left: ["counter"],
-                            middle: [],
-                            right: [
-                              "share",
-                              "zoom",
-                              "slideshow",
-                              "fullscreen",
-                              "close",
-                            ],
-                          },
-                        },
-                        Carousel: {
-                          infinite: false,
-                        },
-                        Thumbs: {
-                          autoStart: true,
-                        },
-                        contentClick: "toggleZoom",
-                        on: {
-                          done: (fancybox, slide) => {
-                            // Use a more robust selector to find video elements
-                            const videoEls = slide
-                              .getContentEl()
-                              .querySelectorAll(`video, .fancybox__html5video`);
-
-                            if (
-                              typeof Plyr !== "undefined" &&
-                              videoEls.length > 0
-                            ) {
-                              videoEls.forEach((el) => {
-                                if (!el.plyr) {
-                                  new Plyr(el, {
-                                    controls: controlsHandler({
-                                      "play-large": true,
-                                      restart: false,
-                                      rewind: true,
-                                      play: true,
-                                      "fast-forward": true,
-                                      progress: true,
-                                      "current-time": true,
-                                      duration: false,
-                                      mute: true,
-                                      volume: true,
-                                      pip: false,
-                                      airplay: false,
-                                      settings: true,
-                                      download: false,
-                                      fullscreen: true,
-                                    }),
-                                    clickToPlay: false,
-                                    loop: { active: false },
-                                    muted: false,
-                                    autoplay: false,
-                                    resetOnEnd: false,
-                                    hideControls: true,
-                                  });
-                                }
-                              });
-                            }
-                          },
-                        },
-                      },
-                    );
-                  }
+                  openEditorLightbox(index);
                 }}
                 data-caption={sanitizeHTML(caption)}>
-                {poster || getYoutubeThumbnail(video) ? (
-                  <figure className="galleryFigure">
-                    <img src={poster || getYoutubeThumbnail(video)} />
-                  </figure>
-                ) : (
-                  <VideoThumbnail
-                    width={600}
-                    videoUrl={video}
-                    snapshotAtTime={2}
-                  />
-                )}
+                <Thumbnail
+                  video={video}
+                  poster={poster}
+                  thumb={thumbs?.[index]}
+                  caption={caption}
+                />
+
                 {options?.showCaptionOnThumbnail && caption && (
-                  <div className="galleryItemCaption">
-                    {sanitizeHTML(caption)}
-                  </div>
+                  <div
+                    className="galleryItemCaption"
+                    /*
+                     * The caption is run through sanitizeHTML, which returns
+                     * markup -- so it has to be set as markup. Rendering the
+                     * returned string as a React child, which is what happened
+                     * before, escaped it, and a caption with any formatting in
+                     * it showed the visitor literal <b> tags.
+                     */
+                    dangerouslySetInnerHTML={{ __html: sanitizeHTML(caption) }}
+                  />
                 )}
               </a>
             );

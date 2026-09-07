@@ -19,10 +19,6 @@
   ],
   "textdomain": "video-gallery-block",
   "attributes": {
-    "align": {
-      "type": "string",
-      "default": ""
-    },
     "albums": {
       "type": "array",
       "default": []
@@ -167,16 +163,24 @@
       "type": "object",
       "default": {
         "objectFit": "cover",
-        "showCaptionOnThumbnail": true
+        "showCaptionOnThumbnail": true,
+        "videoSchema": true
       }
     },
     "isSetup": {
       "type": "boolean",
       "default": false
+    },
+    "aspectRatio": {
+      "type": "string",
+      "default": ""
     }
   },
   "supports": {
-    "align": ["wide", "full"],
+    "align": [
+      "wide",
+      "full"
+    ],
     "html": false
   },
   "example": {
@@ -185,9 +189,17 @@
       "link": "https://www.youtube.com/watch?v=Pa5WSaRVRho"
     }
   },
-  "editorScript": ["file:./index.js", "jquery", "isotope"],
+  "editorScript": [
+    "file:./index.js"
+  ],
   "editorStyle": "file:./index.css",
-  "style": ["file:./view.css", "plyr"],
+  "style": [
+    "file:./view.css",
+    "plyr"
+  ],
   "render": "file:./render.php",
-  "viewScript": ["file:./view.js", "jquery", "isotope", "plyr"]
+  "viewScript": [
+    "file:./view.js",
+    "plyr"
+  ]
 }

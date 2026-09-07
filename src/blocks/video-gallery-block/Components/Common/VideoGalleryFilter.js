@@ -1,59 +1,43 @@
-import { camelCase } from "../../utils/functions";
-// const $ = jQuery;
+import { albumClass } from "../../utils/functions";
 
-const VideoGalleryFilter = ({
-  attributes,
-  id,
-  activeFilter,
-  setActiveFilter,
-}) => {
-  const {
-    albums,
-    filter = { show: true, commonLabel: "All Videos" },
-  } = attributes;
-
-  const { commonLabel } = filter || {};
-
-  // Handle filter button clicks
-  const handleFilterClick = (filterValue) => {
-    // Update React state (handles editor and frontend visual)
-    setActiveFilter(filterValue);
-
-    // Trigger Isotope (for frontend animation)
-    const $ = window.jQuery;
-    if ($ && $.fn.isotope) {
-      const $gallery = $(`#${id}-gallery`);
-      if ($gallery.length) {
-        $gallery.isotope({ filter: filterValue });
-      }
-    }
-  };
+/**
+ * The album filter bar.
+ *
+ * Filtering is done by the gallery itself, from React state -- this component
+ * only reports which album was picked. It used to also reach for
+ * `jQuery.fn.isotope` and re-filter the DOM directly, which meant that on any
+ * site where jQuery or Isotope was deferred, bundled away or dequeued, the
+ * buttons looked active but nothing moved.
+ */
+const VideoGalleryFilter = ({ attributes, id, activeAlbum, setActiveAlbum }) => {
+  const { albums, filter } = attributes;
+  const commonLabel = filter?.commonLabel;
 
   return (
-    <>
-      <div id={`${id}-filter`} className="filter">
-        {commonLabel && (
-          <button
-            data-filter="*"
-            className={activeFilter === "*" ? "current" : ""}
-            onClick={() => handleFilterClick("*")}>
-            {commonLabel}
-          </button>
-        )}
-        {albums?.map((alb) => {
-          const filterVal = `.${camelCase(alb)}`;
-          return (
-            <button
-              className={activeFilter === filterVal ? "current" : ""}
-              key={camelCase(alb)}
-              data-filter={filterVal}
-              onClick={() => handleFilterClick(filterVal)}>
-              {alb}
-            </button>
-          );
-        })}
-      </div>
-    </>
+    <div id={`${id}-filter`} className="filter" role="group">
+      {commonLabel && (
+        <button
+          type="button"
+          data-filter="*"
+          className={"*" === activeAlbum ? "current" : ""}
+          aria-pressed={"*" === activeAlbum}
+          onClick={() => setActiveAlbum("*")}>
+          {commonLabel}
+        </button>
+      )}
+
+      {albums?.map((album, index) => (
+        <button
+          type="button"
+          key={index}
+          data-filter={albumClass(albums, album)}
+          className={album === activeAlbum ? "current" : ""}
+          aria-pressed={album === activeAlbum}
+          onClick={() => setActiveAlbum(album)}>
+          {album}
+        </button>
+      ))}
+    </div>
   );
 };
 

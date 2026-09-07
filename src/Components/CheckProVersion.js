@@ -6,14 +6,14 @@ const CheckProVersion = () => {
     <div className="bplg-card">
       <div className="bplg-card-head">
         <div>
-          <h2>Go Pro and unlock 8 premium blocks</h2>
+          <h2>Go Pro and unlock 31 premium blocks</h2>
           <p>
             Video Gallery Block Pro gives you more layouts, more controls, and
             more ways to build beautiful galleries that match your brand —
             without writing CSS.
           </p>
         </div>
-        <div className="bplg-badge">PRO ✨ 8 New Blocks</div>
+        <div className="bplg-badge">PRO ✨ 31 Blocks</div>
       </div>
 
       <div className="bplg-card-body">
@@ -23,7 +23,7 @@ const CheckProVersion = () => {
             <div>
               <h3>More layouts & blocks</h3>
               <p>
-                Build grids, modern galleries, and more with 8 powerful Pro
+                Build sliders, carousels, masonry grids, playlists and more with 31 Pro
                 blocks.
               </p>
             </div>

@@ -7,6 +7,27 @@ class Init {
     function __construct() {
         add_action( 'init', [ $this, 'onInit' ] );
         add_filter( 'block_editor_settings_all', [ $this, 'vidgalblk_dynamic_template_lock' ], 10, 2 );
+        add_filter( 'block_type_metadata', [ $this, 'vidgalblk_version_block_assets' ] );
+    }
+
+    /**
+     * Stamps the plugin's own version onto this block's metadata before
+     * WordPress registers it, so `style`/`editorStyle` get a version that
+     * actually changes on update.
+     *
+     * Without a `version` in block.json, `register_block_style_handle()` (in
+     * wp-includes/blocks.php) only busts a block style's cache via
+     * `filemtime()` when `SCRIPT_DEBUG` is on -- which no real site enables.
+     * Otherwise it falls back to the static `$wp_version`, so the CSS/JS URL
+     * never changes between plugin updates: a browser that already cached
+     * `view.css`/`index.css` keeps serving that cached copy forever, and a
+     * fix that rebuilt correctly can look like it never shipped.
+     */
+    function vidgalblk_version_block_assets( $metadata ) {
+        if ( isset( $metadata['name'] ) && 0 === strpos( $metadata['name'], 'vgb/' ) ) {
+            $metadata['version'] = VIDGALBLK_PLUGIN_VERSION;
+        }
+        return $metadata;
     }
     function onInit() {
 		$this->vidgalblk_register_blocks();

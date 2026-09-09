@@ -21,9 +21,30 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $vidgalblk_id     = wp_unique_id( 'vidgalblkVideoGallery-' );
 $vidgalblk_videos = isset( $attributes['videos'] ) && is_array( $attributes['videos'] ) ? $attributes['videos'] : array();
+
+/*
+ * Shorts, included, excluded, or kept as the only videos -- the owner's
+ * choice, applied once, here, rather than as something a visitor's browser
+ * would otherwise have to filter out itself. `$attributes['videos']` is
+ * overwritten with the result so that the JSON a visitor's browser hydrates
+ * from, and the video-schema markup fired below, both agree with what the
+ * markup below actually shows -- none of the three ever disagree about which
+ * videos this gallery contains.
+ */
+$vidgalblk_videos     = vidgalblk_apply_shorts_filter(
+	$vidgalblk_videos,
+	$attributes['options']['shortsFilter'] ?? 'all'
+);
+$vidgalblk_videos     = vidgalblk_apply_sort_order(
+	$vidgalblk_videos,
+	$attributes['options']['sortOrder'] ?? 'manual'
+);
+$attributes['videos'] = $vidgalblk_videos;
+
 $vidgalblk_albums = isset( $attributes['albums'] ) && is_array( $attributes['albums'] ) ? $attributes['albums'] : array();
 $vidgalblk_filter = isset( $attributes['filter'] ) && is_array( $attributes['filter'] ) ? $attributes['filter'] : array();
-$vidgalblk_show_caption = ! empty( $attributes['options']['showCaptionOnThumbnail'] );
+$vidgalblk_show_caption   = ! empty( $attributes['options']['showCaptionOnThumbnail'] );
+$vidgalblk_show_play_icon = false !== ( $attributes['options']['showPlayIcon'] ?? true );
 
 // The filter bar is worth showing only when there is something to filter by.
 $vidgalblk_show_filter = ( ! isset( $vidgalblk_filter['show'] ) || false !== $vidgalblk_filter['show'] )
@@ -97,12 +118,34 @@ do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
 			if ( '' === $vidgalblk_src ) {
 				continue;
 			}
+
+			/*
+			 * `href` stays the real Facebook URL -- so a visitor with no
+			 * JavaScript still lands on an actual, working page. `data-src` is
+			 * what Fancybox opens instead once JS has hydrated: Facebook's
+			 * public embed iframe, which (unlike its oEmbed API) needs no app
+			 * credentials. See `vidgalblk_facebook_embed_url()`.
+			 */
+			$vidgalblk_is_facebook = vidgalblk_is_facebook_video( $vidgalblk_src );
 			?>
 			<a
 				class="galleryItem <?php echo esc_attr( vidgalblk_album_classes( $vidgalblk_albums, $vidgalblk_video['albs'] ?? array() ) ); ?>"
 				href="<?php echo esc_url( $vidgalblk_src ); ?>"
 				aria-label="<?php echo esc_attr( $vidgalblk_label ); ?>"
 				data-fancybox
+				<?php if ( $vidgalblk_is_facebook ) : ?>
+					data-src="<?php echo esc_url( vidgalblk_facebook_embed_url( $vidgalblk_src ) ); ?>"
+					data-type="iframe"
+				<?php endif; ?>
+				<?php /*
+				 * The real video URL, for GA4 tracking: by the time
+				 * `Carousel.contentReady` fires, Fancybox has already
+				 * rewritten a YouTube or Vimeo URL into its own player-embed
+				 * URL, and a Facebook video's `data-src` above is its embed
+				 * iframe URL -- neither is the clean URL pushVideoEvent()
+				 * needs for `video_url`.
+				 */ ?>
+				data-video-url="<?php echo esc_url( $vidgalblk_src ); ?>"
 				data-caption="<?php echo esc_attr( wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ) ); ?>"
 			>
 				<?php if ( $vidgalblk_thumb ) : ?>
@@ -113,6 +156,10 @@ do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
 
 				<?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?>
 					<div class="galleryItemCaption"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></div>
+				<?php endif; ?>
+
+				<?php if ( $vidgalblk_show_play_icon ) : ?>
+					<span class="playIcon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></span>
 				<?php endif; ?>
 			</a>
 		<?php endforeach; ?>

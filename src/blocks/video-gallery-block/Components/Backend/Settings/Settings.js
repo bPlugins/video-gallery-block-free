@@ -1,5 +1,6 @@
 import { __ } from "@wordpress/i18n";
-import { withSelect } from "@wordpress/data";
+import { withSelect, withDispatch } from "@wordpress/data";
+import { compose } from "@wordpress/compose";
 import { BlockControls, InspectorControls } from "@wordpress/block-editor";
 import {
   TabPanel,
@@ -9,6 +10,8 @@ import {
   RangeControl,
   __experimentalUnitControl as UnitControl,
   __experimentalNumberControl as NumberControl,
+  __experimentalToggleGroupControl as ToggleGroupControl,
+  __experimentalToggleGroupControlOption as ToggleGroupControlOption,
   Tooltip,
   Button,
   Dashicon,
@@ -26,7 +29,6 @@ import {
   Typography,
   ShadowControl,
   ItemsPanel,
-  BButtonGroup,
 } from "../../../../../../../bpl-tools/Components";
 import {
   BorderControl,
@@ -42,6 +44,9 @@ import {
   generalStyleTabs,
   videoSizeOptions,
   aspectRatioOptions,
+  shortsFilterOptions,
+  sortOrderOptions,
+  rowAlignOptions,
 } from "../../../utils/options";
 import ItemSettings from "./ItemSettings";
 import BulkImport from "./BulkImport";
@@ -56,6 +61,7 @@ const Settings = ({
   activeIndex,
   setActiveIndex,
   device,
+  setDevice,
 }) => {
   const {
     albums,
@@ -63,7 +69,11 @@ const Settings = ({
     columns,
     columnGap,
     rowGap,
+    columnGapResponsive,
+    rowGapResponsive,
     isPopupWidthAsRatio,
+    perPage,
+    loadMoreLabel,
     filter = { show: true, commonLabel: "All Videos" },
     background,
     padding,
@@ -72,11 +82,48 @@ const Settings = ({
     filterBtnTypo,
     filterBtnColors,
     filterBtnHoverColors,
+    playIconColors,
+    playIconSize,
+    playIconHoverScale,
     itemHeight,
+    itemBorder,
+    itemShadow,
     aspectRatio,
     options,
     styles,
   } = attributes;
+
+  const currentDevice = (device || "desktop").toLowerCase();
+  const columnsObj =
+    typeof columns === "number"
+      ? { desktop: columns, tablet: Math.max(1, columns - 1), mobile: 1 }
+      : { desktop: 3, tablet: 2, mobile: 1, ...(columns || {}) };
+
+  /*
+   * `columnGap`/`rowGap` are the original single-number attributes, left
+   * untouched -- see `feedback_block_json_additive_only`: retyping them
+   * would make WordPress silently discard a customized value on every load.
+   * `columnGapResponsive`/`rowGapResponsive` are the new per-device
+   * attributes this panel actually writes to now. Shown here is whichever
+   * one is actually in effect (mirrors `layoutVars()` in Style.js), so a
+   * gallery that still carries a legacy customized number displays it
+   * instead of silently showing the new default.
+   */
+  const toDeviceGap = (legacyValue, responsiveValue) => {
+    const isResponsiveCustomized =
+      responsiveValue &&
+      (responsiveValue.desktop !== 10 || responsiveValue.tablet !== 10 || responsiveValue.mobile !== 10);
+    if (isResponsiveCustomized) {
+      return { desktop: 10, tablet: 10, mobile: 10, ...responsiveValue };
+    }
+    if (typeof legacyValue === "number" && legacyValue !== 10) {
+      return { desktop: legacyValue, tablet: legacyValue, mobile: legacyValue };
+    }
+    return { desktop: 10, tablet: 10, mobile: 10, ...(responsiveValue || {}) };
+  };
+
+  const columnGapObj = toDeviceGap(columnGap, columnGapResponsive);
+  const rowGapObj = toDeviceGap(rowGap, rowGapResponsive);
 
   const newItem = {
     video: "",
@@ -84,7 +131,9 @@ const Settings = ({
   };
 
   const addVideo = () => {
-    setAttributes({ videos: [...videos, newItem] });
+    setAttributes({
+      videos: [...videos, { ...newItem, dateAdded: Date.now() }],
+    });
     setActiveIndex(videos.length);
   };
 
@@ -203,13 +252,16 @@ const Settings = ({
                       <Label className="mb5">
                         {__("Columns:", "video-gallery-block")}
                       </Label>
-                      <Device />
+                      <Device device={currentDevice} setDevice={setDevice} />
                     </PanelRow>
                     <RangeControl
-                      value={columns?.[device]}
+                      value={columnsObj[currentDevice] ?? 3}
                       onChange={(val) => {
                         setAttributes({
-                          columns: { ...columns, [device]: val },
+                          columns: {
+                            ...columnsObj,
+                            [currentDevice]: parseInt(val) || 1,
+                          },
                         });
                       }}
                       min={1}
@@ -222,21 +274,63 @@ const Settings = ({
                       className="mt20"
                       label={__("Column Gap:", "video-gallery-block")}
                       labelPosition="left"
-                      value={columnGap}
+                      value={columnGapObj[currentDevice] ?? 10}
                       onChange={(val) =>
-                        setAttributes({ columnGap: parseInt(val) })
+                        setAttributes({
+                          columnGapResponsive: {
+                            ...columnGapObj,
+                            [currentDevice]: Math.max(0, parseInt(val) || 0),
+                          },
+                        })
                       }
+                      help={__(
+                        "Follows the Desktop/Tablet/Mobile switch above.",
+                        "video-gallery-block",
+                      )}
                     />
 
                     <NumberControl
                       className="mt20"
                       label={__("Row Gap:", "video-gallery-block")}
                       labelPosition="left"
-                      value={rowGap}
+                      value={rowGapObj[currentDevice] ?? 10}
                       onChange={(val) =>
-                        setAttributes({ rowGap: parseInt(val) })
+                        setAttributes({
+                          rowGapResponsive: {
+                            ...rowGapObj,
+                            [currentDevice]: Math.max(0, parseInt(val) || 0),
+                          },
+                        })
                       }
                     />
+
+                    <ToggleGroupControl
+                      className="mt20"
+                      label={__("Row Alignment:", "video-gallery-block")}
+                      value={options?.rowAlign || "center"}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(
+                            options,
+                            val ?? "center",
+                            "rowAlign",
+                          ),
+                        })
+                      }
+                      isBlock
+                      __nextHasNoMarginBottom
+                      help={__(
+                        "Only visible when the video count doesn't divide evenly into the column count -- where the last, incomplete row sits.",
+                        "video-gallery-block",
+                      )}>
+                      {rowAlignOptions.map((option) => (
+                        <ToggleGroupControlOption
+                          key={option.value}
+                          value={option.value}
+                          label={option.label}
+                        />
+                      ))}
+                    </ToggleGroupControl>
 
                     <ToggleControl
                       className="mt20"
@@ -249,6 +343,59 @@ const Settings = ({
                         setAttributes({ isPopupWidthAsRatio: val })
                       }
                     />
+
+                    <ToggleGroupControl
+                      className="mt20"
+                      label={__("Sort Order:", "video-gallery-block")}
+                      value={options?.sortOrder || "manual"}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(
+                            options,
+                            val ?? "manual",
+                            "sortOrder",
+                          ),
+                        })
+                      }
+                      isBlock
+                      __nextHasNoMarginBottom
+                      help={__(
+                        "Manual keeps the order videos were added in. Videos added before this option existed count as the oldest.",
+                        "video-gallery-block",
+                      )}>
+                      {sortOrderOptions.map((option) => (
+                        <ToggleGroupControlOption
+                          key={option.value}
+                          value={option.value}
+                          label={option.label}
+                        />
+                      ))}
+                    </ToggleGroupControl>
+
+                    <NumberControl
+                      className="mt20"
+                      label={__("Videos Per Page:", "video-gallery-block")}
+                      labelPosition="left"
+                      value={perPage || 0}
+                      min={0}
+                      onChange={(val) =>
+                        setAttributes({ perPage: Math.max(0, parseInt(val) || 0) })
+                      }
+                      help={__(
+                        "0 shows every video, otherwise this many show first with a Load More button for the rest.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    {perPage > 0 && (
+                      <TextControl
+                        className="mt20"
+                        label={__("Load More Button Text:", "video-gallery-block")}
+                        labelPosition="left"
+                        value={loadMoreLabel}
+                        onChange={(val) => setAttributes({ loadMoreLabel: val })}
+                      />
+                    )}
                   </PanelBody>
 
                   <PanelBody
@@ -291,16 +438,36 @@ const Settings = ({
                     className="bPlPanelBody"
                     title={__("Options", "video-gallery-block")}
                     initialOpen={false}>
-                    <BButtonGroup
+                    {/*
+                      WordPress's own segmented control rather than
+                      BButtonGroup -- same reasons as Thumbnail Shape below:
+                      BButtonGroup doesn't wrap when the label and four
+                      options don't fit the inspector's width, and clicking
+                      the already-selected option resets it to the default
+                      instead of leaving it selected.
+                    */}
+                    <ToggleGroupControl
                       label={__("Poster Fit:", "video-gallery-block")}
-                      options={videoSizeOptions}
-                      value={options?.objectFit}
+                      value={options?.objectFit || "cover"}
                       onChange={(value) =>
                         setAttributes({
-                          options: updateData(options, value, "objectFit"),
+                          options: updateData(
+                            options,
+                            value ?? "cover",
+                            "objectFit",
+                          ),
                         })
                       }
-                    />
+                      isBlock
+                      __nextHasNoMarginBottom>
+                      {videoSizeOptions.map((option) => (
+                        <ToggleGroupControlOption
+                          key={option.value}
+                          value={option.value}
+                          label={option.label}
+                        />
+                      ))}
+                    </ToggleGroupControl>
 
                     <ToggleControl
                       className="mt20"
@@ -330,7 +497,86 @@ const Settings = ({
                         })
                       }
                       help={__(
-                        "Describes each video to Google and AI search so it can appear as a video result. Only videos that have a caption and a thumbnail are described — turn this off if your SEO plugin already does it.",
+                        "Adds video schema markup for search results. Turn off if your SEO plugin already does it.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    <ToggleGroupControl
+                      className="mt20 vgbShortsFilterToggle"
+                      label={__("YouTube Shorts:", "video-gallery-block")}
+                      value={options?.shortsFilter || "all"}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(
+                            options,
+                            val ?? "all",
+                            "shortsFilter",
+                          ),
+                        })
+                      }
+                      isBlock
+                      __nextHasNoMarginBottom
+                      help={__(
+                        "Detected by the link itself, not by watching each video, so this works without an API key.",
+                        "video-gallery-block",
+                      )}>
+                      {shortsFilterOptions.map((option) => (
+                        <ToggleGroupControlOption
+                          key={option.value}
+                          value={option.value}
+                          label={option.label}
+                        />
+                      ))}
+                    </ToggleGroupControl>
+
+                    <ToggleControl
+                      className="mt20"
+                      label={__("Show Play Icon on Thumbnail", "video-gallery-block")}
+                      checked={false !== options?.showPlayIcon}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(options, val, "showPlayIcon"),
+                        })
+                      }
+                      help={__(
+                        "A small play icon over each thumbnail, so it reads as a video before anyone hovers or clicks it.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    <ToggleControl
+                      className="mt20"
+                      label={__(
+                        "Require Consent Before Playing",
+                        "video-gallery-block",
+                      )}
+                      checked={!!options?.consentGate}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(options, val, "consentGate"),
+                        })
+                      }
+                      help={__(
+                        "Shows who the video is hosted by and asks before loading their player, so YouTube or Vimeo sets no cookies until a visitor agrees.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    <ToggleControl
+                      className="mt20"
+                      label={__(
+                        "Send Video Play Events to Google Analytics",
+                        "video-gallery-block",
+                      )}
+                      checked={!!options?.gaTracking}
+                      onChange={(val) =>
+                        setAttributes({
+                          options: updateData(options, val, "gaTracking"),
+                        })
+                      }
+                      help={__(
+                        "Pushes a video_start event (title, provider, URL) to window.dataLayer when a visitor opens a video -- works with GA4 or Google Tag Manager already on the site, nothing extra to set up.",
                         "video-gallery-block",
                       )}
                     />
@@ -422,12 +668,44 @@ const Settings = ({
                     className="bPlPanelBody"
                     title={__("Item", "video-gallery-block")}
                     initialOpen={false}>
-                    <BButtonGroup
+                    {/*
+                      WordPress's own segmented control rather than
+                      BButtonGroup, for two reasons.
+
+                      It puts its label above the options and gives each an
+                      equal share of the width. BButtonGroup lays label and
+                      buttons out on one line and never wraps, so five options
+                      did not fit the 246px inspector: the label was squeezed
+                      to 61px and wrapped to two lines, the buttons still
+                      overflowed it by 6px, and the selected one rendered as a
+                      circle sitting on top of the label text.
+
+                      And clicking the option that is already selected leaves
+                      it selected. BButtonGroup treats a second click as
+                      "deselect" and falls back to its defaultValue, so
+                      clicking 16:9 twice silently reset the gallery to a fixed
+                      height.
+                    */}
+                    <ToggleGroupControl
                       label={__("Thumbnail Shape:", "video-gallery-block")}
-                      options={aspectRatioOptions}
                       value={aspectRatio || ""}
-                      onChange={(val) => setAttributes({ aspectRatio: val })}
-                    />
+                      onChange={(val) =>
+                        setAttributes({ aspectRatio: val ?? "" })
+                      }
+                      isBlock
+                      __nextHasNoMarginBottom
+                      help={__(
+                        "Tiles keep this shape on every screen. Choose Fixed to set a height in pixels instead.",
+                        "video-gallery-block",
+                      )}>
+                      {aspectRatioOptions.map((option) => (
+                        <ToggleGroupControlOption
+                          key={option.value}
+                          value={option.value}
+                          label={option.label}
+                        />
+                      ))}
+                    </ToggleGroupControl>
 
                     {/*
                       Only one of the two sizes a tile: a ratio makes the
@@ -446,6 +724,22 @@ const Settings = ({
                         units={[pxUnit(), perUnit(), emUnit()]}
                       />
                     )}
+
+                    <BorderControl
+                      className="mt20"
+                      label={__("Item Border:", "video-gallery-block")}
+                      labelPosition="left"
+                      value={itemBorder}
+                      onChange={(val) => setAttributes({ itemBorder: val })}
+                    />
+
+                    <ShadowControl
+                      className="mt20"
+                      label={__("Item Shadow:", "video-gallery-block")}
+                      labelPosition="left"
+                      value={itemShadow}
+                      onChange={(val) => setAttributes({ itemShadow: val })}
+                    />
 
                     <Typography
                       label={__("Caption Typography:", "video-gallery-block")}
@@ -498,6 +792,62 @@ const Settings = ({
                         horizontal: "10px",
                       }}
                     />
+
+                    {false !== options?.showPlayIcon && (
+                      <>
+                        <ColorsControl
+                          label={__(
+                            "Play Icon Colors:",
+                            "video-gallery-block",
+                          )}
+                          value={playIconColors}
+                          className="mt20"
+                          labelPosition="left"
+                          onChange={(val) =>
+                            setAttributes({ playIconColors: val })
+                          }
+                          defaults={{
+                            color: "#fff",
+                            bg: "rgba(0, 0, 0, 0.55)",
+                          }}
+                        />
+
+                        <NumberControl
+                          className="mt20"
+                          label={__("Play Icon Size:", "video-gallery-block")}
+                          labelPosition="left"
+                          value={playIconSize ?? 54}
+                          onChange={(val) =>
+                            setAttributes({
+                              playIconSize: parseInt(val) || 54,
+                            })
+                          }
+                          min={30}
+                          max={100}
+                        />
+
+                        <RangeControl
+                          className="mt20"
+                          label={__(
+                            "Play Icon Hover Zoom:",
+                            "video-gallery-block",
+                          )}
+                          value={playIconHoverScale ?? 1.08}
+                          onChange={(val) =>
+                            setAttributes({
+                              playIconHoverScale: val ?? 1.08,
+                            })
+                          }
+                          min={1}
+                          max={1.5}
+                          step={0.01}
+                          help={__(
+                            "How much the icon grows when a visitor hovers the tile. 1 turns the effect off.",
+                            "video-gallery-block",
+                          )}
+                        />
+                      </>
+                    )}
                   </PanelBody>
 
                   <PanelBody
@@ -590,10 +940,40 @@ const Settings = ({
     </>
   );
 };
-export default withSelect((select) => {
-  const { getDeviceType } = select("core/editor");
+export default compose([
+  withSelect((select) => {
+    const editor = select("core/editor");
+    const editPost = select("core/edit-post");
+    const editSite = select("core/edit-site");
 
-  return {
-    device: getDeviceType()?.toLowerCase(),
-  };
-})(Settings);
+    const deviceType =
+      editor?.getDeviceType?.() ||
+      editor?.__experimentalGetPreviewDeviceType?.() ||
+      editPost?.__experimentalGetPreviewDeviceType?.() ||
+      editSite?.__experimentalGetPreviewDeviceType?.() ||
+      "Desktop";
+
+    return {
+      device: (deviceType || "desktop").toLowerCase(),
+    };
+  }),
+  withDispatch((dispatch) => {
+    const editor = dispatch("core/editor");
+    const editPost = dispatch("core/edit-post");
+    const editSite = dispatch("core/edit-site");
+
+    return {
+      setDevice(device) {
+        const setType =
+          editor?.setDeviceType ||
+          editor?.__experimentalSetPreviewDeviceType ||
+          editPost?.__experimentalSetPreviewDeviceType ||
+          editSite?.__experimentalSetPreviewDeviceType;
+
+        if (setType) {
+          setType(device);
+        }
+      },
+    };
+  }),
+])(Settings);

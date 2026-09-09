@@ -193,6 +193,53 @@ export const welcomeInfo = (adminUrl = "") => ({
 
   // Changelogs — each list item starts with <strong>Type:</strong> for badges
   changelogs: [
+
+    {
+      version: "1.5.1 - 9 September 2026",
+      type: "new",
+      list: [
+        __("<strong>New:</strong> Sort Order — show the gallery in the order you added the videos, or set it to Newest First / Oldest First and let the block keep it sorted automatically.", "video-gallery-block"),
+        __("<strong>New:</strong> Row Alignment — when the last row of a gallery doesn't fill every column, align it left, center, or right instead of it always stretching to one side.", "video-gallery-block"),
+        __("<strong>New:</strong> Per-Device Column & Row Gap — set the spacing between tiles separately for desktop, tablet, and mobile, the same way column counts already work per device.", "video-gallery-block"),
+        __("<strong>New:</strong> Facebook Video Support — add Facebook videos to the gallery alongside YouTube and Vimeo, using Facebook's public embed player. No app or API key required.", "video-gallery-block"),
+        __("<strong>New:</strong> GDPR Consent-Gated Embeds — a Require Consent Before Playing option shows a consent overlay in place of the player until a visitor agrees, so no third-party cookie is set before that.", "video-gallery-block"),
+        __("<strong>New:</strong> Google Analytics 4 Video Tracking — a Send Video Play Events to Google Analytics option pushes a video_start event (title, provider, URL) to window.dataLayer whenever a visitor plays a video. Works with GA4 or Google Tag Manager already on the site.", "video-gallery-block"),
+        __("<strong>New:</strong> Cached Thumbnails — YouTube and Vimeo thumbnails are downloaded into your Media Library the first time they're needed and served from your own site after that, so a thumbnail can never 404 again just because a provider reshuffled its sizes. Warms up gradually, at most one new thumbnail per page view.", "video-gallery-block"),
+        __("<strong>New:</strong> Load More Pagination — a Videos Per Page setting under Layout Settings starts the gallery with that many tiles and reveals the rest behind a Load More button. Off by default (0 = show everything) so no existing gallery's appearance changes on upgrade.", "video-gallery-block"),
+        __("<strong>New:</strong> YouTube Shorts Filter — show every video, hide Shorts, or show only Shorts, detected from the link itself with no API key needed.", "video-gallery-block"),
+        __("<strong>New:</strong> Play Icon on Thumbnails — a play icon now sits over every tile by default, so a gallery reads as video content before anyone hovers or clicks. Its color, background, size, and hover zoom are all customizable under Style → Item, or it can be turned off entirely under Options.", "video-gallery-block"),
+        __("<strong>New:</strong> Item Border & Shadow — Style → Item now has Border and Shadow controls for each individual thumbnail tile, the same way the overall gallery box already did.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Filter button active/hover colors — the Button Hover/Active Colors control under Style → Filter had no effect on the active (current) filter button, and could leave the hover color stuck on the Load More button permanently instead of only on hover. Both now behave correctly.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Custom player controls in the lightbox — videos now consistently get the plugin's Plyr-based controls instead of occasionally falling back to the browser's default video controls.", "video-gallery-block"),
+      ],
+    },
+    {
+      version: "1.5.0 - 7 September 2026",
+      type: "new",
+      list: [
+        __("<strong>New:</strong> Bulk Import — paste a list of video links, one per line, and the whole gallery is built with titles and posters filled in automatically via WordPress oEmbed.", "video-gallery-block"),
+        __("<strong>New:</strong> Thumbnail Shape — tiles can be 16∶9, 4∶3, 1∶1 or 9∶16 instead of a fixed pixel height, so vertical Shorts and Reels are no longer cropped.", "video-gallery-block"),
+        __("<strong>New:</strong> Video SEO markup (free) — each video gets Schema.org VideoObject JSON-LD so galleries can appear as video results in search.", "video-gallery-block"),
+        __("<strong>New:</strong> Five ready-made sections — Video gallery with album filters, Course video library, Product demo showcase, Customer video stories, and Portfolio showreel wall.", "video-gallery-block"),
+        __("<strong>New:</strong> Added a Show Filter Bar toggle.", "video-gallery-block"),
+        __("<strong>Update:</strong> The gallery is now rendered by the server, so search engines see the content and galleries no longer depend on JavaScript loading first.", "video-gallery-block"),
+        __("<strong>Update:</strong> Patterns arrive fully configured with headings, columns, gaps, and thumbnail height already set.", "video-gallery-block"),
+        __("<strong>Update:</strong> Pattern thumbnails are drawn inline for instant rendering with no broken posters.", "video-gallery-block"),
+        __("<strong>Update:</strong> Vimeo thumbnails — pasting a Vimeo URL now fills in the title and poster.", "video-gallery-block"),
+        __("<strong>Update:</strong> Removed jQuery and Isotope from the front end (~120 KB less JavaScript).", "video-gallery-block"),
+        __("<strong>Update:</strong> Thumbnails are lazy-loaded with alt text; filter buttons and links carry accessible labels.", "video-gallery-block"),
+        __("<strong>Fix:</strong> The gallery now appears on sites that delay JavaScript (WP Rocket, LiteSpeed, Perfmatters).", "video-gallery-block"),
+        __("<strong>Fix:</strong> Tablet and mobile column counts — items no longer overflow their columns.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Album filters now work for non-English album names (Bengali, Cyrillic, Arabic, CJK, etc.).", "video-gallery-block"),
+        __("<strong>Fix:</strong> Broken YouTube thumbnails — the block now steps down through available sizes.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Captions with formatting no longer show literal HTML tags.", "video-gallery-block"),
+        __("<strong>Fix:</strong> One broken gallery no longer takes down every other gallery on the page.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Galleries no longer appear in the site's own search results.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Closing a lightbox no longer breaks other galleries on the same page.", "video-gallery-block"),
+        __("<strong>Fix:</strong> The editor's Get Premium link and translations now work correctly.", "video-gallery-block"),
+        __("<strong>Fix:</strong> The Customer video stories section now uses the full width of its surrounding section.", "video-gallery-block"),
+      ],
+    },
     {
       version: "1.4.1 - 24 June 2026",
       type: "update",

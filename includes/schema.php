@@ -66,6 +66,8 @@ function vidgalblk_video_schema_node( $video, $upload_date ) {
 		$node['embedUrl'] = 'https://www.youtube.com/embed/' . $youtube_id;
 	} elseif ( $vimeo_id ) {
 		$node['embedUrl'] = 'https://player.vimeo.com/video/' . $vimeo_id;
+	} elseif ( vidgalblk_is_facebook_video( $url ) ) {
+		$node['embedUrl'] = vidgalblk_facebook_embed_url( $url );
 	} else {
 		$node['contentUrl'] = $url;
 	}

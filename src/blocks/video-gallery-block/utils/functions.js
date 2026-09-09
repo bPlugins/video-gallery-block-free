@@ -64,6 +64,13 @@ export const getYoutubeId = (url) => {
 };
 
 /**
+ * Whether a URL is a YouTube Shorts link. Kept in step with
+ * `vidgalblk_is_youtube_short()` in the PHP.
+ */
+export const isYoutubeShort = (url) =>
+  typeof url === "string" && /youtube\.com\/shorts\//.test(url);
+
+/**
  * Thumbnails YouTube can be asked for, best first.
  *
  * `maxresdefault.jpg` does not exist for every video -- anything uploaded at a
@@ -88,6 +95,38 @@ export const getVimeoId = (url) => {
   if (!url || typeof url !== "string") return false;
   const match = url.match(/vimeo\.com\/(?:video\/|channels\/[\w-]+\/|groups\/[\w-]+\/videos\/)?(\d{6,})/);
   return match ? match[1] : false;
+};
+
+/**
+ * Whether a URL is a Facebook video link. Kept in step with
+ * `vidgalblk_is_facebook_video()` in the PHP.
+ */
+export const isFacebookVideo = (url) =>
+  typeof url === "string" &&
+  /(?:facebook\.com\/.+\/videos\/|facebook\.com\/watch\/?\?|fb\.watch\/)/.test(url);
+
+/**
+ * Facebook's public video-embed iframe URL for a Facebook video link.
+ *
+ * Kept in step with `vidgalblk_facebook_embed_url()` in the PHP -- see the
+ * comment there for why this is the one part of Facebook video support that
+ * needs no API key, unlike fetching a Facebook video's title or thumbnail.
+ */
+export const facebookEmbedUrl = (url) =>
+  `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false`;
+
+/**
+ * Stable, machine-readable provider id for a video URL: "youtube", "vimeo",
+ * "facebook", or "other". Used for the GA4 `video_provider` event param --
+ * unlike a user-facing provider name, this must stay in English and unchanged
+ * across locales, or the same provider would fragment into different values
+ * in Analytics depending on site language.
+ */
+export const videoProviderId = (url) => {
+  if (getYoutubeId(url)) return "youtube";
+  if (getVimeoId(url)) return "vimeo";
+  if (isFacebookVideo(url)) return "facebook";
+  return "other";
 };
 
 /**

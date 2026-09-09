@@ -50,6 +50,22 @@
       "type": "number",
       "default": 10
     },
+    "columnGapResponsive": {
+      "type": "object",
+      "default": {
+        "desktop": 10,
+        "tablet": 10,
+        "mobile": 10
+      }
+    },
+    "rowGapResponsive": {
+      "type": "object",
+      "default": {
+        "desktop": 10,
+        "tablet": 10,
+        "mobile": 10
+      }
+    },
     "isPopupWidthAsRatio": {
       "type": "boolean",
       "default": false
@@ -60,6 +76,14 @@
         "show": true,
         "commonLabel": "All Videos"
       }
+    },
+    "perPage": {
+      "type": "number",
+      "default": 0
+    },
+    "loadMoreLabel": {
+      "type": "string",
+      "default": "Load More"
     },
     "background": {
       "type": "object",
@@ -116,6 +140,29 @@
         "bg": "#ff7a00"
       }
     },
+    "playIconColors": {
+      "type": "object",
+      "default": {
+        "color": "#fff",
+        "bg": "rgba(0, 0, 0, 0.55)"
+      }
+    },
+    "playIconSize": {
+      "type": "number",
+      "default": 54
+    },
+    "playIconHoverScale": {
+      "type": "number",
+      "default": 1.08
+    },
+    "itemBorder": {
+      "type": "object",
+      "default": {}
+    },
+    "itemShadow": {
+      "type": "array",
+      "default": []
+    },
     "itemHeight": {
       "type": "string",
       "default": "200px"
@@ -164,7 +211,13 @@
       "default": {
         "objectFit": "cover",
         "showCaptionOnThumbnail": true,
-        "videoSchema": true
+        "videoSchema": true,
+        "shortsFilter": "all",
+        "showPlayIcon": true,
+        "sortOrder": "manual",
+        "consentGate": false,
+        "gaTracking": false,
+        "rowAlign": "center"
       }
     },
     "isSetup": {

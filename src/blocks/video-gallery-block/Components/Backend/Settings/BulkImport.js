@@ -118,6 +118,12 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
 
     const added = [];
 
+    // A real timestamp, offset per video so paste order survives into
+    // dateAdded: Sort Order's "Newest/Oldest First" would otherwise have
+    // nothing to go on but a tie, since every video from one paste resolves
+    // in the same batch.
+    const importedAt = Date.now();
+
     // In small batches: twenty lookups fired at once is a lot to ask of a
     // shared host, and one slow provider should not hold up the rest.
     for (let i = 0; i < urls.length; i += BATCH) {
@@ -140,6 +146,7 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
           poster: meta.thumbnail || "",
           caption: meta.title || "",
           albs: [],
+          dateAdded: importedAt + added.length,
         });
       });
     }
@@ -228,7 +235,7 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
 
       <Button
         variant="primary"
-        className="mt10"
+        className="mt10 vgbImportBtn"
         disabled={busy || !text.trim()}
         onClick={runImport}>
         {busy ? (

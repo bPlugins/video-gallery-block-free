@@ -199,6 +199,51 @@
   }
 }
 
+/*
+ * The gap between the "YouTube Shorts:" label and its segmented buttons turned
+ * out to come entirely from `.mt20`'s 20px margin-top on the buttons
+ * themselves, not from the label's own margin -- `.components-base-control__field`
+ * is a flex container, so sibling margins here don't collapse the way block-level
+ * margins normally would. `.mt20` is `margin-top: 20px !important` (bpl-tools'
+ * spacing utility), so beating it here needs `!important` too, not just higher
+ * specificity. Moved that 20px onto the label instead, since the label reads
+ * better sitting right above the buttons it describes.
+ */
+/*
+ * The "Import videos" button used the WP admin theme color (whatever the
+ * user's own admin color scheme happens to be) via variant="primary",
+ * instead of this block's own brand blue (#146ef5, used everywhere else:
+ * filter buttons, the setup screen, the live preview swatch). !important
+ * because WP core's own .is-primary rule sets its background from a CSS
+ * custom property at the same specificity.
+ */
+.vgbImportBtn.is-primary:not(:disabled):not([aria-disabled="true"]) {
+  background: #146ef5 !important;
+  border-color: #146ef5 !important;
+
+  &:hover {
+    background: #0f5cd1 !important;
+    border-color: #0f5cd1 !important;
+  }
+
+  &:focus {
+    box-shadow:
+      0 0 0 1px #fff,
+      0 0 0 3px #146ef5 !important;
+  }
+}
+
+.components-base-control__field:has(.vgbShortsFilterToggle) {
+  .vgbShortsFilterToggle {
+    margin-top: 8px !important;
+  }
+
+  .components-base-control__label {
+    margin-top: 8px;
+    margin-bottom: 0;
+  }
+}
+
 .wp-block-vgb-video-gallery {
   .galleryItem {
     text-decoration: none !important;

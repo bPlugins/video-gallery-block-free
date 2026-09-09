@@ -33,5 +33,17 @@ if ( ! empty( $vidgalblk_post_ids ) ) {
 	}
 }
 
-// 2. Delete plugin options.
+// 2. Delete cached thumbnails: the Media Library attachments and the options
+// that point at them. Named with a shared prefix specifically so this one
+// query can find all of them without a table storing the list separately.
+global $wpdb;
+$vidgalblk_cached_attachment_ids = $wpdb->get_col(
+	"SELECT option_value FROM {$wpdb->options} WHERE option_name LIKE 'vidgalblk_cthumb_%'"
+);
+foreach ( $vidgalblk_cached_attachment_ids as $vidgalblk_attachment_id ) {
+	wp_delete_attachment( (int) $vidgalblk_attachment_id, true );
+}
+$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'vidgalblk_cthumb_%'" );
+
+// 3. Delete plugin options.
 delete_option( 'vidgalblk_delete_data_on_uninstall' );

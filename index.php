@@ -2,9 +2,9 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.4.4
+ * Version: 1.5.1
  * Requires at least: 6.5
- * Tested up to: 7.0
+ * Tested up to: 7.1
  * Requires PHP: 7.4
  * Author: bPlugins
  * Author URI: https://bplugins.com
@@ -27,12 +27,20 @@ if (function_exists('vgb_fs')) {
      * caching entirely, so that is now limited to a site that is both on
      * `localhost` and actually in debug mode -- it used to happen on any site
      * served from that host name, cached or not.
+     *
+     * The host is compared without its port, because a local dev server (like
+     * WordPress Studio, on `localhost:8881`) sends `HTTP_HOST` as
+     * `localhost:8881`, not `localhost` -- an exact-string match against the
+     * bare word silently never matched here, so this constant stayed frozen
+     * at the release version on every rebuild, browsers kept serving the
+     * cached JS/CSS from the first page load, and a source fix could rebuild
+     * successfully yet never visibly appear.
      */
     define('VIDGALBLK_PLUGIN_VERSION', (
         defined('WP_DEBUG') && WP_DEBUG
         && isset($_SERVER['HTTP_HOST'])
-        && 'localhost' === sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST']))
-    ) ? time() : '1.4.4');
+        && 'localhost' === strtok(sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])), ':')
+    ) ? time() : '1.5.1');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));

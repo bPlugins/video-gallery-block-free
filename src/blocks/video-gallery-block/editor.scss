@@ -199,24 +199,6 @@
   }
 }
 
-/*
- * The gap between the "YouTube Shorts:" label and its segmented buttons turned
- * out to come entirely from `.mt20`'s 20px margin-top on the buttons
- * themselves, not from the label's own margin -- `.components-base-control__field`
- * is a flex container, so sibling margins here don't collapse the way block-level
- * margins normally would. `.mt20` is `margin-top: 20px !important` (bpl-tools'
- * spacing utility), so beating it here needs `!important` too, not just higher
- * specificity. Moved that 20px onto the label instead, since the label reads
- * better sitting right above the buttons it describes.
- */
-/*
- * The "Import videos" button used the WP admin theme color (whatever the
- * user's own admin color scheme happens to be) via variant="primary",
- * instead of this block's own brand blue (#146ef5, used everywhere else:
- * filter buttons, the setup screen, the live preview swatch). !important
- * because WP core's own .is-primary rule sets its background from a CSS
- * custom property at the same specificity.
- */
 .vgbImportBtn.is-primary:not(:disabled):not([aria-disabled="true"]) {
   background: #146ef5 !important;
   border-color: #146ef5 !important;
@@ -233,14 +215,53 @@
   }
 }
 
-.components-base-control__field:has(.vgbShortsFilterToggle) {
-  .vgbShortsFilterToggle {
-    margin-top: 8px !important;
+// Inspector sidebar control spacing & alignment fixes
+.bPlPanelBody {
+  .vgbToggleGroupWrap {
+    &.mt20 {
+      margin-top: 20px !important;
+    }
+
+    .components-base-control {
+      margin-bottom: 0 !important;
+    }
+
+    .components-base-control__label {
+      display: block !important;
+      font-size: 13px !important;
+      font-weight: 400 !important;
+      margin-top: 0 !important;
+      margin-bottom: 8px !important;
+    }
+
+    .components-toggle-group-control {
+      margin-top: 0 !important;
+      width: 100%;
+    }
+
+    .components-base-control__help {
+      margin-top: 6px !important;
+      margin-bottom: 0 !important;
+      font-size: 12px !important;
+      line-height: 1.4 !important;
+      color: #757575 !important;
+    }
   }
 
-  .components-base-control__label {
-    margin-top: 8px;
-    margin-bottom: 0;
+  .components-toggle-control {
+    margin-top: 20px !important;
+
+    .components-base-control__field {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+    }
+
+    .components-toggle-control__label {
+      margin: 0 !important;
+      font-size: 13px !important;
+      line-height: 1.4 !important;
+    }
   }
 }
 
@@ -249,11 +270,38 @@
     text-decoration: none !important;
     color: inherit !important;
     display: block;
-    
-    &:hover, &:focus, &:active {
-      text-decoration: none !important;
-      color: inherit !important;
-      outline: none;
+    overflow: visible !important;
+
+    .galleryFigure {
+      overflow: hidden;
+      border-radius: inherit;
+    }
+
+    // Tooltip hint
+    &::after {
+      content: attr(data-editor-hint);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: rgba(0, 0, 0, 0.85);
+      color: #fff;
+      font-size: 11px;
+      line-height: 1.4;
+      padding: 5px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+      z-index: 99;
+    }
+
+    &:hover::after {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
   }
 }

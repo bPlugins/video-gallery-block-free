@@ -2,7 +2,7 @@
 Contributors: bplugins, abuhayat, himur98, freemius
 Tags: video gallery, youtube gallery, vimeo gallery, video playlist, block
 Tested up to: 7.1
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 Requires PHP: 7.4
 Requires at least: 6.5
 Donate link: https://www.buymeacoffee.com/abuhayat
@@ -223,7 +223,6 @@ The non-minified source code for this plugin is available on our public reposito
 This plugin uses the following third-party libraries:
 
 * [plyr](https://github.com/sampotts/plyr) - MIT License (bundled at `public/js/plyr.js`, powers the video player UI).
-* [Isotope](https://github.com/metafizzy/isotope) - GPL-3.0 License (bundled at `public/js/isotope.pkgd.min.js`, powers video filtering and grid layouts).
 
 = bpl-tools =
 * Source / GitHub: https://github.com/bPlugins/bpl-tools
@@ -266,6 +265,11 @@ To build the plugin from source:
 Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
+
+= 1.5.2 - 12 September 2026 =
+* **New — Animated Album Filtering.** Switching album filters now features smooth FLIP layout transitions (sliding into position, fade-in, and scale effects) without relying on jQuery or external libraries like Isotope.
+* **New — Editor Interaction & Double-Click Preview.** In the Gutenberg editor, single-clicking a video thumbnail selects it for editing in the sidebar, while double-clicking opens the lightbox preview directly.
+* **Fix — Editor Hover Tooltip Visibility.** Fixed an issue where the editor interaction hint tooltip ("Click to select · Double-click to preview") was clipped and hidden by thumbnail overflow rules.
 
 = 1.5.1 - 9 September 2026 =
 * **New — Sort Order.** Show the gallery in the order you added the videos, or set it to Newest First / Oldest First and let the block keep it sorted automatically — useful after a Bulk Import, where re-ordering dozens of videos by hand was the alternative.

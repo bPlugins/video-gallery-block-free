@@ -1,304 +1,281 @@
 @keyframes vidgalblkShine {
-	100% {
-		left: 125%;
-	}
+  100% {
+    left: 125%;
+  }
 }
 
-// Video Gallery
-//
-// The grid reads custom properties (--vgbCols and friends) that are set on the
-// block wrapper: by render.php on the front end, and by Style.js in the editor.
-// Keeping the layout here rather than in generated CSS is what lets the
-// server-rendered gallery look right before any JavaScript has run, and it is
-// the same set of rules in both places, so the editor matches the front end.
 .wp-block-vgb-video-gallery {
-	* {
-		box-sizing: border-box;
-	}
+  * {
+    box-sizing: border-box;
+  }
 
-	// Scoped deliberately. As a bare `.dashicons` rule this forced the
-	// dashicons font onto every matching element on the page, including
-	// elements belonging to the theme, on the front end where that font is
-	// usually not even loaded.
-	.dashicons {
-		font-family: dashicons !important;
-	}
+  .dashicons {
+    font-family: dashicons !important;
+  }
 
-	.filter {
-		font-size: 14px;
-		text-align: center;
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-wrap: wrap;
-		gap: 12px;
-		padding: 20px 0;
-		border-bottom: solid 1px #e3e3e3;
-		margin: 0;
-		margin-bottom: 20px;
-	}
+  .filter {
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 20px 0;
+    border-bottom: solid 1px #e3e3e3;
+    margin: 0;
+    margin-bottom: 20px;
+  }
 
-	// The colours here are the block's own attribute defaults, repeated so that
-	// the server-rendered gallery is readable before the generated stylesheet
-	// arrives. Whatever the user has actually chosen is written by Style.js and
-	// overrides these.
-	.filter button {
-		text-decoration: none;
-		display: inline-block;
-		padding: 10px 20px;
-		border: none;
-		border-radius: 50px;
-		cursor: pointer;
-		font-size: 14px;
-		color: #fff;
-		background: #146ef5;
-	}
+  .filter button {
+    text-decoration: none;
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+    background: #146ef5;
+  }
 
-	.filter button:hover,
-	.filter button.current {
-		background: #ff7a00;
-	}
+  .filter button:hover,
+  .filter button.current {
+    background: #ff7a00;
+  }
 
-	// Same treatment as the filter buttons on purpose -- this is the same kind
-	// of control (a click that changes what's on screen), and pre-JS colours are
-	// repeated here for the same reason as the filter buttons above.
-	.vidgalblkLoadMore {
-		display: block;
-		margin: 20px auto 0;
-		text-decoration: none;
-		padding: 10px 20px;
-		border: none;
-		border-radius: 50px;
-		cursor: pointer;
-		font-size: 14px;
-		color: #fff;
-		background: #146ef5;
-	}
+  .vidgalblkLoadMore {
+    display: block;
+    margin: 20px auto 0;
+    text-decoration: none;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+    background: #146ef5;
+  }
 
-	.vidgalblkLoadMore:hover {
-		background: #ff7a00;
-	}
+  .vidgalblkLoadMore:hover {
+    background: #ff7a00;
+  }
 
-	/*
-	 * Flexbox, not CSS Grid. Grid's `repeat(N, minmax(0, 1fr))` divided the row
-	 * evenly, but stretched a short last row -- 3 videos in a 4-column gallery
-	 * left 3 wide items pinned to the left edge, one row taller than intended
-	 * reads as unbalanced -- rather than the same-sized tiles that a full row
-	 * gets, aligned per the "Row Alignment" option (`--vgbRowAlign`, defaults
-	 * to centred). Every item still gets the same width as a full row's items
-	 * via the explicit `flex-basis` on `.galleryItem` below.
-	 */
-	.videoGallery {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: var(--vgbRowAlign, center);
-		column-gap: var(--vgbColGap, 10px);
-		row-gap: var(--vgbRowGap, 10px);
-		width: 100%;
-		margin: 0 auto;
-	}
+  .videoGallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: var(--vgbRowAlign, center);
+    column-gap: var(--vgbColGap, 10px);
+    row-gap: var(--vgbRowGap, 10px);
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
 
-	// Sized by a fixed height or by a ratio, whichever the gallery is set to.
-	// Only one of the two is ever a real value -- see layoutVars(). Width comes
-	// from `flex-basis`/`max-width`, computed to match what CSS Grid's
-	// `minmax(0, 1fr)` columns would have given a full row -- gap included, so
-	// tiles don't drift wider or narrower than the column count implies.
-	.galleryItem {
-		display: block;
-		flex: 0 0 calc((100% - (var(--vgbCols, 3) - 1) * var(--vgbColGap, 10px)) / var(--vgbCols, 3));
-		max-width: calc((100% - (var(--vgbCols, 3) - 1) * var(--vgbColGap, 10px)) / var(--vgbCols, 3));
-		height: var(--vgbItemH, 200px);
-		aspect-ratio: var(--vgbRatio, auto);
-		overflow: hidden;
-		cursor: pointer;
-		position: relative;
-		// A tile whose thumbnail could not be worked out -- a Vimeo video that
-		// has been taken down, a poster that 404s -- should read as an empty
-		// tile rather than as nothing at all.
-		background: #e9e9ea;
-	}
+  .galleryItem {
+    display: block;
+    flex: 0 0
+      calc(
+        (100% - (var(--vgbCols, 3) - 1) * var(--vgbColGap, 10px)) /
+          var(--vgbCols, 3)
+      );
+    max-width: calc(
+      (100% - (var(--vgbCols, 3) - 1) * var(--vgbColGap, 10px)) /
+        var(--vgbCols, 3)
+    );
+    height: var(--vgbItemH, 200px);
+    aspect-ratio: var(--vgbRatio, auto);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    background: #e9e9ea;
+  }
 
-	.playIcon {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 54px;
-		height: 54px;
-		border-radius: 50%;
-		background: rgba(0, 0, 0, 0.55);
-		color: #fff;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		z-index: 1;
-		pointer-events: none;
-		transition: transform 0.2s ease-in-out;
+  .playIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    pointer-events: none;
+    transition: transform 0.2s ease-in-out;
 
-		svg {
-			width: 20px;
-			height: 20px;
-			fill: currentColor;
-			// A triangle's visual centre sits left of its bounding box's centre.
-			margin-left: 3px;
-		}
-	}
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      margin-left: 3px;
+    }
+  }
 
-	// A generic scale-up rather than darkening the background, since the
-	// background is now a user-configurable color (Style.js), not always the
-	// semi-transparent black this stylesheet defaults to.
-	.galleryItem:hover .playIcon {
-		transform: translate(-50%, -50%) scale(1.08);
-	}
+  .galleryItem:hover .playIcon {
+    transform: translate(-50%, -50%) scale(1.08);
+  }
 
-	.galleryItemCaption {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		text-align: center;
-		box-sizing: border-box;
-		z-index: 2;
-		font-size: 14px;
-		color: #fff;
-		background: rgba(0, 0, 0, 0.55);
-		padding: 10px;
-	}
+  .galleryItemCaption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+    z-index: 2;
+    font-size: 14px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 10px;
+  }
 
-	.galleryFigure,
-	.react-thumbnail-generator {
-		width: 100%;
-		height: 100%;
-		position: relative;
-		margin: 0;
-		transition: all 0.4s ease-in-out;
+  .galleryFigure,
+  .react-thumbnail-generator {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0;
+    transition: all 0.4s ease-in-out;
 
-		img {
-			width: 100%;
-			height: 100%;
-			object-fit: var(--vgbFit, cover);
-			transition: all 0.3s cubic-bezier(0.20, 0.60, 0.70, 0.80);
-		}
-	}
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: var(--vgbFit, cover);
+      transition: all 0.3s cubic-bezier(0.2, 0.6, 0.7, 0.8);
+    }
+  }
 
-	@media (max-width: 768px) {
-		.videoGallery {
-			column-gap: var(--vgbColGapT, 10px);
-			row-gap: var(--vgbRowGapT, 10px);
-		}
+  @media (max-width: 768px) {
+    .videoGallery {
+      column-gap: var(--vgbColGapT, 10px);
+      row-gap: var(--vgbRowGapT, 10px);
+    }
 
-		.galleryItem {
-			flex-basis: calc((100% - (var(--vgbColsT, 2) - 1) * var(--vgbColGapT, 10px)) / var(--vgbColsT, 2));
-			max-width: calc((100% - (var(--vgbColsT, 2) - 1) * var(--vgbColGapT, 10px)) / var(--vgbColsT, 2));
-		}
-	}
+    .galleryItem {
+      flex-basis: calc(
+        (100% - (var(--vgbColsT, 2) - 1) * var(--vgbColGapT, 10px)) /
+          var(--vgbColsT, 2)
+      );
+      max-width: calc(
+        (100% - (var(--vgbColsT, 2) - 1) * var(--vgbColGapT, 10px)) /
+          var(--vgbColsT, 2)
+      );
+    }
+  }
 
-	@media (max-width: 576px) {
-		.videoGallery {
-			column-gap: var(--vgbColGapM, 10px);
-			row-gap: var(--vgbRowGapM, 10px);
-		}
+  @media (max-width: 576px) {
+    .videoGallery {
+      column-gap: var(--vgbColGapM, 10px);
+      row-gap: var(--vgbRowGapM, 10px);
+    }
 
-		.galleryItem {
-			flex-basis: calc((100% - (var(--vgbColsM, 1) - 1) * var(--vgbColGapM, 10px)) / var(--vgbColsM, 1));
-			max-width: calc((100% - (var(--vgbColsM, 1) - 1) * var(--vgbColGapM, 10px)) / var(--vgbColsM, 1));
-		}
-	}
+    .galleryItem {
+      flex-basis: calc(
+        (100% - (var(--vgbColsM, 1) - 1) * var(--vgbColGapM, 10px)) /
+          var(--vgbColsM, 1)
+      );
+      max-width: calc(
+        (100% - (var(--vgbColsM, 1) - 1) * var(--vgbColGapM, 10px)) /
+          var(--vgbColsM, 1)
+      );
+    }
+  }
 }
 
-// Shown instead of the lightbox when "Require Consent Before Playing" is on
-// and the visitor has not yet agreed. Sits outside `.wp-block-vgb-video-gallery`
-// (it's a sibling in the markup, not a descendant), and `position: fixed` means
-// it does not need to be scoped under it anyway.
 .vidgalblkConsentGate {
-	position: fixed;
-	inset: 0;
-	z-index: 100000;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: rgba(0, 0, 0, 0.6);
-	padding: 20px;
-	box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .vidgalblkConsentGateBox {
-	background: #fff;
-	color: #1a1a1b;
-	border-radius: 8px;
-	padding: 24px;
-	max-width: 420px;
-	text-align: center;
-	box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  background: #fff;
+  color: #1a1a1b;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
 
-	p {
-		margin: 0 0 16px;
-		font-size: 14px;
-		line-height: 1.5;
-	}
+  p {
+    margin: 0 0 16px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
 }
 
 .vidgalblkConsentGateActions {
-	display: flex;
-	gap: 10px;
-	justify-content: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
 .vidgalblkConsentGateAccept,
 .vidgalblkConsentGateCancel {
-	padding: 8px 16px;
-	border-radius: 6px;
-	font-size: 13px;
-	font-weight: 600;
-	cursor: pointer;
-	border: 1px solid transparent;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
 }
 
 .vidgalblkConsentGateAccept {
-	background: #146ef5;
-	color: #fff;
+  background: #146ef5;
+  color: #fff;
 }
 
 .vidgalblkConsentGateAccept:hover {
-	background: #0f5cd1;
+  background: #0f5cd1;
 }
 
 .vidgalblkConsentGateCancel {
-	background: transparent;
-	color: #1a1a1b;
-	border-color: #ccc;
+  background: transparent;
+  color: #1a1a1b;
+  border-color: #ccc;
 }
 
 .vidgalblkFancyBox {
-	.fancybox-content {
-		.plyr {
-			height: 100%;
-			margin: 0 auto;
-		}
+  .fancybox-content {
+    .plyr {
+      height: 100%;
+      margin: 0 auto;
+    }
 
-		.plyr__video-wrapper {
-			width: auto;
+    .plyr__video-wrapper {
+      width: auto;
 
-			video {
-				width: auto;
-			}
-		}
+      video {
+        width: auto;
+      }
+    }
 
-		input[type=range]::-webkit-slider-runnable-track {
-			box-shadow: none;
-		}
+    input[type="range"]::-webkit-slider-runnable-track {
+      box-shadow: none;
+    }
 
-		input[type=range]::-moz-range-track {
-			box-shadow: none;
-		}
+    input[type="range"]::-moz-range-track {
+      box-shadow: none;
+    }
 
-		input[type=range]::-ms-fill-upper {
-			box-shadow: none;
-		}
+    input[type="range"]::-ms-fill-upper {
+      box-shadow: none;
+    }
 
-		input[type=range]::-ms-fill-lower {
-			box-shadow: none;
-		}
-	}
+    input[type="range"]::-ms-fill-lower {
+      box-shadow: none;
+    }
+  }
 }

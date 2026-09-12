@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useLayoutEffect, useMemo, useRef, useCallback } from "react";
 import { __, sprintf } from "@wordpress/i18n";
 import { Fancybox } from "@fancyapps/ui";
 import VideoThumbnail from "react-video-thumbnail";
@@ -211,6 +211,22 @@ const VideoGallery = ({
   const [visibleCount, setVisibleCount] = useState(perPage > 0 ? perPage : Infinity);
   const galleryRef = useRef(null);
 
+  /*
+   * FLIP animation bookkeeping.
+   *
+   * `prevRectsRef` stores the bounding-client-rect of every `.galleryItem`
+   * keyed by its `data-item-key`, captured just before the state change that
+   * triggers a re-render. After React has committed the new DOM,
+   * `useLayoutEffect` compares new positions against these snapshots and
+   * plays the Invert → Play half of the FLIP.
+   *
+   * `isFirstRenderRef` prevents the FLIP effect from firing on the very first
+   * mount (the initial page load should not animate).
+   */
+  const prevRectsRef = useRef(new Map());
+  const isFirstRenderRef = useRef(true);
+  const flipCleanupRef = useRef(null);
+
   const isEditor = !!setActiveIndex;
 
   /*
@@ -316,6 +332,163 @@ const VideoGallery = ({
       setActiveAlbum("*");
     }
   }, [albums, activeAlbum]);
+
+  /*
+   * FLIP-aware album change.
+   *
+   * Before the state change that causes React to re-render (and therefore
+   * unmount / re-order items), we snapshot every current `.galleryItem`'s
+   * position. The `useLayoutEffect` below picks those snapshots up after
+   * the DOM has been committed but before the browser paints, and applies
+   * the inverse transform so items appear to slide from their old position
+   * to their new one — exactly the way Isotope did it.
+   */
+  const changeAlbum = useCallback((album) => {
+    const container = galleryRef.current;
+    if (container) {
+      // Cancel any in-progress FLIP before starting a new one.
+      if (flipCleanupRef.current) {
+        flipCleanupRef.current();
+        flipCleanupRef.current = null;
+      }
+
+      const rects = new Map();
+      const containerRect = container.getBoundingClientRect();
+      container.querySelectorAll(".galleryItem[data-item-key]").forEach((el) => {
+        rects.set(el.dataset.itemKey, {
+          left: el.getBoundingClientRect().left - containerRect.left,
+          top: el.getBoundingClientRect().top - containerRect.top,
+          width: el.getBoundingClientRect().width,
+          height: el.getBoundingClientRect().height,
+        });
+      });
+      prevRectsRef.current = rects;
+    }
+    setActiveAlbum(album);
+  }, []);
+
+  /*
+   * FLIP layout animation — runs after React commits the DOM for a filter
+   * or pagination change, before the browser paints.
+   *
+   * Three kinds of item:
+   * 1. **Staying** — existed before AND after: FLIP-slide from old position.
+   * 2. **Entering** — new in this render: fade-in + scale-up.
+   * 3. **Leaving** — was in the previous render, gone now: a ghost DOM
+   *    clone is absolutely positioned at the old location and fades out +
+   *    scales down, then removed after the transition.
+   *
+   * Transition duration matches the old Isotope `transitionDuration: 0.5s`
+   * and stagger matches `stagger: 30`.
+   */
+  useLayoutEffect(() => {
+    // Skip the very first mount — the page load should not animate.
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+      return;
+    }
+
+    const prevRects = prevRectsRef.current;
+    if (!prevRects.size || !galleryRef.current) return;
+
+    const container = galleryRef.current;
+    const containerRect = container.getBoundingClientRect();
+    const items = container.querySelectorAll(".galleryItem[data-item-key]");
+    const currentKeys = new Set();
+    const ghostEls = [];
+    const timers = [];
+
+    // ── 1. Staying + Entering items ──────────────────────────────────
+    items.forEach((el, visualIndex) => {
+      const key = el.dataset.itemKey;
+      currentKeys.add(key);
+      const prevData = prevRects.get(key);
+      const newRect = el.getBoundingClientRect();
+
+      if (prevData) {
+        // FLIP slide: item existed before → animate from old position.
+        const dx = prevData.left - (newRect.left - containerRect.left);
+        const dy = prevData.top - (newRect.top - containerRect.top);
+
+        if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
+          el.style.transform = `translate(${dx}px, ${dy}px)`;
+          el.style.transition = "none";
+          // Force a reflow so the browser registers the "from" position.
+          el.getBoundingClientRect(); // eslint-disable-line no-unused-expressions
+          el.style.transition = "transform 0.5s ease-in-out, opacity 0.5s ease-in-out";
+          el.style.transform = "";
+        }
+      } else {
+        // New item → fade-in + scale-up, staggered.
+        const delay = visualIndex * 30;
+        el.style.opacity = "0";
+        el.style.transform = "scale(0.001)";
+        el.style.transition = "none";
+        el.getBoundingClientRect(); // eslint-disable-line no-unused-expressions
+        el.style.transition =
+          `transform 0.5s ease-in-out ${delay}ms, opacity 0.5s ease-in-out ${delay}ms`;
+        el.style.opacity = "1";
+        el.style.transform = "scale(1)";
+      }
+    });
+
+    // ── 2. Leaving items (ghost clones) ──────────────────────────────
+    prevRects.forEach((data, key) => {
+      if (currentKeys.has(key)) return; // Still present — already handled.
+
+      const ghost = document.createElement("div");
+      ghost.className = "galleryItem";
+      ghost.setAttribute("aria-hidden", "true");
+      Object.assign(ghost.style, {
+        position: "absolute",
+        left: `${data.left}px`,
+        top: `${data.top}px`,
+        width: `${data.width}px`,
+        height: `${data.height}px`,
+        opacity: "1",
+        transform: "scale(1)",
+        pointerEvents: "none",
+        zIndex: "0",
+        transition: "none",
+      });
+      container.appendChild(ghost);
+      ghostEls.push(ghost);
+
+      ghost.getBoundingClientRect(); // reflow
+      ghost.style.transition = "transform 0.4s ease-in-out, opacity 0.4s ease-in-out";
+      ghost.style.opacity = "0";
+      ghost.style.transform = "scale(0.001)";
+    });
+
+    // ── 3. Cleanup ───────────────────────────────────────────────────
+    const cleanupTimer = setTimeout(() => {
+      items.forEach((el) => {
+        el.style.transition = "";
+        el.style.transform = "";
+        el.style.opacity = "";
+      });
+      ghostEls.forEach((g) => g.remove());
+      flipCleanupRef.current = null;
+    }, 800);
+    timers.push(cleanupTimer);
+
+    flipCleanupRef.current = () => {
+      timers.forEach(clearTimeout);
+      items.forEach((el) => {
+        el.style.transition = "";
+        el.style.transform = "";
+        el.style.opacity = "";
+      });
+      ghostEls.forEach((g) => g.remove());
+    };
+
+    prevRectsRef.current = new Map();
+
+    return () => {
+      timers.forEach(clearTimeout);
+      ghostEls.forEach((g) => g.remove());
+    };
+  }, [activeAlbum, visibleCount]);
 
   /*
    * Switching albums re-starts pagination at the first page. Without this, a
@@ -441,7 +614,7 @@ const VideoGallery = ({
             attributes={attributes}
             id={id}
             activeAlbum={activeAlbum}
-            setActiveAlbum={setActiveAlbum}
+            setActiveAlbum={changeAlbum}
           />
         )}
 
@@ -454,6 +627,8 @@ const VideoGallery = ({
             return (
               <a
                 key={index}
+                data-item-key={String(index)}
+                {...(isEditor ? { "data-editor-hint": __("Click to select · Double-click to preview", "video-gallery-block") } : {})}
                 className={`galleryItem ${albumClasses(albums, albs)} ${
                   isEditor && index === activeIndex ? "bPlNowEditing" : ""
                 }`}
@@ -495,6 +670,12 @@ const VideoGallery = ({
                     return;
                   }
 
+                  if (!isEditor) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setActiveIndex(index);
+                }}
+                onDoubleClick={(e) => {
                   if (!isEditor) return;
                   e.preventDefault();
                   e.stopPropagation();

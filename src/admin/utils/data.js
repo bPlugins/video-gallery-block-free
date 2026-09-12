@@ -195,6 +195,15 @@ export const welcomeInfo = (adminUrl = "") => ({
   changelogs: [
 
     {
+      version: "1.5.2 - 12 September 2026",
+      type: "new",
+      list: [
+        __("<strong>New:</strong> Animated Album Filtering — switching album filters now features smooth FLIP layout transitions (sliding into place, fade-in, and scale effects) with zero external library overhead.", "video-gallery-block"),
+        __("<strong>New:</strong> Editor Interaction & Double-Click Preview — single-clicking any video tile in the block editor selects it in the sidebar, while double-clicking opens the lightbox preview.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Editor Hover Tooltip Visibility — fixed an issue where the hover hint tooltip was clipped and hidden by thumbnail overflow boundaries in the editor.", "video-gallery-block"),
+      ],
+    },
+    {
       version: "1.5.1 - 9 September 2026",
       type: "new",
       list: [

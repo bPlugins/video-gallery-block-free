@@ -304,33 +304,34 @@ const Settings = ({
                       }
                     />
 
-                    <ToggleGroupControl
-                      className="mt20"
-                      label={__("Row Alignment:", "video-gallery-block")}
-                      value={options?.rowAlign || "center"}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(
-                            options,
-                            val ?? "center",
-                            "rowAlign",
-                          ),
-                        })
-                      }
-                      isBlock
-                      __nextHasNoMarginBottom
-                      help={__(
-                        "Only visible when the video count doesn't divide evenly into the column count -- where the last, incomplete row sits.",
-                        "video-gallery-block",
-                      )}>
-                      {rowAlignOptions.map((option) => (
-                        <ToggleGroupControlOption
-                          key={option.value}
-                          value={option.value}
-                          label={option.label}
-                        />
-                      ))}
-                    </ToggleGroupControl>
+                    <div className="mt20 vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("Row Alignment:", "video-gallery-block")}
+                        value={options?.rowAlign || "center"}
+                        onChange={(val) =>
+                          setAttributes({
+                            options: updateData(
+                              options,
+                              val ?? "center",
+                              "rowAlign",
+                            ),
+                          })
+                        }
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={__(
+                          "Only visible when the video count doesn't divide evenly into the column count -- where the last, incomplete row sits.",
+                          "video-gallery-block",
+                        )}>
+                        {rowAlignOptions.map((option) => (
+                          <ToggleGroupControlOption
+                            key={option.value}
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </ToggleGroupControl>
+                    </div>
 
                     <ToggleControl
                       className="mt20"
@@ -344,33 +345,34 @@ const Settings = ({
                       }
                     />
 
-                    <ToggleGroupControl
-                      className="mt20"
-                      label={__("Sort Order:", "video-gallery-block")}
-                      value={options?.sortOrder || "manual"}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(
-                            options,
-                            val ?? "manual",
-                            "sortOrder",
-                          ),
-                        })
-                      }
-                      isBlock
-                      __nextHasNoMarginBottom
-                      help={__(
-                        "Manual keeps the order videos were added in. Videos added before this option existed count as the oldest.",
-                        "video-gallery-block",
-                      )}>
-                      {sortOrderOptions.map((option) => (
-                        <ToggleGroupControlOption
-                          key={option.value}
-                          value={option.value}
-                          label={option.label}
-                        />
-                      ))}
-                    </ToggleGroupControl>
+                    <div className="mt20 vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("Sort Order:", "video-gallery-block")}
+                        value={options?.sortOrder || "manual"}
+                        onChange={(val) =>
+                          setAttributes({
+                            options: updateData(
+                              options,
+                              val ?? "manual",
+                              "sortOrder",
+                            ),
+                          })
+                        }
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={__(
+                          "Manual keeps the order videos were added in. Videos added before this option existed count as the oldest.",
+                          "video-gallery-block",
+                        )}>
+                        {sortOrderOptions.map((option) => (
+                          <ToggleGroupControlOption
+                            key={option.value}
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </ToggleGroupControl>
+                    </div>
 
                     <NumberControl
                       className="mt20"
@@ -502,33 +504,34 @@ const Settings = ({
                       )}
                     />
 
-                    <ToggleGroupControl
-                      className="mt20 vgbShortsFilterToggle"
-                      label={__("YouTube Shorts:", "video-gallery-block")}
-                      value={options?.shortsFilter || "all"}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(
-                            options,
-                            val ?? "all",
-                            "shortsFilter",
-                          ),
-                        })
-                      }
-                      isBlock
-                      __nextHasNoMarginBottom
-                      help={__(
-                        "Detected by the link itself, not by watching each video, so this works without an API key.",
-                        "video-gallery-block",
-                      )}>
-                      {shortsFilterOptions.map((option) => (
-                        <ToggleGroupControlOption
-                          key={option.value}
-                          value={option.value}
-                          label={option.label}
-                        />
-                      ))}
-                    </ToggleGroupControl>
+                    <div className="mt20 vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("YouTube Shorts:", "video-gallery-block")}
+                        value={options?.shortsFilter || "all"}
+                        onChange={(val) =>
+                          setAttributes({
+                            options: updateData(
+                              options,
+                              val ?? "all",
+                              "shortsFilter",
+                            ),
+                          })
+                        }
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={__(
+                          "Detected by the link itself, not by watching each video, so this works without an API key.",
+                          "video-gallery-block",
+                        )}>
+                        {shortsFilterOptions.map((option) => (
+                          <ToggleGroupControlOption
+                            key={option.value}
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </ToggleGroupControl>
+                    </div>
 
                     <ToggleControl
                       className="mt20"

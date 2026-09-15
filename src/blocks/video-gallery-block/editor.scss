@@ -265,7 +265,19 @@
   }
 }
 
+// Override Gutenberg's block wrapper to prevent it from clipping our tooltips
+[data-type="vgb/video-gallery"] {
+  overflow: visible !important;
+}
+
 .wp-block-vgb-video-gallery {
+  overflow: visible !important;
+
+  .videoGallery {
+    overflow: visible !important;
+    padding-top: 35px; // Add space for the top tooltip to prevent clipping
+  }
+
   .galleryItem {
     text-decoration: none !important;
     color: inherit !important;
@@ -275,6 +287,24 @@
     .galleryFigure {
       overflow: hidden;
       border-radius: inherit;
+    }
+
+    .react-thumbnail-generator {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+      height: 100%;
+
+      canvas,
+      video {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
     }
 
     // Tooltip hint
@@ -296,7 +326,24 @@
       transition:
         opacity 0.2s ease,
         transform 0.2s ease;
-      z-index: 99;
+      z-index: 999999;
+    }
+
+    &.bPlNowEditing {
+      outline: none !important;
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border: 2px solid #146ef5;
+        z-index: 90;
+        pointer-events: none;
+        border-radius: inherit;
+      }
     }
 
     &:hover::after {
@@ -305,3 +352,4 @@
     }
   }
 }
+

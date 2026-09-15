@@ -193,6 +193,14 @@ export const welcomeInfo = (adminUrl = "") => ({
 
   // Changelogs — each list item starts with <strong>Type:</strong> for badges
   changelogs: [
+    {
+      version: "1.5.3 - 15 September 2026",
+      type: "fix",
+      list: [
+        __("<strong>Fix:</strong> Editor Hover Tooltip Visibility — fixed an issue where the tooltip for the first row of videos in the gallery would be clipped by Gutenberg's block boundaries.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Editor Selection Border — fixed an issue where the blue selection outline would be hidden behind poster images in the editor.", "video-gallery-block"),
+      ],
+    },
 
     {
       version: "1.5.2 - 12 September 2026",

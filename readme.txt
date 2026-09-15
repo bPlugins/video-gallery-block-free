@@ -2,7 +2,7 @@
 Contributors: bplugins, abuhayat, himur98, freemius
 Tags: video gallery, youtube gallery, vimeo gallery, video playlist, block
 Tested up to: 7.1
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 Requires PHP: 7.4
 Requires at least: 6.5
 Donate link: https://www.buymeacoffee.com/abuhayat
@@ -265,6 +265,10 @@ To build the plugin from source:
 Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
+
+= 1.5.3 - 15 September 2026 =
+* **Fix — Editor Hover Tooltip Visibility.** Fixed an issue where the tooltip for the first row of videos in the gallery would be clipped by Gutenberg's block boundaries.
+* **Fix — Editor Selection Border.** Fixed an issue where the blue selection outline would be hidden behind poster images in the editor.
 
 = 1.5.2 - 12 September 2026 =
 * **New — Animated Album Filtering.** Switching album filters now features smooth FLIP layout transitions (sliding into position, fade-in, and scale effects) without relying on jQuery or external libraries like Isotope.

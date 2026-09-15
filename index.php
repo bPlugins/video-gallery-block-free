@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.5.2
+ * Version: 1.5.3
  * Requires at least: 6.5
  * Tested up to: 7.1
  * Requires PHP: 7.4
@@ -40,7 +40,7 @@ if (function_exists('vgb_fs')) {
         defined('WP_DEBUG') && WP_DEBUG
         && isset($_SERVER['HTTP_HOST'])
         && 'localhost' === strtok(sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])), ':')
-    ) ? time() : '1.5.2');
+    ) ? time() : '1.5.3');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));

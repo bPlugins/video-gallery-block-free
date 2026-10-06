@@ -90,7 +90,7 @@ function vidgalblk_vimeo_id( $url ) {
  * @return bool
  */
 function vidgalblk_is_facebook_video( $url ) {
-	return is_string( $url ) && (bool) preg_match( '#(?:facebook\.com/.+/videos/|facebook\.com/watch/?\?|fb\.watch/)#', $url );
+	return is_string( $url ) && (bool) preg_match( '#(?:facebook\.com/.+/videos/|facebook\.com/watch/?\?|facebook\.com/reel/|facebook\.com/share/[rv]/|fb\.watch/)#', $url );
 }
 
 /**

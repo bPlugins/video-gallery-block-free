@@ -270,12 +270,19 @@
   overflow: visible !important;
 }
 
+// The real clipper: Gutenberg's own post-content root wrapper renders with
+// `overflow: hidden` (to contain its device-preview frame), which cuts off
+// our tooltip whenever it pokes above the block -- no plugin CSS involved.
+// Scoped with :has() so it only opens up when our block is actually present.
+.is-root-container:has(.wp-block-vgb-video-gallery) {
+  overflow: visible !important;
+}
+
 .wp-block-vgb-video-gallery {
   overflow: visible !important;
 
   .videoGallery {
     overflow: visible !important;
-    padding-top: 35px; // Add space for the top tooltip to prevent clipping
   }
 
   .galleryItem {

@@ -579,7 +579,7 @@ const Settings = ({
                         })
                       }
                       help={__(
-                        "Pushes a video_start event (title, provider, URL) to window.dataLayer when a visitor opens a video -- works with GA4 or Google Tag Manager already on the site, nothing extra to set up.",
+                        "Sends video_start when a visitor opens a video, video_play when they press play, and video_watch_progress (25, 50, 75 percent) and video_watch_complete as they watch. Facebook videos only report opening. Works with GA4 or Google Tag Manager already on the site, nothing extra to set up.",
                         "video-gallery-block",
                       )}
                     />

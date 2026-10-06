@@ -2,9 +2,9 @@
 
 Display your videos as a gallery in a professional way directly in the WordPress Gutenberg editor.
 
-[Video Gallery Block](https://bplugins.com/products/video-gallery-block) is a lightweight and powerful WordPress plugin that allows you to create responsive video galleries, grids, and lightbox popups with ease.
+[Video Gallery Block](https://bplugins.com/products/video-gallery-block/) is a lightweight and powerful WordPress plugin that allows you to create responsive video galleries, grids, and lightbox popups with ease.
 
-[![Video Gallery Block Banner](https://ps.w.org/video-gallery-block/assets/banner-772x250.png)](https://bplugins.com/products/video-gallery-block)
+[![Video Gallery Block Banner](https://ps.w.org/video-gallery-block/assets/banner-772x250.png)](https://bplugins.com/products/video-gallery-block/)
 
 ## 🚀 Key Features – Free Version
 - **Responsive Video Gallery Block**: Automatically adapts to desktop, tablet, and mobile screens.

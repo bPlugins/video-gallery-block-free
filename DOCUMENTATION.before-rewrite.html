@@ -1,0 +1,2865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Gallery Block - Documentation</title>
+  <link rel="icon" type="image/png" href="docs-assets/plugin-icon.png">
+    <meta name="description" content="Official documentation for the Video Gallery Block WordPress plugin: installing, adding YouTube and Vimeo videos, albums and filters, layouts, lightbox, privacy, and the Pro blocks.">
+  <style>
+    :root {
+      --brand: #146ef5;
+      --brand-dark: #1058c4;
+      --brand-light: #ecf3fe;
+      --ink: #1a2036;
+      --ink-soft: #3d4461;
+      --muted: #6b7280;
+      --faint: #9aa1b5;
+      --line: #e6e8f0;
+      --bg: #ffffff;
+      --bg-soft: #f7f8fc;
+      --code-bg: #f4f5fa;
+      --code-ink: #1058c4;
+      --green: #0e9f6e;
+      --amber: #c27803;
+      --red: #e02424;
+      --radius: 0;
+      --topbar-h: 72px;
+      --sidebar-w: 300px;
+      --toc-w: 260px;
+      --content-max: 780px;
+      font-size: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--ink-soft);
+      background: var(--bg);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+    }
+
+    /* ============ Top bar ============ */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      height: var(--topbar-h);
+      background: var(--brand);
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 0 2rem;
+    }
+
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      color: #fff;
+      text-decoration: none;
+      flex-shrink: 0;
+    }
+
+    .topbar-logo {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .topbar-logo svg,
+    .topbar-logo img {
+      width: 34px;
+      height: 34px;
+      display: block;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    .topbar-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: .01em;
+      white-space: nowrap;
+    }
+
+    .topbar-name .thin {
+      /* the plugin name is ONE colour: vary weight only, never opacity */
+      font-weight: 400;
+      opacity: 1;
+    }
+
+    .topbar-sep {
+      width: 1px;
+      height: 26px;
+      background: rgba(255, 255, 255, .35);
+    }
+
+    .topbar-docs {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .topbar-search {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      min-width: 0;
+    }
+
+    .search-box {
+      position: relative;
+      width: 100%;
+      max-width: 520px;
+    }
+
+    .search-box input {
+      width: 100%;
+      height: 46px;
+      border: none;
+      border-radius: 8px;
+      padding: 0 3rem 0 2.7rem;
+      font-size: .95rem;
+      color: var(--ink);
+      background: #fff;
+      outline: none;
+    }
+
+    .search-box input::placeholder {
+      color: var(--faint);
+    }
+
+    .search-box .s-icon {
+      position: absolute;
+      left: .95rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 17px;
+      height: 17px;
+      color: var(--faint);
+      pointer-events: none;
+    }
+
+    .search-box kbd {
+      position: absolute;
+      right: .8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      padding: .1rem .55rem;
+      font-size: .8rem;
+      color: var(--faint);
+      font-family: inherit;
+      background: #fff;
+    }
+
+    .search-results {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(20, 24, 60, .14);
+      max-height: 360px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .search-results.open {
+      display: block;
+    }
+
+    .search-results a {
+      display: block;
+      padding: .65rem 1rem;
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .search-results a:last-child {
+      border-bottom: none;
+    }
+
+    .search-results a:hover,
+    .search-results a.sel {
+      background: var(--bg-soft);
+    }
+
+    .search-results .r-title {
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .search-results .r-crumb {
+      font-size: .76rem;
+      color: var(--faint);
+    }
+
+    .search-results .empty {
+      padding: .9rem 1rem;
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    .topbar-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .topbar-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: .95rem;
+      font-weight: 500;
+      opacity: .95;
+      white-space: nowrap;
+    }
+
+    .topbar-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+
+    .menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: .3rem;
+    }
+
+    .menu-btn svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    /* ============ Layout ============ */
+    .layout {
+      display: flex;
+      padding-top: var(--topbar-h);
+      min-height: 100vh;
+    }
+
+    /* ============ Sidebar ============ */
+    .sidebar {
+      width: var(--sidebar-w);
+      flex-shrink: 0;
+      border-right: 1px solid var(--line);
+      padding: 2rem 0 3rem;
+      position: sticky;
+      top: var(--topbar-h);
+      height: calc(100vh - var(--topbar-h));
+      overflow-y: auto;
+      background: var(--bg);
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background: var(--line);
+      border-radius: 3px;
+    }
+
+    .nav-group {
+      border-bottom: 1px solid transparent;
+    }
+
+    .nav-group-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 1rem 1.6rem 1rem 2rem;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--ink);
+      font-family: inherit;
+      text-align: left;
+    }
+
+    .nav-group-head:hover {
+      color: var(--brand);
+    }
+
+    .nav-group-head .chev {
+      width: 14px;
+      height: 14px;
+      color: var(--faint);
+      transition: transform .2s ease;
+      flex-shrink: 0;
+    }
+
+    .nav-group.open .nav-group-head .chev {
+      transform: rotate(90deg);
+    }
+
+    .nav-group-items {
+      display: none;
+      padding: 0 0 .6rem;
+    }
+
+    .nav-group.open .nav-group-items {
+      display: block;
+    }
+
+    .nav-group-items a {
+      display: block;
+      padding: .55rem 1.6rem .55rem 2rem;
+      font-size: .95rem;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav-group-items a:hover {
+      color: var(--brand);
+    }
+
+    .nav-group-items a.active {
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    .nav-top-link {
+      display: block;
+      padding: 1rem 1.6rem 1rem 2rem;
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-top-link:hover {
+      color: var(--brand);
+    }
+
+    .nav-top-link.active {
+      color: var(--brand);
+    }
+
+    /* ============ Main ============ */
+    .main {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+      padding: 2.4rem 3rem 5rem;
+      gap: 3rem;
+    }
+
+    .content {
+      width: 100%;
+      max-width: var(--content-max);
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .55rem;
+      font-size: .88rem;
+      color: var(--muted);
+      margin-bottom: 1.6rem;
+    }
+
+    .breadcrumb svg {
+      width: 15px;
+      height: 15px;
+      color: var(--faint);
+    }
+
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      color: var(--brand);
+    }
+
+    .breadcrumb .bc-sep {
+      color: var(--faint);
+    }
+
+    .breadcrumb .bc-current {
+      color: var(--ink-soft);
+    }
+
+    .doc-article {
+      display: none;
+    }
+
+    .doc-article.active {
+      display: block;
+      animation: fadein .18s ease;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    .doc-article h1 {
+      font-size: 2.15rem;
+      line-height: 1.25;
+      color: var(--ink);
+      font-weight: 700;
+      letter-spacing: -.015em;
+      margin-bottom: 1.1rem;
+    }
+
+    .doc-article .lead {
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+
+    .doc-article h2 {
+      font-size: 1.45rem;
+      color: var(--ink);
+      font-weight: 700;
+      margin: 2.6rem 0 .9rem;
+      letter-spacing: -.01em;
+      scroll-margin-top: calc(var(--topbar-h) + 24px);
+    }
+
+    .doc-article h3 {
+      font-size: 1.08rem;
+      color: var(--ink);
+      font-weight: 650;
+      margin: 1.8rem 0 .6rem;
+      scroll-margin-top: calc(var(--topbar-h) + 24px);
+    }
+
+    .doc-article p {
+      margin-bottom: 1rem;
+    }
+
+    .doc-article ul,
+    .doc-article ol {
+      margin: 0 0 1.1rem 1.4rem;
+    }
+
+    .doc-article li {
+      margin-bottom: .45rem;
+    }
+
+    .doc-article li::marker {
+      color: var(--brand);
+    }
+
+    .doc-article a {
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    .doc-article a:hover {
+      text-decoration: underline;
+    }
+
+    .doc-article strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    .doc-article code {
+      background: var(--code-bg);
+      color: var(--code-ink);
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      padding: .1rem .4rem;
+      font-size: .85em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      /* a long URL or hostname must wrap, not widen the page on a phone */
+      overflow-wrap: anywhere;
+    }
+
+    .codeblock {
+      position: relative;
+      margin: 0 0 1.2rem;
+    }
+
+    .codeblock pre {
+      background: var(--code-bg);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      overflow-x: auto;
+      font-size: .87rem;
+      line-height: 1.6;
+    }
+
+    .codeblock pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--code-ink);
+    }
+
+    .codeblock .copy-btn {
+      position: absolute;
+      top: .55rem;
+      right: .55rem;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: .74rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding: .25rem .6rem;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .codeblock .copy-btn:hover {
+      color: var(--brand);
+      border-color: var(--brand);
+    }
+
+    .callout {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--brand);
+      background: var(--bg-soft);
+      border-radius: 8px;
+      padding: .9rem 1.1rem;
+      margin: 0 0 1.2rem;
+      font-size: .93rem;
+    }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout .co-label {
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+      margin-bottom: .15rem;
+    }
+
+    .callout.tip {
+      border-left-color: var(--green);
+    }
+
+    .callout.warn {
+      border-left-color: var(--amber);
+    }
+
+    .callout.danger {
+      border-left-color: var(--red);
+    }
+
+    /* ============ FAQ accordion ============ */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      margin: 1.4rem 0 2rem;
+      list-style: none;
+    }
+
+    .faq-item {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--bg);
+      overflow: hidden;
+    }
+
+    .faq-q {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.2rem;
+      width: 100%;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 1.05rem 1.3rem;
+      font: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .faq-toggle {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--brand-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .15s ease;
+    }
+
+    .faq-toggle svg {
+      width: 15px;
+      height: 15px;
+      color: var(--brand);
+      transition: transform .2s ease;
+    }
+
+    .faq-item.open .faq-toggle {
+      background: var(--brand);
+    }
+
+    .faq-item.open .faq-toggle svg {
+      color: #fff;
+      transform: rotate(180deg);
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 1.3rem 1.2rem;
+      color: var(--ink-soft);
+      font-size: .96rem;
+    }
+
+    .faq-a p {
+      margin: 0;
+    }
+
+    .faq-item.open .faq-a {
+      display: block;
+      animation: fadein .15s ease;
+    }
+
+    table.doc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0 0 1.3rem;
+      font-size: .89rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-bottom: 1.3rem;
+    }
+
+    .table-wrap table.doc-table {
+      margin-bottom: 0;
+    }
+
+    table.doc-table th {
+      text-align: left;
+      background: var(--bg-soft);
+      color: var(--ink);
+      font-weight: 650;
+      padding: .6rem .8rem;
+      border: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    table.doc-table td {
+      padding: .6rem .8rem;
+      border: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    table.doc-table td code {
+      white-space: nowrap;
+    }
+
+    .badge-pro {
+      display: inline-block;
+      vertical-align: 2px;
+      background: linear-gradient(90deg, #f59e0b, #f97316);
+      color: #fff;
+      font-size: .62rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      padding: .12rem .45rem;
+      border-radius: 999px;
+      text-transform: uppercase;
+      margin-left: .45rem;
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .9rem;
+      margin: 0 0 1.4rem;
+      padding: .85rem 1.1rem;
+      background: var(--brand-light);
+      border: 1px solid #ccd2fb;
+      border-radius: 10px;
+    }
+
+    .switch-label {
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .editor-switch {
+      display: inline-flex;
+      /* wrap on narrow screens: three buttons do not fit a 390px viewport */
+      flex-wrap: wrap;
+      max-width: 100%;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid #ccd2fb;
+      border-radius: 9px;
+      background: #fff;
+    }
+
+    .editor-switch button {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: .88rem;
+      font-weight: 700;
+      color: var(--ink-soft);
+      padding: .45rem 1.15rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease;
+    }
+
+    .editor-switch button svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+    }
+
+    .editor-switch button:hover:not(.on) {
+      background: var(--brand-light);
+      color: var(--brand-dark);
+    }
+
+    .editor-switch button.on {
+      background: var(--brand);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(59, 75, 240, .35);
+    }
+
+    .editor-switch button:focus-visible {
+      outline: 2px solid var(--brand-dark);
+      outline-offset: 2px;
+    }
+
+    body.editor-gutenberg .only-classic,
+    body.editor-gutenberg .only-elementor,
+    body.editor-gutenberg .hide-gutenberg,
+    body.editor-classic .only-gutenberg,
+    body.editor-classic .only-elementor,
+    body.editor-classic .hide-classic,
+    body.editor-elementor .only-gutenberg,
+    body.editor-elementor .only-classic,
+    body.editor-elementor .hide-elementor {
+      display: none !important;
+    }
+
+    .section-hidden {
+      display: none !important;
+    }
+
+    .no-support {
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--amber);
+      background: var(--bg-soft);
+      border-radius: 8px;
+      padding: .9rem 1.1rem;
+      margin: 0 0 1.2rem;
+      font-size: .93rem;
+    }
+
+    .no-support .ns-label {
+      font-weight: 700;
+      color: var(--ink);
+      display: block;
+      margin-bottom: .15rem;
+    }
+
+    .no-support p:last-child {
+      margin-bottom: 0;
+    }
+
+    .media-slot {
+      margin: 1.4rem 0 1.8rem;
+    }
+
+    .media-slot img,
+    .media-slot video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 32px rgba(20, 24, 60, .10);
+    }
+
+    .media-slot .yt-wrap {
+      position: relative;
+      padding-top: 56.25%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 32px rgba(20, 24, 60, .10);
+      background: #10132b;
+    }
+
+    .media-slot .yt-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .media-slot figcaption {
+      font-size: .82rem;
+      color: var(--faint);
+      text-align: center;
+      margin-top: .6rem;
+    }
+
+    /* ===== Image lightbox ===== */
+    .media-slot img {
+      cursor: zoom-in;
+      transition: box-shadow .18s ease;
+    }
+
+    .media-slot img:hover {
+      box-shadow: 0 14px 38px rgba(20, 24, 60, .22);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 400;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 3.2rem 4.5rem 2rem;
+      background: rgba(12, 15, 35, .88);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 100%;
+      max-height: calc(100vh - 8.5rem);
+      object-fit: contain;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .5);
+    }
+
+    .lb-caption {
+      color: var(--brand-light);
+      font-size: .92rem;
+      text-align: center;
+      max-width: 60ch;
+      line-height: 1.5;
+    }
+
+    .lb-count {
+      color: #9aa1c8;
+      font-size: .8rem;
+    }
+
+    .lightbox button {
+      position: absolute;
+      background: rgba(255, 255, 255, .12);
+      border: 1px solid rgba(255, 255, 255, .22);
+      color: #fff;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background .15s ease;
+    }
+
+    .lightbox button:hover {
+      background: rgba(255, 255, 255, .26);
+    }
+
+    .lightbox button:focus-visible {
+      outline: 2px solid #fff;
+      outline-offset: 2px;
+    }
+
+    .lightbox button svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .lb-close {
+      top: 1.1rem;
+      right: 1.4rem;
+    }
+
+    .lb-prev {
+      left: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .lb-next {
+      right: 1.1rem;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .lightbox.single .lb-prev,
+    .lightbox.single .lb-next {
+      display: none;
+    }
+
+    body.lb-open {
+      overflow: hidden;
+    }
+
+    @media (max-width: 640px) {
+      .lightbox {
+        padding: 3.2rem 1rem 1.5rem;
+      }
+
+      .lb-prev {
+        left: .4rem;
+      }
+
+      .lb-next {
+        right: .4rem;
+      }
+    }
+
+    .media-ph {
+      border: 2px dashed #c7cbe3;
+      border-radius: 12px;
+      background: var(--bg-soft);
+      padding: 2.1rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .45rem;
+      text-align: center;
+    }
+
+    .media-ph .ph-icon {
+      width: 36px;
+      height: 36px;
+      color: #aab0d0;
+    }
+
+    .media-ph .ph-label {
+      font-weight: 650;
+      color: var(--ink-soft);
+      font-size: .92rem;
+    }
+
+    .media-ph .ph-path {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: .76rem;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: .18rem .6rem;
+    }
+
+    .media-ph .ph-hint {
+      font-size: .75rem;
+      color: var(--faint);
+    }
+
+    .steps {
+      counter-reset: step;
+      list-style: none;
+      margin: 0 0 1.3rem;
+    }
+
+    .steps>li {
+      counter-increment: step;
+      position: relative;
+      padding: 0 0 1.1rem 2.7rem;
+      margin: 0;
+    }
+
+    .steps>li::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: .1rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--brand-light);
+      color: var(--brand-dark);
+      font-size: .82rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .steps>li:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 12.5px;
+      top: 30px;
+      bottom: 2px;
+      width: 1px;
+      background: var(--line);
+    }
+
+    .steps li ul {
+      margin: .5rem 0 0 1.1rem;
+      list-style: disc;
+    }
+
+    .steps .media-slot {
+      margin: .6rem 0 0;
+    }
+
+    .steps li ul li {
+      margin-bottom: .3rem;
+      padding: 0;
+    }
+
+    .article-footer {
+      margin-top: 3.2rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .pager-link {
+      display: flex;
+      flex-direction: column;
+      gap: .15rem;
+      text-decoration: none;
+      max-width: 46%;
+    }
+
+    .pager-link .pl-dir {
+      font-size: .78rem;
+      color: var(--faint);
+    }
+
+    .pager-link .pl-title {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--brand);
+    }
+
+    .pager-link:hover .pl-title {
+      text-decoration: underline;
+    }
+
+    .pager-link.next {
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .article-feedback {
+      margin-top: 2.4rem;
+      padding: 1rem 1.2rem;
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .article-feedback .fb-question {
+      font-weight: 600;
+      font-size: .92rem;
+    }
+
+    .article-feedback .fb-buttons {
+      display: flex;
+      gap: .6rem;
+    }
+
+    .article-feedback .fb-btn {
+      padding: .4rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      font-size: .88rem;
+      cursor: pointer;
+      color: var(--ink);
+    }
+
+    .article-feedback .fb-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .article-feedback .fb-thanks {
+      font-size: .9rem;
+      color: var(--muted);
+    }
+
+    /* ============ TOC ============ */
+    .toc {
+      width: var(--toc-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: calc(var(--topbar-h) + 24px);
+      align-self: flex-start;
+      max-height: calc(100vh - var(--topbar-h) - 48px);
+      overflow-y: auto;
+      padding-left: .4rem;
+    }
+
+    .toc-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: .8rem;
+    }
+
+    .toc ul {
+      list-style: none;
+    }
+
+    .toc li {
+      margin-bottom: .55rem;
+    }
+
+    .toc a {
+      font-size: .88rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: block;
+      line-height: 1.45;
+    }
+
+    .toc a:hover {
+      color: var(--brand);
+    }
+
+    .toc a.active {
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: var(--topbar-h) 0 0 0;
+      background: rgba(15, 18, 40, .45);
+      z-index: 140;
+    }
+
+    /* ============ Responsive ============ */
+    @media (max-width: 1280px) {
+      .toc {
+        display: none;
+      }
+
+      .topbar-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .menu-btn {
+        display: block;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: var(--topbar-h);
+        bottom: 0;
+        z-index: 150;
+        transform: translateX(-100%);
+        transition: transform .22s ease;
+        box-shadow: 8px 0 28px rgba(20, 24, 60, .12);
+        height: auto;
+      }
+
+      body.nav-open .sidebar {
+        transform: none;
+      }
+
+      body.nav-open .overlay {
+        display: block;
+      }
+
+      .main {
+        padding: 1.8rem 1.4rem 4rem;
+      }
+
+      .topbar {
+        padding: 0 1.1rem;
+        gap: 1rem;
+      }
+
+      .topbar-sep,
+      .topbar-docs {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .doc-article h1 {
+        font-size: 1.65rem;
+      }
+
+      .search-box kbd {
+        display: none;
+      }
+
+      .topbar-name .thin {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body class="editor-gutenberg">
+
+  <!-- ===================== TOP BAR ===================== -->
+  <header class="topbar">
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M3 6h18M3 12h18M3 18h18" />
+      </svg>
+    </button>
+    <a class="topbar-brand" href="https://wordpress.org/plugins/video-gallery-block/" target="_blank" rel="noopener">
+      <span class="topbar-logo"><img src="docs-assets/plugin-icon.png" alt="Video Gallery Block"></span>
+      <span class="topbar-name"><strong>Video Gallery</strong> <span class="thin">Block</span></span>
+    </a>
+    <span class="topbar-sep"></span>
+    <span class="topbar-docs">Docs</span>
+
+    <div class="topbar-search">
+      <div class="search-box">
+        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round">
+          <circle cx="11" cy="11" r="7" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+        <input type="text" id="searchInput" placeholder="Search..." autocomplete="off">
+        <kbd>/</kbd>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+
+  </header>
+
+  <div class="overlay" id="overlay"></div>
+
+  <div class="layout">
+
+    <!-- ===================== SIDEBAR ===================== -->
+    <aside class="sidebar" id="sidebar">
+      <nav id="sideNav">
+
+        <div class="nav-group" data-group="Getting Started">
+          <button class="nav-group-head">Getting Started
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+          <div class="nav-group-items">
+            <a href="#introduction" data-nav>Introduction</a>
+            <a href="#free-install" data-nav>Installation and Activation</a>
+            <a href="#free-quick-start" data-nav>Quick Start: Your First Gallery</a>
+            <a href="#free-vs-pro" data-nav>Free vs Pro</a>
+          </div>
+        </div>
+
+        <div class="nav-group" data-group="How To Use">
+          <button class="nav-group-head">How To Use
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+          <div class="nav-group-items">
+            <a href="#free-add-videos" data-nav>Add Videos</a>
+            <a href="#free-bulk-import" data-nav>Bulk Import</a>
+            <a href="#free-albums" data-nav>Albums</a>
+            <a href="#free-filter-lightbox" data-nav>Filter Bar and Lightbox</a>
+            <a href="#free-shortcode" data-nav>Reuse a Gallery with a Shortcode</a>
+          </div>
+        </div>
+
+        <div class="nav-group" data-group="Settings">
+          <button class="nav-group-head">Settings
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+          <div class="nav-group-items">
+            <a href="#free-layout" data-nav>Layout Settings</a>
+            <a href="#free-styling" data-nav>Styling</a>
+            <a href="#free-privacy-analytics" data-nav>Privacy and Analytics</a>
+            <a href="#free-seo" data-nav>Video SEO</a>
+            <a href="#free-dashboard" data-nav>Dashboard and Help Page</a>
+          </div>
+        </div>
+
+        <div class="nav-group" data-group="Pro">
+          <button class="nav-group-head">Pro
+            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+          </button>
+          <div class="nav-group-items">
+            <a href="#pro-overview" data-nav>What Video Gallery Block Pro Adds</a>
+            <a href="#pro-quick-start" data-nav>Quick Start: Your First Pro Gallery</a>
+            <a href="#pro-sliders" data-nav>Sliders and Carousels</a>
+            <a href="#pro-grids" data-nav>Grids and Walls</a>
+            <a href="#pro-playlist-and-learning" data-nav>Playlists, Courses and Timelines</a>
+            <a href="#pro-stories-and-shorts" data-nav>Stories, Shorts and Playful Layouts</a>
+            <a href="#pro-business" data-nav>Business and Industry Blocks</a>
+            <a href="#pro-woocommerce" data-nav>Product Videos with WooCommerce</a>
+            <a href="#pro-stats" data-nav>View Counts, Likes and Comments</a>
+          </div>
+        </div>
+
+        <a class="nav-top-link" href="#pro-faq" data-nav>Frequently Asked Questions</a>
+        <a class="nav-top-link" href="#pro-troubleshooting" data-nav>Troubleshooting</a>
+      </nav>
+    </aside>
+
+    <!-- ===================== MAIN ===================== -->
+    <main class="main">
+      <div class="content">
+
+        <nav class="breadcrumb" id="breadcrumb">
+          <a href="#introduction" data-nav aria-label="Home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            </svg>
+          </a>
+          <span class="bc-sep">/</span>
+          <a href="#introduction" data-nav>Docs</a>
+          <span class="bc-sep">/</span>
+          <span id="bcGroup"></span>
+          <span class="bc-sep">/</span>
+          <span class="bc-current" id="bcTitle"></span>
+        </nav>
+
+        <div id="articles">
+
+          <article class="doc-article" id="introduction" data-group="Getting Started" data-title="Introduction">
+            <h1>Video Gallery Block: Introduction</h1>
+            <p class="lead">Turn your YouTube and Vimeo links into one clean gallery. Visitors can filter it and play every video in a popup, without leaving the page.</p>
+            <p>You build it in the block editor. No code, no API key.</p>
+            <figure class="media-slot" data-media="image" data-src="docs-assets/free-gallery-result.png" data-caption="A published gallery: tiles with play icons, captions and a row of album filter buttons above them."></figure>
+            <h2 id="intro-free">What You Get for Free</h2>
+            <ul>
+              <li><strong>YouTube, Vimeo and Facebook</strong> videos in one gallery.</li>
+              <li><strong>Albums and filter buttons</strong>, so visitors can find a topic fast.</li>
+              <li><strong>Bulk Import</strong>. Paste a list of links and the gallery fills itself.</li>
+              <li><strong>A lightbox</strong> that plays each video in a popup.</li>
+              <li><strong>Columns for each device</strong>, plus spacing, borders and shadows.</li>
+              <li><strong>Privacy and tracking options</strong>: ask for consent before a player loads, and send plays to Google Analytics.</li>
+            </ul>
+            <h2 id="intro-pro">What Pro Adds</h2>
+            <p>Video Gallery Block Pro adds 31 more blocks, such as sliders, masonry grids, playlists and video stories. It also adds self-hosted and Wistia videos.</p>
+            <p>You can use Pro blocks next to the free one on the same page. See <a href="#pro-overview" data-nav>Video Gallery Block Pro</a>.</p>
+            <h2 id="intro-next">Where to Go Next</h2>
+            <p>Start with the <a href="#free-quick-start" data-nav>Quick Start</a>. You will publish your first gallery in about five minutes. Not installed yet? See <a href="#free-install" data-nav>Installation and Activation</a>.</p>
+          </article>
+
+<article class="doc-article" id="free-install" data-group="Getting Started" data-title="Installation and Activation">
+  <h1>Installation and Activation</h1>
+  <p class="lead">Get Video Gallery Block on your site in about a minute. You do not need any code or any account.</p>
+
+  <h2 id="free-install-steps">Install from your dashboard</h2>
+  <p>This is the easiest way. WordPress downloads the plugin for you.</p>
+  <ol class="steps">
+    <li>Open <strong>Plugins</strong> in the left menu, then click <strong>Add New Plugin</strong>.</li>
+    <li>Type <strong>Video Gallery Block</strong> in the search box. Find the plugin by bPlugins and click <strong>Install Now</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-install-search.png" data-caption="The Add Plugins page with Video Gallery Block in the results. The arrow marks the Install Now button."></figure>
+    </li>
+    <li>Click <strong>Activate</strong> when the button changes.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-install-activate.png" data-caption="The same card after install. The arrow marks the Activate button."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-install-check">Check that it worked</h2>
+  <p>A new <strong>Video Gallery</strong> item appears in your left menu. That means the plugin is ready.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/free-install-menu.png" data-caption="The Video Gallery item in the left menu with its submenu open. This is a result image, so there is no arrow."></figure>
+
+  <div class="callout tip"><span class="co-label">Tip</span><p>Have a ZIP file instead? Go to Plugins, Add New Plugin, then Upload Plugin. Choose the ZIP, install it and click Activate.</p></div>
+</article>
+
+<article class="doc-article" id="free-quick-start" data-group="Getting Started" data-title="Quick Start: Your First Gallery">
+  <h1>Quick Start: Your First Gallery</h1>
+  <p class="lead">A gallery lets visitors browse many videos in one tidy grid and play each one in a popup. Here is how to make your first one.</p>
+
+  <h2 id="free-qs-block">Add the block to a page</h2>
+  <ol class="steps">
+    <li>Open any page or post in the block editor.</li>
+    <li>Click the <strong>+</strong> button at the top, then search for <strong>Video Gallery Block</strong> and click it.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-inserter.png" data-caption="The block inserter with Video Gallery Block in the results. The arrow marks the block."></figure>
+    </li>
+    <li>In the right sidebar, open the <strong>General</strong> tab, then the <strong>Videos</strong> panel. Paste a YouTube or Vimeo link into the <strong>Video url</strong> box.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-first-video.png" data-caption="The Videos panel with a YouTube link pasted in. The arrow marks the Video url box."></figure>
+    </li>
+    <li>Click <strong>Publish</strong>, or <strong>Update</strong> if the page is already live.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-publish.png" data-caption="The editor top bar. The arrow marks the Publish button."></figure>
+    </li>
+  </ol>
+  <p>The title and thumbnail fill in by themselves for YouTube and Vimeo links.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-result.png" data-caption="The finished gallery on the front of the site. This is a result image, so there is no arrow."></figure>
+
+  <h2 id="free-qs-patterns">Or start from a ready made pattern</h2>
+  <p>Do not want a blank block? Patterns give you a finished section. You only swap in your own videos.</p>
+  <ol class="steps">
+    <li>Click the <strong>+</strong> button at the top, then open the <strong>Patterns</strong> tab.</li>
+    <li>Pick the <strong>Video Galleries</strong> category.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-pattern-category.png" data-caption="The Patterns tab of the inserter. The arrow marks the Video Galleries category."></figure>
+    </li>
+    <li>Click the pattern you like. Try <strong>Video gallery with album filters</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-pattern-pick.png" data-caption="The five patterns in the Video Galleries category. The arrow marks Video gallery with album filters."></figure>
+    </li>
+    <li>Click the pattern, then click <strong>Edit pattern</strong>. Click the gallery, then replace the sample videos in the <strong>Videos</strong> panel with your own.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-pattern-edit.png" data-caption="A pattern after Edit pattern was clicked, with the Videos panel open. The arrow marks the first video row."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-qs-list">The five patterns</h2>
+  <ul>
+    <li><strong>Video gallery with album filters:</strong> three columns and a filter bar with three albums.</li>
+    <li><strong>Course video library:</strong> four columns, filtered by module.</li>
+    <li><strong>Product demo showcase:</strong> three large tiles, no filter bar.</li>
+    <li><strong>Customer video stories:</strong> video testimonials with the speaker named in each caption.</li>
+    <li><strong>Portfolio showreel wall:</strong> a tight four column wall with no captions.</li>
+  </ul>
+
+  <div class="callout tip"><span class="co-label">Tip</span><p>The sample videos in a pattern are placeholders. Replace each one before you publish.</p></div>
+</article>
+
+<article class="doc-article" id="free-vs-pro" data-group="Getting Started" data-title="Free vs Pro">
+  <h1>Free vs Pro</h1>
+  <p class="lead">The free plugin gives you one complete, filterable video gallery. Pro adds many more layouts. Here is a quick way to choose.</p>
+
+  <h2 id="free-vs-pro-free">What you get for free</h2>
+  <ul>
+    <li>Video Gallery Block with YouTube, Vimeo and Facebook videos.</li>
+    <li>Albums, a filter bar and a lightbox popup.</li>
+    <li>Bulk Import, five ready made patterns and a shortcode.</li>
+    <li>Layout, styling, consent and Google Analytics options.</li>
+    <li>Video SEO markup for search results.</li>
+  </ul>
+
+  <h2 id="free-vs-pro-pro">What Pro adds</h2>
+  <ul>
+    <li>Sliders, carousels, masonry grids and playlist galleries.</li>
+    <li>Self hosted and Wistia videos.</li>
+    <li>Many more premium video blocks.</li>
+  </ul>
+  <p>See the full list in the <a href="#pro-overview">Pro overview</a>.</p>
+
+  <h2 id="free-vs-pro-try">Peek at Pro without buying</h2>
+  <p>You can preview Pro from inside the editor. It costs nothing.</p>
+  <ol class="steps">
+    <li>Select the Video Gallery Block in the editor.</li>
+    <li>Click <strong>Check Pro Version</strong> in the block toolbar.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-pro-check.png" data-caption="The block toolbar above the gallery. The arrow marks the Check Pro Version button."></figure>
+    </li>
+  </ol>
+</article>
+
+<article class="doc-article" id="free-add-videos" data-group="How To Use" data-title="Add Videos">
+  <h1>Add Videos</h1>
+  <p class="lead">Every video in your gallery has a link, a thumbnail and a caption. You can add them one at a time here, or paste many at once with Bulk Import.</p>
+
+  <h2 id="free-add-one">Add one video</h2>
+  <ol class="steps">
+    <li>Select the gallery, then open the <strong>General</strong> tab in the right sidebar.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-add-general-tab.png" data-caption="The sidebar of a selected gallery. The arrow marks the General tab."></figure>
+    </li>
+    <li>Click the plus button in the block toolbar. Its tooltip says <strong>Add New Video</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-add-new-video.png" data-caption="The block toolbar. The arrow marks the Add New Video plus button."></figure>
+    </li>
+    <li>Paste the link into the <strong>Video url</strong> box inside the <strong>Videos</strong> panel.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-add-video-url.png" data-caption="The Videos panel with an empty new row. The arrow marks the Video url box."></figure>
+    </li>
+  </ol>
+  <p>Works with YouTube, Vimeo and Facebook links.</p>
+
+  <h2 id="free-add-thumb">Set the thumbnail and caption</h2>
+  <p>For YouTube and Vimeo, the poster and the caption fill in for you. You can change them any time.</p>
+  <ol class="steps">
+    <li>Click the <strong>Poster url</strong> box, then paste an image link or choose an image from your Media Library.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-add-poster.png" data-caption="One video row in the Videos panel. The arrow marks the Poster url box."></figure>
+    </li>
+    <li>Type your own text in <strong>Caption:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-add-caption.png" data-caption="The same row. The arrow marks the Caption field."></figure>
+    </li>
+  </ol>
+
+  <div class="callout tip"><span class="co-label">Tip</span><p>Facebook videos do not fill in a title or poster. Add a poster and a caption by hand for those.</p></div>
+
+  <h2 id="free-add-shape">Thumbnail pictures stay on your site</h2>
+  <p>YouTube and Vimeo thumbnails are saved to your Media Library once. After that, your own site serves them, so pages stay quick.</p>
+</article>
+
+<article class="doc-article" id="free-bulk-import" data-group="How To Use" data-title="Bulk Import">
+  <h1>Bulk Import</h1>
+  <p class="lead">Adding twenty videos one by one is slow. Paste all the links at once and the gallery fills itself in.</p>
+
+  <h2 id="free-bulk-steps">Import many videos</h2>
+  <ol class="steps">
+    <li>Select the gallery and open the <strong>General</strong> tab.</li>
+    <li>Open the <strong>Import Videos</strong> panel.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-panel.png" data-caption="The General tab with the panels listed. The arrow marks the Import Videos panel."></figure>
+    </li>
+    <li>Paste your links into <strong>Video links</strong>, one link on each line.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-paste.png" data-caption="The Import Videos panel with three links pasted. The arrow marks the Video links box."></figure>
+    </li>
+    <li>Click <strong>Import videos</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-import.png" data-caption="The same panel. The arrow marks the Import videos button."></figure>
+    </li>
+  </ol>
+  <p>A message tells you how many videos were added and how many got a title and a poster.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-result.png" data-caption="The success message after an import, with the new videos in the gallery. This is a result image, so there is no arrow."></figure>
+
+  <h2 id="free-bulk-good">Good to know</h2>
+  <ul>
+    <li>Links already in the gallery are skipped.</li>
+    <li>Lines that are not links are skipped.</li>
+    <li>If every link is a YouTube Short, the thumbnail shape switches to 9:16 for you.</li>
+  </ul>
+</article>
+
+<article class="doc-article" id="free-albums" data-group="How To Use" data-title="Albums">
+  <h1>Albums</h1>
+  <p class="lead">Albums are groups, like Tutorials or Customer stories. They power the filter bar, so visitors can show just the group they care about.</p>
+
+  <h2 id="free-albums-create">Create an album</h2>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Add or Remove Albums</strong> panel.</li>
+    <li>Click <strong>Add New Album</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-add.png" data-caption="The Add or Remove Albums panel. The arrow marks the Add New Album button."></figure>
+    </li>
+    <li>Type a name in the new box.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-name.png" data-caption="The panel with one new album box. The arrow marks the name box."></figure>
+    </li>
+  </ol>
+  <p>To delete an album, click the small cross next to its name.</p>
+
+  <h2 id="free-albums-assign">Put a video in an album</h2>
+  <ol class="steps">
+    <li>Open a video in the <strong>Videos</strong> panel.</li>
+    <li>Tick the album under <strong>Select Albums:</strong>. A video can sit in more than one album.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-assign.png" data-caption="One video row with the album checkboxes visible. The arrow marks an album checkbox."></figure>
+    </li>
+  </ol>
+  <p>Next, see <a href="#free-filter-lightbox">Filter Bar and Lightbox</a> to control how the buttons look and behave.</p>
+</article>
+
+<article class="doc-article" id="free-filter-lightbox" data-group="How To Use" data-title="Filter Bar and Lightbox">
+  <h1>Filter Bar and Lightbox</h1>
+  <p class="lead">The filter bar helps visitors find a video fast. The lightbox plays the video in a popup, so they never leave the page.</p>
+
+  <h2 id="free-filter-bar">Show or hide the filter bar</h2>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Filter</strong> panel.</li>
+    <li>Switch <strong>Show Filter Bar</strong> on or off.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-toggle.png" data-caption="The Filter panel. The arrow marks the Show Filter Bar switch."></figure>
+    </li>
+    <li>Change the text in <strong>Common Filter</strong>. This is the button that shows every video. The default is All Videos.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-common.png" data-caption="The Filter panel. The arrow marks the Common Filter box."></figure>
+    </li>
+  </ol>
+  <p>The bar only shows when the gallery has at least one album.</p>
+
+  <h2 id="free-filter-colors">Change the button colors</h2>
+  <ol class="steps">
+    <li>Open the <strong>Style</strong> tab, then the <strong>Filter</strong> panel.</li>
+    <li>Set <strong>Button Colors</strong> for the normal look and <strong>Button Hover/Active Colors</strong> for the chosen button.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-colors.png" data-caption="The Filter panel in the Style tab. The arrow marks Button Colors."></figure>
+    </li>
+  </ol>
+  <p>Use <strong>Button Typography:</strong> in the same panel to change the font and size.</p>
+
+  <h2 id="free-lightbox">The lightbox</h2>
+  <p>When a visitor clicks a thumbnail, the video opens in a popup. Nothing to switch on.</p>
+  <ul>
+    <li>A strip of small thumbnails shows where they are.</li>
+    <li>Arrow buttons move to the next or earlier video, and a cross closes the popup.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox.png" data-caption="A video playing in the lightbox on the front of the site. This is a result image, so there is no arrow."></figure>
+
+  <h2 id="free-lightbox-caption">Style the caption inside the lightbox</h2>
+  <ol class="steps">
+    <li>Open the <strong>Style</strong> tab, then the <strong>LightBox Caption</strong> panel.</li>
+    <li>Change <strong>Caption Typography:</strong>, <strong>Caption Colors:</strong> and <strong>Caption Padding:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox-caption.png" data-caption="The LightBox Caption panel. The arrow marks Caption Colors."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-playicon">The play icon</h2>
+  <p>A play icon sits on every thumbnail, so it looks like a video right away.</p>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.</li>
+    <li>Switch <strong>Show Play Icon on Thumbnail</strong> on or off.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-playicon-toggle.png" data-caption="The Options panel. The arrow marks the Show Play Icon on Thumbnail switch."></figure>
+    </li>
+    <li>Open the <strong>Style</strong> tab, then the <strong>Item</strong> panel. Change <strong>Play Icon Colors:</strong>, <strong>Play Icon Size:</strong> and <strong>Play Icon Hover Zoom:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-playicon-style.png" data-caption="The Item panel in the Style tab. The arrow marks Play Icon Size."></figure>
+    </li>
+  </ol>
+</article>
+
+<article class="doc-article" id="free-shortcode" data-group="How To Use" data-title="Reuse a Gallery with a Shortcode">
+  <h1>Reuse a Gallery with a Shortcode</h1>
+  <p class="lead">Build a gallery once, then show it on many pages. A shortcode is a short line of text that places your saved gallery anywhere.</p>
+
+  <h2 id="free-shortcode-make">Create a saved gallery</h2>
+  <ol class="steps">
+    <li>Open <strong>Video Gallery</strong> in the left menu, then click <strong>Add New Video Gallery</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-add-new.png" data-caption="The Video Gallery list page. The arrow marks the Add New Video Gallery button."></figure>
+    </li>
+    <li>Add your videos in the block, then click <strong>Publish</strong>.</li>
+    <li>Click the copy button next to the shortcode bar at the top of the editor.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-copy.png" data-caption="The gallery editor with the shortcode bar. The arrow marks the Copy To Clipboard button."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-shortcode-use">Paste it on a page</h2>
+  <ol class="steps">
+    <li>Edit any page and add a <strong>Shortcode</strong> block.</li>
+    <li>Paste the line, for example <strong>[video_gallery id=12]</strong>. Your number will be different.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-paste.png" data-caption="A page with the Shortcode block. The arrow marks the block holding the pasted shortcode."></figure>
+    </li>
+  </ol>
+
+  <div class="callout tip"><span class="co-label">Tip</span><p>You can also copy the shortcode from the Shortcode column on the Video Gallery list page.</p></div>
+</article>
+
+<article class="doc-article" id="free-layout" data-group="Settings" data-title="Layout Settings">
+  <h1>Layout Settings</h1>
+  <p class="lead">Layout decides how many tiles sit in a row, how far apart they are and how big they look. Most of it lives in one panel.</p>
+
+  <h2 id="free-layout-columns">Columns for each device</h2>
+  <p>Phones need fewer columns than desktops. You can set each device on its own.</p>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Layout Settings</strong> panel.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-panel.png" data-caption="The General tab. The arrow marks the Layout Settings panel."></figure>
+    </li>
+    <li>Pick Desktop, Tablet or Mobile with the device icon next to <strong>Columns:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-device.png" data-caption="The Layout Settings panel. The arrow marks the device icon beside Columns."></figure>
+    </li>
+    <li>Drag the slider to choose 1 to 6 columns.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-columns.png" data-caption="The Columns slider. The arrow marks the slider handle."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-layout-gaps">Space between tiles</h2>
+  <ol class="steps">
+    <li>Pick a device, then type a number in <strong>Column Gap:</strong>. This is the space left and right.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-colgap.png" data-caption="The Layout Settings panel. The arrow marks the Column Gap box."></figure>
+    </li>
+    <li>Type a number in <strong>Row Gap:</strong>. This is the space above and below.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-rowgap.png" data-caption="The Layout Settings panel. The arrow marks the Row Gap box."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-layout-align">Place the last row</h2>
+  <p>If your last row is not full, you choose where its tiles sit.</p>
+  <ol class="steps">
+    <li>Choose <strong>Left</strong>, <strong>Center</strong> or <strong>Right</strong> under <strong>Row Alignment:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-rowalign.png" data-caption="The Layout Settings panel. The arrow marks the Row Alignment buttons."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-layout-order">Sort order</h2>
+  <ol class="steps">
+    <li>Choose <strong>Manual</strong>, <strong>Newest First</strong> or <strong>Oldest First</strong> under <strong>Sort Order:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-sort.png" data-caption="The Layout Settings panel. The arrow marks the Sort Order buttons."></figure>
+    </li>
+  </ol>
+  <p>Manual keeps the order you added the videos in.</p>
+
+  <h2 id="free-layout-loadmore">Show a few, then Load More</h2>
+  <p>A big gallery can feel heavy. Show a few videos first and let visitors ask for more.</p>
+  <ol class="steps">
+    <li>Type a number in <strong>Videos Per Page:</strong>. Zero shows every video.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-perpage.png" data-caption="The Layout Settings panel. The arrow marks the Videos Per Page box."></figure>
+    </li>
+    <li>Change <strong>Load More Button Text:</strong> if you want your own wording. It appears once a number is set.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-loadmore.png" data-caption="The Layout Settings panel after a number was set. The arrow marks the Load More Button Text box."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-layout-shape">Thumbnail shape</h2>
+  <p>The shape keeps every tile the same on all screens. Pick 9:16 for tall Shorts and Reels.</p>
+  <ol class="steps">
+    <li>Open the <strong>Style</strong> tab, then the <strong>Item</strong> panel.</li>
+    <li>Choose <strong>Fixed</strong>, <strong>16:9</strong>, <strong>4:3</strong>, <strong>1:1</strong> or <strong>9:16</strong> under <strong>Thumbnail Shape:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-shape.png" data-caption="The Item panel in the Style tab. The arrow marks the Thumbnail Shape buttons."></figure>
+    </li>
+  </ol>
+  <p>With <strong>Fixed</strong>, a <strong>Height:</strong> box appears so you can set a height yourself.</p>
+
+  <h2 id="free-layout-shorts">Show or hide YouTube Shorts</h2>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.</li>
+    <li>Choose <strong>All Videos</strong>, <strong>Hide Shorts</strong> or <strong>Only Shorts</strong> under <strong>YouTube Shorts:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-shorts.png" data-caption="The Options panel. The arrow marks the YouTube Shorts buttons."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-layout-poster">Poster fit and captions on thumbnails</h2>
+  <ol class="steps">
+    <li>In the <strong>Options</strong> panel, choose <strong>Contain</strong>, <strong>Cover</strong>, <strong>Fill</strong> or <strong>None</strong> under <strong>Poster Fit:</strong>. Cover fills the tile fully.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-posterfit.png" data-caption="The Options panel. The arrow marks the Poster Fit buttons."></figure>
+    </li>
+    <li>Switch <strong>Show Caption on Thumbnail</strong> on to place each caption over its tile.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-showcaption.png" data-caption="The Options panel. The arrow marks the Show Caption on Thumbnail switch."></figure>
+    </li>
+  </ol>
+</article>
+
+<article class="doc-article" id="free-styling" data-group="Settings" data-title="Styling">
+  <h1>Styling</h1>
+  <p class="lead">Make the gallery match your brand. Styling controls sit in the <strong>Style</strong> tab, split into the whole gallery and each tile.</p>
+
+  <h2 id="free-styling-gallery">Style the whole gallery</h2>
+  <p>The gallery is the box around all your tiles.</p>
+  <ol class="steps">
+    <li>Open the <strong>Style</strong> tab, then the <strong>Gallery</strong> panel.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-gallery.png" data-caption="The Style tab. The arrow marks the Gallery panel."></figure>
+    </li>
+    <li>Pick a color or image under <strong>Background:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-background.png" data-caption="The Gallery panel. The arrow marks the Background control."></figure>
+    </li>
+    <li>Set the space inside the box with <strong>Padding:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-padding.png" data-caption="The Gallery panel. The arrow marks the Padding control."></figure>
+    </li>
+    <li>Add an outline and round the corners with <strong>Border:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-border.png" data-caption="The Gallery panel. The arrow marks the Border control."></figure>
+    </li>
+    <li>Add a soft drop shadow with <strong>Shadow:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-shadow.png" data-caption="The Gallery panel. The arrow marks the Shadow control."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-styling-item">Style each tile</h2>
+  <p>These apply to every thumbnail, separate from the box around them.</p>
+  <ol class="steps">
+    <li>Open the <strong>Item</strong> panel in the <strong>Style</strong> tab.</li>
+    <li>Round the corners or add an outline with <strong>Item Border:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-itemborder.png" data-caption="The Item panel. The arrow marks the Item Border control."></figure>
+    </li>
+    <li>Add a shadow under each tile with <strong>Item Shadow:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-itemshadow.png" data-caption="The Item panel. The arrow marks the Item Shadow control."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-styling-caption">Style the captions</h2>
+  <ol class="steps">
+    <li>In the <strong>Item</strong> panel, set the font with <strong>Caption Typography:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-captypo.png" data-caption="The Item panel. The arrow marks Caption Typography."></figure>
+    </li>
+    <li>Set text and background colors with <strong>Caption Colors:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-capcolors.png" data-caption="The Item panel. The arrow marks Caption Colors."></figure>
+    </li>
+    <li>Set the space around the text with <strong>Caption Padding:</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-style-cappad.png" data-caption="The Item panel. The arrow marks Caption Padding."></figure>
+    </li>
+  </ol>
+
+  <div class="callout tip"><span class="co-label">Tip</span><p>Change one thing at a time and watch the editor. It updates as you go.</p></div>
+</article>
+
+<article class="doc-article" id="free-privacy-analytics" data-group="Settings" data-title="Privacy and Analytics">
+  <h1>Privacy and Analytics</h1>
+  <p class="lead">Two optional switches help with privacy rules and with measuring views. Both are off until you turn them on.</p>
+
+  <h2 id="free-privacy-consent">Ask before a video loads</h2>
+  <p>YouTube, Vimeo and Facebook can set cookies when their player loads. This switch asks the visitor first, so nothing loads until they agree.</p>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.</li>
+    <li>Switch <strong>Require Consent Before Playing</strong> on.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-privacy-consent.png" data-caption="The Options panel. The arrow marks the Require Consent Before Playing switch."></figure>
+    </li>
+  </ol>
+  <p>Visitors see a notice that names the video host. They click <strong>Play Video</strong> to continue or <strong>Cancel</strong> to stop.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/free-privacy-notice.png" data-caption="The consent notice a visitor sees after clicking a thumbnail. This is a result image, so there is no arrow."></figure>
+  <p>Once they agree, the browser remembers it, so they are not asked again.</p>
+
+  <h2 id="free-analytics">Count video plays in Google Analytics</h2>
+  <p>See which videos people actually watch. This works if Google Analytics 4 or Google Tag Manager is already on your site.</p>
+  <ol class="steps">
+    <li>In the <strong>Options</strong> panel, switch <strong>Send Video Play Events to Google Analytics</strong> on.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-analytics-toggle.png" data-caption="The Options panel. The arrow marks the Send Video Play Events to Google Analytics switch."></figure>
+    </li>
+  </ol>
+  <p>Each play sends a video_start event with the title, the host and the link. You do not need to set up anything else.</p>
+
+  <div class="callout tip"><span class="co-label">Tip</span><p>In Google Analytics, look for the video_start event to see your plays.</p></div>
+</article>
+
+<article class="doc-article" id="free-seo" data-group="Settings" data-title="Video SEO">
+  <h1>Video SEO</h1>
+  <p class="lead">Google likes to know what a video is about. The plugin tells search engines the title, the thumbnail and the link for each video, so your gallery can show up as a video result.</p>
+
+  <h2 id="free-seo-onoff">Turn it on or off</h2>
+  <p>It is on by default. You do nothing. Turn it off only if your SEO plugin already adds this for you.</p>
+  <ol class="steps">
+    <li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.</li>
+    <li>Switch <strong>Video SEO markup</strong> on or off.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-seo-toggle.png" data-caption="The Options panel. The arrow marks the Video SEO markup switch."></figure>
+    </li>
+  </ol>
+
+  <h2 id="free-seo-better">Help it work better</h2>
+  <ul>
+    <li>Give every video a clear caption.</li>
+    <li>Give every video a thumbnail.</li>
+    <li>Use real video links, not links to other pages.</li>
+  </ul>
+</article>
+
+<article class="doc-article" id="free-dashboard" data-group="Settings" data-title="Dashboard and Help Page">
+  <h1>Dashboard and Help Page</h1>
+  <p class="lead">The plugin adds one help page in your admin. It has demos, a Free and Pro comparison and one safety setting.</p>
+
+  <h2 id="free-dashboard-open">Open the page</h2>
+  <ol class="steps">
+    <li>Click <strong>Video Gallery</strong> in the left menu.</li>
+    <li>Click <strong>Help &amp; Demos</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-menu.png" data-caption="The Video Gallery submenu. The arrow marks Help and Demos."></figure>
+    </li>
+  </ol>
+  <p>At the top you will find these tabs. On a narrow screen they sit behind the menu button.</p>
+  <ul>
+    <li><strong>Welcome</strong> and <strong>Blocks</strong>.</li>
+    <li><strong>Demos</strong> to see live examples.</li>
+    <li><strong>Pricing</strong> and <strong>Feature Comparison</strong>.</li>
+    <li><strong>Settings</strong>.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-welcome.png" data-caption="The Help and Demos page with the tab menu open. This is a result image, so there is no arrow."></figure>
+
+  <h2 id="free-dashboard-delete">Keep or delete your data on uninstall</h2>
+  <p>By default your galleries stay if you remove the plugin. You can change that.</p>
+  <ol class="steps">
+    <li>Open the <strong>Settings</strong> tab.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-settings-tab.png" data-caption="The Help and Demos tab menu. The arrow marks the Settings tab."></figure>
+    </li>
+    <li>Switch the toggle under <strong>Delete plugin data on uninstall</strong>. Confirm the warning that appears.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-delete-toggle.png" data-caption="The Delete plugin data on uninstall card. The arrow marks the toggle."></figure>
+    </li>
+  </ol>
+
+  <div class="callout tip"><span class="co-label">Warning</span><p>With this on, deleting the plugin removes all your saved galleries for good. Turning the plugin off does not delete anything.</p></div>
+</article>
+
+<article class="doc-article" id="pro-overview" data-group="Pro" data-title="What Video Gallery Block Pro Adds">
+  <h1>What Video Gallery Block Pro Adds</h1>
+  <p class="lead">Pro adds 31 ready made video layouts to the free plugin. Pick the one that fits your page, add your videos, and publish.</p>
+
+  <h2 id="pro-adds">What You Get</h2>
+  <p>The free plugin gives you one gallery block. Pro gives you a whole shelf of blocks, from sliders and walls to stories, maps and menus.</p>
+  <ul>
+    <li><strong>Free:</strong> the Video Gallery block with albums, filters, a lightbox, bulk import and video SEO markup.</li>
+    <li><strong>Pro:</strong> 31 more blocks, each built for one job.</li>
+    <li><strong>Pro:</strong> WooCommerce product videos in the Video Carousel Gallery.</li>
+    <li><strong>Pro:</strong> likes, saves and comments on the Video Shorts Reel.</li>
+    <li><strong>Pro:</strong> Wistia videos in select blocks, plus priority support.</li>
+  </ul>
+  <p>For the free block, see <a href="#free-add-videos" data-nav>Add Your Videos</a> and <a href="#free-layout" data-nav>Set the Layout</a>.</p>
+
+  <h2 id="pro-install">Install Pro Next to Free</h2>
+  <p>You do not need to remove anything first. Pro carries its own copy of the Video Gallery block, so your saved galleries keep working.</p>
+  <ol class="steps">
+    <li>Open <strong>Plugins</strong> in the WordPress menu and click <strong>Add New Plugin</strong>, then <strong>Upload Plugin</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-install-upload.png" data-caption="The Upload Plugin screen with the Pro zip file chosen. The arrow marks the Install Now button."></figure>
+    </li>
+    <li>Choose the Pro zip file from your purchase, click <strong>Install Now</strong>, then click <strong>Activate Plugin</strong>.</li>
+    <li>Go to <strong>Plugins</strong> and check that <strong>Video Gallery Block Pro</strong> is active. The free copy switches itself off, and that is normal.</li>
+  </ol>
+
+  <h2 id="pro-activate">Activate Your Licence</h2>
+  <p>Your licence key unlocks updates and support. You enter it once on this site.</p>
+  <ol class="steps">
+    <li>Open <strong>Video Gallery</strong> in the WordPress menu and click <strong>Help &amp; Demos</strong>.</li>
+    <li>Click the <strong>Activation</strong> tab.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-activation-tab.png" data-caption="The Help and Demos screen. The arrow marks the Activation tab."></figure>
+    </li>
+    <li>Paste your key into the <strong>License key</strong> box.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-activation-key.png" data-caption="The Activation tab with a licence key pasted in. The arrow marks the License key box."></figure>
+    </li>
+    <li>Click <strong>Activate License</strong>. The page then shows <strong>Activated</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-activation-button.png" data-caption="The Activate License button under the key box. The arrow marks it."></figure>
+    </li>
+  </ol>
+  <div class="callout tip"><span class="co-label">Tip</span><p>Moving the licence to another site? Click <strong>Deactivate license</strong> here first. Then activate it on the new site.</p></div>
+
+  <h2 id="pro-switch-blocks">Switch Blocks On or Off</h2>
+  <p>Too many blocks in the inserter? Hide the ones you never use.</p>
+  <ol class="steps">
+    <li>Open <strong>Video Gallery</strong>, then <strong>Help &amp; Demos</strong>, then click the <strong>Blocks</strong> tab.</li>
+    <li>Turn the switch off on any block you want to hide.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-blocks-tab.png" data-caption="The Blocks tab, with a switch for every block. The arrow marks the switch of one block."></figure>
+    </li>
+  </ol>
+
+  <h2 id="pro-layout-picker">Start From the Layout Picker</h2>
+  <p>Not sure which block to use? The picker shows every layout as a card with a short note.</p>
+  <ol class="steps">
+    <li>Open <strong>Video Gallery</strong> in the WordPress menu and click <strong>Add New</strong>.</li>
+    <li>Click a card under <strong>Select a block layout type</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-layout-picker.png" data-caption="The layout picker on a new gallery. The arrow marks the Video Slider card."></figure>
+    </li>
+  </ol>
+  <p>The gallery gets a shortcode you can paste on any page. Ready to build? See <a href="#pro-quick-start" data-nav>Your First Pro Gallery</a>.</p>
+</article>
+
+<article class="doc-article" id="pro-quick-start" data-group="Pro" data-title="Quick Start: Your First Pro Gallery">
+  <h1>Quick Start: Your First Pro Gallery</h1>
+  <p class="lead">In about five minutes you will have a Pro block on a page with your own videos. We use the Video Slider because it is simple.</p>
+
+  <h2 id="pqs-insert">Step 1. Insert a Pro Block</h2>
+  <p>Every Pro block lives in the inserter, under the <strong>Video Gallery</strong> category.</p>
+  <ol class="steps">
+    <li>Open a page in the editor and click the <strong>+</strong> button at the top left.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-plus.png" data-caption="A page in the editor. The arrow marks the Block Inserter plus button."></figure>
+    </li>
+    <li>Type <strong>Video Slider</strong> in the search box and click the block.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-search.png" data-caption="The inserter with Video Slider typed in the search box. The arrow marks the Video Slider block."></figure>
+    </li>
+  </ol>
+  <p>The block arrives with sample videos, so you can see the result at once.</p>
+
+  <h2 id="pqs-videos">Step 2. Add Your Videos</h2>
+  <p>Replace the samples with your own. Every Pro block works this way. See <a href="#free-add-videos" data-nav>Add Your Videos</a> for the video sources.</p>
+  <ol class="steps">
+    <li>Select the block and open the <strong>Videos</strong> panel on the <strong>General</strong> tab. Click the first video to open it.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-videos-panel.png" data-caption="The whole editor with the Videos panel open on the General tab. The arrow marks the first video in the list."></figure>
+    </li>
+    <li>Paste your link into the <strong>Video</strong> box. It can be a YouTube link, a Vimeo link or a file from your Media Library.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-video-field.png" data-caption="An open video item. The arrow marks the Video box."></figure>
+    </li>
+    <li>Type a <strong>Title</strong>. Add a <strong>Poster</strong> image if you want your own thumbnail.</li>
+    <li>Click <strong>Add New Video</strong> to add another one.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-add-video.png" data-caption="The bottom of the Videos panel. The arrow marks the Add New Video button."></figure>
+    </li>
+  </ol>
+  <div class="callout tip"><span class="co-label">Tip</span><p>Delete the sample videos you do not replace. Anything you leave behind gets published too.</p></div>
+
+  <h2 id="pqs-fit">Step 3. Make It Fit Your Page</h2>
+  <ul>
+    <li>Open <strong>Options</strong> on the <strong>General</strong> tab for autoplay and video fit.</li>
+    <li>Open <strong>Layout Settings</strong> for gaps and sizes.</li>
+    <li>Use the <strong>Style</strong> tab for colours, fonts and borders.</li>
+  </ul>
+
+  <h2 id="pqs-publish">Step 4. Preview and Publish</h2>
+  <p>Click <strong>Preview</strong>, then check the page on a phone size too. When you like it, click <strong>Publish</strong> or <strong>Update</strong>.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-result.png" data-caption="The finished Video Slider on a published page. This is a result image, so it has no arrow."></figure>
+  <p>Next, pick a block that fits your goal: <a href="#pro-sliders" data-nav>Sliders</a>, <a href="#pro-grids" data-nav>Grids</a>, <a href="#pro-playlist-and-learning" data-nav>Playlists and Learning</a>, <a href="#pro-stories-and-shorts" data-nav>Stories and Shorts</a> or <a href="#pro-business" data-nav>Business</a>.</p>
+</article>
+
+<article class="doc-article" id="pro-sliders" data-group="Pro" data-title="Sliders and Carousels">
+  <h1>Sliders and Carousels</h1>
+  <p class="lead">Show videos in a row that visitors swipe or click through. Three blocks do this, each in its own style.</p>
+
+  <h2 id="pro-sl-pick">Pick a Block</h2>
+  <ul>
+    <li><strong>Video Slider</strong> for a simple slider of your own files.</li>
+    <li><strong>Slider Autoplay Video</strong> for a slider that moves by itself.</li>
+    <li><strong>Video Carousel Gallery</strong> for product videos with prices.</li>
+  </ul>
+  <p>To add any of them, see <a href="#pro-quick-start" data-nav>Your First Pro Gallery</a>.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-sliders-result.png" data-caption="A Video Slider and a Video Carousel Gallery on one published page. This is a result image, so it has no arrow."></figure>
+
+  <h2 id="pro-sl-slider">Video Slider</h2>
+  <p>A responsive slider for self-hosted videos. Visitors move with arrows, dots or a swipe.</p>
+  <p><strong>You set up:</strong> a video, poster, title and rating for each slide. Then autoplay, video fit, the arrow buttons, the dots and the play button.</p>
+
+  <h2 id="pro-sl-autoplay">Slider Autoplay Video</h2>
+  <p>A smooth slider that glides on its own. Use it for a hero strip near the top of a page.</p>
+  <p><strong>You set up:</strong> the slide speed in milliseconds, loop on or off, the navigation arrows and which video starts in the middle. You can also open each video in a lightbox.</p>
+
+  <h2 id="pro-sl-carousel">Video Carousel Gallery</h2>
+  <p>A carousel of cards that you drag sideways. Each card can show a product with its price.</p>
+  <p><strong>You set up:</strong> a video, poster, title, price and product link for each card. Then the currency symbol, loop, autoplay previews and the scrollbar. For a live store, see <a href="#pro-woocommerce" data-nav>Product Videos with WooCommerce</a>.</p>
+</article>
+
+<article class="doc-article" id="pro-grids" data-group="Pro" data-title="Grids and Walls">
+  <h1>Grids and Walls</h1>
+  <p class="lead">Show many videos at once, in a tidy or a bold layout. Six blocks cover every taste.</p>
+
+  <h2 id="pro-gr-pick">Pick a Block</h2>
+  <ul>
+    <li><strong>Masonry Video Grid</strong> for tiles of different heights.</li>
+    <li><strong>Video Justified Gallery</strong> for rows of equal height.</li>
+    <li><strong>Video Bento Grid</strong> for a magazine style wall.</li>
+    <li><strong>Video Showcase Wall</strong> for a streaming service look.</li>
+    <li><strong>Lightbox Video Gallery</strong> for thumbnails that open in a popup.</li>
+    <li><strong>Parallax Row Video Gallery</strong> for rows that move as you scroll.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-grids-result.png" data-caption="A Video Bento Grid on a published page, with tiles of different sizes. This is a result image, so it has no arrow."></figure>
+
+  <h2 id="pro-gr-masonry">Masonry Video Grid</h2>
+  <p>Videos of different heights fit together with no gaps. It looks like a photo wall.</p>
+  <p><strong>You set up:</strong> columns and gaps, play on hover, the video length label and the lightbox.</p>
+
+  <h2 id="pro-gr-justified">Video Justified Gallery</h2>
+  <p>Mixed shapes sit in full width rows of equal height. Nothing gets stretched or cropped oddly.</p>
+  <p><strong>You set up:</strong> the target row height, what the last row does, a hover preview and a load more button.</p>
+
+  <h2 id="pro-gr-bento">Video Bento Grid</h2>
+  <p>Each video gets its own tile size, so one hero video can stand out. Tiles can preview on hover.</p>
+  <p><strong>You set up:</strong> the span of each tile, columns, row height and how the grid folds on mobile.</p>
+
+  <h2 id="pro-gr-wall">Video Showcase Wall</h2>
+  <p>Cards play a muted preview when you hover, then grow into a spotlight. Show them as a grid or as scrolling rows.</p>
+  <p><strong>You set up:</strong> the layout, the preview delay, badges and a button on each card.</p>
+
+  <h2 id="pro-gr-lightbox">Lightbox Video Gallery</h2>
+  <p>A clean grid of thumbnails. A click opens the video in a popup over the page.</p>
+  <p><strong>You set up:</strong> columns and gaps, plus a source, title, subtitle and poster for each video.</p>
+
+  <h2 id="pro-gr-parallax">Parallax Row Video Gallery</h2>
+  <p>Rows of videos drift at different speeds as the visitor scrolls. It adds depth to a long page.</p>
+  <p><strong>You set up:</strong> one group per row, with at least three videos in each. Then the direction, columns and the lightbox.</p>
+</article>
+
+<article class="doc-article" id="pro-playlist-and-learning" data-group="Pro" data-title="Playlists, Courses and Timelines">
+  <h1>Playlists, Courses and Timelines</h1>
+  <p class="lead">Use these when videos should be watched in a set order. Think lessons, episodes, steps and milestones.</p>
+
+  <h2 id="pro-pl-pick">Pick a Block</h2>
+  <ul>
+    <li><strong>Video Playlist Gallery</strong> for a player with a list beside it.</li>
+    <li><strong>Video Curriculum Accordion</strong> for course lessons.</li>
+    <li><strong>Video Tabs Gallery</strong> for categories as tabs.</li>
+    <li><strong>Video Timeline Gallery</strong> for dates along a line.</li>
+    <li><strong>Video Scrollytelling Showcase</strong> for a story told while scrolling.</li>
+    <li><strong>Video Podcast Episodes</strong> for a show page.</li>
+    <li><strong>Video Workout Planner</strong> for day by day training.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-playlist-result.png" data-caption="A Video Playlist Gallery on a published page, with the player on the left and the list on the right. This is a result image, so it has no arrow."></figure>
+
+  <h2 id="pro-pl-playlist">Video Playlist Gallery</h2>
+  <p>A main player with a playlist beside it. Videos play one after another.</p>
+  <p><strong>You set up:</strong> autoplay, loop, the up next toggle, a category and duration for each video, and the view count. See <a href="#pro-stats" data-nav>View Counts, Likes and Comments</a>.</p>
+
+  <h2 id="pro-pl-curriculum">Video Curriculum Accordion</h2>
+  <p>Course sections fold open to show their lessons. Lessons can carry a free preview badge.</p>
+  <p><strong>You set up:</strong> sections, then lessons with a title, video, poster and duration. Then which section starts open, the progress bar and lightbox or inline play.</p>
+
+  <h2 id="pro-pl-tabs">Video Tabs Gallery</h2>
+  <p>Each tab is a category with its own videos. Switching is instant, with no page reload.</p>
+  <p><strong>You set up:</strong> the tabs, the videos in each, the default tab, the tab style and position, and link anchors.</p>
+
+  <h2 id="pro-pl-timeline">Video Timeline Gallery</h2>
+  <p>Videos hang on dates along a line. Cards fade in as the visitor scrolls.</p>
+  <p><strong>You set up:</strong> one milestone per date. Then the direction, alternating sides, grouping by year and the sort order.</p>
+
+  <h2 id="pro-pl-scrolly">Video Scrollytelling Showcase</h2>
+  <p>A video stays pinned while the text beside it scrolls. The video swaps as each step appears.</p>
+  <p><strong>You set up:</strong> the steps, each with a label, heading, text and video. Then the side the video sits on and the swap style.</p>
+
+  <h2 id="pro-pl-podcast">Video Podcast Episodes</h2>
+  <p>A show page with one featured episode, season tabs, show notes and a subscribe bar.</p>
+  <p><strong>You set up:</strong> seasons and episodes, with guest, date, notes and chapter times. Then the featured episode and your Apple Podcasts, Spotify, YouTube and RSS links.</p>
+
+  <h2 id="pro-pl-workout">Video Workout Planner</h2>
+  <p>A training program laid out by day. Each exercise card shows sets, reps and rest.</p>
+  <p><strong>You set up:</strong> the program title and the training days. Then the exercises, with equipment, target muscle and difficulty, and the difficulty filter.</p>
+</article>
+
+<article class="doc-article" id="pro-stories-and-shorts" data-group="Pro" data-title="Stories, Shorts and Playful Layouts">
+  <h1>Stories, Shorts and Playful Layouts</h1>
+  <p class="lead">Short, snappy video that feels like it belongs on a phone. These blocks also add movement to a quiet page.</p>
+
+  <h2 id="pro-ss-pick">Pick a Block</h2>
+  <ul>
+    <li><strong>Video Stories</strong> for round rings that open a story.</li>
+    <li><strong>Video Shorts Reel</strong> for a vertical scrolling feed.</li>
+    <li><strong>Video Swipe Deck</strong> for cards you swipe away.</li>
+    <li><strong>Video Marquee Wall</strong> for rows that glide by.</li>
+    <li><strong>Video Flip Cards Gallery</strong> for cards that turn over.</li>
+    <li><strong>Video Expanding Panels</strong> for panels that slide open.</li>
+    <li><strong>Video Wall with Floating Player</strong> for a mini player that follows you.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-stories-result.png" data-caption="A Video Stories tray of round rings on a published page. A tap on a ring opens its story fullscreen. This is a result image, so it has no arrow."></figure>
+
+  <h2 id="pro-ss-stories">Video Stories</h2>
+  <p>A tray of round rings, like Instagram. A tap opens a fullscreen story that moves on by itself.</p>
+  <p><strong>You set up:</strong> one story per ring, then the clips inside it. Then the ring shape and size, auto advance and a button on each clip.</p>
+
+  <h2 id="pro-ss-shorts">Video Shorts Reel</h2>
+  <p>A tall feed that snaps from one video to the next, like TikTok.</p>
+  <p><strong>You set up:</strong> the shorts, then the layout (feed, side rail or grid) and the aspect ratio. Then the author, the action rail and the mute button.</p>
+
+  <h2 id="pro-ss-swipe">Video Swipe Deck</h2>
+  <p>A stack of cards. Visitors swipe or use the arrow keys, and the top card plays.</p>
+  <p><strong>You set up:</strong> the cards, the stack size, swipe direction, loop and rewind. You can end with a closing card and a button.</p>
+
+  <h2 id="pro-ss-marquee">Video Marquee Wall</h2>
+  <p>Rows of video cards glide across the page in opposite directions. They play when hovered.</p>
+  <p><strong>You set up:</strong> the rows, scroll speed, pause on hover, edge fade and what a click does.</p>
+
+  <h2 id="pro-ss-flip">Video Flip Cards Gallery</h2>
+  <p>Each card turns over to play its video on the back. It adds a little fun to a grid.</p>
+  <p><strong>You set up:</strong> columns, the flip trigger and axis, front text and back text, and a button on the back.</p>
+
+  <h2 id="pro-ss-panels">Video Expanding Panels</h2>
+  <p>Side by side panels. Hover or click one and it opens to play while the others shrink.</p>
+  <p><strong>You set up:</strong> the panels, trigger mode, panel height, which panel starts open and the mobile layout.</p>
+
+  <h2 id="pro-ss-pip">Video Wall with Floating Player</h2>
+  <p>Click a tile and a small player pops up in a corner. It stays there while the visitor keeps scrolling.</p>
+  <p><strong>You set up:</strong> the dock corner and width, drag and resize, category filters and a load more button.</p>
+</article>
+
+<article class="doc-article" id="pro-business" data-group="Pro" data-title="Business and Industry Blocks">
+  <h1>Business and Industry Blocks</h1>
+  <p class="lead">These blocks are made for a specific kind of site. Homes, weddings, restaurants, products and places all get a layout of their own.</p>
+
+  <h2 id="pro-bz-pick">Pick a Block</h2>
+  <ul>
+    <li><strong>Video Testimonial Section</strong> for customer reviews.</li>
+    <li><strong>Video Property Tour Gallery</strong> for real estate.</li>
+    <li><strong>Video Wedding Story Gallery</strong> for wedding films.</li>
+    <li><strong>Video Menu Showcase</strong> for restaurants.</li>
+    <li><strong>Video Feature Tour</strong> for product walkthroughs.</li>
+    <li><strong>Video Map Gallery</strong> for places.</li>
+    <li><strong>Video Hotspot Scene</strong> for clickable points on a video.</li>
+    <li><strong>Video Comparison Gallery</strong> for before and after.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-business-result.png" data-caption="A Video Property Tour Gallery on a published page, with the feature player and property cards. This is a result image, so it has no arrow."></figure>
+
+  <h2 id="pro-bz-testimonial">Video Testimonial Section</h2>
+  <p>Short customer videos that build trust. Each card has its own simple player.</p>
+  <p><strong>You set up:</strong> a video, poster, name and role for each person. Then columns and the skip seconds on the player.</p>
+
+  <h2 id="pro-bz-property">Video Property Tour Gallery</h2>
+  <p>A big player with property cards beside it. Each card shows price, beds, baths and area.</p>
+  <p><strong>You set up:</strong> the properties with address, status and a detail link. Then the layout, the status filter and the currency symbol.</p>
+
+  <h2 id="pro-bz-wedding">Video Wedding Story Gallery</h2>
+  <p>A film style page with a main player and a strip of chapters. A header shows the couple and the date.</p>
+  <p><strong>You set up:</strong> the couple name, date and venue, the chapters, a countdown and a booking button.</p>
+
+  <h2 id="pro-bz-menu">Video Menu Showcase</h2>
+  <p>A restaurant menu where each dish is a short looping video. Dishes sit in sections with prices and badges.</p>
+  <p><strong>You set up:</strong> the sections and dishes, with price, description and calories. Then diet badges such as Vegan, and the category tabs.</p>
+
+  <h2 id="pro-bz-tour">Video Feature Tour</h2>
+  <p>A list of steps beside one large player. The video changes as the visitor moves through the steps.</p>
+  <p><strong>You set up:</strong> the steps, with a title, text, video and button. Then click tabs or scroll mode, and where the player sits.</p>
+
+  <h2 id="pro-bz-map">Video Map Gallery</h2>
+  <p>A map with a pin for every place. A click on a pin plays its video in a side panel. No map key is needed.</p>
+  <p><strong>You set up:</strong> each location with its latitude and longitude. Then the map style, pin clustering and the category filter.</p>
+
+  <h2 id="pro-bz-hotspot">Video Hotspot Scene</h2>
+  <p>A looping background video with pulsing points on it. A point opens a small card with a link.</p>
+  <p><strong>You set up:</strong> the background video, then each hotspot with its X and Y position, title, text and link. Then hover or click.</p>
+
+  <h2 id="pro-bz-compare">Video Comparison Gallery</h2>
+  <p>Before and after cards. A draggable handle wipes from one video to the other.</p>
+  <p><strong>You set up:</strong> a before video and an after video for each card. Then labels, split direction and how visitors move the handle.</p>
+</article>
+
+<article class="doc-article" id="pro-woocommerce" data-group="Pro" data-title="Product Videos with WooCommerce">
+  <h1>Product Videos with WooCommerce</h1>
+  <p class="lead">Turn product videos into a carousel that sells. Each card links to a real product in your store.</p>
+
+  <h2 id="pwc-need">Before You Start</h2>
+  <p>WooCommerce must be installed and active. If it is not, the editor shows a notice with a link to install it.</p>
+  <p>No store yet? You can still type a title, price and link by hand.</p>
+
+  <h2 id="pwc-link">Link a Video to a Product</h2>
+  <ol class="steps">
+    <li>Insert the <strong>Video Carousel Gallery</strong> block and open a video in the <strong>Videos</strong> panel.</li>
+    <li>Switch on <strong>Use WooCommerce Product</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-toggle.png" data-caption="An open video item in the Video Carousel Gallery. The arrow marks the Use WooCommerce Product switch."></figure>
+    </li>
+    <li>Search for your product and choose it in <strong>Select Product</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-select.png" data-caption="The product search and the Select Product list. The arrow marks the Select Product list."></figure>
+    </li>
+  </ol>
+  <p>The title, price, sale price and product image now come from the product.</p>
+
+  <h2 id="pwc-manual">Add a Product by Hand</h2>
+  <p>Leave <strong>Use WooCommerce Product</strong> off. Then fill in <strong>Product Image</strong>, <strong>Title</strong>, <strong>Current Price</strong>, <strong>Original Price</strong> and <strong>Product URL</strong>.</p>
+  <p>With WooCommerce active, click <strong>Create Product</strong> to make a new store product from those details.</p>
+
+  <h2 id="pwc-options">Fine Tune the Carousel</h2>
+  <ul>
+    <li><strong>Currency Symbol</strong> sets the sign before prices.</li>
+    <li><strong>Open in New Tab</strong> keeps the gallery open when the shop link is clicked.</li>
+    <li><strong>Autoplay Previews</strong> plays each card muted as it scrolls into view.</li>
+  </ul>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-result.png" data-caption="The Video Carousel Gallery on a published page, with product names and prices under each video. This is a result image, so it has no arrow."></figure>
+</article>
+
+<article class="doc-article" id="pro-stats" data-group="Pro" data-title="View Counts, Likes and Comments">
+  <h1>View Counts, Likes and Comments</h1>
+  <p class="lead">Let visitors see what is popular and join in. Two blocks do this: the Playlist Gallery and the Shorts Reel.</p>
+
+  <h2 id="pst-views">Show View Counts in a Playlist</h2>
+  <p>The Video Playlist Gallery can show how many times a video was played on your site. Counts read like 12K views.</p>
+  <ol class="steps">
+    <li>Select the <strong>Video Playlist Gallery</strong> block and open <strong>Options</strong> on the <strong>General</strong> tab.</li>
+    <li>Switch on <strong>View/Upload Date</strong>.
+      <figure class="media-slot" data-media="image" data-src="docs-assets/pro-stats-toggle.png" data-caption="The Options panel of the Video Playlist Gallery. The arrow marks the View/Upload Date switch."></figure>
+    </li>
+  </ol>
+  <p>The count goes up each time someone plays a video. It starts from zero on your site.</p>
+
+  <h2 id="pst-reactions">Likes, Saves and Comments on Shorts</h2>
+  <p>The Video Shorts Reel has an action rail beside each video. Visitors can like, comment and save.</p>
+  <ul>
+    <li><strong>Likes</strong> work for everyone, even without an account.</li>
+    <li><strong>Comments and saves</strong> need a logged in visitor.</li>
+  </ul>
+  <p>Switch the rail on with <strong>Show Action Rail</strong>. Switch the save button on with its own setting in the same block.</p>
+
+  <h2 id="pst-saved">Show a Visitor Their Saved Videos</h2>
+  <p>Paste the shortcode <code>[vsr_saved_videos]</code> on any page. A logged in visitor sees their saved videos as a grid.</p>
+
+  <h2 id="pst-moderate">Moderate Comments</h2>
+  <p>You stay in charge of what gets posted. Open <strong>Video Gallery</strong> and click <strong>Reel Moderation</strong>.</p>
+  <p>Each video shows its likes and comments. Delete one comment, delete all comments, or reset the likes.</p>
+  <figure class="media-slot" data-media="image" data-src="docs-assets/pro-moderation.png" data-caption="The Shorts Reel Moderation screen, with likes and comments listed for each video. This is a result image, so it has no arrow."></figure>
+</article>
+
+<article class="doc-article" id="pro-faq" data-group="Help" data-title="Frequently Asked Questions">
+  <h1>Frequently Asked Questions</h1>
+  <p class="lead">The things people ask first, for both the free plugin and Pro. Open a question to read its answer.</p>
+  <h2 id="pfaq-list">Questions and Answers</h2>
+  <div class="faq-list">
+    <div class="faq-item open">
+      <button class="faq-q"><span>Is there a free version?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>Yes. The free plugin has the Video Gallery block with albums, filters, a lightbox and bulk import. Pro adds 31 more blocks. See <a href="#pro-overview" data-nav>What Pro Adds</a>.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Which video sources work?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>YouTube, Vimeo and files from your Media Library work everywhere. Wistia works in select Pro blocks.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Do I need an API key?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>No. Paste a YouTube or Vimeo link and the title and thumbnail fill in for you.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Will my free galleries still work after I upgrade?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>Yes. Pro carries its own copy of the Video Gallery block, so your saved galleries keep working. See <a href="#pro-install" data-nav>Install Pro Next to Free</a>.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>What happens to my pages if Pro is not active?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>Pro blocks show a short notice instead of the video section. Your settings stay saved. Switch Pro back on and the blocks return.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Can I use more than one block on a page?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>Yes. Mix as many as you like. Scripts load only for the blocks a page uses.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Can I put a gallery on a page without the block editor?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>Yes. Build it under <strong>Video Gallery</strong> and click <strong>Add New</strong>. Copy the shortcode shown there, like <code>[video_gallery id=12]</code>, and paste it anywhere.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q"><span>Will Google see my videos?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
+      <div class="faq-a"><p>It can. Every block describes its videos to Google and AI search. Give each video a title and a thumbnail, and the markup is added for you.</p></div>
+    </div>
+  </div>
+</article>
+
+<article class="doc-article" id="pro-troubleshooting" data-group="Help" data-title="Troubleshooting">
+  <h1>Troubleshooting</h1>
+  <p class="lead">Something looks wrong? Most problems have a quick fix. Find the one that matches what you see.</p>
+
+  <h2 id="pts-locked">Pro Blocks Look Locked After I Upgraded</h2>
+  <p>You see a notice or locked controls even though you bought Pro. The licence is probably not active yet.</p>
+  <ul>
+    <li>Open <strong>Video Gallery</strong>, then <strong>Help &amp; Demos</strong>, then <strong>Activation</strong>. It should say <strong>Activated</strong>. See <a href="#pro-activate" data-nav>Activate Your Licence</a>.</li>
+    <li>Check that <strong>Video Gallery Block Pro</strong> is the active plugin on the <strong>Plugins</strong> page.</li>
+    <li>Update to the latest version, then reload the editor and the page.</li>
+  </ul>
+
+  <h2 id="pts-activation">The Licence Will Not Activate</h2>
+  <p>The Activation tab shows a message. Read it, because it says what is wrong.</p>
+  <ul>
+    <li><strong>Invalid or not found:</strong> copy the key again and check for extra spaces.</li>
+    <li><strong>Expired:</strong> renew the licence, then try again.</li>
+    <li><strong>No activations left:</strong> click <strong>Deactivate license</strong> on a site you no longer use, or buy a bigger plan.</li>
+  </ul>
+
+  <h2 id="pts-missing">A Block Is Missing from the Inserter</h2>
+  <p>You search for a Pro block and nothing appears. It may be switched off.</p>
+  <p>Open <strong>Video Gallery</strong>, then <strong>Help &amp; Demos</strong>, then <strong>Blocks</strong>. Turn its switch back on, then reload the editor. See <a href="#pro-switch-blocks" data-nav>Switch Blocks On or Off</a>.</p>
+
+  <h2 id="pts-thumb">A Card Shows a Blank Thumbnail</h2>
+  <p>Some links give no picture of their own. Open the video and add a <strong>Poster</strong> image. It is used as the thumbnail everywhere in that block.</p>
+
+  <h2 id="pts-sound">A Video Will Not Start with Sound</h2>
+  <p>Browsers block autoplay with sound until the visitor clicks. This is a browser rule, not a fault.</p>
+  <p>Keep autoplay muted, or let the visitor press play. Settings such as <strong>Mute Autoplay</strong> or <strong>Start Muted</strong> help here.</p>
+
+  <h2 id="pts-stories">A Story Moves On Too Early or Too Late</h2>
+  <p>YouTube and Vimeo clips cannot tell the block when they end. Open the clip in <strong>Video Stories</strong> and set its <strong>Duration (s)</strong> to the real length.</p>
+
+  <h2 id="pts-woo">The Product List Is Empty</h2>
+  <p>The WooCommerce list needs WooCommerce. Install and activate it, then reload the editor. See <a href="#pwc-need" data-nav>Before You Start</a>.</p>
+  <p>Also check that you have at least one published product.</p>
+
+  <h2 id="pts-login">Visitors Cannot Save or Comment</h2>
+  <p>Saving and commenting on the Shorts Reel need a logged in visitor. Likes work for everyone.</p>
+  <p>Add a login link near the block, or let visitors register. See <a href="#pst-reactions" data-nav>Likes, Saves and Comments on Shorts</a>.</p>
+</article>
+
+
+        </div>
+
+        <div class="article-feedback" id="feedback"></div>
+        <div class="article-footer" id="pager"></div>
+      </div>
+
+      <!-- ===================== TOC ===================== -->
+      <aside class="toc" id="toc">
+        <div class="toc-title">Table of Contents</div>
+        <ul id="tocList"></ul>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var articles = Array.prototype.slice.call(document.querySelectorAll(".doc-article"));
+      var navLinks = Array.prototype.slice.call(document.querySelectorAll(".nav-group-items a, .nav-top-link"));
+      var order = navLinks.map(function (a) { return a.getAttribute("href").slice(1); });
+      var tocList = document.getElementById("tocList");
+      var toc = document.getElementById("toc");
+      var pager = document.getElementById("pager");
+      var feedback = document.getElementById("feedback");
+      var bcGroup = document.getElementById("bcGroup");
+      var bcTitle = document.getElementById("bcTitle");
+      var spy = null;
+
+      function articleById(id) {
+        return document.getElementById(id) && document.getElementById(id).classList.contains("doc-article")
+          ? document.getElementById(id) : null;
+      }
+
+      function buildToc(article) {
+        tocList.innerHTML = "";
+        var heads = Array.prototype.filter.call(article.querySelectorAll("h2"), function (h) {
+          return h.offsetParent !== null || getComputedStyle(h).display !== "none";
+        });
+        /* keep the column's width reserved when empty, so the content never shifts */
+        toc.style.visibility = heads.length ? "" : "hidden";
+        Array.prototype.forEach.call(heads, function (h) {
+          var li = document.createElement("li");
+          var a = document.createElement("a");
+          a.href = "#" + h.id;
+          a.textContent = h.textContent;
+          a.addEventListener("click", function (e) {
+            e.preventDefault();
+            waitForMedia(article).then(function () { h.scrollIntoView({ behavior: "smooth" }); });
+            history.replaceState(null, "", "#" + article.id);
+          });
+          li.appendChild(a);
+          tocList.appendChild(li);
+        });
+        if (spy) spy.disconnect();
+        spy = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (en.isIntersecting) {
+              tocList.querySelectorAll("a").forEach(function (a) {
+                a.classList.toggle("active", a.getAttribute("href") === "#" + en.target.id);
+              });
+            }
+          });
+        }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+        Array.prototype.forEach.call(heads, function (h) { spy.observe(h); });
+      }
+
+      function buildPager(id) {
+        pager.innerHTML = "";
+        var i = order.indexOf(id);
+        if (i > 0) {
+          var prev = document.createElement("a");
+          prev.className = "pager-link"; prev.href = "#" + order[i - 1];
+          prev.setAttribute("data-nav", "");
+          prev.innerHTML = '<span class="pl-dir">&larr; Previous</span><span class="pl-title">' +
+            articleById(order[i - 1]).getAttribute("data-title") + "</span>";
+          pager.appendChild(prev);
+        }
+        if (i > -1 && i < order.length - 1) {
+          var next = document.createElement("a");
+          next.className = "pager-link next"; next.href = "#" + order[i + 1];
+          next.setAttribute("data-nav", "");
+          next.innerHTML = '<span class="pl-dir">Next &rarr;</span><span class="pl-title">' +
+            articleById(order[i + 1]).getAttribute("data-title") + "</span>";
+          pager.appendChild(next);
+        }
+      }
+
+      function buildFeedback() {
+        feedback.innerHTML =
+          '<span class="fb-question">Was this page helpful?</span>' +
+          '<span class="fb-buttons">' +
+          '<button type="button" class="fb-btn" data-vote="yes">Yes</button>' +
+          '<button type="button" class="fb-btn" data-vote="no">No</button>' +
+          "</span>";
+        feedback.querySelectorAll(".fb-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            feedback.innerHTML = '<span class="fb-thanks">Thanks for letting us know!</span>';
+          });
+        });
+      }
+
+      function show(id, scroll) {
+        var article = articleById(id) || articleById("introduction");
+        id = article.id;
+        articles.forEach(function (a) { a.classList.toggle("active", a === article); });
+        navLinks.forEach(function (a) {
+          var on = a.getAttribute("href") === "#" + id;
+          a.classList.toggle("active", on);
+          var group = on && a.closest(".nav-group");
+          if (group) group.classList.add("open");
+        });
+        var groupName = article.getAttribute("data-group");
+        bcGroup.textContent = groupName;
+        /* No group (a flat, top-level page): drop the separator before it,
+           so the trail reads "Docs / Title" instead of "Docs / / Title". */
+        bcGroup.previousElementSibling.style.display = groupName ? "" : "none";
+        bcTitle.textContent = article.getAttribute("data-title");
+        /* PER-PLUGIN: rewrite this suffix when lifting the shell for another plugin */
+        document.title = article.getAttribute("data-title") + " | Video Gallery Block Docs";
+        buildToc(article);
+        buildPager(id);
+        buildFeedback();
+        if (scroll !== false) window.scrollTo({ top: 0 });
+        document.body.classList.remove("nav-open");
+      }
+
+      /* Every media slot above the anchor is still a small placeholder the
+         instant a page is shown, since its real image loads in the
+         background (see "Media slots" below); scrolling to the anchor right
+         away lands short, then the images finish loading and push it back
+         down out of view. Wait for the host's own images to settle first, so
+         the scroll math already accounts for their real height. Capped so a
+         broken or slow image can never block navigation for long. */
+      function waitForMedia(article, timeoutMs) {
+        return new Promise(function (resolve) {
+          var deadline = Date.now() + (timeoutMs || 1200);
+          function check() {
+            var pending = Array.prototype.some.call(article.querySelectorAll(".media-slot"), function (s) {
+              return !!s.querySelector(".media-ph");
+            });
+            if (!pending || Date.now() > deadline) { resolve(); return; }
+            requestAnimationFrame(check);
+          }
+          check();
+        });
+      }
+
+      /* A hash may point at a heading rather than a whole page, for example a
+         link straight into DOCUMENTATION.html#rs-google from outside this
+         page. Open the page that heading lives on, then scroll down to it. */
+      function openHash(id) {
+        id = id || "introduction";
+        var target = document.getElementById(id);
+        var host = articleById(id) || (target && target.closest(".doc-article")) || articleById("introduction");
+        show(host.id, host.id === id);
+        if (host.id !== id && target) {
+          waitForMedia(host).then(function () { target.scrollIntoView(); });
+        }
+      }
+
+      document.addEventListener("click", function (e) {
+        var a = e.target.closest("a[data-nav]");
+        if (!a) return;
+        var id = a.getAttribute("href").slice(1);
+        var target = document.getElementById(id);
+        var host = articleById(id) || (target && target.closest(".doc-article"));
+        if (!host) return;
+        e.preventDefault();
+        history.pushState(null, "", "#" + host.id);
+        show(host.id);
+        if (host.id !== id && target) {
+          waitForMedia(host).then(function () { target.scrollIntoView({ behavior: "smooth" }); });
+        }
+      });
+
+      window.addEventListener("popstate", function () {
+        openHash(location.hash.slice(1));
+      });
+
+      document.querySelectorAll(".faq-q").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          btn.closest(".faq-item").classList.toggle("open");
+        });
+      });
+
+      document.querySelectorAll(".nav-group-head").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          btn.parentElement.classList.toggle("open");
+        });
+      });
+
+      /* Mobile nav */
+      document.getElementById("menuBtn").addEventListener("click", function () {
+        document.body.classList.toggle("nav-open");
+      });
+      document.getElementById("overlay").addEventListener("click", function () {
+        document.body.classList.remove("nav-open");
+      });
+
+      /* Copy buttons */
+      document.querySelectorAll(".codeblock").forEach(function (block) {
+        var btn = document.createElement("button");
+        btn.className = "copy-btn"; btn.type = "button"; btn.textContent = "Copy";
+        btn.addEventListener("click", function () {
+          var text = block.querySelector("code").innerText;
+          (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+            .then(function () { btn.textContent = "Copied!"; })
+            .catch(function () {
+              var ta = document.createElement("textarea");
+              ta.value = text; document.body.appendChild(ta); ta.select();
+              document.execCommand("copy"); document.body.removeChild(ta);
+              btn.textContent = "Copied!";
+            });
+          setTimeout(function () { btn.textContent = "Copy"; }, 1600);
+        });
+        block.appendChild(btn);
+      });
+
+      /* Editor switcher: Gutenberg/Classic/Elementor instruction variants, synced across pages */
+      var EDITORS = [
+        { id: "gutenberg", label: "Gutenberg", icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>' },
+        { id: "classic", label: "Classic Editor", icon: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>' },
+        { id: "elementor", label: "Elementor", icon: '<path d="M4 3h3v18H4z"/><path d="M10 3h10v4H10z"/><path d="M10 10h10v4H10z"/><path d="M10 17h10v4H10z"/>' }
+      ];
+      document.querySelectorAll("[data-editor-switch]").forEach(function (row) {
+        row.classList.add("switch-row");
+        row.innerHTML = '<span class="switch-label">Show instructions for:</span>' +
+          '<div class="editor-switch" role="tablist" aria-label="Editor">' +
+          EDITORS.map(function (ed) {
+            return '<button type="button" data-editor="' + ed.id + '">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+              'stroke-linecap="round" stroke-linejoin="round">' + ed.icon + '</svg>' + ed.label + '</button>';
+          }).join("") + "</div>";
+      });
+      /* Tag each block with the h2 section it belongs to, so hiding a heading hides its whole section */
+      document.querySelectorAll(".doc-article").forEach(function (art) {
+        var current = null;
+        Array.prototype.forEach.call(art.children, function (el) {
+          if (el.tagName === "H2") { current = el.id || null; return; }
+          if (current) el.setAttribute("data-section", current);
+        });
+      });
+      function applySectionVisibility() {
+        document.querySelectorAll(".doc-article h2[id]").forEach(function (h) {
+          var hidden = getComputedStyle(h).display === "none";
+          document.querySelectorAll('[data-section="' + h.id + '"]').forEach(function (el) {
+            el.classList.toggle("section-hidden", hidden);
+          });
+        });
+      }
+      function setDocsEditor(mode) {
+        if (!EDITORS.some(function (ed) { return ed.id === mode; })) mode = "gutenberg";
+        document.body.classList.remove("editor-classic", "editor-gutenberg", "editor-elementor");
+        document.body.classList.add("editor-" + mode);
+        /* PER-PLUGIN: namespace this key per plugin */
+        try { localStorage.setItem("vgbDocsEditor", mode); } catch (e) { }
+        document.querySelectorAll(".editor-switch button").forEach(function (b) {
+          b.classList.toggle("on", b.getAttribute("data-editor") === mode);
+        });
+        applySectionVisibility();
+      }
+      document.addEventListener("click", function (e) {
+        var b = e.target.closest(".editor-switch button");
+        if (!b) return;
+        setDocsEditor(b.getAttribute("data-editor"));
+        var active = document.querySelector(".doc-article.active");
+        if (active) buildToc(active);
+      });
+      var savedEditor = "gutenberg";
+      try { savedEditor = localStorage.getItem("vgbDocsEditor") || "gutenberg"; } catch (e) { }
+      setDocsEditor(savedEditor);
+
+      /* Media slots: show the real image/video when the file exists, a labeled placeholder otherwise */
+      var PH_ICONS = {
+        image: '<svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>',
+        video: '<svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>'
+      };
+      function youtubeId(src) {
+        var m = src.match(/(?:youtube(?:-nocookie)?\.com\/(?:watch\?[^#]*v=|embed\/|shorts\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+        return m ? m[1] : null;
+      }
+      document.querySelectorAll(".media-slot").forEach(function (slot) {
+        var src = (slot.getAttribute("data-src") || "").trim();
+        var type = slot.getAttribute("data-media") || "image";
+        var caption = slot.getAttribute("data-caption") || "";
+        var isRemote = /^https?:\/\//i.test(src);
+        function renderPlaceholder() {
+          slot.innerHTML = "";
+          var box = document.createElement("div");
+          box.className = "media-ph";
+          box.innerHTML = PH_ICONS[type] || PH_ICONS.image;
+          var label = document.createElement("div");
+          label.className = "ph-label"; label.textContent = caption;
+          var path = document.createElement("div");
+          path.className = "ph-path"; path.textContent = src;
+          var hint = document.createElement("div");
+          hint.className = "ph-hint";
+          hint.textContent = type === "video"
+            ? "Placeholder: paste the YouTube link into this slot's data-src and it will embed here"
+            : "Placeholder: paste the CDN image URL into this slot's data-src and it will appear here";
+          box.appendChild(label); box.appendChild(path); box.appendChild(hint);
+          slot.appendChild(box);
+        }
+        function renderMedia(el) {
+          slot.innerHTML = "";
+          slot.appendChild(el);
+          if (caption) {
+            var fc = document.createElement("figcaption");
+            fc.textContent = caption;
+            slot.appendChild(fc);
+          }
+        }
+        renderPlaceholder();
+        if (!src) return;
+        var yid = type === "video" ? youtubeId(src) : null;
+        if (yid) {
+          var wrap = document.createElement("div");
+          wrap.className = "yt-wrap";
+          var fr = document.createElement("iframe");
+          fr.src = "https://www.youtube-nocookie.com/embed/" + yid;
+          fr.title = caption;
+          fr.loading = "lazy";
+          fr.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          fr.allowFullscreen = true;
+          wrap.appendChild(fr);
+          renderMedia(wrap);
+        } else if (type === "video") {
+          if (!isRemote && src.indexOf("/") === -1) return;
+          var v = document.createElement("video");
+          v.controls = true; v.preload = "metadata";
+          v.addEventListener("loadedmetadata", function () { renderMedia(v); });
+          v.addEventListener("error", renderPlaceholder);
+          v.src = src;
+        } else {
+          var im = new Image();
+          im.addEventListener("load", function () { im.alt = caption; renderMedia(im); });
+          im.addEventListener("error", renderPlaceholder);
+          im.src = src;
+        }
+      });
+
+      /* Image lightbox: click any screenshot to view it full size */
+      var lb = document.createElement("div");
+      lb.className = "lightbox";
+      lb.setAttribute("role", "dialog");
+      lb.setAttribute("aria-modal", "true");
+      lb.setAttribute("aria-label", "Image viewer");
+      lb.innerHTML =
+        '<button class="lb-close" type="button" aria-label="Close (Esc)">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>' +
+        '<button class="lb-prev" type="button" aria-label="Previous image">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>' +
+        '<button class="lb-next" type="button" aria-label="Next image">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>' +
+        '<img alt=""><div class="lb-caption"></div><div class="lb-count"></div>';
+      document.body.appendChild(lb);
+      var lbImg = lb.querySelector("img");
+      var lbCap = lb.querySelector(".lb-caption");
+      var lbCount = lb.querySelector(".lb-count");
+      var lbGroup = [], lbIndex = 0, lbReturnFocus = null;
+
+      function lbShow(i) {
+        if (!lbGroup.length) return;
+        lbIndex = (i + lbGroup.length) % lbGroup.length;
+        var img = lbGroup[lbIndex];
+        lbImg.src = img.currentSrc || img.src;
+        lbImg.alt = img.alt || "";
+        var cap = img.closest(".media-slot");
+        cap = cap && cap.querySelector("figcaption");
+        lbCap.textContent = cap ? cap.textContent : (img.alt || "");
+        lbCount.textContent = lbGroup.length > 1 ? lbIndex + 1 + " / " + lbGroup.length : "";
+        lb.classList.toggle("single", lbGroup.length < 2);
+      }
+      function lbOpen(img) {
+        var article = img.closest(".doc-article") || document;
+        lbGroup = Array.prototype.filter.call(
+          article.querySelectorAll(".media-slot img"),
+          function (el) { return el.offsetParent !== null; }
+        );
+        var start = lbGroup.indexOf(img);
+        if (start === -1) { lbGroup = [img]; start = 0; }
+        lbReturnFocus = document.activeElement;
+        lb.classList.add("open");
+        document.body.classList.add("lb-open");
+        lbShow(start);
+        lb.querySelector(".lb-close").focus();
+      }
+      function lbClose() {
+        lb.classList.remove("open");
+        document.body.classList.remove("lb-open");
+        lbImg.removeAttribute("src");
+        if (lbReturnFocus && lbReturnFocus.focus) lbReturnFocus.focus();
+      }
+
+      document.addEventListener("click", function (e) {
+        var img = e.target.closest(".media-slot img");
+        if (img) { e.preventDefault(); lbOpen(img); return; }
+        if (!lb.classList.contains("open")) return;
+        if (e.target.closest(".lb-close")) return lbClose();
+        if (e.target.closest(".lb-prev")) return lbShow(lbIndex - 1);
+        if (e.target.closest(".lb-next")) return lbShow(lbIndex + 1);
+        if (e.target === lb) lbClose();
+      });
+      document.addEventListener("keydown", function (e) {
+        if (!lb.classList.contains("open")) return;
+        if (e.key === "Escape") { e.preventDefault(); lbClose(); }
+        else if (e.key === "ArrowLeft" && lbGroup.length > 1) { e.preventDefault(); lbShow(lbIndex - 1); }
+        else if (e.key === "ArrowRight" && lbGroup.length > 1) { e.preventDefault(); lbShow(lbIndex + 1); }
+        else if (e.key === "Tab") {
+          var f = lb.querySelectorAll("button:not([style*='display: none'])");
+          var list = Array.prototype.filter.call(f, function (b) { return b.offsetParent !== null; });
+          if (!list.length) return;
+          var i = list.indexOf(document.activeElement);
+          e.preventDefault();
+          list[(i + (e.shiftKey ? -1 : 1) + list.length) % list.length].focus();
+        }
+      });
+
+      /* Search */
+      var input = document.getElementById("searchInput");
+      var results = document.getElementById("searchResults");
+      var index = articles.map(function (a) {
+        return {
+          id: a.id,
+          title: a.getAttribute("data-title"),
+          group: a.getAttribute("data-group"),
+          heads: Array.prototype.map.call(a.querySelectorAll("h2"), function (h) { return h.textContent; }),
+          text: a.textContent.replace(/\s+/g, " ").toLowerCase()
+        };
+      });
+
+      function runSearch() {
+        var q = input.value.trim().toLowerCase();
+        results.innerHTML = "";
+        if (q.length < 2) { results.classList.remove("open"); return; }
+        var hits = index.map(function (it) {
+          var score = 0;
+          if (it.title.toLowerCase().indexOf(q) > -1) score = 3;
+          else if (it.heads.some(function (h) { return h.toLowerCase().indexOf(q) > -1; })) score = 2;
+          else if (it.text.indexOf(q) > -1) score = 1;
+          return { it: it, score: score };
+        }).filter(function (r) { return r.score > 0; })
+          .sort(function (a, b) { return b.score - a.score; })
+          .map(function (r) { return r.it; })
+          .slice(0, 8);
+        if (!hits.length) {
+          results.innerHTML = '<div class="empty">No results for &ldquo;' + q.replace(/</g, "&lt;") + '&rdquo;</div>';
+        } else {
+          hits.forEach(function (it) {
+            var a = document.createElement("a");
+            a.href = "#" + it.id;
+            a.innerHTML = '<div class="r-title">' + it.title + '</div><div class="r-crumb">Docs / ' + it.group + "</div>";
+            a.addEventListener("click", function (e) {
+              e.preventDefault();
+              history.pushState(null, "", "#" + it.id);
+              show(it.id);
+              input.value = ""; results.classList.remove("open");
+            });
+            results.appendChild(a);
+          });
+        }
+        results.classList.add("open");
+      }
+
+      input.addEventListener("input", runSearch);
+      input.addEventListener("focus", runSearch);
+      input.addEventListener("keydown", function (e) {
+        var items = results.querySelectorAll("a");
+        var sel = results.querySelector("a.sel");
+        var i = Array.prototype.indexOf.call(items, sel);
+        if (e.key === "ArrowDown" && items.length) {
+          e.preventDefault();
+          if (sel) sel.classList.remove("sel");
+          items[(i + 1) % items.length].classList.add("sel");
+        } else if (e.key === "ArrowUp" && items.length) {
+          e.preventDefault();
+          if (sel) sel.classList.remove("sel");
+          items[(i - 1 + items.length) % items.length].classList.add("sel");
+        } else if (e.key === "Enter" && sel) {
+          e.preventDefault(); sel.click();
+        } else if (e.key === "Escape") {
+          results.classList.remove("open"); input.blur();
+        }
+      });
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".search-box")) results.classList.remove("open");
+      });
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "/" && document.activeElement !== input &&
+          !/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) {
+          e.preventDefault(); input.focus();
+        }
+      });
+
+      openHash(location.hash.slice(1));
+    })();
+  </script>
+</body>
+
+</html>

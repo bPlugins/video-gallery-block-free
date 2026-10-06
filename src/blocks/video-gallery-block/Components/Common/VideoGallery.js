@@ -19,6 +19,7 @@ import {
   videoProviderId,
 } from "../../utils/functions";
 import { prefix } from "../../utils/data";
+import { watchPlay } from "../../utils/playTracking";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
 /**
@@ -59,7 +60,7 @@ const initPlyr = (slide) => {
  * GTM/GA4 on the site), so this is safe to call unconditionally once the
  * option is on.
  */
-const pushVideoEvent = (slide) => {
+const pushVideoEvent = (slide, eventName = "video_start", extra = {}) => {
   if (typeof window === "undefined") return;
 
   /*
@@ -76,13 +77,24 @@ const pushVideoEvent = (slide) => {
   const url =
     slide?.videoUrl || slide?.triggerEl?.dataset?.videoUrl || slide?.src || "";
 
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: "video_start",
+  const params = {
     video_title: slide?.caption || "",
     video_provider: videoProviderId(url),
     video_url: url,
-  });
+    ...extra,
+  };
+
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: eventName, ...params });
+
+  /*
+   * A site with plain gtag.js (Site Kit, a pasted GA4 snippet) has no GTM
+   * trigger listening for the dataLayer event above, so send the same event
+   * straight to GA4 as well. `gtag` only exists when that snippet is loaded.
+   */
+  if (typeof window.gtag === "function") {
+    window.gtag("event", eventName, params);
+  }
 };
 
 /**
@@ -126,6 +138,14 @@ const fancyboxOptions = (id, { trackVideoEvents = false } = {}) => ({
       initPlyr(slide);
       if (trackVideoEvents) {
         pushVideoEvent(slide);
+        // `video_start` above means the video was opened; this is the real play.
+        watchPlay(slide, {
+      onPlay: () => pushVideoEvent(slide, "video_play"),
+      onProgress: (mark) =>
+        pushVideoEvent(slide, "video_watch_progress", { video_percent: mark }),
+      onComplete: () =>
+        pushVideoEvent(slide, "video_watch_complete", { video_percent: 100 }),
+    });
       }
     },
   },

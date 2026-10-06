@@ -2,7 +2,7 @@
 Contributors: bplugins, abuhayat, himur98, freemius
 Tags: video gallery, youtube gallery, vimeo gallery, video playlist, block
 Tested up to: 7.1
-Stable tag: 1.5.3
+Stable tag: 1.5.4
 Requires PHP: 7.4
 Requires at least: 6.5
 Donate link: https://www.buymeacoffee.com/abuhayat
@@ -15,7 +15,7 @@ Responsive video gallery block for Gutenberg with YouTube, Vimeo, albums, catego
 
 **Turn scattered YouTube and Vimeo videos into a beautiful, filterable gallery your visitors can browse and play in a lightbox – no code required.**
 
-**[Video Gallery Block](https://bplugins.com/products/video-gallery-block)** | **[Pricing](https://bplugins.com/products/video-gallery-block/pricing/)** | **[Support](https://bplugins.com/support/)** | **[Demo](https://bblockswp.com/demo/video-gallery)**
+**[Video Gallery Block](https://bplugins.com/products/video-gallery-block/)** | **[Pricing](https://bplugins.com/products/video-gallery-block/pricing/)** | **[Support](https://bplugins.com/support/)** | **[Demo](https://bblockswp.com/demo/video-gallery)**
 
 ### Why Video Gallery Block?
 
@@ -53,7 +53,7 @@ The Pro version adds self-hosted HTML5 and Wistia sources plus advanced layouts 
 - **Per-Device Column & Row Gap:** Set the spacing between tiles separately for desktop, tablet, and mobile, the same way column counts already work per device.
 - **Facebook Video Support:** Add Facebook videos to the gallery alongside YouTube and Vimeo, using Facebook's public embed — no app or API key required.
 - **GDPR Consent-Gated Embeds:** Optionally require a visitor's consent before any YouTube, Vimeo, or Facebook player loads, so the gallery doesn't set third-party cookies until someone agrees to watch.
-- **Google Analytics 4 Video Tracking:** Send a `video_start` event (with title, provider, and URL) to `window.dataLayer` whenever a visitor plays a video — works with GA4 or Google Tag Manager already on the site, nothing extra to configure.
+- **Google Analytics 4 Video Tracking:** Send video_start, video_play, video_watch_progress and video_watch_complete events (with title, provider and URL) to Google Analytics. Works with Site Kit, GA4 or Google Tag Manager already on the site, nothing extra to configure.
 
 ### Pro Version
 
@@ -265,6 +265,11 @@ To build the plugin from source:
 Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
+
+= 1.5.4 - 6 October 2026 =
+* New: Video play events for Google Analytics. A video now sends video_play when a visitor presses play, and video_watch_progress at 25, 50 and 75 percent and video_watch_complete when they finish. Works with files, YouTube and Vimeo. Facebook videos only report that they were opened.
+* New: Video events are also sent straight to Google Analytics when gtag.js is on the page, for example with Site Kit. Google Tag Manager is no longer needed.
+* Fix: Facebook Reel links now open as Facebook videos.
 
 = 1.5.3 - 15 September 2026 =
 * **Fix — Editor Hover Tooltip Visibility.** Fixed an issue where the tooltip for the first row of videos in the gallery would be clipped by Gutenberg's block boundaries.

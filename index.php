@@ -2,10 +2,9 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.5.3
- * Requires at least: 6.5
- * Tested up to: 7.1
+ * Version: 1.5.4
  * Requires PHP: 7.4
+ * Requires at least: 6.5
  * Author: bPlugins
  * Author URI: https://bplugins.com
  * License: GPLv3
@@ -40,7 +39,7 @@ if (function_exists('vgb_fs')) {
         defined('WP_DEBUG') && WP_DEBUG
         && isset($_SERVER['HTTP_HOST'])
         && 'localhost' === strtok(sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])), ':')
-    ) ? time() : '1.5.3');
+    ) ? time() : '1.5.4');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));
@@ -62,6 +61,38 @@ if (function_exists('vgb_fs')) {
                 add_action('enqueue_block_assets', [$this, 'enqueueBlockAssets']);
                 add_action( 'enqueue_block_editor_assets', [$this, 'enqueueBlockEditorAssets'] );
                 add_action('enqueue_block_editor_assets', [$this, 'vidgalblkEnqueueBlockEditorAssets']);
+
+                // Redirect to the Help & Demos page on first activation.
+                register_activation_hook( __FILE__, [$this, 'onActivation'] );
+                add_action( 'admin_init', [$this, 'maybeRedirectAfterActivation'] );
+            }
+
+            /**
+             * Set a flag so we know a redirect is needed on the next admin page load.
+             */
+            public function onActivation() {
+                update_option( 'vidgalblk_activation_redirect', true );
+            }
+
+            /**
+             * Redirect to the Help & Demos dashboard page once after activation.
+             */
+            public function maybeRedirectAfterActivation() {
+                if ( ! get_option( 'vidgalblk_activation_redirect', false ) ) {
+                    return;
+                }
+
+                delete_option( 'vidgalblk_activation_redirect' );
+
+                // Don't redirect on bulk activate or WP-CLI.
+                // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+                $activate_multi = isset( $_GET['activate-multi'] ) ? sanitize_text_field( wp_unslash( $_GET['activate-multi'] ) ) : '';
+                if ( wp_doing_ajax() || ( defined( 'WP_CLI' ) && WP_CLI ) || ! empty( $activate_multi ) ) {
+                    return;
+                }
+
+                wp_safe_redirect( admin_url( 'edit.php?post_type=video-gallery-block&page=vgb-help-demo' ) );
+                exit;
             }
 
             public function enqueueBlockAssets() {

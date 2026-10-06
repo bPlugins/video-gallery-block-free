@@ -194,6 +194,15 @@ export const welcomeInfo = (adminUrl = "") => ({
   // Changelogs — each list item starts with <strong>Type:</strong> for badges
   changelogs: [
     {
+      version: "1.5.4 - 6 October 2026",
+      type: "new",
+      list: [
+        __("<strong>New:</strong> Video play events for Google Analytics. A video now sends video_play when a visitor presses play, and video_watch_progress at 25, 50 and 75 percent and video_watch_complete when they finish. Works with files, YouTube and Vimeo. Facebook videos only report that they were opened.", "video-gallery-block"),
+        __("<strong>New:</strong> Video events are also sent straight to Google Analytics when gtag.js is on the page, for example with Site Kit. Google Tag Manager is no longer needed.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Facebook Reel links now open as Facebook videos.", "video-gallery-block"),
+      ],
+    },
+    {
       version: "1.5.3 - 15 September 2026",
       type: "fix",
       list: [
@@ -201,7 +210,6 @@ export const welcomeInfo = (adminUrl = "") => ({
         __("<strong>Fix:</strong> Editor Selection Border — fixed an issue where the blue selection outline would be hidden behind poster images in the editor.", "video-gallery-block"),
       ],
     },
-
     {
       version: "1.5.2 - 12 September 2026",
       type: "new",

@@ -103,7 +103,7 @@ export const getVimeoId = (url) => {
  */
 export const isFacebookVideo = (url) =>
   typeof url === "string" &&
-  /(?:facebook\.com\/.+\/videos\/|facebook\.com\/watch\/?\?|fb\.watch\/)/.test(url);
+  /(?:facebook\.com\/.+\/videos\/|facebook\.com\/watch\/?\?|facebook\.com\/reel\/|facebook\.com\/share\/[rv]\/|fb\.watch\/)/.test(url);
 
 /**
  * Facebook's public video-embed iframe URL for a Facebook video link.

@@ -71,9 +71,7 @@ class Init {
 			'has_archive' => false,
 			'rewrite' => false,
 			'query_var' => false,
-			'menu_icon' => 'data:image/svg+xml;base64,' . base64_encode('
-				<svg fill="#f0f6fc99" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 490.718 490.718" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M245.359,0.359C109.852,0.359,0,110.049,0,245.358s109.852,245,245.359,245s245.359-109.691,245.359-245 S380.866,0.359,245.359,0.359z M176.828,341.011V140.824l187.489,100.098L176.828,341.011z"></path> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </g> </g></svg>
-			'),
+			'menu_icon' => 'data:image/svg+xml;base64,' . base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="#f0f6fc99" fill-rule="evenodd" d="M2.7 3h5.1a1.2 1.2 0 0 1 1.2 1.2v3.6a1.2 1.2 0 0 1-1.2 1.2H2.7a1.2 1.2 0 0 1-1.2-1.2V4.2a1.2 1.2 0 0 1 1.2-1.2zM4.5 4.5v3l2.4-1.5zM12.2 3h5.1a1.2 1.2 0 0 1 1.2 1.2v3.6a1.2 1.2 0 0 1-1.2 1.2H12.2a1.2 1.2 0 0 1-1.2-1.2V4.2a1.2 1.2 0 0 1 1.2-1.2zM14 4.5v3l2.4-1.5zM2.7 11h5.1a1.2 1.2 0 0 1 1.2 1.2v3.6a1.2 1.2 0 0 1-1.2 1.2H2.7a1.2 1.2 0 0 1-1.2-1.2V12.2a1.2 1.2 0 0 1 1.2-1.2zM4.5 12.5v3l2.4-1.5zM12.2 11h5.1a1.2 1.2 0 0 1 1.2 1.2v3.6a1.2 1.2 0 0 1-1.2 1.2H12.2a1.2 1.2 0 0 1-1.2-1.2V12.2a1.2 1.2 0 0 1 1.2-1.2zM14 12.5v3l2.4-1.5z"/></svg>'),
             'template' => [['vgb/video-gallery']],
             'template_lock' => 'all',
         ]);

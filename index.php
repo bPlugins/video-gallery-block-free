@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.5.4
+ * Version: 1.6.0
  * Requires PHP: 7.4
  * Requires at least: 6.5
  * Author: bPlugins
@@ -39,7 +39,7 @@ if (function_exists('vgb_fs')) {
         defined('WP_DEBUG') && WP_DEBUG
         && isset($_SERVER['HTTP_HOST'])
         && 'localhost' === strtok(sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])), ':')
-    ) ? time() : '1.5.4');
+    ) ? time() : '1.6.0');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));
@@ -88,6 +88,12 @@ if (function_exists('vgb_fs')) {
                 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
                 $activate_multi = isset( $_GET['activate-multi'] ) ? sanitize_text_field( wp_unslash( $_GET['activate-multi'] ) ) : '';
                 if ( wp_doing_ajax() || ( defined( 'WP_CLI' ) && WP_CLI ) || ! empty( $activate_multi ) ) {
+                    return;
+                }
+
+                // The Freemius opt-in screen hides this plugin's menu until it is answered, so the page below
+                // would say "not allowed". Let Freemius show its opt-in first; it opens the first page after.
+                if ( function_exists( 'vgb_fs' ) && vgb_fs()->is_activation_mode() ) {
                     return;
                 }
 

@@ -6,7 +6,7 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
             global $vgb_fs;
             if (!isset($vgb_fs)) {
                 require_once VIDGALBLK_DIR_PATH . 'vendor/freemius-lite/start.php';
-                $vgb_fs = fs_lite_dynamic_init([
+                $vgb_fs = fs_dynamic_init([
                     'id'                  => '20637',
                     'slug'                => 'video-gallery-block',
                     '__FILE__'            => VIDGALBLK_DIR_PATH . 'index.php',
@@ -28,5 +28,10 @@ if ( !defined( 'ABSPATH' ) ) { exit; }
             return $vgb_fs;
         }
         vgb_fs();
+        // Show this plugin's own icon on the Freemius opt-in screen. Without it the SDK
+        // looks inside its own folder and falls back to a grey plug.
+        vgb_fs()->add_filter( 'plugin_icon', function () {
+            return wp_normalize_path( VIDGALBLK_DIR_PATH . 'public/icon.svg' );
+        } );
         do_action('vgb_fs_loaded');
     }

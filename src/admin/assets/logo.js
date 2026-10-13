@@ -1,0 +1,86 @@
+// Same artwork as the plugin icon on wordpress.org (assets/icon.svg), embedded so the dashboard
+// does not depend on a remote fetch or a cached older icon.
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Video gallery grid with a tile popping to play">
+  <title>Video Gallery Block — grid pop-to-play</title>
+  <defs>
+    <linearGradient id="vgbAbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5223c"/>
+      <stop offset="1" stop-color="#ff6a3d"/>
+    </linearGradient>
+    <radialGradient id="vgbAglow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="vgbAtri" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5223c"/>
+      <stop offset="1" stop-color="#ff5a4d"/>
+    </linearGradient>
+    <clipPath id="vgbAclip"><rect width="256" height="256" rx="56"/></clipPath>
+    <style>
+      :root { --vgb: 3.6s; }
+      #vgbA-ring { transform-box: fill-box; transform-origin: center; animation: vgbA-ring var(--vgb) ease-out infinite; }
+      #vgbA-hero { transform-box: fill-box; transform-origin: center; animation: vgbA-pop var(--vgb) ease-in-out infinite; }
+      .vgbA-tw { animation: vgbA-tw var(--vgb) ease-in-out infinite; }
+      #vgbA-t2 { animation-name: vgbA-tw2; }
+      #vgbA-t3 { animation-name: vgbA-tw3; }
+      #vgbA-t4 { animation-name: vgbA-tw4; }
+      @keyframes vgbA-ring {
+        0% { transform: scale(0.55); opacity: 0.55; }
+        60% { transform: scale(1.35); opacity: 0; }
+        100% { transform: scale(1.35); opacity: 0; }
+      }
+      @keyframes vgbA-pop {
+        0% { transform: scale(1); }
+        18% { transform: scale(1.07); }
+        40% { transform: scale(1); }
+        100% { transform: scale(1); }
+      }
+      @keyframes vgbA-tw  { 0%,100%{opacity:.9} 20%{opacity:.55} }
+      @keyframes vgbA-tw2 { 0%,100%{opacity:.62} 40%{opacity:.9} }
+      @keyframes vgbA-tw3 { 0%,100%{opacity:.9} 62%{opacity:.55} }
+      @keyframes vgbA-tw4 { 0%,100%{opacity:.62} 82%{opacity:.9} }
+      @media (prefers-reduced-motion: reduce) {
+        #vgbA-ring, #vgbA-hero, .vgbA-tw, #vgbA-t2, #vgbA-t3, #vgbA-t4 { animation: none; }
+        #vgbA-ring { opacity: 0; }
+      }
+    </style>
+  </defs>
+  <g clip-path="url(#vgbAclip)">
+    <rect width="256" height="256" fill="url(#vgbAbg)"/>
+    <circle cx="72" cy="60" r="90" fill="url(#vgbAglow)" opacity="0.10"/>
+    <ellipse cx="128" cy="128" rx="120" ry="120" fill="url(#vgbAglow)" opacity="0.12"/>
+
+    <!-- 2x2 gallery tiles -->
+    <g>
+      <g class="vgbA-tw" id="vgbA-t1">
+        <rect x="44" y="48" width="76" height="54" rx="11" fill="#ffffff" opacity="0.9"/>
+        <path d="M74 63 L74 87 L94 75 Z" fill="#f5223c" opacity="0.85"/>
+      </g>
+      <g class="vgbA-tw" id="vgbA-t2">
+        <rect x="136" y="48" width="76" height="54" rx="11" fill="#ffffff" opacity="0.62"/>
+        <path d="M166 63 L166 87 L186 75 Z" fill="#f5223c" opacity="0.7"/>
+      </g>
+      <g class="vgbA-tw" id="vgbA-t3">
+        <rect x="44" y="154" width="76" height="54" rx="11" fill="#ffffff" opacity="0.9"/>
+        <path d="M74 169 L74 193 L94 181 Z" fill="#f5223c" opacity="0.85"/>
+      </g>
+      <g class="vgbA-tw" id="vgbA-t4">
+        <rect x="136" y="154" width="76" height="54" rx="11" fill="#ffffff" opacity="0.62"/>
+        <path d="M166 169 L166 193 L186 181 Z" fill="#f5223c" opacity="0.7"/>
+      </g>
+    </g>
+
+    <!-- pulse ring behind hero -->
+    <circle id="vgbA-ring" cx="128" cy="128" r="58" fill="none" stroke="#ffffff" stroke-width="6"/>
+
+    <!-- hero lightbox tile popping to play -->
+    <g id="vgbA-hero">
+      <rect x="82" y="92" width="92" height="72" rx="14" fill="#20121a" opacity="0.28" transform="translate(3 6)"/>
+      <rect x="82" y="92" width="92" height="72" rx="14" fill="#ffffff"/>
+      <rect x="82" y="92" width="92" height="72" rx="14" fill="none" stroke="#ffffff" stroke-width="4" opacity="0.9"/>
+      <path d="M118 108 L118 148 L152 128 Z" fill="url(#vgbAtri)"/>
+    </g>
+  </g>
+</svg>`;
+
+export const videoGalleryLogo = `data:image/svg+xml,${encodeURIComponent(svg)}`;

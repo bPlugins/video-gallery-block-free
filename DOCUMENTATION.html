@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Video Gallery Block - Documentation</title>
-  <link rel="icon" type="image/png" href="docs-assets/plugin-icon.png">
-    <meta name="description" content="Official documentation for the Video Gallery Block WordPress plugin: installing, adding YouTube and Vimeo videos, albums and filters, layouts, lightbox, privacy, and the Pro blocks.">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Video Gallery Block - Documentation</title>
+<link href="docs-assets/plugin-icon.png" rel="icon" type="image/png"/>
+<meta content="Official documentation for the Video Gallery Block WordPress plugin: installing, adding YouTube and Vimeo videos, albums and filters, layouts, lightbox, privacy, and the Pro blocks." name="description"/>
+<style>
     :root {
       --brand: #146ef5;
       --brand-dark: #1058c4;
@@ -1269,203 +1269,131 @@
         display: none;
       }
     }
-  </style>
+  
+    /* Beginner guide: keep step lists simple. No numbered circles or timeline line. */
+    .steps {
+      counter-reset: none !important;
+      list-style: none !important;
+      margin: 0 0 1.3rem !important;
+      padding-left: 0 !important;
+    }
+    .steps > li {
+      counter-increment: none !important;
+      position: static !important;
+      padding: 0 0 1rem 0 !important;
+      margin: 0 !important;
+    }
+    .steps > li::before,
+    .steps > li::after {
+      content: none !important;
+      display: none !important;
+    }
+</style>
 </head>
-
 <body class="editor-gutenberg">
-
-  <!-- ===================== TOP BAR ===================== -->
-  <header class="topbar">
-    <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-        <path d="M3 6h18M3 12h18M3 18h18" />
-      </svg>
-    </button>
-    <a class="topbar-brand" href="https://wordpress.org/plugins/video-gallery-block/" target="_blank" rel="noopener">
-      <span class="topbar-logo"><img src="docs-assets/plugin-icon.png" alt="Video Gallery Block"></span>
-      <span class="topbar-name"><strong>Video Gallery</strong> <span class="thin">Block</span></span>
-    </a>
-    <span class="topbar-sep"></span>
-    <span class="topbar-docs">Docs</span>
-
-    <div class="topbar-search">
-      <div class="search-box">
-        <svg class="s-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-          stroke-linecap="round">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m21 21-4.3-4.3" />
-        </svg>
-        <input type="text" id="searchInput" placeholder="Search..." autocomplete="off">
-        <kbd>/</kbd>
-        <div class="search-results" id="searchResults"></div>
-      </div>
-    </div>
-
-  </header>
-
-  <div class="overlay" id="overlay"></div>
-
-  <div class="layout">
-
-    <!-- ===================== SIDEBAR ===================== -->
-    <aside class="sidebar" id="sidebar">
-      <nav id="sideNav">
-
-        <div class="nav-group" data-group="Getting Started">
-          <button class="nav-group-head">Getting Started
-            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
-          </button>
-          <div class="nav-group-items">
-            <a href="#introduction" data-nav>Introduction</a>
-            <a href="#free-install" data-nav>Installation and Activation</a>
-            <a href="#free-quick-start" data-nav>Quick Start: Your First Gallery</a>
-            
-          </div>
-        </div>
-
-        <div class="nav-group" data-group="Free Features">
-          <button class="nav-group-head">Free Features
-            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
-          </button>
-          <div class="nav-group-items">
-            <a href="#free-add-videos" data-nav>Add Videos</a>
-            
-            <a href="#free-albums" data-nav>Albums, Filter Bar and Lightbox</a>
-            
-            <a href="#free-shortcode" data-nav>Reuse a Gallery with a Shortcode</a>
-            <a href="#free-layout" data-nav>Layout and Styling</a>
-            
-            <a href="#free-privacy-analytics" data-nav>Privacy, Analytics and SEO</a>
-            
-            <a href="#free-dashboard" data-nav>Dashboard and Help Page</a>
-          </div>
-        </div>
-
-        
-        <div class="nav-group" data-group="Pro">
-          <button class="nav-group-head">Pro
-            <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
-          </button>
-          <div class="nav-group-items">
-            <a href="#pro-overview" data-nav>Pro Overview and Quick Start</a>
-            
-            <a href="#pro-blocks" data-nav>All 31 Pro Blocks</a>
-            <a href="#pro-woocommerce" data-nav>Product Videos, Likes and Comments</a>
-            
-          </div>
-        </div>
-
-        <a class="nav-top-link" href="#pro-faq" data-nav>FAQ and Troubleshooting</a>
-      </nav>
-    </aside>
-
-    <!-- ===================== MAIN ===================== -->
-    <main class="main">
-      <div class="content">
-
-        <nav class="breadcrumb" id="breadcrumb">
-          <a href="#introduction" data-nav aria-label="Home">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-            </svg>
-          </a>
-          <span class="bc-sep">/</span>
-          <a href="#introduction" data-nav>Docs</a>
-          <span class="bc-sep">/</span>
-          <span id="bcGroup"></span>
-          <span class="bc-sep">/</span>
-          <span class="bc-current" id="bcTitle"></span>
-        </nav>
-
-        <div id="articles">
-
-          <article class="doc-article" id="introduction" data-group="Getting Started" data-title="Introduction">
-
-<h1>Video Gallery Block: Introduction</h1>
-<p class="lead">You have a pile of YouTube and Vimeo links and no tidy place to show them. This plugin turns them into one gallery that plays in a popup.</p>
-<p>You build it in the block editor. No code, no API key.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-gallery-result.png" data-caption="A published gallery: tiles with play icons, captions and a row of album filter buttons above them."></figure>
-<h2 id="intro-free">What You Get for Free</h2>
+<!-- ===================== TOP BAR ===================== -->
+<header class="topbar">
+<button aria-label="Toggle navigation" class="menu-btn" id="menuBtn">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M3 6h18M3 12h18M3 18h18"></path>
+</svg>
+</button>
+<a class="topbar-brand" href="https://wordpress.org/plugins/video-gallery-block/" rel="noopener" target="_blank">
+<span class="topbar-logo"><img alt="Video Gallery Block" src="docs-assets/plugin-icon.png"/></span>
+<span class="topbar-name"><strong>Video Gallery</strong> <span class="thin">Block</span></span>
+</a>
+<span class="topbar-sep"></span>
+<span class="topbar-docs">Docs</span>
+<div class="topbar-search">
+<div class="search-box">
+<svg class="s-icon" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="11" cy="11" r="7"></circle>
+<path d="m21 21-4.3-4.3"></path>
+</svg>
+<input autocomplete="off" id="searchInput" placeholder="Search..." type="text"/>
+<kbd>/</kbd>
+<div class="search-results" id="searchResults"></div>
+</div>
+</div>
+</header>
+<div class="overlay" id="overlay"></div>
+<div class="layout">
+<!-- ===================== SIDEBAR ===================== -->
+<aside class="sidebar" id="sidebar">
+<nav id="sideNav"><div class="nav-group" data-group="Getting Started"><button class="nav-group-head">Getting Started<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#introduction">Introduction</a><a data-nav="" href="#free-install">Installation and Activation</a></div></div><div class="nav-group" data-group="How To Use"><button class="nav-group-head">How To Use<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a><a data-nav="" href="#free-add-videos">Add Videos to Your Gallery</a><a data-nav="" href="#free-albums">Organize Videos with Albums &amp; Filters</a><a data-nav="" href="#free-shortcode">Show a Gallery Anywhere with Shortcodes</a><a data-nav="" href="#free-layout">Customize Gallery Layout &amp; Style</a></div></div><div class="nav-group" data-group="Additional Features &amp; Settings"><button class="nav-group-head">Additional Features &amp; Settings<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#free-privacy-analytics">Privacy, Analytics &amp; Video SEO</a><a data-nav="" href="#free-dashboard">Plugin Dashboard &amp; Settings</a></div></div><div class="nav-group" data-group="Pro Features"><button class="nav-group-head">Pro Features<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a><a data-nav="" href="#pro-blocks">Choose the Right Pro Video Layout</a><a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a></div></div><a class="nav-top-link" data-nav="" href="#pro-faq">FAQs &amp; Troubleshooting</a></nav>
+</aside>
+<!-- ===================== MAIN ===================== -->
+<main class="main">
+<div class="content">
+<nav class="breadcrumb" id="breadcrumb">
+<a aria-label="Home" data-nav="" href="#introduction">
+<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="m3 10 9-7 9 7v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+</svg>
+</a>
+<span class="bc-sep">/</span>
+<a data-nav="" href="#introduction">Docs</a>
+<span class="bc-sep">/</span>
+<span id="bcGroup"></span>
+<span class="bc-sep">/</span>
+<span class="bc-current" id="bcTitle"></span>
+</nav>
+<div id="articles">
+<article class="doc-article" data-group="Getting Started" data-title="Introduction" id="introduction">
+<h1>Video Gallery Block: Complete Setup &amp; Customization Guide</h1>
+<p class="lead">Welcome to the Video Gallery Block user guide. This guide shows you how to add videos to your WordPress site, organize them into albums, choose a layout, change the design and show the same gallery on other pages.</p>
+<p>You do not need coding skills or a technical background. Follow the steps in order and you can build your first video gallery without learning WordPress developer terms.</p>
+<figure class="media-slot" data-caption="A published gallery: tiles with play icons, captions and a row of album filter buttons above them." data-media="image" data-src="docs-assets/free-gallery-result.png"></figure>
+<h2 id="intro-before">Before You Begin</h2>
+<p>Make sure you have the following:</p>
 <ul>
-<li><strong>YouTube, Vimeo and Facebook</strong> videos in one gallery.</li>
-<li><strong>Albums and filter buttons</strong> so visitors find a topic fast.</li>
-<li><strong>Bulk Import</strong>. Paste a list of links and the gallery fills itself.</li>
-<li><strong>A lightbox</strong> that plays each video in a popup.</li>
-<li><strong>Privacy and Google Analytics</strong> options.</li>
+<li><strong>A WordPress website</strong> where you can install plugins. It needs WordPress 6.5 or newer, PHP 7.4 or newer and the block editor, which is the default editor. Most hosts already meet this.</li>
+<li><strong>Administrator access</strong> so you can install and activate Video Gallery Block.</li>
+<li><strong>At least one video link</strong> from YouTube, Vimeo or Facebook that you want to show on your site.</li>
+<li><strong>A thumbnail image</strong> if you want to use your own. This is optional, because YouTube and Vimeo supply one automatically.</li>
 </ul>
-<h2 id="intro-next">Where to Go Next</h2>
-<p>Start with the <a href="#free-quick-start" data-nav>Quick Start</a>. You will publish a gallery in about five minutes. Not installed yet? See <a href="#free-install" data-nav>Installation and Activation</a>.</p>
-
-<h2 id="free-vs-pro">Free vs Pro</h2>
-<p>Not sure you need Pro? The free plugin is one full gallery. Pro adds more layouts.</p>
-<h2 id="free-vs-pro-free">What you get for free</h2>
-<ul>
-<li>YouTube, Vimeo and Facebook videos.</li>
-<li>Albums, a filter bar and a lightbox.</li>
-<li>Bulk Import, five patterns and a shortcode.</li>
-<li>Layout, styling, consent and Google Analytics options.</li>
-<li>Video SEO markup.</li>
-</ul>
-<h2 id="free-vs-pro-pro">What Pro adds</h2>
-<ul>
-<li>Sliders, carousels, masonry grids and playlists.</li>
-<li>Self hosted and Wistia videos.</li>
-</ul>
-<p>See the <a href="#pro-overview">Pro overview</a>.</p>
-<h2 id="free-vs-pro-try">Peek at Pro without buying</h2>
-<ol class="steps">
-<li>Click the gallery in the editor to select it.<figure class="media-slot" data-media="image" data-src="docs-assets/free-vs-pro-select.png" data-caption="The editor with the gallery selected. The arrow marks the gallery."></figure></li>
-<li>Click <strong>Check Pro Version</strong> in the block toolbar.<figure class="media-slot" data-media="image" data-src="docs-assets/free-pro-check.png" data-caption="The block toolbar above the gallery. The arrow marks the Check Pro Version button."></figure></li>
-<li>A card opens that lists what Pro adds. Click <strong>Upgrade to Pro</strong> to see the plans. The pricing page opens in a new tab.<figure class="media-slot" data-media="image" data-src="docs-assets/free-pro-card.png" data-caption="The Pro card. The arrow marks the Upgrade to Pro button."></figure></li>
-</ol>
-
+<p>After installation, start with <a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a>. The first setup will teach you the basic workflow before you explore the extra features. If you later want more layouts, see <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p>
 </article>
-
-<article class="doc-article" id="free-install" data-group="Getting Started" data-title="Installation and Activation">
-
+<article class="doc-article" data-group="Getting Started" data-title="Installation and Activation" id="free-install">
 <h1>Installation and Activation</h1>
-<p class="lead">You want the plugin on your site without any fuss. It takes about a minute, with no code and no account.</p>
-<h2 id="free-install-steps">Install from your dashboard</h2>
-<p>WordPress downloads the plugin for you.</p>
+<p class="lead">Before you build a gallery, make sure the plugin is available in your WordPress editor. This is a one-time setup; after activation, you can move straight to creating your first gallery.</p>
+<h2 id="free-install-steps">Install the Plugin</h2>
+<p>Use WordPress's built-in plugin installer; it downloads and prepares the plugin for you.</p>
 <ol class="steps">
-<li>Open <strong>Plugins</strong> in the left menu, then click <strong>Add Plugin</strong> (the menu item or the button at the top).<figure class="media-slot" data-media="image" data-src="docs-assets/free-install-add-new.png" data-caption="The Plugins page with its menu open. The arrows mark the Plugins menu, the Add Plugin menu item, and the Add Plugin button."></figure></li>
-<li>Type <strong>Video Gallery Block</strong> in the <strong>Search plugins</strong> box.<figure class="media-slot" data-media="image" data-src="docs-assets/free-install-type.png" data-caption="The Add Plugins page with the name typed in the search box. The arrow marks the Search plugins box."></figure></li>
-<li>Find the plugin by bPlugins and click <strong>Install Now</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-install-search.png" data-caption="The Add Plugins page with Video Gallery Block in the results. The arrow marks the Install Now button."></figure></li>
-<li>Click <strong>Activate</strong> when the button changes.<figure class="media-slot" data-media="image" data-src="docs-assets/free-install-activate.png" data-caption="The same card after install. The arrow marks the Activate button."></figure></li>
+<li>Open <strong>Plugins</strong> in the left menu, then click <strong>Add Plugin</strong> (the menu item or the button at the top).<figure class="media-slot" data-caption="The Plugins page with its menu open. The arrows mark the Plugins menu, the Add Plugin menu item, and the Add Plugin button." data-media="image" data-src="docs-assets/free-install-add-new.png"></figure></li>
+<li>Type <strong>Video Gallery Block</strong> in the <strong>Search plugins</strong> box.<figure class="media-slot" data-caption="The Add Plugins page with the name typed in the search box. The arrow marks the Search plugins box." data-media="image" data-src="docs-assets/free-install-type.png"></figure></li>
+<li>Find the plugin by bPlugins and click <strong>Install Now</strong>.<figure class="media-slot" data-caption="The Add Plugins page with Video Gallery Block in the results. The arrow marks the Install Now button." data-media="image" data-src="docs-assets/free-install-search.png"></figure></li>
+<li>Click <strong>Activate</strong> when the button changes.<figure class="media-slot" data-caption="The same card after install. The arrow marks the Activate button." data-media="image" data-src="docs-assets/free-install-activate.png"></figure></li>
 </ol>
-<h2 id="free-install-check">Check that it worked</h2>
-<p>A new <strong>Video Gallery</strong> item appears in your left menu. The plugin is ready.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-install-menu.png" data-caption="The Video Gallery item in the left menu with its submenu open. This is a result image, so there is no arrow."></figure>
-<div class="callout tip"><span class="co-label">Tip</span><p>Have a ZIP file instead? Choose Plugins, Add New Plugin, then Upload Plugin.</p></div>
-
-</article>
-
-<article class="doc-article" id="free-quick-start" data-group="Getting Started" data-title="Quick Start: Your First Gallery">
-
-<h1>Quick Start: Your First Gallery</h1>
-<p class="lead">You have a page and a few videos, and you want a gallery people actually click. Here is your first one.</p>
-<h2 id="free-qs-block">Add the block to a page</h2>
+<h2 id="free-install-check">Make Sure the Plugin Is Active</h2>
+<p>After activation, look for <strong>Video Gallery</strong> in the left side of your WordPress dashboard. Seeing that menu is the sign that setup is complete.</p>
+<figure class="media-slot" data-caption="The Video Gallery item in the left menu with its submenu open. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-install-menu.png"></figure>
+<div class="callout tip"><span class="co-label">Tip</span><p>If you received a ZIP file instead, open <strong>Plugins &gt; Add New Plugin &gt; Upload Plugin</strong>, choose the file and install it.</p></div>
+<p>Now turn the empty page into a working gallery: <a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a>.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Create Your First Video Gallery" id="free-quick-start">
+<h1>Create Your First Video Gallery</h1>
+<p class="lead">The quickest way to learn the block is to publish a simple gallery first. Once you have seen it on your page, you can add more videos and explore the settings without guessing what each option changes.</p>
+<h2 id="free-qs-block">Add the Video Gallery Block to a Page</h2>
 <ol class="steps">
-<li>Go to <strong>Pages</strong> in the left menu, then click <strong>Add Page</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-add-page.png" data-caption="The Pages menu open. The arrow marks Add Page."></figure></li>
-<li>The editor opens with an empty page. Click the <strong>+</strong> button at the top left.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-plus.png" data-caption="A new page in the editor. The arrow marks the plus button."></figure></li>
-<li>Type <strong>Video Gallery Block</strong> in the search box.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-search.png" data-caption="The inserter with the name typed in. The arrow marks the search box."></figure></li>
-<li>Click <strong>Video Gallery Block</strong> to add it to the page.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-inserter.png" data-caption="The block inserter with Video Gallery Block in the results. The arrow marks the block."></figure></li>
-<li>In the right sidebar, open the <strong>General</strong> tab, then the <strong>Videos</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-videos-panel.png" data-caption="The sidebar of the selected gallery. The arrows mark the General tab and the Videos panel."></figure></li>
-<li>Paste a YouTube or Vimeo link into the <strong>Video url</strong> box.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-first-video.png" data-caption="The Videos panel with a YouTube link pasted in. The arrow marks the Video url box."></figure></li>
-<li>Click <strong>Publish</strong>, or <strong>Update</strong> if the page is already live.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-publish.png" data-caption="The editor top bar. The arrow marks the Publish button."></figure></li>
+<li>Go to <strong>Pages</strong> in the left menu, then click <strong>Add Page</strong> (the menu item or the button at the top).<figure class="media-slot" data-caption="The Pages screen. The arrows mark the Pages menu, the Add Page menu item, and the Add Page button." data-media="image" data-src="docs-assets/free-qs-add-page.png"></figure></li>
+<li>The editor opens with an empty page. Click the <strong>+</strong> button at the top left.<figure class="media-slot" data-caption="A new page in the editor. The arrow marks the plus button." data-media="image" data-src="docs-assets/free-qs-plus.png"></figure></li>
+<li>Type <strong>Video Gallery Block</strong> in the search box.<figure class="media-slot" data-caption="The inserter with the name typed in. The arrow marks the search box." data-media="image" data-src="docs-assets/free-qs-search.png"></figure></li>
+<li>Click <strong>Video Gallery Block</strong> to add it to the page.<figure class="media-slot" data-caption="The block inserter with Video Gallery Block in the results. The arrow marks the block." data-media="image" data-src="docs-assets/free-qs-inserter.png"></figure></li>
+<li>In the right sidebar, open the <strong>General</strong> tab, then the <strong>Videos</strong> panel.<figure class="media-slot" data-caption="The sidebar of the selected gallery. The arrows mark the General tab and the Videos panel." data-media="image" data-src="docs-assets/free-videos-panel.png"></figure></li>
+<li>Paste a YouTube or Vimeo link into the <strong>Video url</strong> box.<figure class="media-slot" data-caption="The Videos panel with a YouTube link pasted in. The arrow marks the Video url box." data-media="image" data-src="docs-assets/free-qs-first-video.png"></figure></li>
+<li>Click <strong>Publish</strong>, or <strong>Update</strong> if the page is already live.<figure class="media-slot" data-caption="The editor top bar. The arrow marks the Publish button." data-media="image" data-src="docs-assets/free-qs-publish.png"></figure></li>
 </ol>
-<p>The title and thumbnail fill in by themselves.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-result.png" data-caption="The finished gallery on the front of the site. This is a result image, so there is no arrow."></figure>
-<h2 id="free-qs-patterns">Or start from a ready made pattern</h2>
-<p>A pattern is a finished section. You only swap in your own videos.</p>
+<p>For YouTube and Vimeo, the plugin usually fills in the title and thumbnail for you, so you can see the gallery take shape with very little setup.</p>
+<figure class="media-slot" data-caption="The finished gallery on the front of the site. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-qs-result.png"></figure><p>Your first gallery is live. That is the first milestone. Next, add the videos you actually want visitors to watch; you can organize and style the gallery once the content is in place.</p>
+<h2 id="free-qs-patterns">Start with a Ready-Made Pattern (Optional)</h2>
+<p>Prefer a ready-made design? A pattern is a layout you can insert instead of starting from a blank page. If you already published the simple gallery above, treat these steps as an alternative way to start another gallery.</p>
 <ol class="steps">
-<li>Click the <strong>+</strong> button at the top, then open the <strong>Patterns</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/free-qs-patterns-tab.png" data-caption="The block inserter open on the Patterns tab. One arrow marks the plus button and the other marks the Patterns tab."></figure></li>
-<li>Pick the <strong>Video Galleries</strong> category.<figure class="media-slot" data-media="image" data-src="docs-assets/free-pattern-category.png" data-caption="The Patterns tab of the inserter. The arrow marks the Video Galleries category."></figure></li>
-<li>Pick a pattern. Try <strong>Video gallery with album filters</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-pattern-pick.png" data-caption="The five patterns in the Video Galleries category. The arrow marks Video gallery with album filters."></figure></li>
-<li>Click <strong>Edit pattern</strong>, then click the gallery. Replace the sample videos in the <strong>Videos</strong> panel with your own.<figure class="media-slot" data-media="image" data-src="docs-assets/free-pattern-edit.png" data-caption="A pattern after Edit pattern was clicked, with the Videos panel open. The arrow marks the first video row."></figure></li>
+<li>Click the <strong>+</strong> button at the top, then open the <strong>Patterns</strong> tab.<figure class="media-slot" data-caption="The block inserter open on the Patterns tab. The arrow marks the Patterns tab." data-media="image" data-src="docs-assets/free-qs-patterns-tab.png"></figure></li>
+<li>Pick the <strong>Video Galleries</strong> category.<figure class="media-slot" data-caption="The Patterns tab of the inserter. The arrow marks the Video Galleries category." data-media="image" data-src="docs-assets/free-pattern-category.png"></figure></li>
+<li>Pick a pattern. Try <strong>Video gallery with album filters</strong>.<figure class="media-slot" data-caption="The five patterns in the Video Galleries category. The arrow marks Video gallery with album filters." data-media="image" data-src="docs-assets/free-pattern-pick.png"></figure></li>
+<li>Click <strong>Edit pattern</strong>, then click the gallery. Replace the sample videos in the <strong>Videos</strong> panel with your own.<figure class="media-slot" data-caption="A pattern after Edit pattern was clicked, with the Videos panel open. The arrow marks the first video row." data-media="image" data-src="docs-assets/free-pattern-edit.png"></figure></li>
 </ol>
-<h2 id="free-qs-list">The five patterns</h2>
+<h2 id="free-qs-list">Available Gallery Patterns</h2>
 <ul>
 <li><strong>Video gallery with album filters:</strong> three columns and three albums.</li>
 <li><strong>Course video library:</strong> four columns, filtered by module.</li>
@@ -1473,423 +1401,397 @@
 <li><strong>Customer video stories:</strong> video testimonials with the speaker named.</li>
 <li><strong>Portfolio showreel wall:</strong> four tight columns, no captions.</li>
 </ul>
-<div class="callout tip"><span class="co-label">Tip</span><p>Sample videos are placeholders. Replace each one before you publish.</p></div>
-
-</article>
-
-
-<article class="doc-article" id="free-add-videos" data-group="Free Features" data-title="Add Videos">
-
-<h1>Add Videos</h1>
-<p class="lead">You found the video you want on your page. Here is how to add it, with its thumbnail and caption.</p>
-<h2 id="free-add-one">Add one video</h2>
+<div class="callout tip"><span class="co-label">Tip</span><p>The sample videos are only placeholders. Replace every one you want to keep in the layout before publishing, or visitors may see the samples.</p></div>
+<p>Now fill the gallery with your own content: <a data-nav="" href="#free-add-videos">Add Videos to Your Gallery</a>.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Add Videos to Your Gallery" id="free-add-videos">
+<h1>Add Videos to Your Gallery</h1>
+<p class="lead">Your first gallery gives you the starting point. Now add the videos people came to see: add them one at a time when you want control, or use Bulk Import when you already have a list of links.</p>
+<h2 id="free-add-one">Add One Video</h2>
 <ol class="steps">
-<li>Select the gallery, then open the <strong>General</strong> tab in the right sidebar.<figure class="media-slot" data-media="image" data-src="docs-assets/free-add-general-tab.png" data-caption="The sidebar of a selected gallery. The arrow marks the General tab."></figure></li>
-<li>Click <strong>Add New Video</strong>. There are two ways. The first is the plus button in the block toolbar.<figure class="media-slot" data-media="image" data-src="docs-assets/free-add-new-video.png" data-caption="The block toolbar. The arrow marks the Add New Video plus button."></figure><p>The second is the <strong>Add New Video</strong> button at the bottom of the <strong>Videos</strong> panel.</p><figure class="media-slot" data-media="image" data-src="docs-assets/free-add-video-panel-button.png" data-caption="The Videos panel in the sidebar. The arrow marks the Add New Video button."></figure></li>
-<li>Paste the link into the <strong>Video url</strong> box inside the <strong>Videos</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-add-video-url.png" data-caption="The Videos panel with an empty new row. The arrow marks the Video url box."></figure></li>
+<li>Select the gallery, then open the <strong>General</strong> tab in the right sidebar.<figure class="media-slot" data-caption="The sidebar of a selected gallery. The arrow marks the General tab." data-media="image" data-src="docs-assets/free-add-general-tab.png"></figure></li>
+<li>To add a video, click the <strong>plus (+) button</strong> in the block toolbar.<figure class="media-slot" data-caption="The block toolbar. The arrow marks the Add New Video plus button." data-media="image" data-src="docs-assets/free-add-new-video.png"></figure><p>Or click <strong>Add New Video</strong> at the bottom of the <strong>Videos</strong> panel.</p><figure class="media-slot" data-caption="The Videos panel in the sidebar. The arrow marks the Add New Video button." data-media="image" data-src="docs-assets/free-add-video-panel-button.png"></figure></li>
+<li>Paste the link into the <strong>Video url</strong> box inside the <strong>Videos</strong> panel.<figure class="media-slot" data-caption="The Videos panel with an empty new row. The arrow marks the Video url box." data-media="image" data-src="docs-assets/free-add-video-url.png"></figure></li>
 </ol>
-<p>Works with YouTube, Vimeo and Facebook links.</p>
-<h2 id="free-add-thumb">Set the thumbnail and caption</h2>
-<p>For YouTube and Vimeo, these fill in for you. You can change them any time.</p>
+<p>You can use YouTube, Vimeo or Facebook links, including Facebook Reels. The <strong>thumbnail</strong> is the preview image people see before playing; the <strong>caption</strong> is the text shown with it.</p>
+<h2 id="free-add-thumb">Change the Thumbnail and Caption</h2>
+<p>YouTube and Vimeo usually supply a title and thumbnail automatically. Keep them for speed, or replace them when you want a more consistent look across your gallery.</p>
 <ol class="steps">
-<li>Click the <strong>Poster url</strong> box, then paste an image link or choose an image from your Media Library.<figure class="media-slot" data-media="image" data-src="docs-assets/free-add-poster.png" data-caption="One video row in the Videos panel. The arrow marks the Poster url box."></figure></li>
-<li>Type your own text in <strong>Caption:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-add-caption.png" data-caption="The same row. The arrow marks the Caption field."></figure></li>
+<li>Click the <strong>Poster url</strong> box, then paste an image link or choose an image from your Media Library.<figure class="media-slot" data-caption="One video row in the Videos panel. The arrow marks the Poster url box." data-media="image" data-src="docs-assets/free-add-poster.png"></figure></li>
+<li>Type your own text in <strong>Caption:</strong>.<figure class="media-slot" data-caption="The same row. The arrow marks the Caption field." data-media="image" data-src="docs-assets/free-add-caption.png"></figure></li>
 </ol>
-<div class="callout tip"><span class="co-label">Tip</span><p>Facebook videos do not fill in a title or poster. Add them by hand.</p></div>
-<h2 id="free-add-shape">Thumbnail pictures stay on your site</h2>
-<p>Thumbnails are saved to your Media Library once, so your pages stay quick.</p>
-
-<h2 id="free-bulk-import">Bulk Import</h2>
-<p>Twenty videos means twenty trips to the same box. Paste all the links at once instead.</p>
-<h2 id="free-bulk-steps">Import many videos</h2>
+<div class="callout tip"><span class="co-label">Tip</span><p>Facebook links do not fill in the title or poster automatically, so add those details yourself.</p></div>
+<h2 id="free-add-shape">Where the Thumbnail Is Saved</h2>
+<p>Downloaded thumbnails are saved in your WordPress Media Library, the same place you manage the other images on your site.</p>
+<h2 id="free-bulk-import">Add Many Videos with Bulk Import</h2>
+<p>Already have a list of links? Bulk Import saves you from repeating the same add-video steps for every item.</p>
+<h2 id="free-bulk-steps">Import Multiple Video Links</h2>
 <ol class="steps">
-<li>Select the gallery and open the <strong>General</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/free-add-general-tab.png" data-caption="The sidebar of a selected gallery. The arrow marks the General tab."></figure></li>
-<li>Open the <strong>Import Videos</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-panel.png" data-caption="The General tab with the panels listed. The arrow marks the Import Videos panel."></figure></li>
-<li>Paste your links into <strong>Video links</strong>, one link on each line.<figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-paste.png" data-caption="The Import Videos panel with three links pasted. The arrow marks the Video links box."></figure></li>
-<li>Click <strong>Import videos</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-import.png" data-caption="The same panel. The arrow marks the Import videos button."></figure></li>
+<li>Select the gallery and open the <strong>General</strong> tab.<figure class="media-slot" data-caption="The sidebar of a selected gallery. The arrow marks the General tab." data-media="image" data-src="docs-assets/free-add-general-tab.png"></figure></li>
+<li>Open the <strong>Import Videos</strong> panel.<figure class="media-slot" data-caption="The General tab with the panels listed. The arrow marks the Import Videos panel." data-media="image" data-src="docs-assets/free-bulk-panel.png"></figure></li>
+<li>Paste your links into <strong>Video links</strong>, one link on each line.<figure class="media-slot" data-caption="The Import Videos panel with three links pasted. The arrow marks the Video links box." data-media="image" data-src="docs-assets/free-bulk-paste.png"></figure></li>
+<li>Click <strong>Import videos</strong>.<figure class="media-slot" data-caption="The same panel. The arrow marks the Import videos button." data-media="image" data-src="docs-assets/free-bulk-import.png"></figure></li>
 </ol>
-<p>A message tells you how many videos were added and how many got a title and a poster.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-bulk-result.png" data-caption="The success message after an import, with the new videos in the gallery. This is a result image, so there is no arrow."></figure>
+<p>After the import, a message reports how many videos were added and how many received a title and poster.</p>
+<figure class="media-slot" data-caption="The success message after an import, with the new videos in the gallery. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-bulk-result.png"></figure>
 <h2 id="free-bulk-good">Good to know</h2>
 <ul>
 <li>Links already in the gallery are skipped.</li>
 <li>Lines that are not links are skipped.</li>
 <li>If every link is a YouTube Short, the thumbnail shape switches to 9:16.</li>
 </ul>
-
-</article>
-
-
-<article class="doc-article" id="free-albums" data-group="Free Features" data-title="Albums, Filter Bar and Lightbox">
-
-<h1>Albums, Filter Bar and Lightbox</h1>
-<p class="lead">Your tutorials, stories and demos are all mixed together. Albums sort them, so visitors pick the group they want.</p>
-<h2 id="free-albums-create">Create an album</h2>
+<p>Once the gallery has several videos, help visitors find the right one by grouping related clips into albums and adding filters.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Organize Videos with Albums &amp; Filters" id="free-albums">
+<h1>Organize Videos with Albums, Filters &amp; Lightbox</h1>
+<p class="lead">A few videos are easy to browse. As the gallery grows, visitors need a quick way to find a topic instead of scanning every thumbnail. Start by grouping related clips into albums, then let visitors filter by topic.</p><p>An <strong>album</strong> is a group of related videos, such as Tutorials, Products or Customer Stories. The <strong>filter bar</strong> displays the album names as buttons visitors can choose.</p>
+<h2 id="free-albums-create">Create an Album</h2>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Add or Remove Albums</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-panel.png" data-caption="The sidebar with the General tab and the panel open. One arrow marks the General tab and the other marks Add or Remove Albums."></figure></li>
-<li>Click <strong>Add New Album</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-add.png" data-caption="The Add or Remove Albums panel. The arrow marks the Add New Album button."></figure></li>
-<li>Type a name in the new box.<figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-name.png" data-caption="The panel with one new album box. The arrow marks the name box."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Add or Remove Albums</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the panel open. One arrow marks the General tab and the other marks Add or Remove Albums." data-media="image" data-src="docs-assets/free-albums-panel.png"></figure></li>
+<li>Click <strong>Add New Album</strong>.<figure class="media-slot" data-caption="The Add or Remove Albums panel. The arrow marks the Add New Album button." data-media="image" data-src="docs-assets/free-albums-add.png"></figure></li>
+<li>Type a name in the new box.<figure class="media-slot" data-caption="The panel with one new album box. The arrow marks the name box." data-media="image" data-src="docs-assets/free-albums-name.png"></figure></li>
 </ol>
-<p>To delete an album, click the small cross next to its name.</p>
-<h2 id="free-albums-assign">Put a video in an album</h2>
+<p>To remove an album you no longer need, click the small cross next to its name.</p>
+<h2 id="free-albums-assign">Add a Video to an Album</h2>
 <ol class="steps">
-<li>Open a video in the <strong>Videos</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-videos-panel.png" data-caption="The General tab with the Videos panel open. The arrow marks the Videos panel."></figure></li>
-<li>Tick the album under <strong>Select Albums:</strong>. A video can sit in more than one.<figure class="media-slot" data-media="image" data-src="docs-assets/free-albums-assign.png" data-caption="One video row with the album checkboxes visible. The arrow marks an album checkbox."></figure></li>
+<li>Open a video in the <strong>Videos</strong> panel.<figure class="media-slot" data-caption="The General tab with the Videos panel open. The arrow marks the Videos panel." data-media="image" data-src="docs-assets/free-albums-videos-panel.png"></figure></li>
+<li>Tick the boxes for the albums you want under <strong>Select Albums:</strong>.<figure class="media-slot" data-caption="One video row with the album checkboxes visible. The arrow marks an album checkbox." data-media="image" data-src="docs-assets/free-albums-assign.png"></figure></li>
 </ol>
-<p>Next, see <a href="#free-filter-lightbox">Filter Bar and Lightbox</a>.</p>
-
-<h2 id="free-filter-lightbox">Filter Bar and Lightbox</h2>
-<p>Visitors want one topic, not forty videos. The filter bar finds it fast and the lightbox plays it without leaving the page.</p>
-<h2 id="free-filter-bar">Show or hide the filter bar</h2>
+<p>A video can belong to more than one album, so the same clip can appear under more than one topic.</p>
+<h2 id="free-filter-lightbox">Let Visitors Filter and Watch Videos</h2>
+<p>Once the albums are assigned, visitors can choose a topic from the filter bar. When they click a thumbnail, the <strong>lightbox</strong> opens the video in a popup so they can watch without leaving the page.</p>
+<h2 id="free-filter-bar">Show or Hide the Filter Bar</h2>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Filter</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-panel.png" data-caption="The sidebar with the General tab and the Filter panel open. One arrow marks the General tab and the other marks the Filter panel."></figure></li>
-<li>Switch <strong>Show Filter Bar</strong> on or off.<figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-toggle.png" data-caption="The Filter panel. The arrow marks the Show Filter Bar switch."></figure></li>
-<li>Change the text in <strong>Common Filter</strong>. It is the button that shows every video. The default is All Videos.<figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-common.png" data-caption="The Filter panel. The arrow marks the Common Filter box."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Filter</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Filter panel open. One arrow marks the General tab and the other marks the Filter panel." data-media="image" data-src="docs-assets/free-filter-panel.png"></figure></li>
+<li>Switch <strong>Show Filter Bar</strong> on or off.<figure class="media-slot" data-caption="The Filter panel. The arrow marks the Show Filter Bar switch." data-media="image" data-src="docs-assets/free-filter-toggle.png"></figure></li>
+<li>Change the text in <strong>Common Filter</strong>. It is the button that shows every video. The default is All Videos.<figure class="media-slot" data-caption="The Filter panel. The arrow marks the Common Filter box." data-media="image" data-src="docs-assets/free-filter-common.png"></figure></li>
 </ol>
-<p>The bar only shows when the gallery has at least one album.</p>
-<h2 id="free-filter-colors">Change the button colors</h2>
+<p>The filter bar appears only when the gallery has at least one album. If you cannot see it, check that an album exists and that a video has been assigned to it.</p>
+<h2 id="free-filter-colors">Change the Filter Button Style</h2>
 <ol class="steps">
-<li>Open the <strong>Style</strong> tab, then the <strong>Filter</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-style-panel.png" data-caption="The sidebar with the Style tab and the Filter panel open. One arrow marks the Style tab and the other marks the Filter panel."></figure></li>
-<li>Set <strong>Button Colors</strong> for the normal look and <strong>Button Hover/Active Colors</strong> for the chosen button.<figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-colors.png" data-caption="The Filter panel in the Style tab. The arrows mark Button Colors and Button Hover/Active Colors."></figure></li>
-<li>Change the font and size with <strong>Button Typography:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-filter-typo.png" data-caption="The Filter panel in the Style tab. The arrow marks the Button Typography control."></figure></li>
+<li>Open the <strong>Style</strong> tab, then the <strong>Filter</strong> panel.<figure class="media-slot" data-caption="The sidebar with the Style tab and the Filter panel open. One arrow marks the Style tab and the other marks the Filter panel." data-media="image" data-src="docs-assets/free-filter-style-panel.png"></figure></li>
+<li>Set <strong>Button Colors</strong> for the normal look and <strong>Button Hover/Active Colors</strong> for the chosen button.<figure class="media-slot" data-caption="The Filter panel in the Style tab. The arrows mark Button Colors and Button Hover/Active Colors." data-media="image" data-src="docs-assets/free-filter-colors.png"></figure></li>
+<li>Change the font and size with <strong>Button Typography:</strong>.<figure class="media-slot" data-caption="The Filter panel in the Style tab. The arrow marks the Button Typography control." data-media="image" data-src="docs-assets/free-filter-typo.png"></figure></li>
 </ol>
-<h2 id="free-lightbox">The lightbox</h2>
-<p>A click on a thumbnail opens the video in a popup. There is nothing to switch on. Small thumbnails show where you are, arrows move between videos and a cross closes it.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox.png" data-caption="A video playing in the lightbox on the front of the site. This is a result image, so there is no arrow."></figure>
-<h2 id="free-lightbox-caption">Style the caption inside the lightbox</h2>
+<h2 id="free-lightbox">How the Lightbox Works</h2>
+<p>No separate setup is needed for the lightbox. Visitors can move between videos with the arrows or close the popup with the cross.</p>
+<figure class="media-slot" data-caption="A video playing in the lightbox on the front of the site. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-lightbox.png"></figure>
+<h2 id="free-lightbox-caption">Style the Lightbox Caption</h2>
 <ol class="steps">
-<li>Open the <strong>Style</strong> tab, then the <strong>LightBox Caption</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox-panel.png" data-caption="The sidebar with the Style tab and the LightBox Caption panel open. One arrow marks the Style tab and the other marks the panel."></figure></li>
-<li>Change <strong>Caption Typography:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox-captypo.png" data-caption="The LightBox Caption panel. The arrow marks Caption Typography."></figure></li>
-<li>Change <strong>Caption Colors:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox-caption.png" data-caption="The LightBox Caption panel. The arrow marks Caption Colors."></figure></li>
-<li>Change <strong>Caption Padding:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-lightbox-cappad.png" data-caption="The LightBox Caption panel. The arrow marks Caption Padding."></figure></li>
+<li>Open the <strong>Style</strong> tab, then the <strong>LightBox Caption</strong> panel.<figure class="media-slot" data-caption="The sidebar with the Style tab and the LightBox Caption panel open. One arrow marks the Style tab and the other marks the panel." data-media="image" data-src="docs-assets/free-lightbox-panel.png"></figure></li>
+<li>Change <strong>Caption Typography:</strong>.<figure class="media-slot" data-caption="The LightBox Caption panel. The arrow marks Caption Typography." data-media="image" data-src="docs-assets/free-lightbox-captypo.png"></figure></li>
+<li>Change <strong>Caption Colors:</strong>.<figure class="media-slot" data-caption="The LightBox Caption panel. The arrow marks Caption Colors." data-media="image" data-src="docs-assets/free-lightbox-caption.png"></figure></li>
+<li>Change <strong>Caption Padding:</strong>.<figure class="media-slot" data-caption="The LightBox Caption panel. The arrow marks Caption Padding." data-media="image" data-src="docs-assets/free-lightbox-cappad.png"></figure></li>
 </ol>
-<h2 id="free-playicon">The play icon</h2>
-<p>A play icon on every thumbnail shows it is a video.</p>
+<h2 id="free-playicon">Show or Style the Play Icon</h2>
+<p>The play icon is a visual cue that a tile contains a video. Keep it visible if visitors might mistake the thumbnail for a regular image, or adjust its size and color to match your design.</p>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-options-panel.png" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel."></figure></li>
-<li>Switch <strong>Show Play Icon on Thumbnail</strong> on or off.<figure class="media-slot" data-media="image" data-src="docs-assets/free-playicon-toggle.png" data-caption="The Options panel. The arrow marks the Show Play Icon on Thumbnail switch."></figure></li>
-<li>Open the <strong>Style</strong> tab, then the <strong>Item</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-item-panel.png" data-caption="The sidebar with the Style tab and the Item panel open. One arrow marks the Style tab and the other marks the Item panel."></figure></li>
-<li>Change <strong>Play Icon Colors:</strong>, then <strong>Play Icon Size:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-playicon-style.png" data-caption="The Item panel in the Style tab. The arrows mark Play Icon Colors and Play Icon Size."></figure></li>
-<li>Change <strong>Play Icon Hover Zoom:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-playicon-zoom.png" data-caption="The Item panel in the Style tab. The arrow marks Play Icon Hover Zoom."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel." data-media="image" data-src="docs-assets/free-options-panel.png"></figure></li>
+<li>Switch <strong>Show Play Icon on Thumbnail</strong> on or off.<figure class="media-slot" data-caption="The Options panel. The arrow marks the Show Play Icon on Thumbnail switch." data-media="image" data-src="docs-assets/free-playicon-toggle.png"></figure></li>
+<li>Open the <strong>Style</strong> tab, then the <strong>Item</strong> panel.<figure class="media-slot" data-caption="The sidebar with the Style tab and the Item panel open. One arrow marks the Style tab and the other marks the Item panel." data-media="image" data-src="docs-assets/free-item-panel.png"></figure></li>
+<li>Change <strong>Play Icon Colors:</strong>, then <strong>Play Icon Size:</strong>.<figure class="media-slot" data-caption="The Item panel in the Style tab. The arrows mark Play Icon Colors and Play Icon Size." data-media="image" data-src="docs-assets/free-playicon-style.png"></figure></li>
+<li>Change <strong>Play Icon Hover Zoom:</strong>.<figure class="media-slot" data-caption="The Item panel in the Style tab. The arrow marks Play Icon Hover Zoom." data-media="image" data-src="docs-assets/free-playicon-zoom.png"></figure></li>
 </ol>
-
-</article>
-
-
-<article class="doc-article" id="free-shortcode" data-group="Free Features" data-title="Reuse a Gallery with a Shortcode">
-
-<h1>Reuse a Gallery with a Shortcode</h1>
-<p class="lead">You built one great gallery and now want it on five pages. Save it once and paste one short line wherever you need it.</p>
-<h2 id="free-shortcode-make">Create a saved gallery</h2>
+<p>Your videos are now easier to browse. If you want to reuse this same gallery on another page, continue to <a data-nav="" href="#free-shortcode">Show a Gallery Anywhere with Shortcodes</a>.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Show a Gallery Anywhere with Shortcodes" id="free-shortcode">
+<h1>Show a Gallery Anywhere with Shortcodes</h1>
+<p class="lead">Once one gallery looks right, you do not need to rebuild it for every page. A <strong>shortcode</strong> is a small piece of text in square brackets that tells WordPress to display a saved gallery wherever you place it.</p><p>For example, <code>[video_gallery id=12]</code> tells WordPress to show the gallery saved with that ID. Your number may be different.</p>
+<h2 id="free-shortcode-make">Save a Gallery and Copy Its Shortcode</h2>
 <ol class="steps">
-<li>Open <strong>Video Gallery</strong> in the left menu, then click <strong>Add New Video Gallery</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-add-new.png" data-caption="The Video Gallery list page. The arrow marks the Add New Video Gallery button."></figure></li>
-<li>Add your videos in the block, then click <strong>Publish</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-publish.png" data-caption="A new Video Gallery in the editor with videos added. The arrow marks the Publish button."></figure></li>
-<li>Click the copy button next to the shortcode bar at the top of the editor.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-copy.png" data-caption="The gallery editor with the shortcode bar. The arrow marks the Copy To Clipboard button."></figure></li>
+<li>Open <strong>Video Gallery</strong> in the left menu, then click <strong>Add New Video Gallery</strong>.<figure class="media-slot" data-caption="The Video Gallery list page. The arrows mark the Video Gallery menu and the Add New Video Gallery button." data-media="image" data-src="docs-assets/free-sc-add-new.png"></figure></li>
+<li>Add your videos in the block, then click <strong>Publish</strong>.<figure class="media-slot" data-caption="A new Video Gallery in the editor with videos added. The arrow marks the Publish button." data-media="image" data-src="docs-assets/free-sc-publish.png"></figure></li>
+<li>Click the copy button next to the shortcode bar at the top of the editor.<figure class="media-slot" data-caption="The gallery editor with the shortcode bar. The arrow marks the Copy To Clipboard button." data-media="image" data-src="docs-assets/free-sc-copy.png"></figure></li>
 </ol>
-<h2 id="free-shortcode-use">Paste it on a page</h2>
+<h2 id="free-shortcode-use">Paste the Shortcode on Another Page</h2>
 <ol class="steps">
-<li>Edit any page, click the <strong>+</strong> button, and type <strong>Shortcode</strong> in the search box.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-plus-search.png" data-caption="The block inserter with Shortcode typed in. The arrows mark the plus button and the search box."></figure></li>
-<li>Click the <strong>Shortcode</strong> block to add it to the page.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-search.png" data-caption="The search result. The arrow marks the Shortcode block."></figure></li>
-<li>The block appears with an empty box that says <strong>Write shortcode here</strong>. Click inside that box.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-block-added.png" data-caption="The Shortcode block on the page. The arrow marks the Write shortcode here box."></figure></li>
-<li>Paste the line, for example <strong>[video_gallery id=12]</strong>. Your number will differ.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-paste.png" data-caption="A page with the Shortcode block. The arrow marks the block holding the pasted shortcode."></figure></li>
-<li>Click <strong>Publish</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-page-publish.png" data-caption="The page with the shortcode in place. The arrow marks the Publish button."></figure></li>
-<li>Click <strong>View Page</strong>. It is in the notice at the bottom of the screen, and also as an icon in the top bar.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-view-page.png" data-caption="The page is published. The arrows mark the View Page icon in the top bar and the View Page link in the notice."></figure></li>
-<li>The page opens in a new tab. The gallery now shows where you pasted the line.<figure class="media-slot" data-media="image" data-src="docs-assets/free-sc-page-result.png" data-caption="The live page with the gallery. This is a result image, so it has no arrow."></figure></li>
+<li>Edit any page and click the <strong>+</strong> button at the top left.<figure class="media-slot" data-caption="A page in the editor. The arrow marks the plus button." data-media="image" data-src="docs-assets/free-qs-plus.png"></figure></li>
+<li>Type <strong>Shortcode</strong> in the search box.<figure class="media-slot" data-caption="The block inserter with Shortcode typed in. The arrow marks the search box." data-media="image" data-src="docs-assets/free-sc-plus-search.png"></figure></li>
+<li>Click the <strong>Shortcode</strong> block to add it to the page.<figure class="media-slot" data-caption="The search result. The arrow marks the Shortcode block." data-media="image" data-src="docs-assets/free-sc-search.png"></figure></li>
+<li>The block appears with an empty box that says <strong>Write shortcode here</strong>. Click inside that box.<figure class="media-slot" data-caption="The Shortcode block on the page. The arrow marks the Write shortcode here box." data-media="image" data-src="docs-assets/free-sc-block-added.png"></figure></li>
+<li>Paste the line, for example <strong>[video_gallery id=12]</strong>. Your number will differ.<figure class="media-slot" data-caption="A page with the Shortcode block. The arrow marks the block holding the pasted shortcode." data-media="image" data-src="docs-assets/free-sc-paste.png"></figure></li>
+<li>Click <strong>Publish</strong>.<figure class="media-slot" data-caption="The page with the shortcode in place. The arrow marks the Publish button." data-media="image" data-src="docs-assets/free-sc-page-publish.png"></figure></li>
+<li>Click <strong>View Page</strong>. It is in the notice at the bottom of the screen, and also as an icon in the top bar.<figure class="media-slot" data-caption="The page is published. The arrows mark the View Page icon in the top bar and the View Page link in the notice." data-media="image" data-src="docs-assets/free-sc-view-page.png"></figure></li>
+<li>The page opens in a new tab. The gallery now shows where you pasted the line.<figure class="media-slot" data-caption="The live page with the gallery. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/free-sc-page-result.png"></figure></li>
 </ol>
-<div class="callout tip"><span class="co-label">Tip</span><p>The editor only shows the shortcode as text. The gallery appears on the live page. You can also copy it from the Shortcode column on the Video Gallery list page.</p></div>
-
-</article>
-
-<article class="doc-article" id="free-layout" data-group="Free Features" data-title="Layout and Styling">
-
-<h1>Layout and Styling</h1>
-<p class="lead">Phones and desktops need different layouts. This panel sets the columns, gaps and sizes for each.</p>
-<h2 id="free-layout-columns">Columns for each device</h2>
-<p>Phones need fewer columns than desktops, so set each device on its own.</p>
+<div class="callout tip"><span class="co-label">Tip</span><p>In the editor, the shortcode looks like plain text. On the live page, visitors see the actual gallery. You can also copy it from the <strong>Shortcode</strong> column on the Video Gallery list page.</p></div>
+<p>That is the benefit: one saved gallery can appear on several pages. Update it once, and every page using its shortcode displays the updated version. Next, make its layout and appearance fit your site in <a data-nav="" href="#free-layout">Customize Gallery Layout &amp; Style</a>.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Customize Gallery Layout &amp; Style" id="free-layout">
+<h1>Customize Gallery Layout &amp; Style</h1>
+<p class="lead">Your videos are in place and visitors can find them. Now make the gallery comfortable to browse on desktop, tablet and phone: set the layout first, then the thumbnails, then the visual details that make it feel part of your site.</p>
+<h2 id="free-layout-columns">Adjust Columns for Desktop, Tablet and Mobile</h2>
+<p>A desktop can fit more columns; a phone usually needs fewer so each thumbnail stays easy to see. Set the column count separately for each device.</p>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Layout Settings</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-panel.png" data-caption="The General tab. The arrow marks the Layout Settings panel."></figure></li>
-<li>Pick Desktop, Tablet or Mobile with the device icon next to <strong>Columns:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-device.png" data-caption="The Layout Settings panel. The arrow marks the device icon beside Columns."></figure></li>
-<li>Drag the slider to choose 1 to 6 columns.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-columns.png" data-caption="The Columns slider. The arrow marks the slider handle."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Layout Settings</strong> panel.<figure class="media-slot" data-caption="The General tab with the Layout Settings panel open. The arrows mark the General tab and the Layout Settings panel." data-media="image" data-src="docs-assets/free-layout-tab-panel.png"></figure></li>
+<li>Pick Desktop, Tablet or Mobile with the device icon next to <strong>Columns:</strong>.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the device icon beside Columns." data-media="image" data-src="docs-assets/free-layout-device.png"></figure></li>
+<li>Drag the slider to choose 1 to 6 columns.<figure class="media-slot" data-caption="The Columns slider. The arrow marks the slider handle." data-media="image" data-src="docs-assets/free-layout-columns.png"></figure></li>
 </ol>
-<h2 id="free-layout-gaps">Space between tiles</h2>
+<h2 id="free-layout-gaps">Adjust the Space Between Videos</h2>
 <ol class="steps">
-<li>Pick a device, then type a number in <strong>Column Gap:</strong>. This is the space left and right.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-colgap.png" data-caption="The Layout Settings panel. The arrow marks the Column Gap box."></figure></li>
-<li>Type a number in <strong>Row Gap:</strong>. This is the space above and below.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-rowgap.png" data-caption="The Layout Settings panel. The arrow marks the Row Gap box."></figure></li>
+<li>Pick a device, then type a number in <strong>Column Gap:</strong>. This is the space left and right.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the Column Gap box." data-media="image" data-src="docs-assets/free-layout-colgap.png"></figure></li>
+<li>Type a number in <strong>Row Gap:</strong>. This is the space above and below.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the Row Gap box." data-media="image" data-src="docs-assets/free-layout-rowgap.png"></figure></li>
 </ol>
-<h2 id="free-layout-align">Place the last row</h2>
-<p>If the last row is not full, you choose where its tiles sit.</p>
+<h2 id="free-layout-align">Align the Last Row</h2>
+<p>If the final row has fewer videos than the rows above it, choose whether those remaining tiles sit on the left, in the center or on the right.</p>
 <ol class="steps">
-<li>Choose <strong>Left</strong>, <strong>Center</strong> or <strong>Right</strong> under <strong>Row Alignment:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-rowalign.png" data-caption="The Layout Settings panel. The arrow marks the Row Alignment buttons."></figure></li>
+<li>Choose <strong>Left</strong>, <strong>Center</strong> or <strong>Right</strong> under <strong>Row Alignment:</strong>.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the Row Alignment buttons." data-media="image" data-src="docs-assets/free-layout-rowalign.png"></figure></li>
 </ol>
-<h2 id="free-layout-order">Sort order</h2>
+<h2 id="free-layout-popup">Match the Popup to the Video Shape</h2>
+<p>Portrait and landscape videos have different proportions. Turn this on when you want the popup player to follow each video's shape instead of forcing every video into the same frame.</p>
 <ol class="steps">
-<li>Choose <strong>Manual</strong>, <strong>Newest First</strong> or <strong>Oldest First</strong> under <strong>Sort Order:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-sort.png" data-caption="The Layout Settings panel. The arrow marks the Sort Order buttons."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Layout Settings</strong> panel.<figure class="media-slot" data-caption="The General tab with the Layout Settings panel open. The arrows mark the General tab and the Layout Settings panel." data-media="image" data-src="docs-assets/free-layout-tab-panel.png"></figure></li>
+<li>Switch on <strong>Popup video width as aspect ratio</strong>.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the Popup video width as aspect ratio switch." data-media="image" data-src="docs-assets/free-layout-popup-ratio.png"></figure></li>
 </ol>
-<p>Manual keeps the order you added them in.</p>
-<h2 id="free-layout-loadmore">Show a few, then Load More</h2>
-<p>A big gallery can feel heavy. Show a few videos first and let visitors ask for more.</p>
+<h2 id="free-layout-order">Choose the Video Order</h2>
 <ol class="steps">
-<li>Type a number in <strong>Videos Per Page:</strong>. Zero shows every video.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-perpage.png" data-caption="The Layout Settings panel. The arrow marks the Videos Per Page box."></figure></li>
-<li>Change <strong>Load More Button Text:</strong> for your own wording. It appears once a number is set.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-loadmore.png" data-caption="The Layout Settings panel after a number was set. The arrow marks the Load More Button Text box."></figure></li>
+<li>Choose <strong>Manual</strong>, <strong>Newest First</strong> or <strong>Oldest First</strong> under <strong>Sort Order:</strong>.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the Sort Order buttons." data-media="image" data-src="docs-assets/free-layout-sort.png"></figure></li>
 </ol>
-<h2 id="free-layout-shape">Thumbnail shape</h2>
-<p>The shape keeps every tile the same on all screens. Pick 9:16 for tall Shorts and Reels.</p>
+<p>Choose <strong>Manual</strong> when the sequence matters and you want to keep the order you set. Use <strong>Newest First</strong> or <strong>Oldest First</strong> when date order is more useful.</p>
+<h2 id="free-layout-loadmore">Show Fewer Videos First with Load More</h2>
+<p>For a long gallery, show a smaller first group instead of making visitors scroll past every video at once. The <strong>Load More</strong> button lets them decide when to see the next group.</p>
 <ol class="steps">
-<li>Open the <strong>Style</strong> tab, then the <strong>Item</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-item-panel.png" data-caption="The sidebar with the Style tab and the Item panel open. One arrow marks the Style tab and the other marks the Item panel."></figure></li>
-<li>Choose <strong>Fixed</strong>, <strong>16:9</strong>, <strong>4:3</strong>, <strong>1:1</strong> or <strong>9:16</strong> under <strong>Thumbnail Shape:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-shape.png" data-caption="The Item panel in the Style tab. The arrow marks the Thumbnail Shape buttons."></figure></li>
-<li>With <strong>Fixed</strong>, type a number in the <strong>Height:</strong> box that appears.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-height.png" data-caption="The Item panel with Fixed chosen. The arrow marks the Height box."></figure></li>
+<li>Type a number in <strong>Videos Per Page:</strong>. Zero shows every video.<figure class="media-slot" data-caption="The Layout Settings panel. The arrow marks the Videos Per Page box." data-media="image" data-src="docs-assets/free-layout-perpage.png"></figure></li>
+<li>Change <strong>Load More Button Text:</strong> for your own wording. It appears once a number is set.<figure class="media-slot" data-caption="The Layout Settings panel after a number was set. The arrow marks the Load More Button Text box." data-media="image" data-src="docs-assets/free-layout-loadmore.png"></figure></li>
 </ol>
-<h2 id="free-layout-shorts">Show or hide YouTube Shorts</h2>
+<h2 id="free-layout-shape">Choose the Thumbnail Shape</h2>
+<p>Choose a thumbnail shape that suits the videos. A consistent shape makes the grid look tidy; <strong>9:16</strong> is suited to tall Shorts and Reels.</p>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-options-panel.png" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel."></figure></li>
-<li>Choose <strong>All Videos</strong>, <strong>Hide Shorts</strong> or <strong>Only Shorts</strong> under <strong>YouTube Shorts:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-shorts.png" data-caption="The Options panel. The arrow marks the YouTube Shorts buttons."></figure></li>
+<li>Open the <strong>Style</strong> tab, then the <strong>Item</strong> panel.<figure class="media-slot" data-caption="The sidebar with the Style tab and the Item panel open. One arrow marks the Style tab and the other marks the Item panel." data-media="image" data-src="docs-assets/free-item-panel.png"></figure></li>
+<li>Choose <strong>Fixed</strong>, <strong>16:9</strong>, <strong>4:3</strong>, <strong>1:1</strong> or <strong>9:16</strong> under <strong>Thumbnail Shape:</strong>.<figure class="media-slot" data-caption="The Item panel in the Style tab. The arrow marks the Thumbnail Shape buttons." data-media="image" data-src="docs-assets/free-layout-shape.png"></figure></li>
+<li>With <strong>Fixed</strong>, type a number in the <strong>Height:</strong> box that appears.<figure class="media-slot" data-caption="The Item panel with Fixed chosen. The arrow marks the Height box." data-media="image" data-src="docs-assets/free-layout-height.png"></figure></li>
 </ol>
-<h2 id="free-layout-poster">Poster fit and captions on thumbnails</h2>
+<h2 id="free-layout-shorts">Show All Videos or Only YouTube Shorts</h2>
 <ol class="steps">
-<li>In the <strong>Options</strong> panel, choose <strong>Contain</strong>, <strong>Cover</strong>, <strong>Fill</strong> or <strong>None</strong> under <strong>Poster Fit:</strong>. Cover fills the tile fully.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-posterfit.png" data-caption="The Options panel. The arrow marks the Poster Fit buttons."></figure></li>
-<li>Switch <strong>Show Caption on Thumbnail</strong> on to place each caption over its tile.<figure class="media-slot" data-media="image" data-src="docs-assets/free-layout-showcaption.png" data-caption="The Options panel. The arrow marks the Show Caption on Thumbnail switch."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel." data-media="image" data-src="docs-assets/free-options-panel.png"></figure></li>
+<li>Choose <strong>All Videos</strong>, <strong>Hide Shorts</strong> or <strong>Only Shorts</strong> under <strong>YouTube Shorts:</strong>.<figure class="media-slot" data-caption="The Options panel. The arrow marks the YouTube Shorts buttons." data-media="image" data-src="docs-assets/free-layout-shorts.png"></figure></li>
 </ol>
-
-<h2 id="free-styling">Styling</h2>
-<p>Your brand has its own colors and feel. Here is where you make the gallery match it.</p>
-<h2 id="free-styling-gallery">Style the whole gallery</h2>
-<p>The gallery is the box around all your tiles.</p>
+<h2 id="free-layout-poster">Control Thumbnail Fit and Captions</h2>
 <ol class="steps">
-<li>Open the <strong>Style</strong> tab, then the <strong>Gallery</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-gallery.png" data-caption="The Style tab. The arrow marks the Gallery panel."></figure></li>
-<li>Pick a color or image under <strong>Background:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-background.png" data-caption="The Gallery panel. The arrow marks the Background control."></figure></li>
-<li>Set the space inside the box with <strong>Padding:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-padding.png" data-caption="The Gallery panel. The arrow marks the Padding control."></figure></li>
-<li>Add an outline and round the corners with <strong>Border:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-border.png" data-caption="The Gallery panel. The arrow marks the Border control."></figure></li>
-<li>Add a soft drop shadow with <strong>Shadow:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-shadow.png" data-caption="The Gallery panel. The arrow marks the Shadow control."></figure></li>
+<li>In the <strong>Options</strong> panel, choose <strong>Contain</strong>, <strong>Cover</strong>, <strong>Fill</strong> or <strong>None</strong> under <strong>Poster Fit:</strong>. Cover fills the tile fully.<figure class="media-slot" data-caption="The Options panel. The arrow marks the Poster Fit buttons." data-media="image" data-src="docs-assets/free-layout-posterfit.png"></figure></li>
+<li>Switch <strong>Show Caption on Thumbnail</strong> on to place each caption over its tile.<figure class="media-slot" data-caption="The Options panel. The arrow marks the Show Caption on Thumbnail switch." data-media="image" data-src="docs-assets/free-layout-showcaption.png"></figure></li>
 </ol>
-<h2 id="free-styling-item">Style each tile</h2>
-<p>These apply to every thumbnail.</p>
+<h2 id="free-styling">Change Colors, Borders, Fonts and Shadows</h2>
+<p>Once the layout feels right, match the gallery to your website. The Style tab lets you change the outer gallery area, each video tile and the captions independently.</p>
+<h2 id="free-styling-gallery">Style the Gallery Area</h2>
+<p>The Gallery panel styles the area around the tiles, rather than the individual videos.</p>
 <ol class="steps">
-<li>Open the <strong>Item</strong> panel in the <strong>Style</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/free-item-panel.png" data-caption="The sidebar with the Style tab and the Item panel open. One arrow marks the Style tab and the other marks the Item panel."></figure></li>
-<li>Round the corners or add an outline with <strong>Item Border:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-itemborder.png" data-caption="The Item panel. The arrow marks the Item Border control."></figure></li>
-<li>Add a shadow under each tile with <strong>Item Shadow:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-itemshadow.png" data-caption="The Item panel. The arrow marks the Item Shadow control."></figure></li>
+<li>Open the <strong>Style</strong> tab, then the <strong>Gallery</strong> panel.<figure class="media-slot" data-caption="The Style tab. The arrow marks the Gallery panel." data-media="image" data-src="docs-assets/free-style-gallery.png"></figure></li>
+<li>Pick a color or image under <strong>Background:</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Background control." data-media="image" data-src="docs-assets/free-style-background.png"></figure></li>
+<li>Set the space inside the box with <strong>Padding:</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Padding control." data-media="image" data-src="docs-assets/free-style-padding.png"></figure></li>
+<li>Add an outline and round the corners with <strong>Border:</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Border control." data-media="image" data-src="docs-assets/free-style-border.png"></figure></li>
+<li>Add a soft drop shadow with <strong>Shadow:</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Shadow control." data-media="image" data-src="docs-assets/free-style-shadow.png"></figure></li>
 </ol>
-<h2 id="free-styling-caption">Style the captions</h2>
+<h2 id="free-styling-item">Style Each Video Tile</h2>
+<p>These settings apply to each video tile, so use them to keep the thumbnails visually consistent.</p>
 <ol class="steps">
-<li>In the <strong>Item</strong> panel, set the font with <strong>Caption Typography:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-captypo.png" data-caption="The Item panel. The arrow marks Caption Typography."></figure></li>
-<li>Set text and background colors with <strong>Caption Colors:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-capcolors.png" data-caption="The Item panel. The arrow marks Caption Colors."></figure></li>
-<li>Set the space around the text with <strong>Caption Padding:</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-style-cappad.png" data-caption="The Item panel. The arrow marks Caption Padding."></figure></li>
+<li>Open the <strong>Item</strong> panel in the <strong>Style</strong> tab.<figure class="media-slot" data-caption="The sidebar with the Style tab and the Item panel open. One arrow marks the Style tab and the other marks the Item panel." data-media="image" data-src="docs-assets/free-item-panel.png"></figure></li>
+<li>Round the corners or add an outline with <strong>Item Border:</strong>.<figure class="media-slot" data-caption="The Item panel. The arrow marks the Item Border control." data-media="image" data-src="docs-assets/free-style-itemborder.png"></figure></li>
+<li>Add a shadow under each tile with <strong>Item Shadow:</strong>.<figure class="media-slot" data-caption="The Item panel. The arrow marks the Item Shadow control." data-media="image" data-src="docs-assets/free-style-itemshadow.png"></figure></li>
 </ol>
-<div class="callout tip"><span class="co-label">Tip</span><p>Change one thing at a time. The editor updates as you go.</p></div>
-
-</article>
-
-
-<article class="doc-article" id="free-privacy-analytics" data-group="Free Features" data-title="Privacy, Analytics and SEO">
-
-<h1>Privacy, Analytics and SEO</h1>
-<p class="lead">Some visitors need to agree before a video loads, and you may want to know which videos get played. Two optional switches cover both.</p>
-<h2 id="free-privacy-consent">Ask before a video loads</h2>
-<p>YouTube, Vimeo and Facebook can set cookies when a player loads. This switch asks the visitor first.</p>
+<h2 id="free-styling-caption">Style the Captions</h2>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-options-panel.png" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel."></figure></li>
-<li>Switch <strong>Require Consent Before Playing</strong> on.<figure class="media-slot" data-media="image" data-src="docs-assets/free-privacy-consent.png" data-caption="The Options panel. The arrow marks the Require Consent Before Playing switch."></figure></li>
+<li>In the <strong>Item</strong> panel, set the font with <strong>Caption Typography:</strong>.<figure class="media-slot" data-caption="The Item panel. The arrow marks Caption Typography." data-media="image" data-src="docs-assets/free-style-captypo.png"></figure></li>
+<li>Set text and background colors with <strong>Caption Colors:</strong>.<figure class="media-slot" data-caption="The Item panel. The arrow marks Caption Colors." data-media="image" data-src="docs-assets/free-style-capcolors.png"></figure></li>
+<li>Set the space around the text with <strong>Caption Padding:</strong>.<figure class="media-slot" data-caption="The Item panel. The arrow marks Caption Padding." data-media="image" data-src="docs-assets/free-style-cappad.png"></figure></li>
 </ol>
-<p>Visitors see a notice that names the video host. They click <strong>Play Video</strong> to continue or <strong>Cancel</strong> to stop. The browser remembers their answer.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-privacy-notice.png" data-caption="The consent notice a visitor sees after clicking a thumbnail. This is a result image, so there is no arrow."></figure>
-<h2 id="free-analytics">Count video plays in Google Analytics</h2>
-<p>See which videos people really watch. Google Analytics 4 must already be on your site, through Site Kit, a pasted Google tag or Google Tag Manager.</p>
+<div class="callout tip"><span class="co-label">Tip</span><p>Change one setting at a time and check the preview as you go. It is easier to spot which change improved the result.</p></div>
+<p>The gallery is ready to publish. If your site needs visitor consent, playback measurement or extra video information for search engines, those optional settings are next: <a data-nav="" href="#free-privacy-analytics">Privacy, Analytics &amp; Video SEO</a>.</p></article>
+<article class="doc-article" data-group="Additional Features &amp; Settings" data-title="Privacy, Analytics &amp; Video SEO" id="free-privacy-analytics">
+<h1>Privacy, Analytics &amp; Video SEO</h1>
+<p class="lead">Your gallery is ready. These optional settings control what happens around playback: whether visitors choose before a video loads, whether plays are sent to Google Analytics, and what information search engines receive about each video.</p>
+<p>These are separate options, not a required setup sequence. Use only the ones your site needs; if a feature is not relevant, leave it off or keep its current setting.</p><h2 id="free-privacy-consent">Ask for Permission Before Loading a Video</h2>
+<p>YouTube, Vimeo and Facebook may set cookies when their players load. Enable this option if you want visitors to choose before the video player is loaded.</p>
 <ol class="steps">
-<li>In the <strong>Options</strong> panel, switch <strong>Send Video Play Events to Google Analytics</strong> on.<figure class="media-slot" data-media="image" data-src="docs-assets/free-analytics-toggle.png" data-caption="The Options panel. The arrow marks the Send Video Play Events to Google Analytics switch."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel." data-media="image" data-src="docs-assets/free-options-panel.png"></figure></li>
+<li>Switch <strong>Require Consent Before Playing</strong> on.<figure class="media-slot" data-caption="The Options panel. The arrow marks the Require Consent Before Playing switch." data-media="image" data-src="docs-assets/free-privacy-consent.png"></figure></li>
 </ol>
-<p>The gallery then sends these events, each with the video title, the host and the link:</p>
+<p>Visitors see a notice naming the video host. They can choose <strong>Play Video</strong> to continue or <strong>Cancel</strong> to stop, and the browser remembers their choice.</p>
+<figure class="media-slot" data-caption="The consent notice a visitor sees after clicking a thumbnail. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-privacy-notice.png"></figure>
+<h2 id="free-analytics">Track Video Plays with Google Analytics</h2>
+<p>Google Analytics 4 (GA4) measures activity on your website. If GA4 is already connected, enable this option to send video-play events to it; this setting does not connect GA4 to your site by itself.</p>
+<ol class="steps">
+<li>In the <strong>Options</strong> panel, switch <strong>Send Video Play Events to Google Analytics</strong> on.<figure class="media-slot" data-caption="The Options panel. The arrow marks the Send Video Play Events to Google Analytics switch." data-media="image" data-src="docs-assets/free-analytics-toggle.png"></figure></li>
+</ol>
+<p>When enabled, the gallery sends the following events with the video title, host and link:</p>
 <ul>
 <li><strong>video_start</strong> when a visitor opens a video.</li>
 <li><strong>video_play</strong> when they press play.</li>
 <li><strong>video_watch_progress</strong> at 25, 50 and 75 percent.</li>
 <li><strong>video_watch_complete</strong> when the video ends.</li>
 </ul>
-<p>To check it, open Google Analytics, go to Reports &gt; Realtime, and play a video on your site in a private window.</p>
-<div class="callout tip"><span class="co-label">Tip</span><p>Facebook videos only send video_start, because Facebook does not share play details. Using Google Tag Manager? Make a Custom Event trigger for each event name.</p></div>
-
-<h2 id="free-seo">Video SEO</h2>
-<p>You want Google to find your videos. The plugin tells search engines each video's title, thumbnail and link, so your gallery can show up as a video result.</p>
-<h2 id="free-seo-onoff">Turn it on or off</h2>
-<p>It is on by default. Turn it off only if your SEO plugin already adds this.</p>
+<p>To test it, open Google Analytics and go to <strong>Reports &gt; Realtime</strong>. Then open your site in a private browser window and play a video.</p>
+<div class="callout tip"><span class="co-label">Tip</span><p>Facebook videos send only <code>video_start</code> because Facebook does not provide the same play details. If you use Google Tag Manager, create a Custom Event trigger for each event name.</p></div>
+<h2 id="free-seo">Help Search Engines Understand Your Videos</h2>
+<p>Video SEO markup is structured information added behind the page. It tells search engines details such as the video title, thumbnail and video link, helping them understand what the page contains.</p>
+<h2 id="free-seo-onoff">Turn Video SEO Markup On or Off</h2>
+<p>This option is on by default. Turn it off only if another SEO plugin already adds video markup, so you do not create duplicate markup.</p>
 <ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/free-options-panel.png" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel."></figure></li>
-<li>Switch <strong>Video SEO markup</strong> on or off.<figure class="media-slot" data-media="image" data-src="docs-assets/free-seo-toggle.png" data-caption="The Options panel. The arrow marks the Video SEO markup switch."></figure></li>
+<li>Open the <strong>General</strong> tab, then the <strong>Options</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Options panel open. One arrow marks the General tab and the other marks the Options panel." data-media="image" data-src="docs-assets/free-options-panel.png"></figure></li>
+<li>Switch <strong>Video SEO markup</strong> on or off.<figure class="media-slot" data-caption="The Options panel. The arrow marks the Video SEO markup switch." data-media="image" data-src="docs-assets/free-seo-toggle.png"></figure></li>
 </ol>
-<h2 id="free-seo-better">Help it work better</h2>
+<h2 id="free-seo-better">Give Search Engines Better Video Information</h2>
 <ol class="steps">
 <li>Give every video a clear caption.</li>
 <li>Give every video a thumbnail.</li>
 <li>Use real video links, not links to other pages.</li>
 </ol>
-
-</article>
-
-
-<article class="doc-article" id="free-dashboard" data-group="Free Features" data-title="Dashboard and Help Page">
-
-<h1>Dashboard and Help Page</h1>
-<p class="lead">Looking for demos and settings? They live on one help page in your admin.</p>
-<h2 id="free-dashboard-open">Open the page</h2>
+<p>For plugin-wide settings, demos and help resources, continue to <a data-nav="" href="#free-dashboard">Plugin Dashboard &amp; Settings</a>.</p></article>
+<article class="doc-article" data-group="Additional Features &amp; Settings" data-title="Plugin Dashboard &amp; Settings" id="free-dashboard">
+<h1>Plugin Dashboard &amp; Settings</h1>
+<p class="lead">You will do most gallery work in the page editor. Open the Video Gallery dashboard when you need plugin-wide information, demos, block controls or a setting that affects saved data.</p>
+<h2 id="free-dashboard-open">Open the Video Gallery Dashboard</h2>
 <ol class="steps">
-<li>Click <strong>Video Gallery</strong> in the left menu.<figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-open-menu.png" data-caption="The wp-admin left menu. The arrow marks Video Gallery."></figure></li>
-<li>Click <strong>Help &amp; Demos</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-menu.png" data-caption="The Video Gallery submenu. The arrow marks Help and Demos."></figure></li>
+<li>Click <strong>Video Gallery</strong> in the left menu.<figure class="media-slot" data-caption="The wp-admin left menu. The arrow marks Video Gallery." data-media="image" data-src="docs-assets/free-dash-open-menu.png"></figure></li>
+<li>Click <strong>Help &amp; Demos</strong>.<figure class="media-slot" data-caption="The Video Gallery submenu. The arrow marks Help and Demos." data-media="image" data-src="docs-assets/free-dash-menu.png"></figure></li>
 </ol>
-<p>The tabs at the top are <strong>Welcome</strong>, <strong>Blocks</strong>, <strong>Demos</strong>, <strong>Pricing</strong>, <strong>Feature Comparison</strong> and <strong>Settings</strong>. On a narrow screen they sit behind the menu button.</p>
-<figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-welcome.png" data-caption="The Help and Demos page with the tab menu open. This is a result image, so there is no arrow."></figure>
-<h2 id="free-dashboard-delete">Keep or delete your data on uninstall</h2>
-<p>By default your galleries stay if you remove the plugin. You can change that.</p>
+<p>The page has <strong>Welcome</strong>, <strong>Blocks</strong>, <strong>Demos</strong>, <strong>Pricing</strong>, <strong>Feature Comparison</strong> and <strong>Settings</strong> tabs. On a small screen, use the menu button to reveal them.</p>
+<figure class="media-slot" data-caption="The Help and Demos page with the tab menu open. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-dash-welcome.png"></figure>
+<h2 id="free-dashboard-delete">Choose What Happens to Saved Data If You Delete the Plugin</h2>
+<p>Deleting a plugin is different from deactivating it. By default, your saved galleries are kept when the plugin is uninstalled. Turn on <strong>Delete plugin data on uninstall</strong> only if you want those saved galleries removed too.</p>
 <ol class="steps">
-<li>Open the <strong>Settings</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-settings-tab.png" data-caption="The Help and Demos tab menu. The arrow marks the Settings tab."></figure></li>
-<li>Switch the toggle under <strong>Delete plugin data on uninstall</strong>. Confirm the warning.<figure class="media-slot" data-media="image" data-src="docs-assets/free-dash-delete-toggle.png" data-caption="The Delete plugin data on uninstall card. The arrow marks the toggle."></figure></li>
+<li>Open the <strong>Settings</strong> tab.<figure class="media-slot" data-caption="The Help and Demos tab menu. The arrow marks the Settings tab." data-media="image" data-src="docs-assets/free-dash-settings-tab.png"></figure></li>
+<li>Switch the toggle under <strong>Delete plugin data on uninstall</strong>. Confirm the warning.<figure class="media-slot" data-caption="The Delete plugin data on uninstall card. The arrow marks the toggle." data-media="image" data-src="docs-assets/free-dash-delete-toggle.png"></figure></li>
 </ol>
-<div class="callout tip"><span class="co-label">Warning</span><p>With this on, deleting the plugin removes all your saved galleries for good. Turning the plugin off deletes nothing.</p></div>
-
-</article>
-
-<article class="doc-article" id="pro-overview" data-group="Pro" data-title="Pro Overview and Quick Start">
-
-<h1>Pro Overview and Quick Start</h1>
-<p class="lead">One gallery layout is not enough for every page. Pro adds 31 ready made layouts, so you pick one, add your videos and publish.</p>
-<h2 id="pro-adds">What You Get</h2>
+<div class="callout tip"><span class="co-label">Warning</span><p>If this option is on, uninstalling permanently removes the plugin's saved gallery data. Deactivating the plugin does not delete it, so check this setting carefully before uninstalling.</p></div>
+<p>If the free gallery does what your site needs, you can stop here. If you need more specialized layouts or advanced video features, continue to <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p></article>
+<article class="doc-article" data-group="Pro Features" data-title="Set Up Video Gallery Pro" id="pro-overview">
+<h1>Set Up Video Gallery Pro</h1>
+<p class="lead">Consider Pro when the standard gallery no longer fits the experience you want to build. Pro adds more layout choices and features for stores and visitor interaction.</p>
+<p>The steps will feel familiar: add a block, replace its sample videos, adjust the settings, preview and publish.</p><h2 id="pro-adds">What Pro Adds</h2>
 <ul>
 <li><strong>31 more blocks</strong>, each built for one job.</li>
 <li><strong>WooCommerce product videos</strong> in the Video Carousel Gallery.</li>
 <li><strong>Likes, saves and comments</strong> on the Video Shorts Reel.</li>
 <li><strong>Wistia videos</strong> in select blocks, plus priority support.</li>
 </ul>
-<h2 id="pro-install">Install Pro Next to Free</h2>
-<p>You do not need to remove anything. Pro carries its own copy of the Video Gallery block, so your saved galleries keep working.</p>
+<figure class="media-slot" data-caption="The Pro Blocks screen, which lists every Pro block. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-blocks-list.png"></figure>
+<h2 id="pro-summary-card">See the Pro Summary in the Free Plugin</h2>
+<p>The free plugin cannot show the Pro blocks themselves. <strong>Check Pro Version</strong> opens a short summary card, so you can see what Pro adds before you decide.</p>
 <ol class="steps">
-<li>Open <strong>Plugins</strong> and click <strong>Add Plugin</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-install-plugins-menu.png" data-caption="The Plugins screen. The arrows mark the Plugins menu and the Add Plugin item."></figure></li>
-<li>Click <strong>Upload Plugin</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-install-upload-button.png" data-caption="The Add Plugins screen. The arrow marks the Upload Plugin button."></figure></li>
-<li>Click <strong>Choose File</strong>, pick the Pro zip file from your purchase, then click <strong>Install Now</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-install-upload.png" data-caption="The Upload Plugin screen with the Pro zip chosen. The arrows mark the Choose File button and the Install Now button."></figure></li>
-<li>Click <strong>Activate Plugin</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-install-activate.png" data-caption="The screen WordPress shows after the install. The arrow marks the Activate Plugin button."></figure></li>
-<li>Go to <strong>Plugins</strong> and check that <strong>Video Gallery Block Pro</strong> is active. The free copy switches itself off. That is normal.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-plugins-active.png" data-caption="The Plugins list with the plugin active. The arrows mark the Plugins menu and the name of the active plugin."></figure></li>
+<li>Click the gallery in the editor to select it.<figure class="media-slot" data-caption="The editor with the gallery selected. The arrow marks the gallery." data-media="image" data-src="docs-assets/free-vs-pro-select.png"></figure></li>
+<li>Click <strong>Check Pro Version</strong> in the block toolbar.<figure class="media-slot" data-caption="The block toolbar above the gallery. The arrow marks the Check Pro Version button." data-media="image" data-src="docs-assets/free-pro-check.png"></figure></li>
+<li>A card opens with a summary of what Pro adds. It is a list only, so no Pro block is shown. Click <strong>Upgrade to Pro</strong> if you want to see the plans. The pricing page opens in a new tab.<figure class="media-slot" data-caption="The Pro card. The arrow marks the Upgrade to Pro button." data-media="image" data-src="docs-assets/free-pro-card.png"></figure></li>
 </ol>
-<h2 id="pro-activate">Activate Your Licence</h2>
-<p>Your licence key unlocks updates and support. You enter it once on this site.</p>
+<h2 id="pro-install">Install Video Gallery Pro</h2>
+<p>Use the Pro ZIP file from your purchase. You do not need to delete your existing free galleries or remove the free plugin by hand.</p>
 <ol class="steps">
-<li>Open <strong>Video Gallery</strong> and click <strong>Help &amp; Demos</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-help-demos-menu.png" data-caption="The Video Gallery menu in the admin. The arrows mark Video Gallery and Help and Demos."></figure></li>
-<li>Click the <strong>Activation</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-activation-tab.png" data-caption="The Help and Demos screen. The arrow marks the Activation tab."></figure></li>
-<li>Paste your key into the <strong>License key</strong> box.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-activation-key.png" data-caption="The Activation tab with a licence key pasted in. The arrow marks the License key box."></figure></li>
-<li>Click <strong>Activate License</strong>. The page then shows <strong>Activated</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-activation-button.png" data-caption="The Activate License button under the key box. The arrow marks it."></figure></li>
+<li>Open <strong>Plugins</strong> and click <strong>Add Plugin</strong> (the menu item or the button at the top).<figure class="media-slot" data-caption="The Plugins screen. The arrows mark the Plugins menu, the Add Plugin menu item, and the Add Plugin button." data-media="image" data-src="docs-assets/pro-install-plugins-menu.png"></figure></li>
+<li>Click <strong>Upload Plugin</strong>.<figure class="media-slot" data-caption="The Add Plugins screen. The arrow marks the Upload Plugin button." data-media="image" data-src="docs-assets/pro-install-upload-button.png"></figure></li>
+<li>Click <strong>Choose File</strong>, pick the Pro zip file from your purchase, then click <strong>Install Now</strong>.<figure class="media-slot" data-caption="The Upload Plugin screen with the Pro zip chosen. The arrows mark the Choose File button and the Install Now button." data-media="image" data-src="docs-assets/pro-install-upload.png"></figure></li>
+<li>Click <strong>Activate Plugin</strong>.<figure class="media-slot" data-caption="The screen WordPress shows after the install. The arrow marks the Activate Plugin button." data-media="image" data-src="docs-assets/pro-install-activate.png"></figure></li>
+<li>Go to <strong>Plugins</strong> and check that <strong>Video Gallery Block Pro</strong> is active. The free copy switches itself off. That is normal.<figure class="media-slot" data-caption="The Plugins list with the plugin active. The arrows mark the Plugins menu and the name of the active plugin." data-media="image" data-src="docs-assets/pro-plugins-active.png"></figure></li>
+</ol>
+<h2 id="pro-activate">Activate Your Pro License</h2>
+<p>Your license key connects this website to your Pro purchase so it can receive Pro updates and support.</p>
+<ol class="steps">
+<li>Open <strong>Video Gallery</strong> and click <strong>Help &amp; Demos</strong>.<figure class="media-slot" data-caption="The Video Gallery menu in the admin. The arrows mark Video Gallery and Help and Demos." data-media="image" data-src="docs-assets/pro-help-demos-menu.png"></figure></li>
+<li>Click the <strong>Activation</strong> tab.<figure class="media-slot" data-caption="The Help and Demos screen. The arrow marks the Activation tab." data-media="image" data-src="docs-assets/pro-activation-tab.png"></figure></li>
+<li>Paste your key into the <strong>License key</strong> box.<figure class="media-slot" data-caption="The Activation tab with a licence key pasted in. The arrow marks the License key box." data-media="image" data-src="docs-assets/pro-activation-key.png"></figure></li>
+<li>Click <strong>Activate License</strong>. The page then shows <strong>Activated</strong>.<figure class="media-slot" data-caption="The Activate License button under the key box. The arrow marks it." data-media="image" data-src="docs-assets/pro-activation-button.png"></figure></li>
 </ol>
 <div class="callout tip"><span class="co-label">Tip</span><p>Moving to another site? Click <strong>Deactivate license</strong> here first.</p></div>
-<h2 id="pro-switch-blocks">Switch Blocks On or Off</h2>
-<p>Too many blocks in the inserter? Hide the ones you never use.</p>
+<h2 id="pro-switch-blocks">Hide Pro Blocks You Do Not Use</h2>
+<p>If the block inserter becomes crowded, hide the Pro blocks you do not plan to use. This changes what appears in the editor; it does not remove the blocks from the plugin.</p>
 <ol class="steps">
-<li>Open <strong>Video Gallery</strong> and click <strong>Help &amp; Demos</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-help-demos-menu.png" data-caption="The Video Gallery menu in the admin. The arrows mark Video Gallery and Help and Demos."></figure></li>
-<li>Click the <strong>Blocks</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-blocks-tab-open.png" data-caption="The Help and Demos screen with its menu open. The arrow marks the Blocks tab."></figure></li>
-<li>Turn the switch off on any block you want to hide.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-blocks-tab.png" data-caption="The Blocks tab, with a switch for every block. The arrow marks the switch of one block."></figure></li>
+<li>Open <strong>Video Gallery</strong> and click <strong>Help &amp; Demos</strong>.<figure class="media-slot" data-caption="The Video Gallery menu in the admin. The arrows mark Video Gallery and Help and Demos." data-media="image" data-src="docs-assets/pro-help-demos-menu.png"></figure></li>
+<li>Click the <strong>Blocks</strong> tab.<figure class="media-slot" data-caption="The Help and Demos screen. The arrow marks the Blocks tab." data-media="image" data-src="docs-assets/pro-blocks-tab-open.png"></figure></li>
+<li>Turn the switch off on any block you want to hide.<figure class="media-slot" data-caption="The Blocks tab, with a switch for every block. The arrow marks the switch of one block." data-media="image" data-src="docs-assets/pro-blocks-tab.png"></figure></li>
 </ol>
-<h2 id="pro-layout-picker">Start From the Layout Picker</h2>
-<p>Not sure which block to use? The picker shows each layout as a card.</p>
+<h2 id="pro-layout-picker">Choose a Layout from the Layout Picker</h2>
+<p>The layout picker shows visual cards for the available block styles. Choose the card that best matches the page you are building; you can change the videos and styling afterward.</p>
 <ol class="steps">
-<li>Open <strong>Video Gallery</strong> and click <strong>Add New Video Gallery</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-add-new-gallery.png" data-caption="The Video Gallery list. The arrows mark the Video Gallery menu and the Add New Video Gallery button."></figure></li>
-<li>Click a card under <strong>Select a block layout type</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-layout-picker.png" data-caption="The layout picker on a new gallery. The arrow marks the Video Slider card."></figure></li>
+<li>Open <strong>Video Gallery</strong> and click <strong>Add New Video Gallery</strong>.<figure class="media-slot" data-caption="The Video Gallery list. The arrows mark the Video Gallery menu and the Add New Video Gallery button." data-media="image" data-src="docs-assets/pro-add-new-gallery.png"></figure></li>
+<li>Click a card under <strong>Select a block layout type</strong>.<figure class="media-slot" data-caption="The layout picker on a new gallery. The arrow marks the Video Slider card." data-media="image" data-src="docs-assets/pro-layout-picker.png"></figure></li>
 </ol>
-<p>Ready to build? See <a href="#pro-quick-start" data-nav>Your First Pro Gallery</a>.</p>
-
-<h2 id="pro-quick-start">Quick Start: Your First Pro Gallery</h2>
-<p>You bought Pro and want to see it work. In about five minutes you will have a Video Slider on a page with your own videos.</p>
-<h2 id="pqs-insert">Step 1. Insert a Pro Block</h2>
+<p>Ready to try one? Continue to <a data-nav="" href="#pro-quick-start">Create Your First Pro Gallery</a>.</p>
+<h2 id="pro-quick-start">Create Your First Pro Gallery</h2>
+<p>This walkthrough uses the Video Slider as an example. You will add the block, replace the sample videos, adjust its design and publish. Then you can use the same rhythm with other Pro blocks.</p>
+<h2 id="pqs-insert">Add a Pro Block</h2>
 <p>Every Pro block lives in the inserter, under the <strong>Video Gallery</strong> category.</p>
 <ol class="steps">
-<li>Open a page in the editor and click the <strong>+</strong> button at the top left.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-plus.png" data-caption="A page in the editor. The arrow marks the Block Inserter plus button."></figure></li>
-<li>Type <strong>Video Slider</strong> in the search box and click the block.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-search.png" data-caption="The inserter with Video Slider typed in the search box. The arrow marks the Video Slider block."></figure></li>
+<li>Open a page in the editor and click the <strong>+</strong> button at the top left.<figure class="media-slot" data-caption="A page in the editor. The arrow marks the Block Inserter plus button." data-media="image" data-src="docs-assets/pro-qs-plus.png"></figure></li>
+<li>Type <strong>Video Slider</strong> in the search box and click the block.<figure class="media-slot" data-caption="The inserter with Video Slider typed in the search box. The arrows mark the search box and the Video Slider block." data-media="image" data-src="docs-assets/pro-qs-search.png"></figure></li>
 </ol>
-<p>The block arrives with sample videos, so you see a result at once.</p>
-<h2 id="pqs-videos">Step 2. Add Your Videos</h2>
-<p>Replace the samples with your own. See <a href="#free-add-videos" data-nav>Add Your Videos</a> for the video sources.</p>
+<p>The block includes sample videos so you can preview the layout before adding your own. Replace each sample you want to keep; any sample left in the block will appear on the published page.</p>
+<h2 id="pqs-videos">Add Your Videos</h2>
+<p>Replace the samples with your own videos. For source options and thumbnail guidance, see <a data-nav="" href="#free-add-videos">Add Videos to Your Gallery</a>.</p>
 <ol class="steps">
-<li>Click the block to select it, then open the <strong>General</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-general-tab.png" data-caption="The editor with the block selected. The arrows mark the block and the General tab."></figure></li>
-<li>Open the <strong>Videos</strong> panel and click the first video.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-videos-panel.png" data-caption="The Videos panel open on the General tab. The arrows mark the Videos panel and the first video."></figure></li>
-<li>Paste your link into the <strong>Video</strong> box. It can be a YouTube link, a Vimeo link or a file from your Media Library.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-video-field.png" data-caption="An open video item. The arrow marks the Video box."></figure></li>
-<li>Type a <strong>Title</strong>. Add a <strong>Poster</strong> image if you want your own thumbnail.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-title-poster.png" data-caption="An open video item. The arrows mark the Poster box and the Title box."></figure></li>
-<li>Click <strong>Add New Video</strong> to add another one.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-add-video.png" data-caption="The bottom of the Videos panel. The arrow marks the Add New Video button."></figure></li>
+<li>Click the block to select it, then open the <strong>General</strong> tab.<figure class="media-slot" data-caption="The editor with the block selected. The arrows mark the block and the General tab." data-media="image" data-src="docs-assets/pro-qs-general-tab.png"></figure></li>
+<li>Open the <strong>Videos</strong> panel and click the first video.<figure class="media-slot" data-caption="The Videos panel open on the General tab. The arrows mark the Videos panel and the first video." data-media="image" data-src="docs-assets/pro-qs-videos-panel.png"></figure></li>
+<li>Paste your link into the <strong>Video</strong> box. It can be a YouTube link, a Vimeo link or a file from your Media Library.<figure class="media-slot" data-caption="An open video item. The arrow marks the Video box." data-media="image" data-src="docs-assets/pro-qs-video-field.png"></figure></li>
+<li>Type a <strong>Title</strong>. Add a <strong>Poster</strong> image if you want your own thumbnail.<figure class="media-slot" data-caption="An open video item. The arrows mark the Poster box and the Title box." data-media="image" data-src="docs-assets/pro-qs-title-poster.png"></figure></li>
+<li>Click <strong>Add New Video</strong> to add another one.<figure class="media-slot" data-caption="The bottom of the Videos panel. The arrow marks the Add New Video button." data-media="image" data-src="docs-assets/pro-qs-add-video.png"></figure></li>
 </ol>
 <div class="callout tip"><span class="co-label">Tip</span><p>Delete the samples you do not replace. Anything left behind gets published.</p></div>
-<h2 id="pqs-fit">Step 3. Make It Fit Your Page</h2>
+<h2 id="pqs-fit">Adjust the Layout and Style</h2>
 <ol class="steps">
-<li>Open <strong>Options</strong> on the <strong>General</strong> tab for autoplay and video fit.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-options.png" data-caption="The block sidebar. The arrows mark the General tab and the Options panel."></figure></li>
-<li>Open <strong>Layout Settings</strong> for gaps and sizes.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-layout.png" data-caption="The General tab of the block. The arrow marks the Layout Settings panel."></figure></li>
-<li>Open the <strong>Style</strong> tab for colours, fonts and borders.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-style-tab.png" data-caption="The block sidebar. The arrow marks the Style tab."></figure></li>
+<li>Open <strong>Options</strong> on the <strong>General</strong> tab for autoplay and video fit.<figure class="media-slot" data-caption="The block sidebar. The arrows mark the General tab and the Options panel." data-media="image" data-src="docs-assets/pro-qs-options.png"></figure></li>
+<li>Open <strong>Layout Settings</strong> for gaps and sizes.<figure class="media-slot" data-caption="The General tab of the block. The arrow marks the Layout Settings panel." data-media="image" data-src="docs-assets/pro-qs-layout.png"></figure></li>
+<li>Open the <strong>Style</strong> tab for colours, fonts and borders.<figure class="media-slot" data-caption="The block sidebar. The arrow marks the Style tab." data-media="image" data-src="docs-assets/pro-qs-style-tab.png"></figure></li>
 </ol>
-<h2 id="pqs-publish">Step 4. Preview and Publish</h2>
+<h2 id="pqs-publish">Preview and Publish</h2>
 <ol class="steps">
-<li>Click <strong>Preview</strong> and check the page at phone size too.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-preview.png" data-caption="The top bar of the editor. The arrow marks the Preview button."></figure></li>
-<li>Click <strong>Publish</strong> or <strong>Update</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-publish.png" data-caption="The top bar of a new page. The arrow marks the Publish button. On a live page it reads Update."></figure></li>
+<li>Click <strong>Preview</strong> and check the page at phone size too.<figure class="media-slot" data-caption="The top bar of the editor. The arrow marks the Preview button." data-media="image" data-src="docs-assets/pro-qs-preview.png"></figure></li>
+<li>Click <strong>Publish</strong> or <strong>Update</strong>.<figure class="media-slot" data-caption="The top bar of a new page. The arrow marks the Publish button. On a live page it reads Update." data-media="image" data-src="docs-assets/pro-qs-publish.png"></figure></li>
 </ol>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-result.png" data-caption="The finished Video Slider on a published page. This is a result image, so it has no arrow."></figure>
-<p>Next, pick a block: <a href="#pro-sliders" data-nav>Sliders</a>, <a href="#pro-grids" data-nav>Grids</a>, <a href="#pro-playlist-and-learning" data-nav>Playlists and Learning</a>, <a href="#pro-stories-and-shorts" data-nav>Stories and Shorts</a> or <a href="#pro-business" data-nav>Business</a>.</p>
-
+<figure class="media-slot" data-caption="The finished Video Slider on a published page. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-qs-result.png"></figure><p>Your first Pro gallery is published. You have now used the same core workflow with a more specialized layout; next, choose a block based on the experience your page needs.</p>
+<p>Next, choose the group that fits your page: <a data-nav="" href="#pro-sliders">Sliders &amp; Carousels</a>, <a data-nav="" href="#pro-grids">Grids &amp; Video Walls</a>, <a data-nav="" href="#pro-playlist-and-learning">Playlists, Courses &amp; Timelines</a>, <a data-nav="" href="#pro-stories-and-shorts">Stories &amp; Shorts</a> or <a data-nav="" href="#pro-business">Business layouts</a>.</p>
 </article>
-
-
-
-
-
-
-
-          <article class="doc-article" id="pro-blocks" data-group="Pro" data-title="All 31 Pro Blocks">
-
-<h1>All 31 Pro Blocks</h1>
-<p class="lead">Not sure which Pro block fits? Find your goal below. Every block is added the same way, so you learn the steps once.</p>
-<h2 id="pro-blocks-add">Add Any Pro Block</h2>
+<article class="doc-article" data-group="Pro Features" data-title="Choose the Right Pro Video Layout" id="pro-blocks">
+<h1>Choose the Right Pro Video Layout</h1>
+<p class="lead">Thirty-one extra blocks can look like a long catalogue. You do not need to learn them all. Start with what visitors should do: slide through videos, browse a wall, follow a lesson, watch short clips or explore business content, then choose the matching group below.</p>
+<p>The editing steps stay familiar: add the block, add videos, then adjust its General, Layout and Style settings. The main choice is the way you want visitors to browse.</p><h2 id="pro-blocks-add">Add Any Pro Video Block</h2>
 <ol class="steps">
-<li>Click the <strong>+</strong> button and search for the block name.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-qs-search.png" data-caption="The inserter with the block name typed in the search box. The arrow marks the block in the results."></figure></li>
-<li>Open the <strong>Videos</strong> panel on the <strong>General</strong> tab and add your videos.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-blocks-videos-general.png" data-caption="The block sidebar. The arrows mark the General tab and the Videos panel."></figure></li>
-<li>Open <strong>Options</strong> or <strong>Layout Settings</strong> to fine tune it. See <a href="#pro-quick-start" data-nav>Your First Pro Gallery</a>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-blocks-options-layout.png" data-caption="The General tab of a block. The arrows mark the Layout Settings and Options panels."></figure></li>
+<li>Open a page in the editor and click the <strong>+</strong> button at the top left.<figure class="media-slot" data-caption="A page in the editor. The arrow marks the Block Inserter plus button." data-media="image" data-src="docs-assets/pro-qs-plus.png"></figure></li>
+<li>Type the block name in the search box and click the block.<figure class="media-slot" data-caption="The inserter with a block name typed in the search box. The arrows mark the search box and the block in the results." data-media="image" data-src="docs-assets/pro-qs-search.png"></figure></li>
+<li>Open the <strong>Videos</strong> panel on the <strong>General</strong> tab and add your videos.<figure class="media-slot" data-caption="The block sidebar. The arrows mark the General tab and the Videos panel." data-media="image" data-src="docs-assets/pro-blocks-videos-general.png"></figure></li>
+<li>Open <strong>Options</strong> or <strong>Layout Settings</strong> to fine tune it. See <a data-nav="" href="#pro-quick-start">Create Your First Pro Gallery</a>.<figure class="media-slot" data-caption="The General tab of a block. The arrows mark the Layout Settings and Options panels." data-media="image" data-src="docs-assets/pro-blocks-options-layout.png"></figure></li>
 </ol>
-
-<h2 id="pro-sliders">Sliders and Carousels</h2>
-<p>You want visitors to swipe through your videos in one row. Three blocks do it, each in its own style.</p>
+<h2 id="pro-sliders">Sliders &amp; Carousels</h2>
+<p>Choose a slider or carousel when you want visitors to move sideways through a row of videos instead of seeing the whole collection at once.</p>
 <ul>
 <li><span id="pro-sl-slider"></span><strong>Video Slider</strong> for a simple slider of your own video files.</li>
 <li><span id="pro-sl-autoplay"></span><strong>Slider Autoplay Video</strong> for a hero strip that glides by itself.</li>
-<li><span id="pro-sl-carousel"></span><strong>Video Carousel Gallery</strong> for product videos with prices. For a live store, see <a href="#pro-woocommerce" data-nav>Product Videos with WooCommerce</a>.</li>
+<li><span id="pro-sl-carousel"></span><strong>Video Carousel Gallery</strong> for product videos with prices. For a live store, see <a data-nav="" href="#pro-woocommerce">Product Videos with WooCommerce</a>.</li>
 </ul>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-sliders-result.png" data-caption="A Video Slider and a Video Carousel Gallery on one published page. This is a result image, so it has no arrow."></figure>
-
-<h2 id="pro-grids">Grids and Walls</h2>
-<p>You have many videos and want to show them all at once. Six blocks give you a tidy or a bold wall.</p>
+<figure class="media-slot" data-caption="A Video Slider and a Video Carousel Gallery on one published page. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-sliders-result.png"></figure>
+<h2 id="pro-grids">Grids &amp; Video Walls</h2>
+<p>Choose a grid or wall when visitors should be able to scan many videos at once. The layouts differ in how they arrange the tiles.</p>
 <ul>
-<li><span id="pro-gr-masonry"></span><strong>Masonry Video Grid</strong> for a photo wall of mixed heights.</li>
-<li><span id="pro-gr-justified"></span><strong>Video Justified Gallery</strong> for full width rows of equal height.</li>
-<li><span id="pro-gr-bento"></span><strong>Video Bento Grid</strong> for a magazine wall with one hero video.</li>
+<li><span id="pro-gr-masonry"></span><strong>Masonry Video Grid</strong> for a wall of tiles with different heights, like a photo collage.</li>
+<li><span id="pro-gr-justified"></span><strong>Video Justified Gallery</strong> for rows that stretch across the available width while keeping tiles the same height.</li>
+<li><span id="pro-gr-bento"></span><strong>Video Bento Grid</strong> for a magazine-style layout with one large featured video and smaller tiles around it.</li>
 <li><span id="pro-gr-wall"></span><strong>Video Showcase Wall</strong> for a streaming service look with hover previews.</li>
 <li><span id="pro-gr-lightbox"></span><strong>Lightbox Video Gallery</strong> for a clean grid that opens in a popup.</li>
-<li><span id="pro-gr-parallax"></span><strong>Parallax Row Video Gallery</strong> for rows that drift as you scroll. Each row needs at least three videos.</li>
+<li><span id="pro-gr-parallax"></span><strong>Parallax Row Video Gallery</strong> for rows that shift as visitors scroll. Each row needs at least three videos.</li>
 </ul>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-grids-result.png" data-caption="A Video Bento Grid on a published page, with tiles of different sizes. This is a result image, so it has no arrow."></figure>
-
-<h2 id="pro-playlist-and-learning">Playlists, Courses and Timelines</h2>
-<p>Your videos belong in a set order, like lessons, episodes or milestones. These blocks keep them that way.</p>
+<figure class="media-slot" data-caption="A Video Bento Grid on a published page, with tiles of different sizes. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-grids-result.png"></figure>
+<figure class="media-slot" data-caption="A Video Justified Gallery on a published page, with full width rows of equal height. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-grids-more.png"></figure>
+<h2 id="pro-playlist-and-learning">Playlists, Courses &amp; Timelines</h2>
+<p>Choose one of these when order matters, for example, lessons that build on each other, podcast episodes, workout days or videos arranged by date.</p>
 <ul>
-<li><span id="pro-pl-playlist"></span><strong>Video Playlist Gallery</strong> for a player with a list beside it. See <a href="#pro-stats" data-nav>View Counts, Likes and Comments</a>.</li>
+<li><span id="pro-pl-playlist"></span><strong>Video Playlist Gallery</strong> for a player with a list beside it. See <a data-nav="" href="#pro-stats">Show Views, Likes, Saves &amp; Comments</a>.</li>
 <li><span id="pro-pl-curriculum"></span><strong>Video Curriculum Accordion</strong> for course sections and lessons.</li>
 <li><span id="pro-pl-tabs"></span><strong>Video Tabs Gallery</strong> for categories as tabs.</li>
 <li><span id="pro-pl-timeline"></span><strong>Video Timeline Gallery</strong> for videos on dates along a line.</li>
-<li><span id="pro-pl-scrolly"></span><strong>Video Scrollytelling Showcase</strong> for a story told while scrolling.</li>
+<li><span id="pro-pl-scrolly"></span><strong>Video Scrollytelling Showcase</strong> for a page where the video story unfolds as visitors scroll.</li>
 <li><span id="pro-pl-podcast"></span><strong>Video Podcast Episodes</strong> for a show page with seasons.</li>
 <li><span id="pro-pl-workout"></span><strong>Video Workout Planner</strong> for day by day training.</li>
 </ul>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-playlist-result.png" data-caption="A Video Playlist Gallery on a published page, with the player on the left and the list on the right. This is a result image, so it has no arrow."></figure>
-
-<h2 id="pro-stories-and-shorts">Stories, Shorts and Playful Layouts</h2>
-<p>Your visitors live on their phones. These blocks bring short, snappy video to your page and add movement.</p>
+<figure class="media-slot" data-caption="A Video Playlist Gallery on a published page, with the player on the left and the list on the right. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-playlist-result.png"></figure>
+<figure class="media-slot" data-caption="A Video Curriculum Accordion with course sections, and a Video Tabs Gallery with category tabs. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-playlist-more.png"></figure>
+<h2 id="pro-stories-and-shorts">Stories, Shorts &amp; Interactive Layouts</h2>
+<p>Choose these for a more mobile-style experience: short vertical clips, swipeable cards, moving rows or panels that respond when visitors hover or click.</p>
 <ul>
 <li><span id="pro-ss-stories"></span><strong>Video Stories</strong> for round rings that open a fullscreen story.</li>
 <li><span id="pro-ss-shorts"></span><strong>Video Shorts Reel</strong> for a tall feed that snaps from video to video.</li>
 <li><span id="pro-ss-swipe"></span><strong>Video Swipe Deck</strong> for a stack of cards you swipe away.</li>
-<li><span id="pro-ss-marquee"></span><strong>Video Marquee Wall</strong> for rows of cards that glide by.</li>
+<li><span id="pro-ss-marquee"></span><strong>Video Marquee Wall</strong> for rows of video cards that move across the page automatically.</li>
 <li><span id="pro-ss-flip"></span><strong>Video Flip Cards Gallery</strong> for cards that turn over to play.</li>
 <li><span id="pro-ss-panels"></span><strong>Video Expanding Panels</strong> for panels that open on hover or click.</li>
 <li><span id="pro-ss-pip"></span><strong>Video Wall with Floating Player</strong> for a mini player that follows you.</li>
 </ul>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-stories-result.png" data-caption="A Video Stories tray of round rings on a published page. A tap on a ring opens its story fullscreen. This is a result image, so it has no arrow."></figure>
-
-<h2 id="pro-business">Business and Industry Blocks</h2>
-<p>Homes, weddings, restaurants and shops each need their own kind of page. These blocks are made for them.</p>
+<figure class="media-slot" data-caption="A Video Stories tray of round rings on a published page. A tap on a ring opens its story fullscreen. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-stories-result.png"></figure>
+<figure class="media-slot" data-caption="A Video Swipe Deck with a stack of cards, and a Video Flip Cards Gallery. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-stories-more.png"></figure>
+<h2 id="pro-business">Business &amp; Industry Layouts</h2>
+<p>Choose a business layout when the video needs context as well as playback, such as a product price, property details, a restaurant dish, a place on a map or a before-and-after comparison.</p>
 <ul>
 <li><span id="pro-bz-testimonial"></span><strong>Video Testimonial Section</strong> for short customer reviews.</li>
 <li><span id="pro-bz-property"></span><strong>Video Property Tour Gallery</strong> for real estate, with price, beds, baths and area.</li>
@@ -1900,127 +1802,112 @@
 <li><span id="pro-bz-hotspot"></span><strong>Video Hotspot Scene</strong> for clickable points on a video.</li>
 <li><span id="pro-bz-compare"></span><strong>Video Comparison Gallery</strong> for before and after videos.</li>
 </ul>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-business-result.png" data-caption="A Video Property Tour Gallery on a published page, with the feature player and property cards. This is a result image, so it has no arrow."></figure>
-
-</article>
-
-<article class="doc-article" id="pro-woocommerce" data-group="Pro" data-title="Product Videos, Likes and Comments">
-
-<h1>Product Videos, Likes and Comments</h1>
-<p class="lead">Your product videos should sell, not just play. Each card in this carousel links to a real product in your store.</p>
-<h2 id="pwc-need">Before You Start</h2>
-<p>WooCommerce must be installed and active. If it is not, the editor shows a notice with an install link. No store yet? You can still type a title, price and link by hand.</p>
-<h2 id="pwc-link">Link a Video to a Product</h2>
+<figure class="media-slot" data-caption="A Video Property Tour Gallery on a published page, with the feature player and property cards. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-business-result.png"></figure>
+<figure class="media-slot" data-caption="A Video Testimonial Section with review cards, and a Video Menu Showcase with category tabs. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-business-more.png"></figure>
+<p>Choose the layout that solves the page's main job; do not add extra complexity unless it helps visitors. For store product videos or views, likes, saves and comments, continue to <a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a>.</p></article>
+<article class="doc-article" data-group="Pro Features" data-title="Product Videos &amp; Visitor Engagement" id="pro-woocommerce">
+<h1>Product Videos &amp; Visitor Engagement</h1>
+<p class="lead">A video can do more than play. It can help someone understand a product, or invite them to react to what they watch. This section covers both uses: product videos first, then views, likes, saves and comments.</p>
+<h2 id="pwc-need">Before You Use WooCommerce Product Videos</h2>
+<p>WooCommerce is the WordPress plugin used to run an online store. It must be installed and active to connect a video to an existing store product. If you do not use WooCommerce, you can still enter a title, price and product link yourself.</p>
+<h2 id="pwc-link">Connect a Video to a WooCommerce Product</h2>
 <ol class="steps">
-<li>Insert the <strong>Video Carousel Gallery</strong> block and open a video in the <strong>Videos</strong> panel.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-videos-panel.png" data-caption="The block sidebar of the Video Carousel Gallery. The arrows mark the Videos panel and the first video."></figure></li>
-<li>Switch on <strong>Use WooCommerce Product</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-toggle.png" data-caption="An open video item in the Video Carousel Gallery. The arrow marks the Use WooCommerce Product switch."></figure></li>
-<li>Search for your product and choose it in <strong>Select Product</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-select.png" data-caption="The product search and the Select Product list. The arrows mark the Search products box and the Select Product list."></figure></li>
+<li>Insert the <strong>Video Carousel Gallery</strong> block and open a video in the <strong>Videos</strong> panel.<figure class="media-slot" data-caption="The block sidebar of the Video Carousel Gallery. The arrows mark the Videos panel and the first video." data-media="image" data-src="docs-assets/pro-woo-videos-panel.png"></figure></li>
+<li>Switch on <strong>Use WooCommerce Product</strong>.<figure class="media-slot" data-caption="An open video item in the Video Carousel Gallery. The arrow marks the Use WooCommerce Product switch." data-media="image" data-src="docs-assets/pro-woo-toggle.png"></figure></li>
+<li>Search for your product and choose it in <strong>Select Product</strong>.<figure class="media-slot" data-caption="The product search and the Select Product list. The arrows mark the Search products box and the Select Product list." data-media="image" data-src="docs-assets/pro-woo-select.png"></figure></li>
 </ol>
-<p>The title, price, sale price and image now come from the product.</p>
-<h2 id="pwc-manual">Add a Product by Hand</h2>
+<p>Once linked, the card pulls the product title, price, sale price and image from WooCommerce. That means you do not have to update those details separately in the gallery.</p>
+<h2 id="pwc-manual">Add Product Details Manually</h2>
 <ol class="steps">
 <li>Leave <strong>Use WooCommerce Product</strong> off.</li>
-<li>Add the <strong>Product Image</strong> and the <strong>Title</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-image-title.png" data-caption="An open video item with the switch off. The arrows mark the Product Image box and the Title box."></figure></li>
-<li>Type the <strong>Current Price</strong> and the <strong>Original Price</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-prices.png" data-caption="The same video item further down. The arrows mark the Current Price box and the Original Price box."></figure></li>
-<li>Paste the <strong>Product URL</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-url.png" data-caption="The same video item further down. The arrow marks the Product URL box."></figure></li>
-<li>With WooCommerce active, click <strong>Create Product</strong> to make a store product from those details.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-create-product.png" data-caption="The end of an open video item. The arrow marks the Create Product button."></figure></li>
+<li>Add the <strong>Product Image</strong> and the <strong>Title</strong>.<figure class="media-slot" data-caption="An open video item with the switch off. The arrows mark the Product Image box and the Title box." data-media="image" data-src="docs-assets/pro-woo-image-title.png"></figure></li>
+<li>Type the <strong>Current Price</strong> and the <strong>Original Price</strong>.<figure class="media-slot" data-caption="The same video item further down. The arrows mark the Current Price box and the Original Price box." data-media="image" data-src="docs-assets/pro-woo-prices.png"></figure></li>
+<li>Paste the <strong>Product URL</strong>.<figure class="media-slot" data-caption="The same video item further down. The arrow marks the Product URL box." data-media="image" data-src="docs-assets/pro-woo-url.png"></figure></li>
+<li>With WooCommerce active, click <strong>Create Product</strong> to make a store product from those details.<figure class="media-slot" data-caption="The end of an open video item. The arrow marks the Create Product button." data-media="image" data-src="docs-assets/pro-woo-create-product.png"></figure></li>
 </ol>
-<h2 id="pwc-options">Fine Tune the Carousel</h2>
+<h2 id="pwc-options">Adjust Product Carousel Options</h2>
 <ol class="steps">
-<li>Type the sign before prices in <strong>Currency Symbol</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-currency.png" data-caption="The Options panel of the carousel. The arrow marks the Currency Symbol box."></figure></li>
-<li>Switch on <strong>Open in New Tab</strong> to keep the gallery open when the shop link is clicked.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-newtab.png" data-caption="The Options panel of the carousel. The arrow marks the Open in New Tab switch."></figure></li>
-<li>Switch on <strong>Autoplay Previews</strong> to play each card muted as it scrolls into view.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-autoplay.png" data-caption="The Options panel of the carousel. The arrow marks the Autoplay Previews switch."></figure></li>
+<li>Type the sign before prices in <strong>Currency Symbol</strong>.<figure class="media-slot" data-caption="The Options panel of the carousel. The arrow marks the Currency Symbol box." data-media="image" data-src="docs-assets/pro-woo-currency.png"></figure></li>
+<li>Switch on <strong>Open in New Tab</strong> to keep the gallery open when the shop link is clicked.<figure class="media-slot" data-caption="The Options panel of the carousel. The arrow marks the Open in New Tab switch." data-media="image" data-src="docs-assets/pro-woo-newtab.png"></figure></li>
+<li>Switch on <strong>Autoplay Previews</strong> to play each card muted as it scrolls into view.<figure class="media-slot" data-caption="The Options panel of the carousel. The arrow marks the Autoplay Previews switch." data-media="image" data-src="docs-assets/pro-woo-autoplay.png"></figure></li>
 </ol>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-woo-result.png" data-caption="The Video Carousel Gallery on a published page, with product names and prices under each video. This is a result image, so it has no arrow."></figure>
-
-<h2 id="pro-stats">View Counts, Likes and Comments</h2>
-<p>You want visitors to see what is popular and join in. The Playlist Gallery and the Shorts Reel do this.</p>
+<figure class="media-slot" data-caption="The Video Carousel Gallery on a published page, with product names and prices under each video. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-woo-result.png"></figure>
+<p>Product videos help visitors decide what to buy. If your goal is interaction instead, the Video Shorts Reel can let visitors react to a clip, save it for later or leave a comment.</p><h2 id="pro-stats">Show Views, Likes, Saves &amp; Comments</h2>
+<p>View counts show how often a video has been played. The Video Shorts Reel adds ways for visitors to respond: like a clip, save it for later or comment on it.</p>
 <h2 id="pst-views">Show View Counts in a Playlist</h2>
-<p>Counts read like 12K views. They start from zero on your site and go up with each play.</p>
+<p>Counts use short labels such as <strong>12K views</strong>. They start at zero on your site and increase as videos are played there.</p>
 <ol class="steps">
-<li>Click the <strong>Video Playlist Gallery</strong> block to select it.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-stats-select-playlist.png" data-caption="The Video Playlist Gallery in the editor. The arrow marks the block."></figure></li>
-<li>Open <strong>Options</strong> on the <strong>General</strong> tab.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-stats-options.png" data-caption="The block sidebar of the Video Playlist Gallery. The arrows mark the General tab and the Options panel."></figure></li>
-<li>Switch on <strong>View/Upload Date</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-stats-toggle.png" data-caption="The Options panel of the Video Playlist Gallery. The arrow marks the View/Upload Date switch."></figure></li>
+<li>Click the <strong>Video Playlist Gallery</strong> block to select it.<figure class="media-slot" data-caption="The Video Playlist Gallery in the editor. The arrow marks the block." data-media="image" data-src="docs-assets/pro-stats-select-playlist.png"></figure></li>
+<li>Open <strong>Options</strong> on the <strong>General</strong> tab.<figure class="media-slot" data-caption="The block sidebar of the Video Playlist Gallery. The arrows mark the General tab and the Options panel." data-media="image" data-src="docs-assets/pro-stats-options.png"></figure></li>
+<li>Switch on <strong>View/Upload Date</strong>.<figure class="media-slot" data-caption="The Options panel of the Video Playlist Gallery. The arrow marks the View/Upload Date switch." data-media="image" data-src="docs-assets/pro-stats-toggle.png"></figure></li>
 </ol>
-<h2 id="pst-reactions">Likes, Saves and Comments on Shorts</h2>
-<p>Likes work for everyone. Comments and saves need a logged in visitor.</p>
+<h2 id="pst-reactions">Let Visitors Like, Save and Comment on Shorts</h2>
+<p>Anyone can like a video. Visitors must be logged in to save a video or post a comment.</p>
 <ol class="steps">
-<li>Select the <strong>Video Shorts Reel</strong> block.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-stats-select-reel.png" data-caption="The Video Shorts Reel selected in the editor. The arrow marks the block."></figure></li>
-<li>Switch on <strong>Show Action Rail</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-stats-action-rail.png" data-caption="The Overlays and Controls panel of the Shorts Reel. The arrow marks the Show Action Rail switch."></figure></li>
+<li>Select the <strong>Video Shorts Reel</strong> block.<figure class="media-slot" data-caption="The Video Shorts Reel selected in the editor. The arrow marks the block." data-media="image" data-src="docs-assets/pro-stats-select-reel.png"></figure></li>
+<li>Switch on <strong>Show Action Rail</strong>.<figure class="media-slot" data-caption="The Overlays and Controls panel of the Shorts Reel. The arrow marks the Show Action Rail switch." data-media="image" data-src="docs-assets/pro-stats-action-rail.png"></figure></li>
 </ol>
-<p>The save bookmark needs no switch. Logged in visitors see it on the card automatically. You can restyle it in the <strong>Saved Button</strong> panel on the <strong>Style</strong> tab.</p>
-<h2 id="pst-saved">Show a Visitor Their Saved Videos</h2>
-<p>Paste the shortcode <code>[vsr_saved_videos]</code> on any page. A logged in visitor sees their saved videos as a grid.</p>
-<h2 id="pst-moderate">Moderate Comments</h2>
+<p>You do not need to switch on the save bookmark separately. Logged-in visitors see it on the card automatically; use the <strong>Saved Button</strong> panel in the Style tab to change its appearance.</p>
+<h2 id="pst-saved">Show a Logged-In Visitor Their Saved Videos</h2>
+<p>Add <code>[vsr_saved_videos]</code> to a page with a Shortcode block to show the logged-in visitor a grid of videos they have saved. This is separate from the gallery shortcode: it displays that visitor's saved list, not a specific gallery.</p>
+<h2 id="pst-moderate">Manage Likes and Comments</h2>
 <ol class="steps">
-<li>Open <strong>Video Gallery</strong> and click <strong>Reel Moderation</strong>.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-moderation-menu.png" data-caption="The Video Gallery menu in the admin. The arrows mark Video Gallery and Reel Moderation."></figure></li>
-<li>Delete one comment, delete all comments, or reset the likes.<figure class="media-slot" data-media="image" data-src="docs-assets/pro-moderation-delete.png" data-caption="The Shorts Reel Moderation screen. The arrow marks the Delete button of one comment."></figure></li>
+<li>Open <strong>Video Gallery</strong> and click <strong>Reel Moderation</strong>.<figure class="media-slot" data-caption="The Video Gallery menu in the admin. The arrows mark Video Gallery and Reel Moderation." data-media="image" data-src="docs-assets/pro-moderation-menu.png"></figure></li>
+<li>Delete one comment, delete all comments, or reset the likes.<figure class="media-slot" data-caption="The Shorts Reel Moderation screen. The arrow marks the Delete button of one comment." data-media="image" data-src="docs-assets/pro-moderation-delete.png"></figure></li>
 </ol>
-<figure class="media-slot" data-media="image" data-src="docs-assets/pro-moderation.png" data-caption="The Shorts Reel Moderation screen, with likes and comments listed for each video. This is a result image, so it has no arrow."></figure>
-
-</article>
-
-
-<article class="doc-article" id="pro-faq" data-group="Help" data-title="FAQ and Troubleshooting">
-
-<h1>FAQ and Troubleshooting</h1>
-<p class="lead">Wondering about something before you start? These are the five questions people ask first.</p>
-<h2 id="pfaq-list">Questions and Answers</h2>
+<figure class="media-slot" data-caption="The Shorts Reel Moderation screen, with likes and comments listed for each video. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-moderation.png"></figure>
+<p>If something does not behave as expected, the <a data-nav="" href="#pro-faq">FAQs &amp; Troubleshooting</a> section has quick answers and fixes.</p></article>
+<article class="doc-article" data-group="" data-title="FAQs &amp; Troubleshooting" id="pro-faq">
+<h1>FAQs &amp; Troubleshooting</h1>
+<p class="lead">Use this page when you need a quick answer or a feature is not behaving as expected. Start with the question that matches your situation; the fixes below cover common problems.</p>
+<h2 id="pfaq-list">Common Questions</h2>
 <div class="faq-list">
 <div class="faq-item open">
-<button class="faq-q"><span>Is there a free version?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
-<div class="faq-a"><p>Yes. It has the Video Gallery block with albums, filters, a lightbox and bulk import. Pro adds 31 more blocks. See <a href="#pro-overview" data-nav>What Pro Adds</a>.</p></div>
+<button class="faq-q"><span>Is there a free version?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+<div class="faq-a"><p>Yes. The free version includes the Video Gallery block, albums, filters, a lightbox and Bulk Import. Pro adds 31 specialized blocks and extra features. See <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p></div>
 </div>
 <div class="faq-item">
-<button class="faq-q"><span>Which video sources work?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
-<div class="faq-a"><p>YouTube, Vimeo and files from your Media Library work everywhere. Wistia works in select Pro blocks.</p></div>
+<button class="faq-q"><span>Which video sources work?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+<div class="faq-a"><p>The free gallery accepts YouTube, Vimeo and Facebook video links. You can also use video files from your WordPress Media Library. Wistia is available in selected Pro blocks.</p></div>
 </div>
 <div class="faq-item">
-<button class="faq-q"><span>Do I need an API key?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
-<div class="faq-a"><p>No. Paste a YouTube or Vimeo link and the title and thumbnail fill in.</p></div>
+<button class="faq-q"><span>Do I need an API key?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+<div class="faq-a"><p>No. An API key is a special code some services use to connect with another app. For YouTube and Vimeo, paste the video link; you do not need to create an API key.</p></div>
 </div>
 <div class="faq-item">
-<button class="faq-q"><span>Will my free galleries still work after I upgrade?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
-<div class="faq-a"><p>Yes. Pro carries its own copy of the Video Gallery block. See <a href="#pro-install" data-nav>Install Pro Next to Free</a>.</p></div>
+<button class="faq-q"><span>Will my free galleries still work after I upgrade?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+<div class="faq-a"><p>Yes. Video Gallery Pro includes the gallery block, and your existing galleries do not need to be rebuilt. Follow the Pro installation steps and check that the Pro plugin is active. See <a data-nav="" href="#pro-install">Install Video Gallery Pro</a>.</p></div>
 </div>
 <div class="faq-item">
-<button class="faq-q"><span>Can I put a gallery on a page without the block editor?</span><span class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg></span></button>
-<div class="faq-a"><p>Yes. Copy the shortcode, like <code>[video_gallery id=12]</code>, and paste it anywhere.</p></div>
+<button class="faq-q"><span>Can I put a gallery on a page without the block editor?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
+<div class="faq-a"><p>Yes. Copy the saved gallery's shortcode, such as <code>[video_gallery id=12]</code>, and paste it where you want the gallery to appear. The ID in your shortcode may be different.</p></div>
 </div>
 </div>
-
-<h2 id="pro-troubleshooting">Troubleshooting</h2>
-<p>Something looks off? Most problems have a quick fix. Find yours below.</p>
-<h2 id="pts-locked">Pro Blocks Look Locked After I Upgraded</h2>
-<p>The licence is probably not active. Open <strong>Video Gallery</strong>, <strong>Help &amp; Demos</strong>, then <strong>Activation</strong>, and check it says <strong>Activated</strong>. See <a href="#pro-activate" data-nav>Activate Your Licence</a>.</p>
-<h2 id="pts-activation">The Licence Will Not Activate</h2>
-<p>Read the message on the Activation tab. It says what is wrong, such as a mistyped key, an expired licence or no activations left.</p>
-<h2 id="pts-missing">A Block Is Missing from the Inserter</h2>
-<p>It may be switched off. Turn it back on in the <strong>Blocks</strong> tab and reload the editor. See <a href="#pro-switch-blocks" data-nav>Switch Blocks On or Off</a>.</p>
-<h2 id="pts-thumb">A Card Shows a Blank Thumbnail</h2>
-<p>Open the video and add a <strong>Poster</strong> image. It becomes the thumbnail.</p>
-<h2 id="pts-sound">A Video Will Not Start with Sound</h2>
-<p>Browsers block autoplay with sound until the visitor clicks. Keep autoplay muted, or let the visitor press play.</p>
-
+<h2 id="pro-troubleshooting">Common Problems and Fixes</h2>
+<p>Match the symptom to the heading below and try that fix first. Reload the editor or live page afterward to check whether it solved the problem.</p>
+<h2 id="pts-locked">Pro Blocks Still Look Locked After Upgrading</h2>
+<p>The license may not be active. Open <strong>Video Gallery &gt; Help &amp; Demos &gt; Activation</strong> and check that the status says <strong>Activated</strong>. See <a data-nav="" href="#pro-activate">Activate Your Pro License</a>.</p>
+<h2 id="pts-activation">My Pro License Will Not Activate</h2>
+<p>Read the message on the Activation tab. It should identify the issue, for example, a mistyped key, an expired license or no activations remaining. Correct that issue and try again.</p>
+<h2 id="pts-missing">A Video Block Is Missing from the Inserter</h2>
+<p>The block may be hidden in the plugin settings. Open <strong>Video Gallery &gt; Help &amp; Demos &gt; Blocks</strong>, turn that block on, then reload the editor. See <a data-nav="" href="#pro-switch-blocks">Hide Pro Blocks You Do Not Use</a> for the same setting.</p>
+<h2 id="pts-thumb">A Video Shows a Blank Thumbnail</h2>
+<p>Select the video, open its settings and add an image in the <strong>Poster</strong> field. That image is used as the thumbnail before playback.</p>
+<h2 id="pts-sound">A Video Will Not Autoplay with Sound</h2>
+<p>Most browsers block videos from autoplaying with sound before a visitor interacts with the page. Keep autoplay muted, or let visitors press Play themselves.</p>
 </article>
-
-
-
-        </div>
-
-        <div class="article-feedback" id="feedback"></div>
-        <div class="article-footer" id="pager"></div>
-      </div>
-
-      <!-- ===================== TOC ===================== -->
-      <aside class="toc" id="toc">
-        <div class="toc-title">Table of Contents</div>
-        <ul id="tocList"></ul>
-      </aside>
-    </main>
-  </div>
-
-  <script>
+</div>
+<div class="article-feedback" id="feedback"></div>
+<div class="article-footer" id="pager"></div>
+</div>
+<!-- ===================== TOC ===================== -->
+<aside class="toc" id="toc">
+<div class="toc-title">Table of Contents</div>
+<ul id="tocList"></ul>
+</aside>
+</main>
+</div>
+<script>
     (function () {
       "use strict";
 
@@ -2080,7 +1967,7 @@
           var prev = document.createElement("a");
           prev.className = "pager-link"; prev.href = "#" + order[i - 1];
           prev.setAttribute("data-nav", "");
-          prev.innerHTML = '<span class="pl-dir">&larr; Previous</span><span class="pl-title">' +
+          prev.innerHTML = '<span class="pl-dir">Previous</span><span class="pl-title">' +
             articleById(order[i - 1]).getAttribute("data-title") + "</span>";
           pager.appendChild(prev);
         }
@@ -2088,7 +1975,7 @@
           var next = document.createElement("a");
           next.className = "pager-link next"; next.href = "#" + order[i + 1];
           next.setAttribute("data-nav", "");
-          next.innerHTML = '<span class="pl-dir">Next &rarr;</span><span class="pl-title">' +
+          next.innerHTML = '<span class="pl-dir">Next</span><span class="pl-title">' +
             articleById(order[i + 1]).getAttribute("data-title") + "</span>";
           pager.appendChild(next);
         }
@@ -2453,7 +2340,7 @@
           .map(function (r) { return r.it; })
           .slice(0, 8);
         if (!hits.length) {
-          results.innerHTML = '<div class="empty">No results for &ldquo;' + q.replace(/</g, "&lt;") + '&rdquo;</div>';
+          results.innerHTML = '<div class="empty">No results for &quot;' + q.replace(/</g, "&lt;") + '&quot;</div>';
         } else {
           hits.forEach(function (it) {
             var a = document.createElement("a");
@@ -2505,5 +2392,4 @@
     })();
   </script>
 </body>
-
 </html>

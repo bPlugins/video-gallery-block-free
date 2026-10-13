@@ -2,7 +2,7 @@
 Contributors: bplugins, abuhayat, himur98, freemius
 Tags: video gallery, youtube gallery, vimeo gallery, video playlist, block
 Tested up to: 7.1
-Stable tag: 1.5.4
+Stable tag: 1.6.0
 Requires PHP: 7.4
 Requires at least: 6.5
 Donate link: https://www.buymeacoffee.com/abuhayat
@@ -179,39 +179,39 @@ Free users can use the WordPress.org support forum. Pro users receive priority e
 == Screenshots ==
 
 1. Responsive Video Gallery Layout
-2. Video Testimonial Gallery
-3. Parallax Video Gallery
-4. Video Slider Gallery
-5. Autoplay Video Slider
-6. Lightbox Video Gallery
-7. Masonry Video Gallery
-8. Video Playlist Gallery
-9. Video Carousel Gallery
+2. Video Testimonial Gallery (Pro)
+3. Parallax Video Gallery (Pro)
+4. Video Slider Gallery (Pro)
+5. Autoplay Video Slider (Pro)
+6. Lightbox Video Gallery (Pro)
+7. Masonry Video Gallery (Pro)
+8. Video Playlist Gallery (Pro)
+9. Video Carousel Gallery (Pro)
 10. Video Gallery Block Settings
 11. Video Gallery Shortcode Generator.
-12. Video Shorts Reel.
-13. Video Showcase Wall.
-14. Video Curriculum Accordion.
-15. Video Hotspot Scene.
-16. Video Tabs Gallery.
-17. Video Scrollytelling Showcase.
-18. Video Timeline Gallery.
-19. Video Bento Grid.
-20. Video Comparison Gallery.
-21. Video Justified Gallery.
-22. Video Expanding Panels.
-23. Video Wall with Floating Player (PiP).
-24. Video Swipe Deck.
-25. Video Marquee Wall.
-26. Video Flip Cards Gallery.
-27. Video Map Gallery.
-28. Video Stories.
-29. Video Podcast Episodes.
-30. Video Property Tour Gallery.
-31. Video Workout Planner.
-32. Video Wedding Story Gallery.
-33. Video Menu Showcase.
-34. Video Feature Tour.
+12. Video Shorts Reel. (Pro)
+13. Video Showcase Wall. (Pro)
+14. Video Curriculum Accordion. (Pro)
+15. Video Hotspot Scene. (Pro)
+16. Video Tabs Gallery. (Pro)
+17. Video Scrollytelling Showcase. (Pro)
+18. Video Timeline Gallery. (Pro)
+19. Video Bento Grid. (Pro)
+20. Video Comparison Gallery. (Pro)
+21. Video Justified Gallery. (Pro)
+22. Video Expanding Panels. (Pro)
+23. Video Wall with Floating Player (PiP). (Pro)
+24. Video Swipe Deck. (Pro)
+25. Video Marquee Wall. (Pro)
+26. Video Flip Cards Gallery. (Pro)
+27. Video Map Gallery. (Pro)
+28. Video Stories. (Pro)
+29. Video Podcast Episodes. (Pro)
+30. Video Property Tour Gallery. (Pro)
+31. Video Workout Planner. (Pro)
+32. Video Wedding Story Gallery. (Pro)
+33. Video Menu Showcase. (Pro)
+34. Video Feature Tour. (Pro)
 
 == Source Code ==
 
@@ -265,6 +265,10 @@ To build the plugin from source:
 Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
+
+= 1.6.0 - 13 October 2026 =
+* Update: Freemius SDK updated to 2.13.5.
+* Fix: After activating the plugin, the page no longer says you are not allowed to access it. The Freemius opt-in now opens first, then the first page of the plugin.
 
 = 1.5.4 - 6 October 2026 =
 * New: Video play events for Google Analytics. A video now sends video_play when a visitor presses play, and video_watch_progress at 25, 50 and 75 percent and video_watch_complete when they finish. Works with files, YouTube and Vimeo. Facebook videos only report that they were opened.

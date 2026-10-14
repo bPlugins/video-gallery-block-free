@@ -16,7 +16,8 @@ const ItemSettings = ({
   setActiveIndex = false,
 }) => {
   const items = attributes[arrKey];
-  const { video = "", poster = "", caption = "", albs = [] } = items[index];
+  // An index past the end (a list that just got shorter) must not crash the block.
+  const { video = "", poster = "", caption = "", albs = [] } = items?.[index] || {};
   const albums = attributes.albums || [];
 
   const updateVideo = async (property, val) => {

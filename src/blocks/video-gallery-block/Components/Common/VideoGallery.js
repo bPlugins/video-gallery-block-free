@@ -6,6 +6,7 @@ import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 import Style from "./Style";
 import VideoGalleryFilter from "./VideoGalleryFilter";
+import InlinePlayer, { inlineSource } from "./InlinePlayer";
 import {
   albumClasses,
   captionText,
@@ -20,7 +21,10 @@ import {
 } from "../../utils/functions";
 import { prefix } from "../../utils/data";
 import { watchPlay } from "../../utils/playTracking";
+import fancyboxDragGuard from "../../utils/fancyboxDragGuard";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
+
+fancyboxDragGuard();
 
 /**
  * Turn the <video> in a lightbox slide into a Plyr player.
@@ -97,6 +101,13 @@ const pushVideoEvent = (slide, eventName = "video_start", extra = {}) => {
   }
 };
 
+/** The small picture for a video in the lightbox's thumbnail strip. */
+const stripThumb = (item) => {
+  if (item?.poster) return item.poster;
+  const youtubeId = getYoutubeId(item?.video);
+  return youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg` : "";
+};
+
 /**
  * Shared lightbox configuration.
  *
@@ -118,6 +129,12 @@ const fancyboxOptions = (id, { trackVideoEvents = false } = {}) => ({
   Thumbs: { autoStart: true },
   contentClick: "toggleZoom",
   on: {
+    // A video playing in place would keep playing under the lightbox; stop it.
+    ready: () => {
+      window.dispatchEvent(
+        new CustomEvent("vidgalblkInlinePlay", { detail: "lightbox" }),
+      );
+    },
     /*
      * Not `done` -- that was never a real Fancybox v5 event, so the handler
      * silently never ran and Plyr was never actually initialized on a video
@@ -214,6 +231,24 @@ const Thumbnail = ({ video, poster, thumb, caption }) => {
         loading="lazy"
         decoding="async"
         onError={() => setIndex((current) => current + 1)}
+        onLoad={(event) => {
+          /*
+           * A YouTube size that does not exist is not always an error: it can
+           * come back as a 120x90 grey "no thumbnail" picture, which loads
+           * fine and so never reached `onError` -- the tile showed that grey
+           * box while the live page, whose server had stepped down to the
+           * size that does exist, showed the real picture. No real size in
+           * the list is that small, so treat it as missing.
+           */
+          const img = event.currentTarget;
+          if (
+            img.naturalWidth <= 120 &&
+            /img\.youtube\.com|i\.ytimg\.com/.test(img.currentSrc || img.src) &&
+            index < candidates.length - 1
+          ) {
+            setIndex((current) => current + 1);
+          }
+        }}
       />
     </figure>
   );
@@ -225,6 +260,9 @@ const VideoGallery = ({
   thumbs,
   activeIndex,
   setActiveIndex,
+  // Editor only: tiles that cannot be edited (a channel feed's) play on a
+  // single click, since there is nothing for a click to select.
+  previewOnClick = false,
 }) => {
   const { videos, albums, options, filter, perPage, loadMoreLabel } = attributes;
   const [activeAlbum, setActiveAlbum] = useState("*");
@@ -270,6 +308,30 @@ const VideoGallery = ({
   });
   const [pendingIndex, setPendingIndex] = useState(null);
 
+  /*
+   * "Play in place": a video plays inside its own tile instead of the
+   * lightbox. One at a time -- starting one stops the one playing, in this
+   * gallery or any other on the page.
+   */
+  const playInline = "inline" === options?.playMode;
+  const [playingIndex, setPlayingIndex] = useState(null);
+
+  useEffect(() => {
+    const onOtherPlay = (event) => {
+      if (event.detail !== id) setPlayingIndex(null);
+    };
+    window.addEventListener("vidgalblkInlinePlay", onOtherPlay);
+    return () => window.removeEventListener("vidgalblkInlinePlay", onOtherPlay);
+  }, [id]);
+
+  // Another album, or switching back to the lightbox, stops it.
+  useEffect(() => setPlayingIndex(null), [activeAlbum, playInline]);
+
+  const startInline = (index) => {
+    setPlayingIndex(index);
+    window.dispatchEvent(new CustomEvent("vidgalblkInlinePlay", { detail: id }));
+  };
+
   useEffect(() => {
     if (!consentGateEnabled || consentGranted) {
       return;
@@ -313,7 +375,11 @@ const VideoGallery = ({
      * does real work in the editor's live preview.
      */
     const shortsFilter = options?.shortsFilter;
-    if ("hide" === shortsFilter || "only" === shortsFilter) {
+    // A YouTube feed applies this itself (see includes/youtube-feed.php): its
+    // links are plain watch URLs, so judging them by the link would drop every
+    // video from a playlist set to "Only Shorts".
+    const isFeed = !!attributes?.feed?.enabled;
+    if (!isFeed && ("hide" === shortsFilter || "only" === shortsFilter)) {
       const wantShorts = "only" === shortsFilter;
       list = list.filter(
         ({ item }) => isYoutubeShort(item.video) === wantShorts,
@@ -343,7 +409,7 @@ const VideoGallery = ({
     return list.filter(({ item }) =>
       (Array.isArray(item?.albs) ? item.albs : []).includes(activeAlbum),
     );
-  }, [videos, activeAlbum, isEditor, options?.shortsFilter, options?.sortOrder]);
+  }, [videos, activeAlbum, isEditor, options?.shortsFilter, options?.sortOrder, attributes?.feed?.enabled]);
 
   // An album that has been renamed or deleted must not leave the gallery stuck
   // on a filter that now matches nothing.
@@ -549,6 +615,24 @@ const VideoGallery = ({
     };
   }, [id, isEditor, gaTrackingEnabled]);
 
+  // The same Analytics events as the lightbox sends, for a video played in place.
+  useEffect(() => {
+    if (!gaTrackingEnabled || null === playingIndex) return;
+    const item = videos?.[playingIndex];
+    const el = galleryRef.current?.querySelector(".vgbInlinePlaying");
+    if (!item || !el) return;
+
+    const slide = { el, videoUrl: item.video, caption: captionText(item.caption) };
+    pushVideoEvent(slide);
+    watchPlay(slide, {
+      onPlay: () => pushVideoEvent(slide, "video_play"),
+      onProgress: (mark) =>
+        pushVideoEvent(slide, "video_watch_progress", { video_percent: mark }),
+      onComplete: () =>
+        pushVideoEvent(slide, "video_watch_complete", { video_percent: 100 }),
+    });
+  }, [playingIndex, gaTrackingEnabled]);
+
   /*
    * Opens the lightbox at a given video's original index, in the editor and
    * on the front end alike. The editor shows every video regardless of
@@ -584,7 +668,17 @@ const VideoGallery = ({
           src: facebook ? facebookEmbedUrl(rawSrc) : rawSrc,
           type: facebook ? "iframe" : undefined,
           videoUrl: rawSrc,
-          thumb: item.poster || getYoutubeThumbnails(item.video)[0] || "",
+          /*
+           * `thumbSrc` is the name Fancybox 6 counts when it decides whether
+           * to show the thumbnail strip at all; with only `thumb` (its older
+           * name) the strip never appeared here -- in the editor preview, or
+           * on the page after the consent gate -- while the page's own
+           * DOM-bound lightbox, which reads the tile images, had one.
+           */
+          // `mqdefault` (320x180) exists for every YouTube video, unlike
+          // maxres, which would show YouTube's grey placeholder here.
+          thumbSrc: stripThumb(item),
+          thumb: stripThumb(item),
           caption: sanitizeHTML(item.caption || ""),
         };
       }),
@@ -593,6 +687,17 @@ const VideoGallery = ({
         ...fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled }),
       },
     );
+  };
+
+  // In place when the gallery plays in place and this video can; otherwise the
+  // lightbox (a poster-only item, or a link that is not a video).
+  const openVideo = (index) => {
+    if (playInline && inlineSource(videos?.[index]?.video)) {
+      if (isEditor) setActiveIndex(index);
+      startInline(index);
+      return;
+    }
+    showLightbox(index);
   };
 
   const acceptConsent = () => {
@@ -610,7 +715,7 @@ const VideoGallery = ({
     setPendingIndex(null);
 
     if (null !== index) {
-      showLightbox(index);
+      openVideo(index);
     }
   };
 
@@ -643,16 +748,55 @@ const VideoGallery = ({
             const { video, poster, caption = "", albs } = item;
             const label = captionText(caption);
             const gated = consentGateEnabled && !consentGranted;
+            const inlineSrc = playInline ? inlineSource(video) : null;
+
+            if (inlineSrc && playingIndex === index) {
+              return (
+                <div
+                  key={index}
+                  data-item-key={String(index)}
+                  className={`galleryItem vgbInlinePlaying ${albumClasses(albums, albs)}`}>
+                  <InlinePlayer
+                    source={inlineSrc}
+                    title={label}
+                    poster={poster || thumbs?.[index]}
+                    isEditor={isEditor}
+                  />
+                  <button
+                    type="button"
+                    className="vgbInlineClose"
+                    aria-label={__("Close video", "video-gallery-block")}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setPlayingIndex(null);
+                    }}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7l1.4-1.4 6.3 6.3 6.3-6.3z" />
+                    </svg>
+                  </button>
+                </div>
+              );
+            }
 
             return (
               <a
                 key={index}
                 data-item-key={String(index)}
-                {...(isEditor ? { "data-editor-hint": __("Click to select · Double-click to preview", "video-gallery-block") } : {})}
+                {...(isEditor
+                  ? {
+                      "data-editor-hint": previewOnClick
+                        ? inlineSrc
+                          ? __("Click to play", "video-gallery-block")
+                          : __("Click to preview", "video-gallery-block")
+                        : inlineSrc
+                          ? __("Click to select · Double-click to play", "video-gallery-block")
+                          : __("Click to select · Double-click to preview", "video-gallery-block"),
+                    }
+                  : {})}
                 className={`galleryItem ${albumClasses(albums, albs)} ${
                   isEditor && index === activeIndex ? "bPlNowEditing" : ""
                 }`}
-                {...(gated ? {} : { "data-fancybox": true })}
+                {...(gated || inlineSrc ? {} : { "data-fancybox": true })}
                 {...(!gated && isFacebookVideo(video)
                   ? { "data-src": facebookEmbedUrl(video), "data-type": "iframe" }
                   : {})}
@@ -690,16 +834,28 @@ const VideoGallery = ({
                     return;
                   }
 
-                  if (!isEditor) return;
+                  if (!isEditor) {
+                    // The lightbox opens itself through `data-fancybox`.
+                    if (inlineSrc) {
+                      e.preventDefault();
+                      startInline(index);
+                    }
+                    return;
+                  }
                   e.preventDefault();
                   e.stopPropagation();
+                  if (previewOnClick) {
+                    openVideo(index);
+                    return;
+                  }
                   setActiveIndex(index);
                 }}
                 onDoubleClick={(e) => {
-                  if (!isEditor) return;
+                  // A single click has already opened it.
+                  if (!isEditor || previewOnClick) return;
                   e.preventDefault();
                   e.stopPropagation();
-                  showLightbox(index);
+                  openVideo(index);
                 }}
                 data-caption={sanitizeHTML(caption)}>
                 <Thumbnail

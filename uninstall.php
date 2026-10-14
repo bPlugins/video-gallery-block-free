@@ -47,3 +47,7 @@ $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE 'vidgalblk_ct
 
 // 3. Delete plugin options.
 delete_option( 'vidgalblk_delete_data_on_uninstall' );
+delete_option( 'vidgalblk_youtube_api_key' );
+
+// 4. Delete cached YouTube and Vimeo feeds (transients and their timeouts).
+$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_transient\_vidgalblk\_feed\_%' OR option_name LIKE '\_transient\_timeout\_vidgalblk\_feed\_%'" );

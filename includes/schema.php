@@ -54,7 +54,8 @@ function vidgalblk_video_schema_node( $video, $upload_date ) {
 		'@type'        => 'VideoObject',
 		'name'         => $name,
 		'thumbnailUrl' => $thumbnail,
-		'uploadDate'   => $upload_date,
+		// Feed videos know when YouTube published them; hand-added ones do not.
+		'uploadDate'   => ! empty( $video['uploadDate'] ) ? (string) $video['uploadDate'] : $upload_date,
 	);
 
 	$youtube_id = vidgalblk_youtube_id( $url );

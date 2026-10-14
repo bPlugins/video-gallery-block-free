@@ -50,6 +50,9 @@ import {
 } from "../../../utils/options";
 import ItemSettings from "./ItemSettings";
 import BulkImport from "./BulkImport";
+import FeedSource from "./FeedSource";
+import { isVimeoFeedUrl } from "../../../utils/youtubeFeed";
+import { getYoutubeId } from "../../../utils/functions";
 import { updateData } from "../../../../../../../bpl-tools/utils/functions";
 import { AdvertiseCard } from "../../../../../../../bpl-tools/ProControls";
 import { pricingUrl } from "../../../utils/data";
@@ -62,6 +65,8 @@ const Settings = ({
   setActiveIndex,
   device,
   setDevice,
+  keyState,
+  feedState,
 }) => {
   const {
     albums,
@@ -91,7 +96,32 @@ const Settings = ({
     aspectRatio,
     options,
     styles,
+    feed,
   } = attributes;
+
+  // Videos come from a YouTube channel/playlist instead of the list below.
+  const isFeed = !!feed?.enabled;
+  const isVimeoFeed = isFeed && isVimeoFeedUrl(feed?.url);
+  // Videos play inside their tiles; the lightbox-only settings do nothing then.
+  const playInline = "inline" === options?.playMode;
+
+  /*
+   * Platform-only options are shown only where they do something. The Shorts
+   * filter works on a YouTube channel feed (YouTube's own lists) and on a hand
+   * list holding YouTube videos; a Vimeo feed or a YouTube playlist ignores
+   * it. A value other than "All" keeps it visible regardless, so a filter
+   * left on is never hidden from the person it is affecting.
+   */
+  const shortsFilter = options?.shortsFilter || "all";
+  let shortsApplies;
+  if (isFeed) {
+    shortsApplies = feedState?.data
+      ? !!feedState.data.shortsApplied
+      : !isVimeoFeed && !/[?&]list=/.test(feed?.url || "");
+  } else {
+    shortsApplies = (videos || []).some((item) => !!getYoutubeId(item?.video));
+  }
+  const showShortsFilter = shortsApplies || (!isFeed && "all" !== shortsFilter);
 
   const currentDevice = (device || "desktop").toLowerCase();
   const columnsObj =
@@ -172,6 +202,62 @@ const Settings = ({
                   )} */}
 
                   <PanelBody
+                    className="bPlPanelBody vgbSourcePanel"
+                    title={__("Video Source", "video-gallery-block")}>
+                    <div className="vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("Where do the videos come from?", "video-gallery-block")}
+                        value={isFeed ? "feed" : "manual"}
+                        onChange={(val) =>
+                          setAttributes({
+                            feed: { count: 12, refresh: 6, url: "", ...(feed || {}), enabled: "feed" === val },
+                          })
+                        }
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={
+                          isFeed
+                            ? __(
+                                "Shows the newest videos from a YouTube or Vimeo channel or playlist, and adds new uploads by itself.",
+                                "video-gallery-block",
+                              )
+                            : __(
+                                "Add videos one by one, or paste many links at once under Import Videos.",
+                                "video-gallery-block",
+                              )
+                        }>
+                        <ToggleGroupControlOption
+                          value="manual"
+                          label={__("My videos", "video-gallery-block")}
+                        />
+                        <ToggleGroupControlOption
+                          value="feed"
+                          label={__("YouTube / Vimeo", "video-gallery-block")}
+                        />
+                      </ToggleGroupControl>
+                    </div>
+
+                    {isFeed && (
+                      <>
+                        <FeedSource
+                          attributes={attributes}
+                          setAttributes={setAttributes}
+                          keyState={keyState}
+                          feedState={feedState}
+                        />
+                        <p className="vgbFeedFootnote">
+                          {__(
+                            "Your own video list is kept. Switch back to “My videos” any time to get it back.",
+                            "video-gallery-block",
+                          )}
+                        </p>
+                      </>
+                    )}
+                  </PanelBody>
+
+                  {!isFeed && (
+                  <>
+                  <PanelBody
                     className="bPlPanelBody addRemoveItems"
                     title={__("Add or Remove Albums", "video-gallery-block")}>
                     {albums.map((album, index) => (
@@ -243,6 +329,8 @@ const Settings = ({
                       design="single"
                     />
                   </PanelBody>
+                  </>
+                  )}
 
                   <PanelBody
                     className="bPlPanelBody"
@@ -333,6 +421,7 @@ const Settings = ({
                       </ToggleGroupControl>
                     </div>
 
+                    {!playInline && (
                     <ToggleControl
                       className="mt20"
                       label={__(
@@ -344,6 +433,7 @@ const Settings = ({
                         setAttributes({ isPopupWidthAsRatio: val })
                       }
                     />
+                    )}
 
                     <div className="mt20 vgbToggleGroupWrap">
                       <ToggleGroupControl
@@ -400,6 +490,7 @@ const Settings = ({
                     )}
                   </PanelBody>
 
+                  {!isFeed && (
                   <PanelBody
                     className="bPlPanelBody"
                     title={__("Filter", "video-gallery-block")}
@@ -435,6 +526,7 @@ const Settings = ({
                       </PanelRow>
                     )}
                   </PanelBody>
+                  )}
 
                   <PanelBody
                     className="bPlPanelBody"
@@ -448,7 +540,46 @@ const Settings = ({
                       the already-selected option resets it to the default
                       instead of leaving it selected.
                     */}
+                    <div className="vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("When a video is clicked:", "video-gallery-block")}
+                        value={playInline ? "inline" : "lightbox"}
+                        onChange={(val) =>
+                          setAttributes({
+                            options: updateData(options, val || "lightbox", "playMode"),
+                          })
+                        }
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={
+                          playInline
+                            ? aspectRatio
+                              ? __(
+                                  "The video plays inside its own tile. Only one plays at a time.",
+                                  "video-gallery-block",
+                                )
+                              : __(
+                                  "The video plays inside its own tile. Tip: set Style → Thumbnail Shape to 16:9 (or 9:16 for Shorts) so the video fills the tile.",
+                                  "video-gallery-block",
+                                )
+                            : __(
+                                "The video opens in a full-screen lightbox, with the other videos below it.",
+                                "video-gallery-block",
+                              )
+                        }>
+                        <ToggleGroupControlOption
+                          value="lightbox"
+                          label={__("Open in lightbox", "video-gallery-block")}
+                        />
+                        <ToggleGroupControlOption
+                          value="inline"
+                          label={__("Play in place", "video-gallery-block")}
+                        />
+                      </ToggleGroupControl>
+                    </div>
+
                     <ToggleGroupControl
+                      className="mt20"
                       label={__("Poster Fit:", "video-gallery-block")}
                       value={options?.objectFit || "cover"}
                       onChange={(value) =>
@@ -504,10 +635,11 @@ const Settings = ({
                       )}
                     />
 
+                    {showShortsFilter && (
                     <div className="mt20 vgbToggleGroupWrap">
                       <ToggleGroupControl
                         label={__("YouTube Shorts:", "video-gallery-block")}
-                        value={options?.shortsFilter || "all"}
+                        value={shortsFilter}
                         onChange={(val) =>
                           setAttributes({
                             options: updateData(
@@ -519,10 +651,22 @@ const Settings = ({
                         }
                         isBlock
                         __nextHasNoMarginBottom
-                        help={__(
-                          "Detected by the link itself, not by watching each video, so this works without an API key.",
-                          "video-gallery-block",
-                        )}>
+                        help={
+                          isFeed
+                            ? __(
+                                "Picks YouTube's own videos-only or Shorts-only list for this channel.",
+                                "video-gallery-block",
+                              )
+                            : shortsApplies
+                            ? __(
+                                "Applies to the YouTube videos in this gallery. Detected by the link itself, so it works without an API key.",
+                                "video-gallery-block",
+                              )
+                            : __(
+                                "There are no YouTube videos in this gallery any more. Set this back to All Videos.",
+                                "video-gallery-block",
+                              )
+                        }>
                         {shortsFilterOptions.map((option) => (
                           <ToggleGroupControlOption
                             key={option.value}
@@ -532,6 +676,7 @@ const Settings = ({
                         ))}
                       </ToggleGroupControl>
                     </div>
+                    )}
 
                     <ToggleControl
                       className="mt20"
@@ -853,6 +998,7 @@ const Settings = ({
                     )}
                   </PanelBody>
 
+                  {!playInline && (
                   <PanelBody
                     className="bPlPanelBody"
                     title={__("LightBox Caption", "video-gallery-block")}
@@ -918,6 +1064,7 @@ const Settings = ({
                       }}
                     />
                   </PanelBody>
+                  )}
                 </>
               )}
             </>

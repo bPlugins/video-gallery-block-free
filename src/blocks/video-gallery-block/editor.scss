@@ -357,6 +357,229 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+
+    // A tile with nothing to say -- a video playing in place -- gets no
+    // tooltip, rather than an empty dark pill above it.
+    &:not([data-editor-hint])::after {
+      content: none;
+    }
   }
 }
 
+
+/*
+ * YouTube channel / playlist feed: the numbered setup steps in the sidebar and
+ * the placeholder in the canvas. Plain WordPress admin colours, with the
+ * block's own blue for the step numbers so it reads as part of this block.
+ */
+.vgbSourcePanel .vgbToggleGroupWrap {
+  margin-bottom: 4px;
+}
+
+.vgbFeedSource {
+  margin-top: 16px;
+}
+
+.vgbFeedStep {
+  position: relative;
+  padding: 0 0 18px 34px;
+
+  // The line joining one step to the next.
+  &:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: 26px;
+    bottom: 4px;
+    width: 2px;
+    background: #e0e0e0;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    min-height: 24px;
+    margin-bottom: 8px;
+  }
+
+  &__num {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #146ef5;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 24px;
+    text-align: center;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 13px;
+  }
+
+  &.isDone &__num {
+    background: #00a32a;
+  }
+}
+
+.vgbFeedHint,
+.vgbFeedFootnote {
+  margin: 0 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #757575;
+}
+
+.vgbFeedFootnote {
+  margin: 10px 0 0;
+}
+
+.vgbFeedHowTo {
+  margin: 0 0 12px 18px;
+  padding: 0;
+  font-size: 12px;
+  line-height: 1.55;
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  .components-external-link {
+    white-space: nowrap;
+  }
+}
+
+.vgbFeedConnected {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  color: #007017;
+}
+
+.vgbFeedKey {
+  margin-left: 6px;
+  padding: 1px 5px;
+  font-size: 11px;
+  color: #1e1e1e;
+  background: #f0f0f0;
+}
+
+.vgbFeedLinkForm .components-button {
+  margin-top: 8px;
+}
+
+.vgbFeedStatus {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+
+  &.isLoading {
+    background: #f0f6fc;
+    color: #1e1e1e;
+
+    .components-spinner {
+      margin: 0;
+    }
+  }
+
+  &.isReady {
+    background: #edfaef;
+    border-left: 3px solid #00a32a;
+  }
+
+  &__title {
+    flex-basis: 100%;
+    font-size: 13px;
+  }
+
+  &__meta {
+    color: #50575e;
+  }
+
+  .components-spinner {
+    margin: 0;
+  }
+}
+
+.vgbFeedNotice.components-notice {
+  margin: 12px 0 0;
+  font-size: 12px;
+}
+
+.vgbFeedPlaceholder.components-placeholder {
+  min-height: 220px;
+
+  .components-placeholder__fieldset {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 480px;
+  }
+
+  .vgbFeedLinkForm {
+    width: 100%;
+  }
+
+  .vgbFeedStatus {
+    margin-top: 0;
+    margin-bottom: 12px;
+  }
+}
+
+// While a feed setting is being applied: the current videos stay visible but
+// dimmed, with a clear "Updating videos…" badge, so a change never looks like
+// it did nothing.
+.vgbFeedPreview {
+  position: relative;
+
+  > .vidgalblkVideoGallery,
+  > .wp-block-vgb-video-gallery {
+    transition: opacity 0.2s ease;
+  }
+
+  &.isUpdating > *:not(.vgbFeedPreview__overlay) {
+    opacity: 0.45;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 40px;
+    pointer-events: none;
+  }
+
+  &__badge {
+    position: sticky;
+    top: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px 8px 10px;
+    border-radius: 999px;
+    background: #1e1e1e;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+
+    .components-spinner {
+      margin: 0;
+      background: transparent;
+    }
+  }
+}

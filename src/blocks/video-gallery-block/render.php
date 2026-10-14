@@ -31,10 +31,25 @@ $vidgalblk_videos = isset( $attributes['videos'] ) && is_array( $attributes['vid
  * markup below actually shows -- none of the three ever disagree about which
  * videos this gallery contains.
  */
-$vidgalblk_videos     = vidgalblk_apply_shorts_filter(
-	$vidgalblk_videos,
-	$attributes['options']['shortsFilter'] ?? 'all'
-);
+/*
+ * A gallery fed from a YouTube channel or playlist shows that feed instead of
+ * its own list -- which is left untouched, so switching back restores it.
+ * Albums are hand-assigned, so a feed has none and the filter bar goes too.
+ * The Shorts setting is already applied by the feed itself (it picks YouTube's
+ * long-videos-only or Shorts-only list), because feed links never say
+ * `/shorts/` and the link-based filter below would misread every one of them.
+ */
+$vidgalblk_feed_videos = vidgalblk_feed_videos_for_block( $attributes );
+
+if ( null !== $vidgalblk_feed_videos ) {
+	$vidgalblk_videos     = $vidgalblk_feed_videos;
+	$attributes['albums'] = array();
+} else {
+	$vidgalblk_videos = vidgalblk_apply_shorts_filter(
+		$vidgalblk_videos,
+		$attributes['options']['shortsFilter'] ?? 'all'
+	);
+}
 $vidgalblk_videos     = vidgalblk_apply_sort_order(
 	$vidgalblk_videos,
 	$attributes['options']['sortOrder'] ?? 'manual'

@@ -1,6 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "./style.scss";
 import VideoGallery from "./Components/Common/VideoGallery";
+import { fitFullWidth } from "./utils/fitFullWidth";
 
 const readJSON = (value, fallback) => {
   if (!value) return fallback;
@@ -16,6 +17,9 @@ const mountGalleries = () => {
   const galleryEls = document.querySelectorAll(".wp-block-vgb-video-gallery");
 
   galleryEls.forEach((galleryEl) => {
+    // Before anything else, so it applies even if the gallery fails to mount.
+    fitFullWidth(galleryEl);
+
     /*
      * Each gallery is mounted on its own.
      *

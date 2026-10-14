@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withSelect } from "@wordpress/data";
 import { useBlockProps } from "@wordpress/block-editor";
+import { Spinner } from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
 
 import Settings from "./Settings/Settings";
 import VideoGallery from "../Common/VideoGallery";
 import { prefix } from "../../utils/data";
 import FrontShortCode from "./FrontShortCode/FrontShortCode";
+import FeedPlaceholder from "./FeedPlaceholder";
+import {
+  isVimeoFeedUrl,
+  useYoutubeFeed,
+  useYoutubeKey,
+} from "../../utils/youtubeFeed";
+
+const noop = () => {};
 
 const Edit = (props) => {
   const {
@@ -26,16 +36,63 @@ const Edit = (props) => {
     currentPostType,
   );
 
+  /*
+   * YouTube / Vimeo channel or playlist feed. Its videos are previewed from
+   * the server, never written into the `videos` attribute: the owner's own
+   * list stays intact underneath, and the page always shows the feed as it is
+   * now rather than as it was when the post was last saved.
+   */
+  const feed = attributes.feed || {};
+  const isFeed = !!feed.enabled;
+  const keyState = useYoutubeKey(isFeed);
+  // Vimeo needs no key; only a YouTube link waits for one.
+  const canLoadFeed = !!keyState.connected || isVimeoFeedUrl(feed.url);
+  const feedState = useYoutubeFeed({
+    enabled: isFeed && canLoadFeed,
+    url: feed.url,
+    refresh: feed.refresh || 6,
+    shorts: attributes.options?.shortsFilter,
+  });
+  // "Number of videos" is applied here, so changing it is instant.
+  const feedVideos = feedState.data?.videos?.slice(0, feed.count || 12);
+  // A newer list is on its way while the current one is still shown.
+  const feedUpdating = isFeed && "loading" === feedState.status && !!feedVideos;
+  const showFeedPlaceholder =
+    isFeed && (!canLoadFeed || !feed.url || !feedVideos?.length);
+  const galleryAttributes =
+    isFeed && feedVideos
+      ? { ...attributes, videos: feedVideos, albums: [] }
+      : attributes;
+
+  /*
+   * The video being edited, kept inside the gallery's own list.
+   *
+   * Clicking a tile selects it for editing. In feed mode the tiles are the
+   * feed's videos, so clicking the 6th of a channel set the index to 5 -- and
+   * switching back to "My videos", with its one video, made the item settings
+   * read a video that does not exist and crashed the block. Feed tiles are not
+   * editable, so in feed mode a click selects nothing, and the index is
+   * clamped here on every render (an effect alone would run one render too
+   * late) as well as stored back.
+   */
+  const ownCount = Array.isArray(attributes.videos) ? attributes.videos.length : 0;
+  const safeActiveIndex = Math.max(0, Math.min(activeIndex, ownCount - 1));
+  useEffect(() => {
+    if (safeActiveIndex !== activeIndex) setActiveIndex(safeActiveIndex);
+  }, [safeActiveIndex, activeIndex]);
+
   return (
     <>
       <Settings
         attributes={attributes}
         setAttributes={setAttributes}
-        activeIndex={activeIndex}
+        activeIndex={safeActiveIndex}
         setActiveIndex={setActiveIndex}
         clientId={clientId}
         currentPostId={currentPostId}
         currentPostType={currentPostType}
+        keyState={keyState}
+        feedState={feedState}
       />
 
       <div {...blockProps} id={id}>
@@ -46,12 +103,43 @@ const Edit = (props) => {
           />
         )}
 
-        <VideoGallery
-          attributes={attributes}
-          id={id}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
-        />
+        {showFeedPlaceholder ? (
+          <FeedPlaceholder
+            attributes={attributes}
+            setAttributes={setAttributes}
+            keyState={keyState}
+            feedState={feedState}
+          />
+        ) : (
+          isFeed ? (
+            <div
+              className={`vgbFeedPreview ${feedUpdating ? "isUpdating" : ""}`}
+              aria-busy={feedUpdating || undefined}>
+              <VideoGallery
+                attributes={galleryAttributes}
+                id={id}
+                activeIndex={-1}
+                setActiveIndex={noop}
+                previewOnClick
+              />
+              {feedUpdating && (
+                <div className="vgbFeedPreview__overlay" role="status">
+                  <span className="vgbFeedPreview__badge">
+                    <Spinner />
+                    {__("Updating videos…", "video-gallery-block")}
+                  </span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <VideoGallery
+              attributes={galleryAttributes}
+              id={id}
+              activeIndex={safeActiveIndex}
+              setActiveIndex={setActiveIndex}
+            />
+          )
+        )}
       </div>
     </>
   );

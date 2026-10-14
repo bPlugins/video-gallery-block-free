@@ -100,6 +100,58 @@
     }
   }
 
+  // A video playing in place of its thumbnail ("Play in place").
+  .vgbInlinePlaying {
+    cursor: default;
+    background: #000;
+  }
+
+  .vgbInlineMedia {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    border: 0;
+    display: block;
+    background: #000;
+  }
+
+  video.vgbInlineMedia {
+    object-fit: contain;
+  }
+
+  .vgbInlineClose {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 3;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.65);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(0, 0, 0, 0.85);
+    }
+  }
+
   .playIcon {
     position: absolute;
     top: 50%;

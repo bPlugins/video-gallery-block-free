@@ -381,19 +381,73 @@ function vidgalblk_cache_remote_thumbnail( $remote_url, $cache_key ) {
 }
 
 /**
+ * The best YouTube thumbnail that exists for a video, cached.
+ *
+ * Tried in the same order as `getYoutubeThumbnails()` in the block's script --
+ * maxres (16:9, 1280px), then sd, then hq (both 4:3) -- so the live page shows
+ * the very picture the editor does. It used to go straight to `hqdefault.jpg`
+ * here while the editor showed `maxresdefault.jpg`: a 4:3 image cropped into
+ * a 16:9 tile loses its top and bottom, so the same gallery looked different
+ * on the page (most visibly on Shorts, whose 16:9 thumbnail has the vertical
+ * frame centred between blurred sides), and blurrier too.
+ *
+ * A size YouTube does not have answers 404; it is remembered as missing and
+ * the next one is tried on a later page view. Until a size is cached the
+ * remote URL is returned, and the script steps down the same list on error,
+ * so a missing maxres never shows as a broken image.
+ *
+ * @param string $id YouTube video id.
+ * @return string Image URL.
+ */
+function vidgalblk_youtube_thumbnail( $id ) {
+	$sizes = array( 'maxresdefault', 'sddefault', 'hqdefault' );
+
+	foreach ( $sizes as $size ) {
+		$attachment = get_option( 'vidgalblk_cthumb_yt_' . $size . '_' . $id );
+		$cached     = $attachment ? wp_get_attachment_url( (int) $attachment ) : '';
+		if ( $cached ) {
+			vidgalblk_forget_legacy_youtube_thumbnail( $id );
+			return $cached;
+		}
+	}
+
+	foreach ( $sizes as $size ) {
+		$key = 'yt_' . $size . '_' . $id;
+		if ( get_transient( 'vidgalblk_cmiss_' . $key ) ) {
+			continue;
+		}
+		return vidgalblk_cache_remote_thumbnail( 'https://img.youtube.com/vi/' . $id . '/' . $size . '.jpg', $key );
+	}
+
+	return 'https://img.youtube.com/vi/' . $id . '/hqdefault.jpg';
+}
+
+/**
+ * Remove the hqdefault copy cached under the old key (`yt_{id}`) once a copy
+ * under the new keys exists, so upgrading does not leave a second, unused
+ * image per video in the Media Library.
+ *
+ * @param string $id YouTube video id.
+ */
+function vidgalblk_forget_legacy_youtube_thumbnail( $id ) {
+	$option     = 'vidgalblk_cthumb_yt_' . $id;
+	$attachment = get_option( $option );
+
+	if ( $attachment ) {
+		wp_delete_attachment( (int) $attachment, true );
+		delete_option( $option );
+	}
+}
+
+/**
  * The image to show for one video.
  *
  * A poster the user set always wins -- it is the user's own choice and, if
- * uploaded through the media picker, is already local. Otherwise: YouTube's
- * `hqdefault.jpg`, which is the largest size that exists for every video --
- * `maxresdefault.jpg` does not -- or Vimeo's oEmbed thumbnail. Both are cached
- * into the Media Library so this is asked of the source only once per video,
- * ever, rather than by every visitor's browser on every page view.
- *
- * The script keeps this size rather than reaching for a larger one, so the
- * tile a visitor already sees is never swapped out from under them and no
- * request is spent on a size that may not exist. `getYoutubeThumbnails()` in
- * the JavaScript is what the tile falls back through if this one is missing.
+ * uploaded through the media picker, is already local. Otherwise the best
+ * YouTube thumbnail there is (see vidgalblk_youtube_thumbnail()), or Vimeo's
+ * oEmbed thumbnail. Both are cached into the Media Library so this is asked
+ * of the source only once per video, ever, rather than by every visitor's
+ * browser on every page view.
  *
  * @param array $video One entry from the `videos` attribute.
  * @return string Image URL, or '' if there is nothing to show.
@@ -407,10 +461,7 @@ function vidgalblk_thumbnail_url( $video ) {
 
 	$youtube_id = vidgalblk_youtube_id( $url );
 	if ( $youtube_id ) {
-		return vidgalblk_cache_remote_thumbnail(
-			'https://img.youtube.com/vi/' . $youtube_id . '/hqdefault.jpg',
-			'yt_' . $youtube_id
-		);
+		return vidgalblk_youtube_thumbnail( $youtube_id );
 	}
 
 	$vimeo_id = vidgalblk_vimeo_id( $url );

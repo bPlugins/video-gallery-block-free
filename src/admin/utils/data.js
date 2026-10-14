@@ -398,7 +398,9 @@ export const demoInfo = {
 };
 
 export const pricingInfo = {
-  logo: videoGalleryLogo, // Optional
+  // Freemius puts this in the checkout iframe URL, so it has to stay a short
+  // https link. A data URI makes the URL about 11 KB and Cloudflare answers 520.
+  logo: `https://ps.w.org/${slug}/assets/icon-256x256.png`,
   pluginId: 20637,
   planId: 34353,
   licenses: [1, 3, null],

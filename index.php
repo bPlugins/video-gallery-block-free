@@ -49,6 +49,10 @@ if (function_exists('vgb_fs')) {
     // Used by the block's server-side render; loaded before anything can render.
     require_once VIDGALBLK_DIR_PATH . '/includes/helpers.php';
 
+    // YouTube / Vimeo channel and playlist auto-feed, and its editor endpoints.
+    require_once VIDGALBLK_DIR_PATH . '/includes/youtube-feed.php';
+    require_once VIDGALBLK_DIR_PATH . '/includes/vimeo-feed.php';
+
     require_once VIDGALBLK_DIR_PATH . '/includes/rootPlugin/plugin.php';
 
     // Ready-made sections for the inserter.

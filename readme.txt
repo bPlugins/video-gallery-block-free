@@ -53,6 +53,14 @@ The Pro version adds self-hosted HTML5 and Wistia sources plus advanced layouts 
 - **Per-Device Column & Row Gap:** Set the spacing between tiles separately for desktop, tablet, and mobile, the same way column counts already work per device.
 - **Facebook Video Support:** Add Facebook videos to the gallery alongside YouTube and Vimeo, using Facebook's public embed — no app or API key required.
 - **GDPR Consent-Gated Embeds:** Optionally require a visitor's consent before any YouTube, Vimeo, or Facebook player loads, so the gallery doesn't set third-party cookies until someone agrees to watch.
+- **YouTube & Vimeo Channel Auto-Feed:** Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase. New uploads appear by themselves on the schedule you choose (hourly to daily), or click "Check now". Vimeo needs no key; YouTube needs a free Data API key once, with step-by-step setup in the sidebar.
+- **Feed Alerts:** If a feed stops updating (a wrong or expired key, a used-up quota, a deleted playlist), administrators see a notice that says what is wrong and where to fix it, with an optional email.
+- **Channel Name:** Show the channel's name under each title for YouTube and Vimeo feeds.
+- **Play in Place:** Play a video inside its own tile instead of the lightbox.
+- **Add Many Videos at Once:** Pick or upload many videos from the Media Library in one go, or drag video files from your computer — or YouTube and Vimeo links from another browser tab — straight onto the gallery.
+- **Drag to Reorder:** Drag videos on the canvas to change their order, or use the Move left / Move right buttons.
+- **Copy a Feed to Your Own List:** Turn a channel's videos into your own list in one click, then reorder or edit them.
+- **Easy, Step-by-Step Settings:** Panels follow the order you work in — Video source, Videos, Layout, Display, Playback, Privacy & SEO — with buttons instead of long dropdowns.
 - **Google Analytics 4 Video Tracking:** Send video_start, video_play, video_watch_progress and video_watch_complete events (with title, provider and URL) to Google Analytics. Works with Site Kit, GA4 or Google Tag Manager already on the site, nothing extra to configure.
 
 ### Pro Version
@@ -62,6 +70,15 @@ The Pro version adds self-hosted HTML5 and Wistia sources plus advanced layouts 
 **Pro features include:**
 
 - **31 Premium Video Blocks:** Video Slider, Carousel, Playlist Gallery, Masonry Video Grid, Lightbox Video Gallery, Parallax Row Video Gallery, Slider Autoplay Video, Video Testimonial Section, Video Podcast Episodes, Video Stories, Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
+- **More Channel Feed Power:** Feed types (Channel, Live, Search, chosen Videos), up to 10 channels or playlists merged in one gallery, up to 1,000 videos or a whole channel, and title keyword filters.
+- **Live Streams:** LIVE and Upcoming badges, live streams first, and a live player above the gallery that leaves when the stream ends.
+- **Gallery Layouts & Titles:** Grid, Cards, List and Showcase layouts (choose which video sits on top), title on the video, on hover or below it, and long titles cut to 1–3 lines.
+- **Video Details:** Show each feed video's channel name, view count and like count.
+- **When a Video Ends:** Play the next video, replay it, or show a button with your own text and link.
+- **Preview on Hover:** A silent preview plays when the pointer is over a video.
+- **Channel Auto-Feed in 20 More Blocks:** Sliders, carousels, masonry, playlists, Shorts reels, course accordions (one section per playlist), tabs (one tab per playlist) and more fill themselves from a channel.
+- **GDPR Consent in Every Block:** Nothing loads from YouTube or Vimeo until the visitor agrees.
+- **Your Choice of Player:** Play YouTube and Vimeo in the bPlugins player or with their own controls, site-wide.
 - **Masonry & Mixed Ratio Layouts:** Dynamic masonry galleries and mixed aspect ratio grids.
 - **Video Sliders & Carousels:** Interactive sliders with autoplay and navigation controls.
 - **Playlist Video Gallery:** Organized playlists with navigation and sequential playback.

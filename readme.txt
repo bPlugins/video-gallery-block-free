@@ -27,6 +27,8 @@ The Pro version adds 31 more video blocks (most of them also play Wistia), live 
 
 ### Free Features
 
+Everything below is part of the free **Video Gallery** block.
+
 - **Responsive Video Gallery Block:** Clean grid layouts that automatically adapt to desktop, tablet, and mobile screens.
 - **Album & Filter System:** Organize videos into albums and let visitors filter by category.
 - **Responsive Column Layouts:** Set different column numbers for desktop, tablet, and mobile.
@@ -67,40 +69,32 @@ The Pro version adds 31 more video blocks (most of them also play Wistia), live 
 
 [**Video Gallery Block Pro**](https://bplugins.com/products/video-gallery-block/pricing/) extends the plugin with additional Gutenberg video blocks and advanced gallery layouts.
 
-**Free vs Pro at a glance:**
+**Free vs Pro at a glance** (the block each feature works in is shown in brackets):
 
-- **Blocks:** Free has 1 video gallery block — Pro adds **31 more video blocks** (32 in total).
-- **Layouts:** Free has a responsive grid — Pro adds **Cards, List and Showcase** layouts, plus sliders, carousels, masonry, bento, justified, marquee, timeline, tabs, map and more as separate blocks.
-- **Channel feeds:** Free shows 1 YouTube or Vimeo channel or playlist, up to 50 videos — Pro merges **up to 10 channels or playlists** and shows **up to 1,000 videos** or a whole channel, with Live, Search and chosen-videos feeds and keyword filters.
-- **Feeds in other blocks:** Free has feeds in the gallery — Pro brings channel feeds to **20 more blocks**.
-- **Video details:** Free shows the channel name — Pro adds **view counts and like counts**.
-- **Live streams:** Pro only — **LIVE and Upcoming badges** and a live player above the gallery.
-- **Playback:** Free has the lightbox and play in place — Pro adds **preview on hover**, **actions when a video ends** (next video, replay or your own button) and a site-wide choice of player.
-- **Titles:** Pro only — title **on the video, on hover or below it**, and long titles cut to 1–3 lines.
-- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files — Pro adds **Wistia** in most of its extra blocks (sliders, carousels, playlists, lightbox, stories and more).
-- **Privacy:** Free has GDPR consent in the gallery — Pro has it in **every block**.
-- **Design:** Free has the essential style controls — Pro adds **advanced typography, overlays and per-element styling**.
+- **Blocks:** Free has 1 block, **Video Gallery** — Pro adds **31 more video blocks** (32 in total).
+- **Layouts** [Video Gallery]: Free has a responsive grid — Pro adds **Cards, List and Showcase** layouts and lets you choose which video sits on top in Showcase.
+- **Titles** [Video Gallery]: Pro only — title **on the video, on hover or below it**, and long titles cut to 1–3 lines.
+- **Video details** [Video Gallery]: Free shows the channel name — Pro adds **view counts and like counts**.
+- **Playback** [Video Gallery]: Free has the lightbox and play in place — Pro adds **preview on hover** and **actions when a video ends** (next video, replay or your own button).
+- **Live streams** [Video Gallery]: Pro only — **LIVE and Upcoming badges**, live streams first, and a live player above the gallery.
+- **Channel feeds** [Video Gallery]: Free shows 1 YouTube or Vimeo channel or playlist, up to 50 videos — Pro merges **up to 10 channels or playlists**, shows **up to 1,000 videos** or a whole channel, and adds Live, Search and chosen-videos feeds and title keyword filters.
+- **Channel feeds in other blocks** [20 Pro blocks]: Pro only — up to 100 videos, merged channels and keyword filters in Lightbox Video Gallery, Masonry Video Grid, Parallax Row Video Gallery, Slider Autoplay Video, Video Bento Grid, Video Carousel Gallery, Video Curriculum Accordion (one section per playlist), Video Expanding Panels, Video Flip Cards Gallery, Video Justified Gallery, Video Marquee Wall, Video Wall with Floating Player, Video Playlist Gallery, Video Podcast Episodes, Video Shorts Reel, Video Showcase Wall, Video Slider, Video Swipe Deck, Video Tabs Gallery (one tab per playlist) and Video Timeline Gallery.
+- **Choice of player** [20 Pro blocks]: Pro only — play YouTube and Vimeo in the bPlugins player or with their own controls, site-wide, in Masonry Video Grid, Video Bento Grid, Video Curriculum Accordion, Video Expanding Panels, Video Feature Tour, Video Flip Cards Gallery, Video Hotspot Scene, Video Justified Gallery, Video Map Gallery, Video Marquee Wall, Video Menu Showcase, Video Wall with Floating Player, Video Podcast Episodes, Video Property Tour Gallery, Video Scrollytelling Showcase, Video Showcase Wall, Video Tabs Gallery, Video Timeline Gallery, Video Wedding Story Gallery and Video Workout Planner.
+- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files in Video Gallery — Pro adds **Wistia** in 24 Pro blocks: Lightbox Video Gallery, Parallax Row Video Gallery, Slider Autoplay Video, Video Bento Grid, Video Carousel Gallery, Video Comparison Gallery, Video Curriculum Accordion, Video Expanding Panels, Video Justified Gallery, Video Map Gallery, Video Marquee Wall, Video Menu Showcase, Video Wall with Floating Player, Video Playlist Gallery, Video Podcast Episodes, Video Property Tour Gallery, Video Scrollytelling Showcase, Video Shorts Reel, Video Showcase Wall, Video Slider, Video Stories, Video Swipe Deck, Video Tabs Gallery and Video Testimonial Section.
+- **Privacy** [all 32 blocks]: Free has GDPR consent in Video Gallery — Pro has it in **every block**.
+- **Design** [all Pro blocks]: Free has the essential style controls — Pro adds **advanced typography, overlays and per-element styling**.
 - **Support:** Free uses the WordPress.org forum — Pro gets **priority email support**.
 
 **Only in Pro:**
 
 - **31 Premium Video Blocks:** Video Slider, Carousel, Playlist Gallery, Masonry Video Grid, Lightbox Video Gallery, Parallax Row Video Gallery, Slider Autoplay Video, Video Testimonial Section, Video Podcast Episodes, Video Stories, Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
-- **More Channel Feed Power:** Feed types (Channel, Live, Search, chosen Videos), up to 10 channels or playlists merged in one gallery, up to 1,000 videos or a whole channel, and title keyword filters.
-- **Live Streams:** LIVE and Upcoming badges, live streams first, and a live player above the gallery that leaves when the stream ends.
-- **Gallery Layouts & Titles:** Grid, Cards, List and Showcase layouts (choose which video sits on top), title on the video, on hover or below it, and long titles cut to 1–3 lines.
-- **Video Details:** Show each feed video's channel name, view count and like count.
-- **When a Video Ends:** Play the next video, replay it, or show a button with your own text and link.
-- **Preview on Hover:** A silent preview plays when the pointer is over a video.
-- **Channel Auto-Feed in 20 More Blocks:** Sliders, carousels, masonry, playlists, Shorts reels, course accordions (one section per playlist), tabs (one tab per playlist) and more fill themselves from a channel.
-- **GDPR Consent in Every Block:** Nothing loads from YouTube or Vimeo until the visitor agrees.
-- **Your Choice of Player:** Play YouTube and Vimeo in the bPlugins player or with their own controls, site-wide.
-- **Masonry & Mixed Ratio Layouts:** Dynamic masonry galleries and mixed aspect ratio grids.
-- **Video Sliders & Carousels:** Interactive sliders with autoplay and navigation controls.
-- **Playlist Video Gallery:** Organized playlists with navigation and sequential playback.
-- **Parallax Video Sections:** Background video sections with parallax scrolling effects.
-- **Advanced Typography & Overlays:** Customize titles, captions, and overlay effects per video.
-- **Custom Navigation & Player Controls:** Control slider navigation, autoplay, and player interactions.
-- **WooCommerce Video Product Carousel:** Show product videos in carousel layouts for WooCommerce stores.
+- **Masonry & Mixed Ratio Layouts** [Masonry Video Grid, Video Justified Gallery, Video Bento Grid]: Dynamic masonry galleries and mixed aspect ratio grids.
+- **Video Sliders & Carousels** [Video Slider, Video Carousel Gallery, Slider Autoplay Video]: Interactive sliders with autoplay and navigation controls.
+- **Playlist Video Gallery** [Video Playlist Gallery]: Organized playlists with navigation and sequential playback.
+- **Parallax Video Sections** [Parallax Row Video Gallery]: Background video sections with parallax scrolling effects.
+- **Advanced Typography & Overlays** [all Pro blocks]: Customize titles, captions, and overlay effects per video.
+- **Custom Navigation & Player Controls** [Video Slider, Video Carousel Gallery, Slider Autoplay Video, Video Playlist Gallery]: Control slider navigation, autoplay, and player interactions.
+- **WooCommerce Video Product Carousel** [Video Carousel Gallery]: Show product videos in carousel layouts for WooCommerce stores.
 - **Priority Support:** Faster assistance and updates.
 
 [Try the Video Gallery Block](https://bplugins.com/products/video-gallery-block/pricing/) – Unlock all premium features now!

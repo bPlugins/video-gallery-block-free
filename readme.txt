@@ -23,14 +23,14 @@ Responsive video gallery block for Gutenberg with YouTube, Vimeo, albums, catego
 
 Organize videos into albums, let visitors filter by category, and play everything in an elegant lightbox popup. Thumbnails are generated automatically (or upload your own poster images), captions keep every video labeled, and scripts load only when the block is used so your site stays fast.
 
-The Pro version adds 31 more video blocks, Wistia, live streams, view counts and advanced layouts like sliders, carousels, masonry grids, and playlist galleries – ideal for video portfolios, product galleries, training libraries, and course videos.
+The Pro version adds 31 more video blocks (most of them also play Wistia), live streams, view counts and advanced layouts like sliders, carousels, masonry grids, and playlist galleries – ideal for video portfolios, product galleries, training libraries, and course videos.
 
 ### Free Features
 
 - **Responsive Video Gallery Block:** Clean grid layouts that automatically adapt to desktop, tablet, and mobile screens.
 - **Album & Filter System:** Organize videos into albums and let visitors filter by category.
 - **Responsive Column Layouts:** Set different column numbers for desktop, tablet, and mobile.
-- **Multiple Video Sources:** Add videos from YouTube, Vimeo, Facebook and your own video files from the Media Library (Wistia in Pro).
+- **Multiple Video Sources:** Add videos from YouTube, Vimeo, Facebook and your own video files from the Media Library (Wistia is available in most Pro blocks).
 - **Custom Styling Controls:** Adjust spacing, padding, borders, backgrounds, and shadows from the block settings.
 - **Automatic or Custom Thumbnails:** Auto-generate thumbnails or upload custom poster images.
 - **Video Captions:** Add captions or titles to each video in the gallery.
@@ -77,7 +77,7 @@ The Pro version adds 31 more video blocks, Wistia, live streams, view counts and
 - **Live streams:** Pro only — **LIVE and Upcoming badges** and a live player above the gallery.
 - **Playback:** Free has the lightbox and play in place — Pro adds **preview on hover**, **actions when a video ends** (next video, replay or your own button) and a site-wide choice of player.
 - **Titles:** Pro only — title **on the video, on hover or below it**, and long titles cut to 1–3 lines.
-- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files — Pro adds **Wistia**.
+- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files — Pro adds **Wistia** in most of its extra blocks (sliders, carousels, playlists, lightbox, stories and more).
 - **Privacy:** Free has GDPR consent in the gallery — Pro has it in **every block**.
 - **Design:** Free has the essential style controls — Pro adds **advanced typography, overlays and per-element styling**.
 - **Support:** Free uses the WordPress.org forum — Pro gets **priority email support**.
@@ -185,7 +185,7 @@ Yes. Video Gallery Block works directly inside the WordPress Gutenberg editor wi
 Yes. The free version includes responsive video galleries, YouTube, Vimeo and Facebook support, your own video files, YouTube and Vimeo channel feeds that update by themselves, albums, filters, thumbnails, captions, lightbox video popups, video SEO markup and GDPR consent. A Pro version is available with advanced layouts and features.
 
 = What extra features are included in Pro? =
-Pro adds 31 more video blocks (sliders, carousels, masonry, playlists, Shorts reels, course accordions and more), Grid / Cards / List / Showcase layouts, title position and length, live streams, view and like counts, preview on hover, actions when a video ends, more channels and up to 1,000 videos in one feed, channel feeds in 20 more blocks, GDPR consent in every block, a choice of video player, Wistia, and advanced typography controls.
+Pro adds 31 more video blocks (sliders, carousels, masonry, playlists, Shorts reels, course accordions and more), Grid / Cards / List / Showcase layouts, title position and length, live streams, view and like counts, preview on hover, actions when a video ends, more channels and up to 1,000 videos in one feed, channel feeds in 20 more blocks, GDPR consent in every block, a choice of video player, Wistia videos in most Pro blocks, and advanced typography controls.
 
 = Will the gallery slow down my site? =
 No. Scripts load only when the block is used, and videos load their data only when played, reducing bandwidth and CPU usage while keeping scrolling smooth.
@@ -203,7 +203,7 @@ Yes. You can create unlimited galleries across your site.
 Yes. The gallery is fully responsive, and you can set different column counts per device.
 
 = Can I use my own video files? =
-Yes. The free version plays your own video files (MP4, WebM) as well as YouTube, Vimeo and Facebook. Use "Add from Media Library" to add many at once, or drag the files onto the gallery. Wistia is supported in Pro.
+Yes. The free version plays your own video files (MP4, WebM) as well as YouTube, Vimeo and Facebook. Use "Add from Media Library" to add many at once, or drag the files onto the gallery. Wistia videos are supported in most Pro blocks.
 
 = How do I get support? =
 Free users can use the WordPress.org support forum. Pro users receive priority email support.

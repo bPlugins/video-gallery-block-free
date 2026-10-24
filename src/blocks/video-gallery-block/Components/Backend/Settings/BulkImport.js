@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { __, sprintf, _n } from "@wordpress/i18n";
 import { Button, TextareaControl, Notice, Spinner } from "@wordpress/components";
+import { MediaUpload, MediaUploadCheck } from "@wordpress/block-editor";
 
 import { getVideoOembed } from "../../../utils/oembed";
 import { getYoutubeId, getVimeoId } from "../../../utils/functions";
+import { appendUnique, attachmentToItem } from "../../../utils/editorItems";
 
 /**
  * Add many videos at once.
@@ -181,8 +183,8 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
           added.length,
         ),
         sprintf(
-          /* translators: 1: titles found, 2: posters found, 3: videos added. */
-          __( "%1$d of %3$d got a title, %2$d got a poster.", "video-gallery-block" ),
+          /* translators: 1: titles found, 2: thumbnails found, 3: videos added. */
+          __( "%1$d of %3$d got a title, %2$d got a thumbnail.", "video-gallery-block" ),
           titled,
           postered,
           added.length,
@@ -218,12 +220,78 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
     });
   };
 
+  /*
+   * Videos from the Media Library, many at once: picked there, or uploaded
+   * into it in the same window. Each one becomes a video just like one added
+   * by hand, with the file's title as its title.
+   */
+  const addFromLibrary = (selection) => {
+    const importedAt = Date.now();
+    const items = (Array.isArray(selection) ? selection : [selection])
+      .map((attachment, index) => attachmentToItem(attachment, importedAt + index))
+      .filter(Boolean);
+    const result = appendUnique(videos, items);
+
+    if (result.added) {
+      setAttributes({ videos: result.videos });
+      setActiveIndex && setActiveIndex(videos.length);
+    }
+
+    setReport({
+      type: result.added ? "success" : "warning",
+      lines: [
+        sprintf(
+          /* translators: %d: number of videos added. */
+          _n( "%d video added.", "%d videos added.", result.added, "video-gallery-block" ),
+          result.added,
+        ),
+        result.duplicates
+          ? sprintf(
+              /* translators: %d: number of videos. */
+              _n(
+                "%d video skipped — already in this gallery.",
+                "%d videos skipped — already in this gallery.",
+                result.duplicates,
+                "video-gallery-block",
+              ),
+              result.duplicates,
+            )
+          : null,
+      ].filter(Boolean),
+    });
+  };
+
   return (
     <>
+      <MediaUploadCheck>
+        <MediaUpload
+          multiple
+          allowedTypes={["video"]}
+          title={__("Add videos", "video-gallery-block")}
+          onSelect={addFromLibrary}
+          render={({ open }) => (
+            <Button
+              variant="secondary"
+              className="vgbLibraryBtn"
+              icon="format-video"
+              disabled={busy}
+              onClick={open}>
+              {__("Add from Media Library", "video-gallery-block")}
+            </Button>
+          )}
+        />
+        <p className="vgbLibraryHelp">
+          {__(
+            "Pick or upload many video files at once. You can also drop video files on the gallery.",
+            "video-gallery-block",
+          )}
+        </p>
+      </MediaUploadCheck>
+
       <TextareaControl
         label={__("Video links", "video-gallery-block")}
         help={__(
-          "One per line. YouTube and Vimeo links bring their title and poster with them; other links are added as they are.",
+          "One link per line. YouTube and Vimeo links bring their own title and thumbnail.",
           "video-gallery-block",
         )}
         value={text}
@@ -235,7 +303,7 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
 
       <Button
         variant="primary"
-        className="mt10 vgbImportBtn"
+        className="vgbImportBtn"
         disabled={busy || !text.trim()}
         onClick={runImport}>
         {busy ? (
@@ -250,7 +318,7 @@ const BulkImport = ({ attributes, setAttributes, setActiveIndex }) => {
 
       {report && (
         <Notice
-          className="mt15"
+          className="vgbImportReport"
           status={report.type}
           isDismissible={true}
           onRemove={() => setReport(null)}>

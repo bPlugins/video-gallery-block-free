@@ -676,3 +676,27 @@ function vidgalblk_layout_vars( $attributes ) {
 	// space, so the last declaration has to be closed.
 	return implode( ';', $declarations ) . ';';
 }
+
+/**
+ * A feed video's channel name, for "Show channel name", or '' when it has
+ * none (only feed videos carry one; an old cached feed does not, until it
+ * refreshes). The same as itemChannel() in utils/channel.js.
+ *
+ * It is a link-like span rather than a link: it sits inside the tile's own
+ * link, and links cannot nest. The block's script opens it in a new tab.
+ *
+ * @param array $video One entry from the videos attribute.
+ * @return string HTML.
+ */
+function vidgalblk_item_channel( $video ) {
+	$channel = is_array( $video ) && isset( $video['channel'] ) ? trim( (string) $video['channel'] ) : '';
+	if ( '' === $channel ) {
+		return '';
+	}
+
+	$url = isset( $video['channelUrl'] ) && preg_match( '#^https://#', (string) $video['channelUrl'] ) ? esc_url( (string) $video['channelUrl'] ) : '';
+
+	return '' !== $url
+		? sprintf( '<span class="vgbItemChannel" role="link" tabindex="0" data-href="%1$s">%2$s</span>', $url, esc_html( $channel ) )
+		: sprintf( '<span class="vgbItemChannel">%s</span>', esc_html( $channel ) );
+}

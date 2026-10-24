@@ -300,6 +300,7 @@ function vidgalblk_feed_fetch( $url, $shorts ) {
 
 		$published = $item['contentDetails']['videoPublishedAt'] ?? ( $item['snippet']['publishedAt'] ?? '' );
 		$timestamp = $published ? strtotime( $published ) : false;
+		$owner_id  = (string) ( $item['snippet']['videoOwnerChannelId'] ?? '' );
 
 		$videos[] = array(
 			'video'      => ( 'only' === $shorts && $applied )
@@ -311,6 +312,9 @@ function vidgalblk_feed_fetch( $url, $shorts ) {
 			// Newest/Oldest sort treats feed videos the same as added ones.
 			'dateAdded'  => $timestamp ? $timestamp * 1000 : 0,
 			'uploadDate' => $timestamp ? gmdate( 'c', $timestamp ) : '',
+			// The video's own channel (a playlist can mix channels).
+			'channel'    => (string) ( $item['snippet']['videoOwnerChannelTitle'] ?? '' ),
+			'channelUrl' => preg_match( '#^[\w-]+$#', $owner_id ) ? 'https://www.youtube.com/channel/' . $owner_id : '',
 		);
 	}
 
@@ -376,6 +380,19 @@ function vidgalblk_feed_get( $url, $shorts, $refresh = 6, $force = false ) {
 	}
 
 	$data = vidgalblk_feed_fetch( $url, $shorts );
+
+	/**
+	 * A fetch from YouTube or Vimeo failed, or worked -- for the critical
+	 * issue alerts (includes/feed-alerts.php).
+	 *
+	 * @param WP_Error|string $data_or_url The error, or the link that loaded.
+	 * @param string          $url         The link (failures only).
+	 */
+	if ( is_wp_error( $data ) ) {
+		do_action( 'vidgalblk_feed_fetch_failed', $data, (string) $url );
+	} else {
+		do_action( 'vidgalblk_feed_fetch_ok', (string) $url );
+	}
 
 	if ( is_wp_error( $data ) ) {
 		if ( $has ) {

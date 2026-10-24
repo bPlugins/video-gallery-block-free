@@ -195,6 +195,27 @@
     padding: 10px;
   }
 
+  // "Show channel name": a quieter line under the tile's title.
+  .galleryItemCaption .vgbItemDetails {
+    display: block;
+    font-size: 12px;
+    line-height: 1.4;
+    opacity: 0.85;
+  }
+
+  .galleryItemCaption__text + .vgbItemDetails {
+    margin-top: 2px;
+  }
+
+  .vgbItemChannel[role="link"] {
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+
   .galleryFigure,
   .react-thumbnail-generator {
     width: 100%;

@@ -217,12 +217,22 @@
         "sortOrder": "manual",
         "consentGate": false,
         "gaTracking": false,
-        "rowAlign": "center"
+        "rowAlign": "center",
+        "playMode": "lightbox"
       }
     },
     "isSetup": {
       "type": "boolean",
       "default": false
+    },
+    "feed": {
+      "type": "object",
+      "default": {
+        "enabled": false,
+        "url": "",
+        "count": 12,
+        "refresh": 6
+      }
     },
     "aspectRatio": {
       "type": "string",

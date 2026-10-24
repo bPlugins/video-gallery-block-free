@@ -31,10 +31,25 @@ $vidgalblk_videos = isset( $attributes['videos'] ) && is_array( $attributes['vid
  * markup below actually shows -- none of the three ever disagree about which
  * videos this gallery contains.
  */
-$vidgalblk_videos     = vidgalblk_apply_shorts_filter(
-	$vidgalblk_videos,
-	$attributes['options']['shortsFilter'] ?? 'all'
-);
+/*
+ * A gallery fed from a YouTube channel or playlist shows that feed instead of
+ * its own list -- which is left untouched, so switching back restores it.
+ * Albums are hand-assigned, so a feed has none and the filter bar goes too.
+ * The Shorts setting is already applied by the feed itself (it picks YouTube's
+ * long-videos-only or Shorts-only list), because feed links never say
+ * `/shorts/` and the link-based filter below would misread every one of them.
+ */
+$vidgalblk_feed_videos = vidgalblk_feed_videos_for_block( $attributes );
+
+if ( null !== $vidgalblk_feed_videos ) {
+	$vidgalblk_videos     = $vidgalblk_feed_videos;
+	$attributes['albums'] = array();
+} else {
+	$vidgalblk_videos = vidgalblk_apply_shorts_filter(
+		$vidgalblk_videos,
+		$attributes['options']['shortsFilter'] ?? 'all'
+	);
+}
 $vidgalblk_videos     = vidgalblk_apply_sort_order(
 	$vidgalblk_videos,
 	$attributes['options']['sortOrder'] ?? 'manual'
@@ -44,6 +59,7 @@ $attributes['videos'] = $vidgalblk_videos;
 $vidgalblk_albums = isset( $attributes['albums'] ) && is_array( $attributes['albums'] ) ? $attributes['albums'] : array();
 $vidgalblk_filter = isset( $attributes['filter'] ) && is_array( $attributes['filter'] ) ? $attributes['filter'] : array();
 $vidgalblk_show_caption   = ! empty( $attributes['options']['showCaptionOnThumbnail'] );
+$vidgalblk_show_channel   = ! empty( $attributes['options']['showChannel'] );
 $vidgalblk_show_play_icon = false !== ( $attributes['options']['showPlayIcon'] ?? true );
 
 // The filter bar is worth showing only when there is something to filter by.
@@ -154,7 +170,14 @@ do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
 					</figure>
 				<?php endif; ?>
 
-				<?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?>
+				<?php
+				// "Show channel name": the channel under the title. A tile
+				// without one keeps the caption it always had.
+				$vidgalblk_channel = $vidgalblk_show_channel ? vidgalblk_item_channel( $vidgalblk_video ) : '';
+				if ( '' !== $vidgalblk_channel ) :
+					?>
+					<div class="galleryItemCaption"><?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?><span class="galleryItemCaption__text"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></span><?php endif; ?><span class="vgbItemDetails"><?php echo $vidgalblk_channel; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in vidgalblk_item_channel(). ?></span></div>
+				<?php elseif ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?>
 					<div class="galleryItemCaption"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></div>
 				<?php endif; ?>
 

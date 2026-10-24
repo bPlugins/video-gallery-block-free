@@ -1,16 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { __, _n, sprintf } from "@wordpress/i18n";
+import { useInstanceId } from "@wordpress/compose";
 import {
   Button,
   ExternalLink,
   Notice,
   RangeControl,
-  SelectControl,
   Spinner,
   TextControl,
+  __experimentalNumberControl as NumberControl,
+  __experimentalToggleGroupControl as ToggleGroupControl,
+  __experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from "@wordpress/components";
+import { updateData } from "../../../../../../../bpl-tools/utils/functions";
 
 import { GOOGLE_LINKS, isVimeoFeedUrl, timeAgo } from "../../../utils/youtubeFeed";
+import { shortsFilterOptions } from "../../../utils/options";
+import "./feedSteps.scss";
 
 /**
  * The channel feed's settings: paste a link, connect YouTube once (YouTube
@@ -22,17 +28,89 @@ import { GOOGLE_LINKS, isVimeoFeedUrl, timeAgo } from "../../../utils/youtubeFee
  * rather than the setup instructions again.
  */
 
-const Step = ({ number, title, done, children }) => (
-  <div className={`vgbFeedStep ${done ? "isDone" : ""}`}>
-    <div className="vgbFeedStep__head">
+const Chevron = () => (
+  <svg
+    className="vgbFeedStep__chevron"
+    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    aria-hidden="true"
+    focusable="false">
+    <path fill="currentColor" d="M17.5 11.6 12 16l-5.5-4.4.9-1.2L12 14l4.6-3.6 1 1.2z" />
+  </svg>
+);
+
+/*
+ * A step turns green with a tick once it is done, and then folds to its title
+ * and a one-line `summary`; clicking the title opens it again. A step that
+ * gets finished while it is open -- the one being worked on -- stays open.
+ * `pending`: still finding out whether it is done (a saved link loading), so
+ * nothing is decided yet.
+ */
+const Step = ({ number, title, done = false, summary = "", pending = false, children }) => {
+  const id = useInstanceId(Step, "vgbFeedStep");
+  const collapsible = !!summary && done;
+  // null: follow `done`; true / false: what the person chose.
+  const [open, setOpen] = useState(null);
+  // Whether it could fold, as last seen once known.
+  const seen = useRef(null);
+
+  useEffect(() => {
+    if (pending) return;
+    if (!collapsible) {
+      setOpen(null);
+    } else if (false === seen.current) {
+      // Finished just now, while being worked on: keep it open.
+      setOpen((now) => (null === now ? true : now));
+    }
+    seen.current = collapsible;
+  }, [collapsible, pending]);
+
+  let isOpen = true;
+  if (collapsible) {
+    isOpen = null !== open ? open : false === seen.current;
+  }
+
+  const tick = done && !pending;
+
+  const head = (
+    <>
       <span className="vgbFeedStep__num" aria-hidden="true">
-        {done ? "✓" : number}
+        {tick ? "✓" : number}
       </span>
       <span className="vgbFeedStep__title">{title}</span>
+    </>
+  );
+
+  return (
+    <div
+      className={`vgbFeedStep ${tick ? "isDone" : ""} ${collapsible ? "isCollapsible" : ""} ${
+        isOpen ? "isOpen" : "isCollapsed"
+      }`}>
+      {collapsible ? (
+        <button
+          type="button"
+          className="vgbFeedStep__head vgbFeedStep__toggle"
+          aria-expanded={isOpen}
+          aria-controls={`${id}-body`}
+          onClick={() => setOpen(!isOpen)}>
+          {head}
+          <Chevron />
+          {!isOpen && (
+            <span className="vgbFeedStep__summary" title={summary}>
+              {summary}
+            </span>
+          )}
+        </button>
+      ) : (
+        <div className="vgbFeedStep__head">{head}</div>
+      )}
+      <div className="vgbFeedStep__body" id={`${id}-body`} hidden={!isOpen}>
+        {children}
+      </div>
     </div>
-    <div className="vgbFeedStep__body">{children}</div>
-  </div>
-);
+  );
+};
 
 /** Paste-a-link field with its button; shared by the sidebar and the canvas. */
 export const FeedLinkForm = ({ url, onSubmit, disabled, autoFocus }) => {
@@ -45,6 +123,8 @@ export const FeedLinkForm = ({ url, onSubmit, disabled, autoFocus }) => {
     const next = value.trim();
     if (next) onSubmit(next);
   };
+
+  const unchanged = !!url && value.trim() === url;
 
   return (
     <div className="vgbFeedLinkForm">
@@ -66,20 +146,15 @@ export const FeedLinkForm = ({ url, onSubmit, disabled, autoFocus }) => {
         help={
           <>
             {__(
-              "YouTube: a channel (youtube.com/@name) or a playlist. Vimeo: a profile (vimeo.com/name), a channel, or a showcase, which is Vimeo's playlist (vimeo.com/showcase/123).",
+              "A channel or playlist link from YouTube, or a profile, channel or showcase from Vimeo.",
               "video-gallery-block",
             )}
-            {url && (
-              <>
-                {" "}
-                <strong>
-                  {__(
-                    "A gallery shows one link. To show a different one, paste it here and click Update link.",
-                    "video-gallery-block",
-                  )}
-                </strong>
-              </>
-            )}
+            <span className="vgbFeedHelpTip">
+              {__(
+                "Favorites: put them in a public playlist and paste its link.",
+                "video-gallery-block",
+              )}
+            </span>
           </>
         }
         __nextHasNoMarginBottom
@@ -87,14 +162,37 @@ export const FeedLinkForm = ({ url, onSubmit, disabled, autoFocus }) => {
       <Button
         variant="primary"
         className="vgbImportBtn mt10"
-        disabled={disabled || !value.trim() || value.trim() === url}
+        disabled={disabled || !value.trim() || unchanged}
         onClick={submit}>
         {url
           ? __("Update link", "video-gallery-block")
           : __("Show videos", "video-gallery-block")}
       </Button>
+      {unchanged && !disabled && (
+        <p className="vgbFeedFootnote vgbFeedUnchanged">
+          {__("Paste a different link to update.", "video-gallery-block")}
+        </p>
+      )}
     </div>
   );
+};
+
+/** What kind of list a feed gave, e.g. "YouTube channel" or "Vimeo showcase". */
+const feedKindLabel = (data) => {
+  if ("vimeo" === data.provider) {
+    return "playlist" === data.kind
+      ? __("Vimeo showcase", "video-gallery-block")
+      : __("Vimeo", "video-gallery-block");
+  }
+  return "playlist" === data.kind
+    ? __("YouTube playlist", "video-gallery-block")
+    : __("YouTube channel", "video-gallery-block");
+};
+
+/** How many videos the gallery shows of what the feed gave: the newest `limit`. */
+const shownCount = (data, limit) => {
+  const total = data?.videos?.length || 0;
+  return limit ? Math.min(limit, total) : total;
 };
 
 /** What the feed gave, or why it gave nothing. */
@@ -133,22 +231,8 @@ export const FeedStatus = ({ feedState, count: limit, onUseLink }) => {
 
   if (!data) return null;
 
-  // What the gallery shows: the newest `limit` of what YouTube returned.
-  const total = data.videos?.length || 0;
-  const count = limit ? Math.min(limit, total) : total;
+  const count = shownCount(data, limit);
   const isVimeo = "vimeo" === data.provider;
-  let kind;
-  if (isVimeo) {
-    kind =
-      "playlist" === data.kind
-        ? __("Vimeo showcase", "video-gallery-block")
-        : __("Vimeo", "video-gallery-block");
-  } else {
-    kind =
-      "playlist" === data.kind
-        ? __("YouTube playlist", "video-gallery-block")
-        : __("YouTube channel", "video-gallery-block");
-  }
 
   return (
     <>
@@ -158,7 +242,7 @@ export const FeedStatus = ({ feedState, count: limit, onUseLink }) => {
         </strong>
         <span className="vgbFeedStatus__meta">
           {[
-            kind,
+            feedKindLabel(data),
             sprintf(
               /* translators: %d: number of videos. */
               _n("%d video", "%d videos", count, "video-gallery-block"),
@@ -192,7 +276,7 @@ export const FeedStatus = ({ feedState, count: limit, onUseLink }) => {
                 "video-gallery-block",
               )
             : __(
-                "No public videos found here. If you hid or kept only Shorts under Options → YouTube Shorts, try All Videos.",
+                "No public videos found here. If you hid Shorts or kept only Shorts, try All Videos.",
                 "video-gallery-block",
               )}
         </Notice>
@@ -201,7 +285,7 @@ export const FeedStatus = ({ feedState, count: limit, onUseLink }) => {
   );
 };
 
-/** Step 1 when no key is saved yet: what to do, in the order to do it. */
+/** Step 2 when no key is saved yet: what to do, in the order to do it. */
 const ConnectForm = ({ keyState, onConnected }) => {
   const [key, setKey] = useState("");
   const [busy, setBusy] = useState(false);
@@ -298,11 +382,28 @@ const ConnectForm = ({ keyState, onConnected }) => {
   );
 };
 
-const refreshOptions = [
-  { value: 1, label: __("Every hour", "video-gallery-block") },
-  { value: 6, label: __("Every 6 hours", "video-gallery-block") },
-  { value: 12, label: __("Every 12 hours", "video-gallery-block") },
-  { value: 24, label: __("Once a day", "video-gallery-block") },
+/** "Check for new videos": the button's short label, and the summary's words. */
+const refreshOptions = () => [
+  {
+    value: 1,
+    label: __("1 h", "video-gallery-block"),
+    full: __("Every hour", "video-gallery-block"),
+  },
+  {
+    value: 6,
+    label: __("6 h", "video-gallery-block"),
+    full: __("Every 6 hours", "video-gallery-block"),
+  },
+  {
+    value: 12,
+    label: __("12 h", "video-gallery-block"),
+    full: __("Every 12 hours", "video-gallery-block"),
+  },
+  {
+    value: 24,
+    label: __("Daily", "video-gallery-block"),
+    full: __("Once a day", "video-gallery-block"),
+  },
 ];
 
 const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
@@ -320,12 +421,63 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
   // be needed at all.
   const showConnectForm = changingKey || (!connected && !!feed.url);
 
+  /*
+   * Step 1's state. A saved link still loading counts as done for now, so a
+   * returning editor sees the folded summary straight away instead of the
+   * whole step opening and then closing. Anything the person should look at
+   * -- a failed link, old videos, nothing found -- keeps it open.
+   */
+  const { data } = feedState;
+  const sourceSettled =
+    !keyState.loading && (!canLoad || !!data || "error" === feedState.status);
+  const sourcePending = !!feed.url && !sourceSettled;
+  const shown = shownCount(data, feed.count);
+  const sourceTrouble = !!data && (!!(data.stale && data.error) || 0 === shown);
+  const sourceDone =
+    !!feed.url && (sourcePending || (canLoad && hasVideos && !sourceTrouble));
+  const sourceSummary =
+    sourcePending || !data
+      ? __("Loading videos…", "video-gallery-block")
+      : [
+          data.title || ("vimeo" === data.provider ? "Vimeo" : "YouTube"),
+          feedKindLabel(data),
+          sprintf(
+            /* translators: %d: number of videos. */
+            _n("%d video", "%d videos", shown, "video-gallery-block"),
+            shown,
+          ),
+        ].join(" · ");
+
+  // The gallery's own paging and Shorts settings, shown here while the feed is on.
+  const shortsFilter = attributes.options?.shortsFilter || "all";
+  const shortsApplies = data
+    ? !!data.shortsApplied
+    : !isVimeo && !/[?&]list=/.test(feed.url || "");
+  const showShorts = !!feed.url && (shortsApplies || "all" !== shortsFilter);
+  const perPage = attributes.perPage || 0;
+
+  const refreshChoice = refreshOptions().find(
+    (option) => option.value === parseFloat(feed.refresh),
+  );
+  const displaySummary = [
+    sprintf(
+      /* translators: %d: number of videos. */
+      _n("%d video", "%d videos", feed.count, "video-gallery-block"),
+      feed.count,
+    ),
+    refreshChoice ? refreshChoice.full.toLowerCase() : "",
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
   return (
     <div className="vgbFeedSource">
       <Step
         number={1}
         title={__("Choose a channel or playlist", "video-gallery-block")}
-        done={hasVideos && !!feed.url && canLoad}>
+        done={sourceDone}
+        pending={sourcePending}
+        summary={sourceSummary}>
         <FeedLinkForm url={feed.url} onSubmit={(url) => updateFeed({ url })} />
         {feed.url && canLoad && (
           <FeedStatus
@@ -336,7 +488,10 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
         )}
         {feed.url && !canLoad && !keyState.loading && (
           <p className="vgbFeedFootnote">
-            {__("This is a YouTube link: connect YouTube in step 2 to show its videos.", "video-gallery-block")}
+            {__(
+              "This is a YouTube link: connect YouTube in step 2 to show its videos.",
+              "video-gallery-block",
+            )}
           </p>
         )}
       </Step>
@@ -345,19 +500,29 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
         <Step
           number={2}
           title={__("Connect YouTube", "video-gallery-block")}
-          done={connected && !changingKey}>
+          done={(keyState.loading || connected) && !changingKey}
+          pending={!!keyState.loading}
+          summary={
+            keyState.loading
+              ? __("Checking…", "video-gallery-block")
+              : [__("Connected", "video-gallery-block"), keyState.masked]
+                  .filter(Boolean)
+                  .join(" · ")
+          }>
           {keyState.loading ? (
             <Spinner />
           ) : connected && !changingKey ? (
-            <div className="vgbFeedConnected">
+            <div className="vgbFeedConnected isStacked">
               <span>
                 {__("Connected", "video-gallery-block")}
-                {keyState.masked && (
-                  <code className="vgbFeedKey">{keyState.masked}</code>
-                )}
+                {keyState.masked && <code className="vgbFeedKey">{keyState.masked}</code>}
               </span>
               {keyState.canManage && !keyState.fromConfig && (
-                <Button variant="link" onClick={() => setChangingKey(true)}>
+                <Button
+                  variant="link"
+                  size="small"
+                  className="vgbFeedChangeKey"
+                  onClick={() => setChangingKey(true)}>
                   {__("Change key", "video-gallery-block")}
                 </Button>
               )}
@@ -365,7 +530,7 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
           ) : !keyState.canManage ? (
             <Notice status="info" isDismissible={false} className="vgbFeedNotice">
               {__(
-                "Only needed for YouTube links. Ask a site administrator to connect YouTube once; after that, anyone who edits pages can add YouTube channel galleries.",
+                "Only needed for YouTube links. Ask a site administrator to connect YouTube once.",
                 "video-gallery-block",
               )}
             </Notice>
@@ -400,29 +565,97 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
         </Step>
       )}
 
-      <Step number={isVimeo ? 2 : 3} title={__("Display", "video-gallery-block")}>
+      <Step
+        number={isVimeo ? 2 : 3}
+        title={__("How many & how often", "video-gallery-block")}
+        // Its settings work as they are: done once there is something to show.
+        done={!!feed.url && (sourcePending || canLoad)}
+        pending={sourcePending}
+        summary={displaySummary}>
         <RangeControl
           label={__("Number of videos", "video-gallery-block")}
           value={feed.count}
           min={1}
           max={50}
           onChange={(count) => updateFeed({ count: count || 12 })}
-          help={__("The newest videos are shown first. Up to 50.", "video-gallery-block")}
+          help={__("The newest videos first. Up to 50.", "video-gallery-block")}
           __nextHasNoMarginBottom
         />
 
-        <SelectControl
-          className="mt20"
-          label={__("Check for new videos", "video-gallery-block")}
-          value={feed.refresh}
-          options={refreshOptions}
-          onChange={(refresh) => updateFeed({ refresh: parseInt(refresh, 10) || 6 })}
+        {showShorts && (
+          // The same choice as Options → YouTube Shorts in "My videos" mode.
+          <div className="mt20 vgbToggleGroupWrap">
+            <ToggleGroupControl
+              label={__("YouTube Shorts", "video-gallery-block")}
+              value={shortsFilter}
+              onChange={(val) =>
+                setAttributes({
+                  options: updateData(attributes.options, val ?? "all", "shortsFilter"),
+                })
+              }
+              isBlock
+              __nextHasNoMarginBottom
+              help={
+                shortsApplies
+                  ? __(
+                      "Uses YouTube's own videos-only or Shorts-only list.",
+                      "video-gallery-block",
+                    )
+                  : __("Works with YouTube channel links only.", "video-gallery-block")
+              }>
+              {shortsFilterOptions.map((option) => (
+                <ToggleGroupControlOption
+                  key={option.value}
+                  value={option.value}
+                  label={option.label}
+                />
+              ))}
+            </ToggleGroupControl>
+          </div>
+        )}
+
+        <NumberControl
+          className="mt20 vgbFeedShowFirst"
+          label={__("Show first", "video-gallery-block")}
+          value={perPage}
+          min={0}
+          onChange={(val) => setAttributes({ perPage: Math.max(0, parseInt(val) || 0) })}
           help={__(
-            "New uploads appear on your site within this time, with no work from you.",
+            "Then a Load More button shows the rest. 0 shows all.",
             "video-gallery-block",
           )}
           __nextHasNoMarginBottom
         />
+
+        {perPage > 0 && (
+          <TextControl
+            className="mt20"
+            label={__("Load More button text", "video-gallery-block")}
+            value={attributes.loadMoreLabel || ""}
+            onChange={(val) => setAttributes({ loadMoreLabel: val })}
+            __nextHasNoMarginBottom
+          />
+        )}
+
+        <div className="mt20 vgbToggleGroupWrap vgbFeedRefresh">
+          <ToggleGroupControl
+            label={__("Check for new videos", "video-gallery-block")}
+            value={String(feed.refresh)}
+            onChange={(refresh) => updateFeed({ refresh: parseInt(refresh, 10) || 6 })}
+            isBlock
+            __nextHasNoMarginBottom
+            help={__("New uploads appear on your site within this time.", "video-gallery-block")}>
+            {refreshOptions().map((option) => (
+              <ToggleGroupControlOption
+                key={option.value}
+                value={String(option.value)}
+                label={option.label}
+                aria-label={option.full}
+                showTooltip
+              />
+            ))}
+          </ToggleGroupControl>
+        </div>
 
         {feed.url && canLoad && (
           <Button
@@ -434,15 +667,6 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
             onClick={() => feedState.reload()}>
             {__("Check now", "video-gallery-block")}
           </Button>
-        )}
-
-        {!isVimeo && false !== feedState.data?.shortsApplied && (
-          <p className="vgbFeedFootnote">
-            {__(
-              "To hide Shorts or show only Shorts, use Options → YouTube Shorts (works for YouTube channel links).",
-              "video-gallery-block",
-            )}
-          </p>
         )}
       </Step>
     </div>

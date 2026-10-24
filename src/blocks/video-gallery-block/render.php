@@ -59,6 +59,7 @@ $attributes['videos'] = $vidgalblk_videos;
 $vidgalblk_albums = isset( $attributes['albums'] ) && is_array( $attributes['albums'] ) ? $attributes['albums'] : array();
 $vidgalblk_filter = isset( $attributes['filter'] ) && is_array( $attributes['filter'] ) ? $attributes['filter'] : array();
 $vidgalblk_show_caption   = ! empty( $attributes['options']['showCaptionOnThumbnail'] );
+$vidgalblk_show_channel   = ! empty( $attributes['options']['showChannel'] );
 $vidgalblk_show_play_icon = false !== ( $attributes['options']['showPlayIcon'] ?? true );
 
 // The filter bar is worth showing only when there is something to filter by.
@@ -169,7 +170,14 @@ do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
 					</figure>
 				<?php endif; ?>
 
-				<?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?>
+				<?php
+				// "Show channel name": the channel under the title. A tile
+				// without one keeps the caption it always had.
+				$vidgalblk_channel = $vidgalblk_show_channel ? vidgalblk_item_channel( $vidgalblk_video ) : '';
+				if ( '' !== $vidgalblk_channel ) :
+					?>
+					<div class="galleryItemCaption"><?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?><span class="galleryItemCaption__text"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></span><?php endif; ?><span class="vgbItemDetails"><?php echo $vidgalblk_channel; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in vidgalblk_item_channel(). ?></span></div>
+				<?php elseif ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?>
 					<div class="galleryItemCaption"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></div>
 				<?php endif; ?>
 

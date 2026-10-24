@@ -1,4 +1,4 @@
-import { __ } from "@wordpress/i18n";
+import { __, sprintf } from "@wordpress/i18n";
 import { withSelect, withDispatch } from "@wordpress/data";
 import { compose } from "@wordpress/compose";
 import { BlockControls, InspectorControls } from "@wordpress/block-editor";
@@ -42,14 +42,12 @@ import {
 
 import {
   generalStyleTabs,
-  videoSizeOptions,
   aspectRatioOptions,
-  shortsFilterOptions,
-  sortOrderOptions,
   rowAlignOptions,
 } from "../../../utils/options";
 import ItemSettings from "./ItemSettings";
 import BulkImport from "./BulkImport";
+import CopyFeedButton from "./CopyFeedButton";
 import FeedSource from "./FeedSource";
 import { isVimeoFeedUrl } from "../../../utils/youtubeFeed";
 import { getYoutubeId } from "../../../utils/functions";
@@ -57,6 +55,47 @@ import { updateData } from "../../../../../../../bpl-tools/utils/functions";
 import { AdvertiseCard } from "../../../../../../../bpl-tools/ProControls";
 import { pricingUrl } from "../../../utils/data";
 import LivePreview from "./LivePreview";
+
+/* Short words, so the three fit one row under "YouTube Shorts". */
+const shortsChoices = [
+  { value: "all", label: __("All", "video-gallery-block") },
+  { value: "hide", label: __("Hide", "video-gallery-block") },
+  { value: "only", label: __("Only", "video-gallery-block") },
+];
+
+const objectFitOptions = [
+  { value: "cover", label: __("Cover", "video-gallery-block") },
+  { value: "contain", label: __("Contain", "video-gallery-block") },
+  { value: "fill", label: __("Fill", "video-gallery-block") },
+  { value: "none", label: __("None", "video-gallery-block") },
+];
+
+/** "Thumbnail fit", one line per option. */
+const objectFitHelp = (fit) => {
+  if ("contain" === fit) {
+    return __("Shows the whole picture, with bars where the shapes differ.", "video-gallery-block");
+  }
+
+  if ("fill" === fit) {
+    return __("Stretches the picture to fill the thumbnail.", "video-gallery-block");
+  }
+
+  if ("none" === fit) {
+    return __("Shows the picture at its own size, centred.", "video-gallery-block");
+  }
+
+  return __("Fills the thumbnail; the edges may be cropped.", "video-gallery-block");
+};
+
+/** A thin rule with a small caption, between the groups of a long panel. */
+const Section = ({ children }) => (
+  <div className="vgbSection" role="presentation">
+    <span>{children}</span>
+  </div>
+);
+
+/** "px" after a number field. */
+const pxSuffix = <span className="vgbUnit">px</span>;
 
 const Settings = ({
   attributes,
@@ -67,6 +106,9 @@ const Settings = ({
   setDevice,
   keyState,
   feedState,
+  feedVideos,
+  onMove,
+  canMove,
 }) => {
   const {
     albums,
@@ -102,8 +144,20 @@ const Settings = ({
   // Videos come from a YouTube channel/playlist instead of the list below.
   const isFeed = !!feed?.enabled;
   const isVimeoFeed = isFeed && isVimeoFeedUrl(feed?.url);
+  /*
+   * With a feed link in place, FeedSource shows "YouTube Shorts", "Videos per
+   * page" and "Load more button text" in its own step, so they are left out
+   * here; a hand-made gallery has them under Display.
+   */
+  const feedOwnsPaging = isFeed && !!feed?.url;
   // Videos play inside their tiles; the lightbox-only settings do nothing then.
   const playInline = "inline" === options?.playMode;
+
+  // What the thumbnails show -- decides which Style panels have anything to do.
+  const showTitle = !!options?.showCaptionOnThumbnail;
+  const showPlayIcon = false !== options?.showPlayIcon;
+  const showFilterBar =
+    !isFeed && false !== filter?.show && !!albums?.length && !!filter?.commonLabel;
 
   /*
    * Platform-only options are shown only where they do something. The Shorts
@@ -155,6 +209,33 @@ const Settings = ({
   const columnGapObj = toDeviceGap(columnGap, columnGapResponsive);
   const rowGapObj = toDeviceGap(rowGap, rowGapResponsive);
 
+  // "Manual" is the order the videos come in: the list's, or the feed's.
+  const sortOptions = [
+    {
+      value: "manual",
+      label: isFeed ? __("Feed order", "video-gallery-block") : __("Manual", "video-gallery-block"),
+    },
+    { value: "newest", label: __("Newest", "video-gallery-block") },
+    { value: "oldest", label: __("Oldest", "video-gallery-block") },
+  ];
+  const sortOrder = options?.sortOrder || "manual";
+  let sortHelp;
+  if ("manual" === sortOrder) {
+    sortHelp = isFeed
+      ? __("The order YouTube or Vimeo lists the videos in.", "video-gallery-block")
+      : __("The order of your video list.", "video-gallery-block");
+  } else {
+    sortHelp = isFeed
+      ? __("By the day each video was published.", "video-gallery-block")
+      : __(
+          "By the day each video was added; older ones without a date count as the oldest.",
+          "video-gallery-block",
+        );
+  }
+
+  const setOption = (key, value) =>
+    setAttributes({ options: updateData(options, value, key) });
+
   const newItem = {
     video: "",
     albs: [],
@@ -175,11 +256,19 @@ const Settings = ({
     setActiveIndex,
   };
 
+  /** Label on the left, Desktop/Tablet/Mobile switch on the right. */
+  const deviceRow = (text) => (
+    <PanelRow className="vgbLabelRow">
+      <Label className="">{text}</Label>
+      <Device device={currentDevice} setDevice={setDevice} />
+    </PanelRow>
+  );
+
   return (
     <>
       <InspectorControls>
         <TabPanel
-          className="bPlTabPanel"
+          className="bPlTabPanel vgbInspector"
           activeClass="activeTab"
           tabs={generalStyleTabs}>
           {(tab) => (
@@ -191,19 +280,9 @@ const Settings = ({
                     docsLink="https://bblockswp.com/docs/video-gallery-block"
                   />
 
-                  {/* {isGalleryPostType && (
-                    <div className="bPlInspectorInfo">
-                      <FrontShortCode
-                        postType={currentPostType}
-                        shortCode={`[video_gallery id=${currentPostId}]`}
-                        stacked={true}
-                      />
-                    </div>
-                  )} */}
-
                   <PanelBody
                     className="bPlPanelBody vgbSourcePanel"
-                    title={__("Video Source", "video-gallery-block")}>
+                    title={__("Video source", "video-gallery-block")}>
                     <div className="vgbToggleGroupWrap">
                       <ToggleGroupControl
                         label={__("Where do the videos come from?", "video-gallery-block")}
@@ -218,11 +297,11 @@ const Settings = ({
                         help={
                           isFeed
                             ? __(
-                                "Shows the newest videos from a YouTube or Vimeo channel or playlist, and adds new uploads by itself.",
+                                "The newest videos from a YouTube or Vimeo channel or playlist, updated by itself.",
                                 "video-gallery-block",
                               )
                             : __(
-                                "Add videos one by one, or paste many links at once under Import Videos.",
+                                "Add videos one by one, or paste many links under Import videos.",
                                 "video-gallery-block",
                               )
                         }>
@@ -245,6 +324,11 @@ const Settings = ({
                           keyState={keyState}
                           feedState={feedState}
                         />
+                        <CopyFeedButton
+                          attributes={attributes}
+                          setAttributes={setAttributes}
+                          feedVideos={feedVideos}
+                        />
                         <p className="vgbFeedFootnote">
                           {__(
                             "Your own video list is kept. Switch back to “My videos” any time to get it back.",
@@ -256,92 +340,172 @@ const Settings = ({
                   </PanelBody>
 
                   {!isFeed && (
-                  <>
-                  <PanelBody
-                    className="bPlPanelBody addRemoveItems"
-                    title={__("Add or Remove Albums", "video-gallery-block")}>
-                    {albums.map((album, index) => (
-                      <PanelRow key={index}>
-                        <Label className="">
-                          {__(`Al ${index + 1}:`, "video-gallery-block")}
-                        </Label>
-                        <TextControl
-                          value={album}
-                          onChange={(val) => {
-                            const newAlbums = [...albums];
-                            newAlbums[index] = val;
-                            setAttributes({ albums: newAlbums });
-                          }}
+                    <>
+                      <PanelBody
+                        className="bPlPanelBody vgbVideosPanel"
+                        title={__("Videos", "video-gallery-block")}>
+                        {canMove && (
+                          <div className="vgbOrderRow">
+                            <span className="vgbOrderRow__hint">
+                              {__(
+                                "Drag videos on the canvas to reorder them, or move this one:",
+                                "video-gallery-block",
+                              )}
+                            </span>
+                            <span className="vgbOrderRow__btns">
+                              <Button
+                                size="small"
+                                variant="secondary"
+                                icon="arrow-left-alt2"
+                                label={__("Move earlier", "video-gallery-block")}
+                                showTooltip
+                                disabled={activeIndex <= 0}
+                                onClick={() => onMove(activeIndex, activeIndex - 1)}
+                              />
+                              <Button
+                                size="small"
+                                variant="secondary"
+                                icon="arrow-right-alt2"
+                                label={__("Move later", "video-gallery-block")}
+                                showTooltip
+                                disabled={activeIndex >= videos.length - 1}
+                                onClick={() => onMove(activeIndex, activeIndex + 1)}
+                              />
+                            </span>
+                          </div>
+                        )}
+                        <ItemsPanel
+                          {...itemsProps}
+                          newItem={newItem}
+                          ItemSettings={ItemSettings}
+                          itemLabel="Video"
+                          design="single"
                         />
+                      </PanelBody>
 
-                        <Tooltip
-                          text={__("Remove this album", "video-gallery-block")}
-                          placement="top"
-                          position="top">
+                      <PanelBody
+                        className="bPlPanelBody vgbPanel"
+                        title={__("Import videos", "video-gallery-block")}
+                        initialOpen={false}>
+                        <BulkImport
+                          attributes={attributes}
+                          setAttributes={setAttributes}
+                          setActiveIndex={setActiveIndex}
+                        />
+                      </PanelBody>
+
+                      <PanelBody
+                        className="bPlPanelBody vgbPanel vgbAlbumsPanel addRemoveItems"
+                        title={__("Albums & filter bar", "video-gallery-block")}
+                        initialOpen={false}>
+                        {!albums.length && (
+                          <p className="vgbHint">
+                            {__(
+                              "Albums become filter buttons above the gallery.",
+                              "video-gallery-block",
+                            )}
+                          </p>
+                        )}
+
+                        {albums.map((album, index) => (
+                          <PanelRow key={index} className="vgbAlbumRow">
+                            <Label className="vgbAlbumRow__label">
+                              {sprintf(
+                                /* translators: %d: album number. */
+                                __("Album %d", "video-gallery-block"),
+                                index + 1,
+                              )}
+                            </Label>
+                            <TextControl
+                              value={album}
+                              aria-label={sprintf(
+                                /* translators: %d: album number. */
+                                __("Album %d name", "video-gallery-block"),
+                                index + 1,
+                              )}
+                              onChange={(val) => {
+                                const newAlbums = [...albums];
+                                newAlbums[index] = val;
+                                setAttributes({ albums: newAlbums });
+                              }}
+                            />
+
+                            <Tooltip
+                              text={__("Remove this album", "video-gallery-block")}
+                              placement="top"
+                              position="top">
+                              <Button
+                                className="removeAlbum"
+                                label={__("Remove this album", "video-gallery-block")}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  setAttributes({
+                                    albums: [
+                                      ...albums.slice(0, index),
+                                      ...albums.slice(index + 1),
+                                    ],
+                                  });
+                                }}>
+                                <Dashicon icon="no" />
+                              </Button>
+                            </Tooltip>
+                          </PanelRow>
+                        ))}
+
+                        <div className="addItem">
                           <Button
-                            className="removeAlbum"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setAttributes({
-                                albums: [
-                                  ...albums.slice(0, index),
-                                  ...albums.slice(index + 1),
-                                ],
-                              });
-                            }}>
-                            <Dashicon icon="no" />
+                            label={__("Add album", "video-gallery-block")}
+                            onClick={() =>
+                              setAttributes({ albums: [...albums, ""] })
+                            }>
+                            <Dashicon icon="plus" />
+                            {__("Add album", "video-gallery-block")}
                           </Button>
-                        </Tooltip>
-                      </PanelRow>
-                    ))}
+                        </div>
 
-                    <div className="addItem mt15">
-                      <Button
-                        label={__("Add New Album", "video-gallery-block")}
-                        onClick={() =>
-                          setAttributes({ albums: [...albums, ""] })
-                        }>
-                        <Dashicon icon="plus" />
-                        {__("Add New Album", "video-gallery-block")}
-                      </Button>
-                    </div>
-                  </PanelBody>
+                        {!!albums.length && (
+                          <>
+                            <Section>{__("Filter bar", "video-gallery-block")}</Section>
 
-                  <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Import Videos", "video-gallery-block")}
-                    initialOpen={false}>
-                    <BulkImport
-                      attributes={attributes}
-                      setAttributes={setAttributes}
-                      setActiveIndex={setActiveIndex}
-                    />
-                  </PanelBody>
+                            <ToggleControl
+                              label={__("Show filter bar", "video-gallery-block")}
+                              checked={false !== filter?.show}
+                              onChange={(val) =>
+                                setAttributes({ filter: { ...filter, show: val } })
+                              }
+                              help={__(
+                                "A button for each album above the gallery.",
+                                "video-gallery-block",
+                              )}
+                            />
 
-                  <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Videos", "video-gallery-block")}>
-                    <ItemsPanel
-                      {...itemsProps}
-                      newItem={newItem}
-                      ItemSettings={ItemSettings}
-                      itemLabel="Video"
-                      design="single"
-                    />
-                  </PanelBody>
-                  </>
+                            {false !== filter?.show && (
+                              <TextControl
+                                label={__("“All” button label", "video-gallery-block")}
+                                value={filter?.commonLabel}
+                                onChange={(val) =>
+                                  setAttributes({
+                                    filter: { ...filter, commonLabel: val },
+                                  })
+                                }
+                                help={__(
+                                  "Leave empty to hide the filter bar.",
+                                  "video-gallery-block",
+                                )}
+                                __nextHasNoMarginBottom
+                              />
+                            )}
+                          </>
+                        )}
+                      </PanelBody>
+                    </>
                   )}
 
                   <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Layout Settings", "video-gallery-block")}
+                    className="bPlPanelBody vgbPanel"
+                    title={__("Layout", "video-gallery-block")}
                     initialOpen={false}>
-                    <PanelRow>
-                      <Label className="mb5">
-                        {__("Columns:", "video-gallery-block")}
-                      </Label>
-                      <Device device={currentDevice} setDevice={setDevice} />
-                    </PanelRow>
+                    {deviceRow(__("Columns", "video-gallery-block"))}
                     <RangeControl
                       value={columnsObj[currentDevice] ?? 3}
                       onChange={(val) => {
@@ -358,57 +522,47 @@ const Settings = ({
                       beforeIcon="grid-view"
                     />
 
-                    <NumberControl
-                      className="mt20"
-                      label={__("Column Gap:", "video-gallery-block")}
-                      labelPosition="left"
-                      value={columnGapObj[currentDevice] ?? 10}
-                      onChange={(val) =>
-                        setAttributes({
-                          columnGapResponsive: {
-                            ...columnGapObj,
-                            [currentDevice]: Math.max(0, parseInt(val) || 0),
-                          },
-                        })
-                      }
-                      help={__(
-                        "Follows the Desktop/Tablet/Mobile switch above.",
-                        "video-gallery-block",
-                      )}
-                    />
-
-                    <NumberControl
-                      className="mt20"
-                      label={__("Row Gap:", "video-gallery-block")}
-                      labelPosition="left"
-                      value={rowGapObj[currentDevice] ?? 10}
-                      onChange={(val) =>
-                        setAttributes({
-                          rowGapResponsive: {
-                            ...rowGapObj,
-                            [currentDevice]: Math.max(0, parseInt(val) || 0),
-                          },
-                        })
-                      }
-                    />
-
-                    <div className="mt20 vgbToggleGroupWrap">
-                      <ToggleGroupControl
-                        label={__("Row Alignment:", "video-gallery-block")}
-                        value={options?.rowAlign || "center"}
+                    {deviceRow(__("Gaps", "video-gallery-block"))}
+                    <div className="vgbTwoCol">
+                      <NumberControl
+                        label={__("Between columns", "video-gallery-block")}
+                        value={columnGapObj[currentDevice] ?? 10}
+                        min={0}
+                        suffix={pxSuffix}
                         onChange={(val) =>
                           setAttributes({
-                            options: updateData(
-                              options,
-                              val ?? "center",
-                              "rowAlign",
-                            ),
+                            columnGapResponsive: {
+                              ...columnGapObj,
+                              [currentDevice]: Math.max(0, parseInt(val) || 0),
+                            },
                           })
                         }
+                      />
+                      <NumberControl
+                        label={__("Between rows", "video-gallery-block")}
+                        value={rowGapObj[currentDevice] ?? 10}
+                        min={0}
+                        suffix={pxSuffix}
+                        onChange={(val) =>
+                          setAttributes({
+                            rowGapResponsive: {
+                              ...rowGapObj,
+                              [currentDevice]: Math.max(0, parseInt(val) || 0),
+                            },
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("Row alignment", "video-gallery-block")}
+                        value={options?.rowAlign || "center"}
+                        onChange={(val) => setOption("rowAlign", val ?? "center")}
                         isBlock
                         __nextHasNoMarginBottom
                         help={__(
-                          "Only visible when the video count doesn't divide evenly into the column count -- where the last, incomplete row sits.",
+                          "Where a last row that isn't full sits.",
                           "video-gallery-block",
                         )}>
                         {rowAlignOptions.map((option) => (
@@ -421,40 +575,28 @@ const Settings = ({
                       </ToggleGroupControl>
                     </div>
 
-                    {!playInline && (
-                    <ToggleControl
-                      className="mt20"
-                      label={__(
-                        "Popup video width as aspect ratio",
-                        "video-gallery-block",
-                      )}
-                      checked={isPopupWidthAsRatio}
-                      onChange={(val) =>
-                        setAttributes({ isPopupWidthAsRatio: val })
-                      }
-                    />
-                    )}
+                    <Section>{__("Thumbnails", "video-gallery-block")}</Section>
 
-                    <div className="mt20 vgbToggleGroupWrap">
+                    {/*
+                      WordPress's own segmented control rather than
+                      BButtonGroup: it gives each option an equal share of the
+                      width (five fit the sidebar), and clicking the option
+                      already selected leaves it selected instead of resetting
+                      it to the default.
+                    */}
+                    <div className="vgbToggleGroupWrap">
                       <ToggleGroupControl
-                        label={__("Sort Order:", "video-gallery-block")}
-                        value={options?.sortOrder || "manual"}
-                        onChange={(val) =>
-                          setAttributes({
-                            options: updateData(
-                              options,
-                              val ?? "manual",
-                              "sortOrder",
-                            ),
-                          })
-                        }
+                        label={__("Thumbnail shape", "video-gallery-block")}
+                        value={aspectRatio || ""}
+                        onChange={(val) => setAttributes({ aspectRatio: val ?? "" })}
                         isBlock
                         __nextHasNoMarginBottom
-                        help={__(
-                          "Manual keeps the order videos were added in. Videos added before this option existed count as the oldest.",
-                          "video-gallery-block",
-                        )}>
-                        {sortOrderOptions.map((option) => (
+                        help={
+                          aspectRatio
+                            ? __("Every thumbnail keeps this shape on all screens.", "video-gallery-block")
+                            : __("Every thumbnail gets the height set below.", "video-gallery-block")
+                        }>
+                        {aspectRatioOptions.map((option) => (
                           <ToggleGroupControlOption
                             key={option.value}
                             value={option.value}
@@ -464,112 +606,187 @@ const Settings = ({
                       </ToggleGroupControl>
                     </div>
 
-                    <NumberControl
-                      className="mt20"
-                      label={__("Videos Per Page:", "video-gallery-block")}
-                      labelPosition="left"
-                      value={perPage || 0}
-                      min={0}
-                      onChange={(val) =>
-                        setAttributes({ perPage: Math.max(0, parseInt(val) || 0) })
-                      }
-                      help={__(
-                        "0 shows every video, otherwise this many show first with a Load More button for the rest.",
-                        "video-gallery-block",
-                      )}
-                    />
-
-                    {perPage > 0 && (
-                      <TextControl
-                        className="mt20"
-                        label={__("Load More Button Text:", "video-gallery-block")}
-                        labelPosition="left"
-                        value={loadMoreLabel}
-                        onChange={(val) => setAttributes({ loadMoreLabel: val })}
+                    {/*
+                      Only one of the two sizes a tile: a ratio makes the
+                      height meaningless. Galleries built before the shape
+                      existed keep their fixed height, because "" is the
+                      default.
+                    */}
+                    {!aspectRatio && (
+                      <UnitControl
+                        label={__("Height", "video-gallery-block")}
+                        value={itemHeight}
+                        onChange={(val) => setAttributes({ itemHeight: val })}
+                        units={[pxUnit(), perUnit(), emUnit()]}
                       />
                     )}
+
+                    <div className="vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("Thumbnail fit", "video-gallery-block")}
+                        value={options?.objectFit || "cover"}
+                        onChange={(value) => setOption("objectFit", value ?? "cover")}
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={objectFitHelp(options?.objectFit || "cover")}>
+                        {objectFitOptions.map((option) => (
+                          <ToggleGroupControlOption
+                            key={option.value}
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </ToggleGroupControl>
+                    </div>
+
+                    <Section>{__("Order", "video-gallery-block")}</Section>
+
+                    <div className="vgbToggleGroupWrap">
+                      <ToggleGroupControl
+                        label={__("Sort order", "video-gallery-block")}
+                        value={sortOrder}
+                        onChange={(val) => setOption("sortOrder", val ?? "manual")}
+                        isBlock
+                        __nextHasNoMarginBottom
+                        help={sortHelp}>
+                        {sortOptions.map((option) => (
+                          <ToggleGroupControlOption
+                            key={option.value}
+                            value={option.value}
+                            label={option.label}
+                          />
+                        ))}
+                      </ToggleGroupControl>
+                    </div>
                   </PanelBody>
 
-                  {!isFeed && (
                   <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Filter", "video-gallery-block")}
+                    className="bPlPanelBody vgbPanel"
+                    title={__("Display", "video-gallery-block")}
                     initialOpen={false}>
                     <ToggleControl
-                      label={__("Show Filter Bar", "video-gallery-block")}
-                      checked={false !== filter?.show}
-                      onChange={(val) =>
-                        setAttributes({ filter: { ...filter, show: val } })
-                      }
+                      label={__("Show title", "video-gallery-block")}
+                      checked={showTitle}
+                      onChange={(val) => setOption("showCaptionOnThumbnail", val)}
                       help={__(
-                        "The filter bar only appears when the gallery has at least one album.",
+                        "The video's title over the bottom of each thumbnail.",
                         "video-gallery-block",
                       )}
                     />
 
-                    {false !== filter?.show && (
-                      <PanelRow className="mt20">
-                        <TextControl
-                          label={__("Common Filter", "video-gallery-block")}
-                          labelPosition="left"
-                          value={filter?.commonLabel}
+                    <ToggleControl
+                      label={__("Show channel name", "video-gallery-block")}
+                      checked={!!options?.showChannel}
+                      onChange={(val) => setOption("showChannel", val)}
+                      help={__("From YouTube / Vimeo feeds.", "video-gallery-block")}
+                    />
+
+                    <ToggleControl
+                      label={__("Show play icon", "video-gallery-block")}
+                      checked={showPlayIcon}
+                      onChange={(val) => setOption("showPlayIcon", val)}
+                      help={__(
+                        "A play icon over each thumbnail, so it reads as a video.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    {!feedOwnsPaging && (
+                      <>
+                        <Section>{__("Videos shown", "video-gallery-block")}</Section>
+
+                        {showShortsFilter && (
+                          <div className="vgbToggleGroupWrap">
+                            <ToggleGroupControl
+                              label={__("YouTube Shorts", "video-gallery-block")}
+                              value={shortsFilter}
+                              onChange={(val) => setOption("shortsFilter", val ?? "all")}
+                              isBlock
+                              __nextHasNoMarginBottom
+                              help={
+                                isFeed
+                                  ? __(
+                                      "Uses YouTube's own videos-only or Shorts-only list for this channel.",
+                                      "video-gallery-block",
+                                    )
+                                  : shortsApplies
+                                  ? __(
+                                      "Applies to the YouTube videos in this gallery.",
+                                      "video-gallery-block",
+                                    )
+                                  : __(
+                                      "No YouTube videos are left in this gallery; set this back to All.",
+                                      "video-gallery-block",
+                                    )
+                              }>
+                              {shortsChoices.map((option) => (
+                                <ToggleGroupControlOption
+                                  key={option.value}
+                                  value={option.value}
+                                  label={option.label}
+                                />
+                              ))}
+                            </ToggleGroupControl>
+                          </div>
+                        )}
+
+                        <NumberControl
+                          className="vgbInlineNumber"
+                          label={__("Show first", "video-gallery-block")}
+                          labelPosition="side"
+                          value={perPage || 0}
+                          min={0}
                           onChange={(val) =>
-                            setAttributes({
-                              filter: { ...filter, commonLabel: val },
-                            })
+                            setAttributes({ perPage: Math.max(0, parseInt(val) || 0) })
                           }
                           help={__(
-                            'Label for the button that shows every video, for example "All Videos".',
+                            "0 shows every video; otherwise the rest wait behind a Load more button.",
                             "video-gallery-block",
                           )}
                         />
-                      </PanelRow>
+
+                        {perPage > 0 && (
+                          <TextControl
+                            label={__("Load more button text", "video-gallery-block")}
+                            value={loadMoreLabel}
+                            onChange={(val) => setAttributes({ loadMoreLabel: val })}
+                            __nextHasNoMarginBottom
+                          />
+                        )}
+                      </>
                     )}
                   </PanelBody>
-                  )}
 
                   <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Options", "video-gallery-block")}
+                    className="bPlPanelBody vgbPanel"
+                    title={__("Playback", "video-gallery-block")}
                     initialOpen={false}>
-                    {/*
-                      WordPress's own segmented control rather than
-                      BButtonGroup -- same reasons as Thumbnail Shape below:
-                      BButtonGroup doesn't wrap when the label and four
-                      options don't fit the inspector's width, and clicking
-                      the already-selected option resets it to the default
-                      instead of leaving it selected.
-                    */}
                     <div className="vgbToggleGroupWrap">
                       <ToggleGroupControl
-                        label={__("When a video is clicked:", "video-gallery-block")}
+                        label={__("When a video is clicked", "video-gallery-block")}
                         value={playInline ? "inline" : "lightbox"}
-                        onChange={(val) =>
-                          setAttributes({
-                            options: updateData(options, val || "lightbox", "playMode"),
-                          })
-                        }
+                        onChange={(val) => setOption("playMode", val || "lightbox")}
                         isBlock
                         __nextHasNoMarginBottom
                         help={
                           playInline
                             ? aspectRatio
                               ? __(
-                                  "The video plays inside its own tile. Only one plays at a time.",
+                                  "Plays inside its own tile, one video at a time.",
                                   "video-gallery-block",
                                 )
                               : __(
-                                  "The video plays inside its own tile. Tip: set Style → Thumbnail Shape to 16:9 (or 9:16 for Shorts) so the video fills the tile.",
+                                  "Plays inside its own tile. Tip: a 16:9 Thumbnail shape (Layout) makes it fill the tile.",
                                   "video-gallery-block",
                                 )
                             : __(
-                                "The video opens in a full-screen lightbox, with the other videos below it.",
+                                "Opens in a lightbox, with the other videos below it.",
                                 "video-gallery-block",
                               )
                         }>
                         <ToggleGroupControlOption
                           value="lightbox"
-                          label={__("Open in lightbox", "video-gallery-block")}
+                          label={__("Lightbox", "video-gallery-block")}
                         />
                         <ToggleGroupControlOption
                           value="inline"
@@ -578,153 +795,45 @@ const Settings = ({
                       </ToggleGroupControl>
                     </div>
 
-                    <ToggleGroupControl
-                      className="mt20"
-                      label={__("Poster Fit:", "video-gallery-block")}
-                      value={options?.objectFit || "cover"}
-                      onChange={(value) =>
-                        setAttributes({
-                          options: updateData(
-                            options,
-                            value ?? "cover",
-                            "objectFit",
-                          ),
-                        })
-                      }
-                      isBlock
-                      __nextHasNoMarginBottom>
-                      {videoSizeOptions.map((option) => (
-                        <ToggleGroupControlOption
-                          key={option.value}
-                          value={option.value}
-                          label={option.label}
-                        />
-                      ))}
-                    </ToggleGroupControl>
+                    {!playInline && (
+                      <ToggleControl
+                        label={__("Popup width as aspect ratio", "video-gallery-block")}
+                        checked={isPopupWidthAsRatio}
+                        onChange={(val) => setAttributes({ isPopupWidthAsRatio: val })}
+                      />
+                    )}
+                  </PanelBody>
 
+                  <PanelBody
+                    className="bPlPanelBody vgbPanel"
+                    title={__("Privacy & SEO", "video-gallery-block")}
+                    initialOpen={false}>
                     <ToggleControl
-                      className="mt20"
-                      label={__(
-                        "Show Caption on Thumbnail",
+                      label={__("Ask before loading YouTube / Vimeo (GDPR)", "video-gallery-block")}
+                      checked={!!options?.consentGate}
+                      onChange={(val) => setOption("consentGate", val)}
+                      help={__(
+                        "Shows a privacy notice and loads the video only after the visitor agrees. The choice is remembered for the whole site.",
                         "video-gallery-block",
                       )}
-                      checked={options?.showCaptionOnThumbnail}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(
-                            options,
-                            val,
-                            "showCaptionOnThumbnail",
-                          ),
-                        })
-                      }
                     />
 
                     <ToggleControl
-                      className="mt20"
+                      label={__("Send play events to Google Analytics", "video-gallery-block")}
+                      checked={!!options?.gaTracking}
+                      onChange={(val) => setOption("gaTracking", val)}
+                      help={__(
+                        "Sends play, progress and finish events to GA4 or Google Tag Manager.",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    <ToggleControl
                       label={__("Video SEO markup", "video-gallery-block")}
                       checked={false !== options?.videoSchema}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(options, val, "videoSchema"),
-                        })
-                      }
+                      onChange={(val) => setOption("videoSchema", val)}
                       help={__(
-                        "Adds video schema markup for search results. Turn off if your SEO plugin already does it.",
-                        "video-gallery-block",
-                      )}
-                    />
-
-                    {showShortsFilter && (
-                    <div className="mt20 vgbToggleGroupWrap">
-                      <ToggleGroupControl
-                        label={__("YouTube Shorts:", "video-gallery-block")}
-                        value={shortsFilter}
-                        onChange={(val) =>
-                          setAttributes({
-                            options: updateData(
-                              options,
-                              val ?? "all",
-                              "shortsFilter",
-                            ),
-                          })
-                        }
-                        isBlock
-                        __nextHasNoMarginBottom
-                        help={
-                          isFeed
-                            ? __(
-                                "Picks YouTube's own videos-only or Shorts-only list for this channel.",
-                                "video-gallery-block",
-                              )
-                            : shortsApplies
-                            ? __(
-                                "Applies to the YouTube videos in this gallery. Detected by the link itself, so it works without an API key.",
-                                "video-gallery-block",
-                              )
-                            : __(
-                                "There are no YouTube videos in this gallery any more. Set this back to All Videos.",
-                                "video-gallery-block",
-                              )
-                        }>
-                        {shortsFilterOptions.map((option) => (
-                          <ToggleGroupControlOption
-                            key={option.value}
-                            value={option.value}
-                            label={option.label}
-                          />
-                        ))}
-                      </ToggleGroupControl>
-                    </div>
-                    )}
-
-                    <ToggleControl
-                      className="mt20"
-                      label={__("Show Play Icon on Thumbnail", "video-gallery-block")}
-                      checked={false !== options?.showPlayIcon}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(options, val, "showPlayIcon"),
-                        })
-                      }
-                      help={__(
-                        "A small play icon over each thumbnail, so it reads as a video before anyone hovers or clicks it.",
-                        "video-gallery-block",
-                      )}
-                    />
-
-                    <ToggleControl
-                      className="mt20"
-                      label={__(
-                        "Require Consent Before Playing",
-                        "video-gallery-block",
-                      )}
-                      checked={!!options?.consentGate}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(options, val, "consentGate"),
-                        })
-                      }
-                      help={__(
-                        "Shows who the video is hosted by and asks before loading their player, so YouTube or Vimeo sets no cookies until a visitor agrees.",
-                        "video-gallery-block",
-                      )}
-                    />
-
-                    <ToggleControl
-                      className="mt20"
-                      label={__(
-                        "Send Video Play Events to Google Analytics",
-                        "video-gallery-block",
-                      )}
-                      checked={!!options?.gaTracking}
-                      onChange={(val) =>
-                        setAttributes({
-                          options: updateData(options, val, "gaTracking"),
-                        })
-                      }
-                      help={__(
-                        "Sends video_start when a visitor opens a video, video_play when they press play, and video_watch_progress (25, 50, 75 percent) and video_watch_complete as they watch. Facebook videos only report opening. Works with GA4 or Google Tag Manager already on the site, nothing extra to set up.",
+                        "Video schema for search results; turn it off if your SEO plugin adds it.",
                         "video-gallery-block",
                       )}
                     />
@@ -735,34 +844,31 @@ const Settings = ({
               {"style" === tab.name && (
                 <>
                   <PanelBody
-                    className="bPlPanelBody"
+                    className="bPlPanelBody vgbPanel"
                     title={__("Gallery", "video-gallery-block")}>
                     <Background
-                      label={__("Background:", "video-gallery-block")}
+                      label={__("Background", "video-gallery-block")}
                       value={background}
                       onChange={(val) => setAttributes({ background: val })}
                       defaults={{ color: "#fff" }}
                     />
 
                     <SpaceControl
-                      className="mt20"
-                      label={__("Padding:", "video-gallery-block")}
+                      label={__("Padding", "video-gallery-block")}
                       value={padding}
                       onChange={(val) => setAttributes({ padding: val })}
                       defaults={{ vertical: "10px", horizontal: "10px" }}
                     />
 
                     <BorderControl
-                      className="mt20"
-                      label={__("Border:", "video-gallery-block")}
+                      label={__("Border", "video-gallery-block")}
                       value={border}
                       onChange={(val) => setAttributes({ border: val })}
                       defaults={{ radius: "5px" }}
                     />
 
                     <ShadowControl
-                      className="mt20"
-                      label={__("Shadow:", "video-gallery-block")}
+                      label={__("Shadow", "video-gallery-block")}
                       value={shadow}
                       onChange={(val) => setAttributes({ shadow: val })}
                       defaults={[
@@ -778,292 +884,205 @@ const Settings = ({
                   </PanelBody>
 
                   <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Filter", "video-gallery-block")}
+                    className="bPlPanelBody vgbPanel"
+                    title={__("Thumbnail", "video-gallery-block")}
                     initialOpen={false}>
-                    <Typography
-                      label={__("Button Typography:", "video-gallery-block")}
-                      value={filterBtnTypo}
-                      onChange={(val) => setAttributes({ filterBtnTypo: val })}
-                      defaults={{
-                        fontSize: { desktop: 14, tablet: 14, mobile: 14 },
-                      }}
-                    />
-
-                    <ColorsControl
-                      label={__("Button Colors", "video-gallery-block")}
-                      value={filterBtnColors}
-                      onChange={(val) =>
-                        setAttributes({ filterBtnColors: val })
-                      }
-                      defaults={{ color: "#fff", bg: "#146ef5" }}
-                    />
-
-                    <ColorsControl
-                      label={__(
-                        "Button Hover/Active Colors",
-                        "video-gallery-block",
-                      )}
-                      value={filterBtnHoverColors}
-                      onChange={(val) =>
-                        setAttributes({ filterBtnHoverColors: val })
-                      }
-                      defaults={{ color: "#fff", bg: "#ff7a00" }}
-                    />
-                  </PanelBody>
-
-                  <PanelBody
-                    className="bPlPanelBody"
-                    title={__("Item", "video-gallery-block")}
-                    initialOpen={false}>
-                    {/*
-                      WordPress's own segmented control rather than
-                      BButtonGroup, for two reasons.
-
-                      It puts its label above the options and gives each an
-                      equal share of the width. BButtonGroup lays label and
-                      buttons out on one line and never wraps, so five options
-                      did not fit the 246px inspector: the label was squeezed
-                      to 61px and wrapped to two lines, the buttons still
-                      overflowed it by 6px, and the selected one rendered as a
-                      circle sitting on top of the label text.
-
-                      And clicking the option that is already selected leaves
-                      it selected. BButtonGroup treats a second click as
-                      "deselect" and falls back to its defaultValue, so
-                      clicking 16:9 twice silently reset the gallery to a fixed
-                      height.
-                    */}
-                    <ToggleGroupControl
-                      label={__("Thumbnail Shape:", "video-gallery-block")}
-                      value={aspectRatio || ""}
-                      onChange={(val) =>
-                        setAttributes({ aspectRatio: val ?? "" })
-                      }
-                      isBlock
-                      __nextHasNoMarginBottom
-                      help={__(
-                        "Tiles keep this shape on every screen. Choose Fixed to set a height in pixels instead.",
-                        "video-gallery-block",
-                      )}>
-                      {aspectRatioOptions.map((option) => (
-                        <ToggleGroupControlOption
-                          key={option.value}
-                          value={option.value}
-                          label={option.label}
-                        />
-                      ))}
-                    </ToggleGroupControl>
-
-                    {/*
-                      Only one of the two sizes a tile: a ratio makes the
-                      height meaningless, so the height control goes away
-                      rather than sitting there doing nothing. Galleries built
-                      before this option existed keep their fixed height,
-                      because "" is the default.
-                    */}
-                    {!aspectRatio && (
-                      <UnitControl
-                        className="mt20"
-                        label={__("Height:", "video-gallery-block")}
-                        labelPosition="left"
-                        value={itemHeight}
-                        onChange={(val) => setAttributes({ itemHeight: val })}
-                        units={[pxUnit(), perUnit(), emUnit()]}
-                      />
-                    )}
-
                     <BorderControl
-                      className="mt20"
-                      label={__("Item Border:", "video-gallery-block")}
+                      label={__("Border", "video-gallery-block")}
                       labelPosition="left"
                       value={itemBorder}
                       onChange={(val) => setAttributes({ itemBorder: val })}
                     />
 
                     <ShadowControl
-                      className="mt20"
-                      label={__("Item Shadow:", "video-gallery-block")}
+                      label={__("Shadow", "video-gallery-block")}
                       labelPosition="left"
                       value={itemShadow}
                       onChange={(val) => setAttributes({ itemShadow: val })}
                     />
-
-                    <Typography
-                      label={__("Caption Typography:", "video-gallery-block")}
-                      labelPosition="left"
-                      className="mt20"
-                      value={styles?.caption?.typography}
-                      onChange={(val) =>
-                        setAttributes({
-                          styles: updateData(
-                            styles,
-                            val,
-                            "caption",
-                            "typography",
-                          ),
-                        })
-                      }
-                      defaults={{
-                        fontSize: { desktop: 14, tablet: 14, mobile: 14 },
-                      }}
-                    />
-
-                    <ColorsControl
-                      label={__("Caption Colors:", "video-gallery-block")}
-                      value={styles?.caption?.colors}
-                      className="mt20"
-                      labelPosition="left"
-                      onChange={(val) =>
-                        setAttributes({
-                          styles: updateData(styles, val, "caption", "colors"),
-                        })
-                      }
-                      defaults={{
-                        color: "#fff",
-                        bg: "rgba(0, 0, 0, 0.55)",
-                      }}
-                    />
-
-                    <SpaceControl
-                      label={__("Caption Padding:", "video-gallery-block")}
-                      labelPosition="left"
-                      className="mt20"
-                      value={styles?.caption?.padding}
-                      onChange={(val) =>
-                        setAttributes({
-                          styles: updateData(styles, val, "caption", "padding"),
-                        })
-                      }
-                      defaults={{
-                        vertical: "10px",
-                        horizontal: "10px",
-                      }}
-                    />
-
-                    {false !== options?.showPlayIcon && (
-                      <>
-                        <ColorsControl
-                          label={__(
-                            "Play Icon Colors:",
-                            "video-gallery-block",
-                          )}
-                          value={playIconColors}
-                          className="mt20"
-                          labelPosition="left"
-                          onChange={(val) =>
-                            setAttributes({ playIconColors: val })
-                          }
-                          defaults={{
-                            color: "#fff",
-                            bg: "rgba(0, 0, 0, 0.55)",
-                          }}
-                        />
-
-                        <NumberControl
-                          className="mt20"
-                          label={__("Play Icon Size:", "video-gallery-block")}
-                          labelPosition="left"
-                          value={playIconSize ?? 54}
-                          onChange={(val) =>
-                            setAttributes({
-                              playIconSize: parseInt(val) || 54,
-                            })
-                          }
-                          min={30}
-                          max={100}
-                        />
-
-                        <RangeControl
-                          className="mt20"
-                          label={__(
-                            "Play Icon Hover Zoom:",
-                            "video-gallery-block",
-                          )}
-                          value={playIconHoverScale ?? 1.08}
-                          onChange={(val) =>
-                            setAttributes({
-                              playIconHoverScale: val ?? 1.08,
-                            })
-                          }
-                          min={1}
-                          max={1.5}
-                          step={0.01}
-                          help={__(
-                            "How much the icon grows when a visitor hovers the tile. 1 turns the effect off.",
-                            "video-gallery-block",
-                          )}
-                        />
-                      </>
-                    )}
                   </PanelBody>
+
+                  {/* Only when the thumbnails show a title. */}
+                  {showTitle && (
+                    <PanelBody
+                      className="bPlPanelBody vgbPanel"
+                      title={__("Title & text", "video-gallery-block")}
+                      initialOpen={false}>
+                      <Typography
+                        label={__("Typography", "video-gallery-block")}
+                        labelPosition="left"
+                        value={styles?.caption?.typography}
+                        onChange={(val) =>
+                          setAttributes({
+                            styles: updateData(styles, val, "caption", "typography"),
+                          })
+                        }
+                        defaults={{
+                          fontSize: { desktop: 14, tablet: 14, mobile: 14 },
+                        }}
+                      />
+
+                      <ColorsControl
+                        label={__("Colors", "video-gallery-block")}
+                        value={styles?.caption?.colors}
+                        labelPosition="left"
+                        onChange={(val) =>
+                          setAttributes({
+                            styles: updateData(styles, val, "caption", "colors"),
+                          })
+                        }
+                        defaults={{
+                          color: "#fff",
+                          bg: "rgba(0, 0, 0, 0.55)",
+                        }}
+                      />
+
+                      <SpaceControl
+                        label={__("Padding", "video-gallery-block")}
+                        labelPosition="left"
+                        value={styles?.caption?.padding}
+                        onChange={(val) =>
+                          setAttributes({
+                            styles: updateData(styles, val, "caption", "padding"),
+                          })
+                        }
+                        defaults={{
+                          vertical: "10px",
+                          horizontal: "10px",
+                        }}
+                      />
+                    </PanelBody>
+                  )}
+
+                  {showPlayIcon && (
+                    <PanelBody
+                      className="bPlPanelBody vgbPanel"
+                      title={__("Play icon", "video-gallery-block")}
+                      initialOpen={false}>
+                      <ColorsControl
+                        label={__("Colors", "video-gallery-block")}
+                        value={playIconColors}
+                        labelPosition="left"
+                        onChange={(val) => setAttributes({ playIconColors: val })}
+                        defaults={{
+                          color: "#fff",
+                          bg: "rgba(0, 0, 0, 0.55)",
+                        }}
+                      />
+
+                      <NumberControl
+                        className="vgbInlineNumber"
+                        label={__("Size", "video-gallery-block")}
+                        labelPosition="side"
+                        value={playIconSize ?? 54}
+                        suffix={pxSuffix}
+                        onChange={(val) =>
+                          setAttributes({
+                            playIconSize: parseInt(val) || 54,
+                          })
+                        }
+                        min={30}
+                        max={100}
+                      />
+
+                      <RangeControl
+                        label={__("Hover zoom", "video-gallery-block")}
+                        value={playIconHoverScale ?? 1.08}
+                        onChange={(val) =>
+                          setAttributes({
+                            playIconHoverScale: val ?? 1.08,
+                          })
+                        }
+                        min={1}
+                        max={1.5}
+                        step={0.01}
+                        help={__(
+                          "How much the icon grows on hover; 1 turns it off.",
+                          "video-gallery-block",
+                        )}
+                      />
+                    </PanelBody>
+                  )}
+
+                  {showFilterBar && (
+                    <PanelBody
+                      className="bPlPanelBody vgbPanel"
+                      title={__("Album filter bar", "video-gallery-block")}
+                      initialOpen={false}>
+                      <Typography
+                        label={__("Button typography", "video-gallery-block")}
+                        value={filterBtnTypo}
+                        onChange={(val) => setAttributes({ filterBtnTypo: val })}
+                        defaults={{
+                          fontSize: { desktop: 14, tablet: 14, mobile: 14 },
+                        }}
+                      />
+
+                      <ColorsControl
+                        label={__("Button colors", "video-gallery-block")}
+                        value={filterBtnColors}
+                        onChange={(val) => setAttributes({ filterBtnColors: val })}
+                        defaults={{ color: "#fff", bg: "#146ef5" }}
+                      />
+
+                      <ColorsControl
+                        label={__("Hover & active colors", "video-gallery-block")}
+                        value={filterBtnHoverColors}
+                        onChange={(val) => setAttributes({ filterBtnHoverColors: val })}
+                        defaults={{ color: "#fff", bg: "#ff7a00" }}
+                      />
+                    </PanelBody>
+                  )}
 
                   {!playInline && (
-                  <PanelBody
-                    className="bPlPanelBody"
-                    title={__("LightBox Caption", "video-gallery-block")}
-                    initialOpen={false}>
-                    <Typography
-                      label={__("Caption Typography:", "video-gallery-block")}
-                      labelPosition="left"
-                      value={styles?.lightBoxCaption?.typography}
-                      onChange={(val) =>
-                        setAttributes({
-                          styles: updateData(
-                            styles,
-                            val,
-                            "lightBoxCaption",
-                            "typography",
-                          ),
-                        })
-                      }
-                      defaults={{
-                        fontSize: { desktop: 14, tablet: 14, mobile: 14 },
-                      }}
-                    />
+                    <PanelBody
+                      className="bPlPanelBody vgbPanel"
+                      title={__("Lightbox caption", "video-gallery-block")}
+                      initialOpen={false}>
+                      <Typography
+                        label={__("Typography", "video-gallery-block")}
+                        labelPosition="left"
+                        value={styles?.lightBoxCaption?.typography}
+                        onChange={(val) =>
+                          setAttributes({
+                            styles: updateData(styles, val, "lightBoxCaption", "typography"),
+                          })
+                        }
+                        defaults={{
+                          fontSize: { desktop: 14, tablet: 14, mobile: 14 },
+                        }}
+                      />
 
-                    <ColorsControl
-                      label={__("Caption Colors:", "video-gallery-block")}
-                      value={styles?.lightBoxCaption?.colors}
-                      className="mt20"
-                      labelPosition="left"
-                      onChange={(val) =>
-                        setAttributes({
-                          styles: updateData(
-                            styles,
-                            val,
-                            "lightBoxCaption",
-                            "colors",
-                          ),
-                        })
-                      }
-                      defaults={{
-                        color: "#fff",
-                        bg: "#00000000",
-                      }}
-                    />
+                      <ColorsControl
+                        label={__("Colors", "video-gallery-block")}
+                        value={styles?.lightBoxCaption?.colors}
+                        labelPosition="left"
+                        onChange={(val) =>
+                          setAttributes({
+                            styles: updateData(styles, val, "lightBoxCaption", "colors"),
+                          })
+                        }
+                        defaults={{
+                          color: "#fff",
+                          bg: "#00000000",
+                        }}
+                      />
 
-                    <SpaceControl
-                      label={__("Caption Padding:", "video-gallery-block")}
-                      labelPosition="left"
-                      className="mt20"
-                      value={styles?.lightBoxCaption?.padding}
-                      onChange={(val) =>
-                        setAttributes({
-                          styles: updateData(
-                            styles,
-                            val,
-                            "lightBoxCaption",
-                            "padding",
-                          ),
-                        })
-                      }
-                      defaults={{
-                        vertical: "10px",
-                        horizontal: "10px",
-                      }}
-                    />
-                  </PanelBody>
+                      <SpaceControl
+                        label={__("Padding", "video-gallery-block")}
+                        labelPosition="left"
+                        value={styles?.lightBoxCaption?.padding}
+                        onChange={(val) =>
+                          setAttributes({
+                            styles: updateData(styles, val, "lightBoxCaption", "padding"),
+                          })
+                        }
+                        defaults={{
+                          vertical: "10px",
+                          horizontal: "10px",
+                        }}
+                      />
+                    </PanelBody>
                   )}
                 </>
               )}
@@ -1075,13 +1094,16 @@ const Settings = ({
       </InspectorControls>
 
       <BlockControls>
-        <ToolbarGroup className="bPlToolbar">
-          <ToolbarButton
-            label={__("Add New Video", "video-gallery-block")}
-            onClick={addVideo}>
-            <Dashicon icon="plus" />
-          </ToolbarButton>
-        </ToolbarGroup>
+        {/* A feed brings its own videos; there is no list to add to. */}
+        {!isFeed && (
+          <ToolbarGroup className="bPlToolbar">
+            <ToolbarButton
+              label={__("Add new video", "video-gallery-block")}
+              onClick={addVideo}>
+              <Dashicon icon="plus" />
+            </ToolbarButton>
+          </ToolbarGroup>
+        )}
 
         <div style={{ display: "flex", alignItems: "center" }}>
           <LivePreview isPro={false} />

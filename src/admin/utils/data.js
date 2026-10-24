@@ -192,6 +192,30 @@ export const welcomeInfo = (adminUrl = "") => ({
   // Changelogs — each list item starts with <strong>Type:</strong> for badges
   changelogs: [
     {
+      version: "1.7.0 - 24 October 2026",
+      type: "new",
+      list: [
+        __("<strong>New:</strong> Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar.", "video-gallery-block"),
+        __("<strong>New:</strong> Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click \"Check now\". If YouTube or Vimeo can't be reached, the last videos stay on the page.", "video-gallery-block"),
+        __("<strong>New:</strong> Paste a single video's link and the gallery offers that creator's whole channel.", "video-gallery-block"),
+        __("<strong>New:</strong> The YouTube Shorts option (all videos, hide Shorts, only Shorts) also works for channel feeds.", "video-gallery-block"),
+        __("<strong>New:</strong> Play in place. A video can play inside its own tile instead of the lightbox (YouTube, Vimeo, Facebook and video files), one at a time.", "video-gallery-block"),
+        __("<strong>New:</strong> Feed alerts. When a feed stops updating, for example because of a wrong or expired API key, a used-up daily quota or a deleted playlist, administrators see a notice saying what is wrong and where to fix it. It can be hidden for a day, sent by email if you turn that on, and goes away by itself once the feed works again.", "video-gallery-block"),
+        "<strong>New:</strong> Show the channel name under each title for YouTube and Vimeo feeds.",
+        "<strong>New:</strong> \"Add from Media Library\": pick or upload many videos at once.",
+        "<strong>New:</strong> Drag video files from your computer, or YouTube and Vimeo links from another tab, onto the gallery to add them.",
+        "<strong>New:</strong> \"Copy these videos to My videos\" turns a feed's videos into your own list, to reorder and edit.",
+        "<strong>New:</strong> Drag videos on the canvas to reorder them, or use the Move left / Move right buttons.",
+        "<strong>Improvement:</strong> Clearer settings. Panels follow the order you work in (Video source, Videos, Layout, Display, Playback, Privacy & SEO), feed setup is a set of short steps, and short dropdowns are now buttons.",
+        __("<strong>Improvement:</strong> YouTube thumbnails use the best size that exists for each video, and the live page now shows the same thumbnail as the editor instead of a cropped, blurrier one.", "video-gallery-block"),
+        __("<strong>Improvement:</strong> Video SEO markup gives feed videos their real publish date.", "video-gallery-block"),
+        __("<strong>Improvement:</strong> When \"delete data on uninstall\" is on, deleting the plugin also removes the YouTube API key and the cached feeds.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Full-width galleries no longer stick out past the edge of the page in classic themes such as Hello Elementor, on computers with a visible scrollbar.", "video-gallery-block"),
+        __("<strong>Fix:</strong> The upgrade (checkout) window opens again; it could fail with a 520 error.", "video-gallery-block"),
+        __("<strong>Fix:</strong> The lightbox no longer keeps following the mouse after the button is released outside the window.", "video-gallery-block"),
+      ],
+    },
+    {
       version: "1.6.0 - 13 October 2026",
       type: "new",
       list:   [

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.6.0
+ * Version: 1.7.0
  * Requires PHP: 7.4
  * Requires at least: 6.5
  * Author: bPlugins
@@ -39,7 +39,7 @@ if (function_exists('vgb_fs')) {
         defined('WP_DEBUG') && WP_DEBUG
         && isset($_SERVER['HTTP_HOST'])
         && 'localhost' === strtok(sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])), ':')
-    ) ? time() : '1.6.0');
+    ) ? time() : '1.7.0');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));
@@ -52,6 +52,8 @@ if (function_exists('vgb_fs')) {
     // YouTube / Vimeo channel and playlist auto-feed, and its editor endpoints.
     require_once VIDGALBLK_DIR_PATH . '/includes/youtube-feed.php';
     require_once VIDGALBLK_DIR_PATH . '/includes/vimeo-feed.php';
+    // Tells administrators when a feed stops updating (key, quota, a deleted playlist).
+    require_once VIDGALBLK_DIR_PATH . '/includes/feed-alerts.php';
 
     require_once VIDGALBLK_DIR_PATH . '/includes/rootPlugin/plugin.php';
 

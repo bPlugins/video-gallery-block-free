@@ -9,6 +9,9 @@ import VideoGallery from "../Common/VideoGallery";
 import { prefix } from "../../utils/data";
 import FrontShortCode from "./FrontShortCode/FrontShortCode";
 import FeedPlaceholder from "./FeedPlaceholder";
+import TileTools, { DropOverlay } from "./TileTools";
+import useCanvasVideoDnd from "./useCanvasVideoDnd";
+import { moveItem } from "../../utils/editorItems";
 import {
   isVimeoFeedUrl,
   useYoutubeFeed,
@@ -28,9 +31,6 @@ const Edit = (props) => {
 
   const [activeIndex, setActiveIndex] = useState(0);
   const id = `${prefix}-${clientId}`;
-  const blockProps = useBlockProps({
-    id,
-  });
 
   const isGalleryPostType = ["video-gallery-block"].includes(
     currentPostType,
@@ -81,6 +81,42 @@ const Edit = (props) => {
     if (safeActiveIndex !== activeIndex) setActiveIndex(safeActiveIndex);
   }, [safeActiveIndex, activeIndex]);
 
+  /*
+   * Organizing on the canvas: drop video files on the gallery to add them,
+   * drag a tile (or use its Move buttons) to put it somewhere else. Only for
+   * the gallery's own videos, and moving only while the order on screen is
+   * the order of the list ("Manual" sort).
+   */
+  const sortOrder = attributes.options?.sortOrder;
+  const canMove =
+    !isFeed && ownCount > 1 && "newest" !== sortOrder && "oldest" !== sortOrder;
+  const dnd = useCanvasVideoDnd({
+    canDrop: !isFeed,
+    canMove,
+    videos: attributes.videos,
+    setAttributes,
+    activeIndex: safeActiveIndex,
+    setActiveIndex,
+  });
+  const showDropOverlay = dnd.dragging || !!dnd.upload;
+  const blockProps = useBlockProps({
+    id,
+    ref: dnd.ref,
+    ...(showDropOverlay ? { className: "vgbHasDropOverlay" } : {}),
+  });
+  const onMove = (from, to) => {
+    const moved = moveItem(attributes.videos, from, to, safeActiveIndex);
+    if (moved) {
+      setAttributes({ videos: moved.videos });
+      setActiveIndex(moved.active);
+    }
+  };
+  const renderTileTools = canMove
+    ? (index, prev, next) => (
+        <TileTools index={index} prev={prev} next={next} canMove onMove={onMove} />
+      )
+    : undefined;
+
   return (
     <>
       <Settings
@@ -93,9 +129,13 @@ const Edit = (props) => {
         currentPostType={currentPostType}
         keyState={keyState}
         feedState={feedState}
+        feedVideos={isFeed ? feedVideos : undefined}
+        onMove={onMove}
+        canMove={canMove}
       />
 
       <div {...blockProps} id={id}>
+        <DropOverlay dragging={dnd.dragging} upload={dnd.upload} />
         {isGalleryPostType && (
           <FrontShortCode
             postType={currentPostType}
@@ -137,6 +177,7 @@ const Edit = (props) => {
               id={id}
               activeIndex={safeActiveIndex}
               setActiveIndex={setActiveIndex}
+              renderTileTools={renderTileTools}
             />
           )
         )}

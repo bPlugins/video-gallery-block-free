@@ -583,3 +583,384 @@
     }
   }
 }
+
+/*
+ * Video Gallery sidebar: one 16px rhythm between controls, small captioned
+ * rules between the groups of a long panel, and a lighter Help panel. Scoped
+ * to this block's own inspector (.vgbInspector) so other bPlugins blocks are
+ * untouched.
+ */
+.vgbInspector {
+  // Help: small tinted rows instead of four big solid tiles.
+  .bPlHelpPanel .helpItems {
+    gap: 8px;
+
+    a {
+      aspect-ratio: auto;
+      height: auto;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 8px;
+      padding: 10px;
+      text-align: left;
+      color: #146ef5;
+      background-color: #f0f6fc;
+      box-shadow: inset 0 0 0 1px #dcdcde;
+
+      &:hover,
+      &:focus {
+        transform: none;
+        box-shadow: inset 0 0 0 1px #146ef5;
+      }
+
+      &:focus-visible {
+        box-shadow:
+          inset 0 0 0 1px #146ef5,
+          0 0 0 1px #fff,
+          0 0 0 3px #146ef5;
+      }
+
+      svg {
+        flex: 0 0 18px;
+        width: 18px;
+        height: 18px;
+        fill: #146ef5;
+      }
+
+      p {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+    }
+  }
+
+  .vgbPanel.is-opened {
+    > * + * {
+      margin-top: 16px !important;
+    }
+
+    > h2 + * {
+      margin-top: 0 !important;
+    }
+
+    // A label row (label + device switch) sits close to its control.
+    > .vgbLabelRow + * {
+      margin-top: 8px !important;
+    }
+
+    > .vgbSection {
+      margin-top: 24px !important;
+    }
+
+    > .vgbSection + * {
+      margin-top: 12px !important;
+    }
+
+    > h2 + .vgbSection {
+      margin-top: 0 !important;
+    }
+
+    // Album rows stack tightly, the add button a little apart.
+    > .vgbAlbumRow + .vgbAlbumRow {
+      margin-top: 8px !important;
+    }
+
+    > .vgbAlbumRow + .addItem {
+      margin-top: 12px !important;
+    }
+  }
+
+  .vgbLabelRow {
+    min-height: 0;
+    margin: 0;
+
+    .bPlLabel {
+      margin: 0 !important;
+    }
+  }
+
+  // Captioned divider.
+  .vgbSection {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #757575;
+
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: #e0e0e0;
+    }
+  }
+
+  .vgbHint {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #757575;
+  }
+
+  // Two number fields side by side (column / row gap).
+  .vgbTwoCol {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+
+    .components-base-control,
+    .components-input-control {
+      min-width: 0;
+    }
+
+    .components-input-control__label {
+      margin-bottom: 4px !important;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+  }
+
+  .vgbUnit {
+    padding: 0 8px 0 2px;
+    font-size: 12px;
+    color: #757575;
+  }
+
+  // "Show first" / "Size": label on the left, a short field on the right.
+  .vgbInlineNumber {
+    .components-input-control__container {
+      max-width: 96px;
+      margin-left: auto;
+    }
+  }
+
+  // Albums: "Album 1  [name]  ×".
+  .vgbAlbumRow {
+    gap: 8px;
+    margin: 0;
+    min-height: 0;
+
+    .vgbAlbumRow__label {
+      flex: 0 0 auto;
+      margin: 0 !important;
+      font-size: 12px;
+      white-space: nowrap;
+      color: #757575;
+    }
+
+    .components-base-control {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .removeAlbum {
+      min-width: 30px;
+      height: 30px;
+      padding: 0;
+      justify-content: center;
+      color: #757575;
+
+      &:hover {
+        color: #b32d2e;
+      }
+    }
+  }
+
+  // One video's fields: label above each, evenly spaced.
+  .vgbItemFields {
+    > * + * {
+      margin-top: 12px;
+    }
+
+    .bPlLabel {
+      margin-top: 0 !important;
+    }
+
+    .bPlInlineMediaUpload {
+      margin-top: 0;
+    }
+
+    .vgbItemAlbums .components-checkbox-control {
+      margin-top: 6px;
+    }
+  }
+
+  .vgbImportReport {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .vgbFeedFootnote {
+    margin-top: 12px;
+  }
+}
+
+/*
+ * Adding and organizing videos in the editor: the Media Library button, the
+ * drop overlay for video files, the tile toolbar (drag handle, Move left /
+ * right) and the order row above the video's settings. Editor only.
+ */
+.vgbLibraryBtn {
+  width: 100%;
+  justify-content: center;
+}
+
+.vgbLibraryHelp,
+.vgbCopyFeed__help {
+  margin: 6px 0 16px;
+  color: #757575;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.vgbCopyFeed {
+  margin-top: 16px;
+
+  .components-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.vgbOrderRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+
+  &__hint {
+    flex: 1;
+    color: #757575;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  &__btns {
+    display: flex;
+    gap: 4px;
+  }
+}
+
+.vgbHasDropOverlay {
+  position: relative;
+}
+
+.vgbDropOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  background: rgba(20, 110, 245, 0.12);
+  border: 2px dashed #146ef5;
+  border-radius: 4px;
+  pointer-events: none;
+
+  &.isUploading {
+    background: rgba(255, 255, 255, 0.6);
+    border-style: solid;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #146ef5;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+
+    .components-spinner {
+      margin: 0;
+    }
+  }
+}
+
+.videoGallery .galleryItem {
+  .vgbTileTools {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    background: rgba(0, 0, 0, 0.75);
+    border-radius: 6px;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  &:hover .vgbTileTools,
+  .vgbTileTools:focus-within {
+    opacity: 1;
+  }
+
+  .vgbTileTools__drag,
+  .vgbTileTools__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+    background: transparent;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    &:hover:not(:disabled),
+    &:focus-visible {
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+  }
+
+  .vgbTileTools__drag {
+    cursor: grab;
+  }
+
+  .vgbTileTools__text {
+    width: auto;
+    padding: 0 8px;
+    font-size: 12px;
+    white-space: nowrap;
+
+    &.is-active {
+      background: #146ef5;
+    }
+  }
+
+  &.vgbIsDragged {
+    opacity: 0.4;
+  }
+
+  &.vgbDropTarget {
+    outline: 3px solid #146ef5;
+    outline-offset: 2px;
+  }
+}

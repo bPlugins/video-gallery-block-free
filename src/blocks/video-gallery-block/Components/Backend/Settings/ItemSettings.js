@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { PanelRow, TextControl, CheckboxControl } from "@wordpress/components";
+import { TextControl, CheckboxControl } from "@wordpress/components";
 import { produce } from "immer";
 
 import {
@@ -59,32 +59,36 @@ const ItemSettings = ({
   };
 
   return (
-    <>
+    <div className="vgbItemFields">
       <InlineMediaUpload
+        className="vgbItemField"
+        label={__("Video", "video-gallery-block")}
         value={video}
         types={["video"]}
         onChange={(val) => updateVideo("video", val)}
-        placeholder={__("Video url", "video-gallery-block")}
+        placeholder={__("Paste a link or upload", "video-gallery-block")}
       />
 
       <InlineMediaUpload
+        className="vgbItemField"
+        label={__("Thumbnail", "video-gallery-block")}
         value={poster}
         types={["image"]}
         onChange={(val) => updateVideo("poster", val)}
-        placeholder={__("Poster url", "video-gallery-block")}
+        placeholder={__("Image link or upload", "video-gallery-block")}
       />
 
-      <PanelRow className="mt10">
-        <Label className="">{__("Caption:", "video-gallery-block")}</Label>
-        <TextControl
-          value={caption}
-          onChange={(val) => updateVideo("caption", val)}
-        />
-      </PanelRow>
+      <TextControl
+        className="vgbItemField"
+        label={__("Title", "video-gallery-block")}
+        value={caption}
+        onChange={(val) => updateVideo("caption", val)}
+        __nextHasNoMarginBottom
+      />
 
       {!!albums.length && (
-        <>
-          <Label>{__("Select Albums:", "video-gallery-block")}</Label>
+        <div className="vgbItemField vgbItemAlbums">
+          <Label className="mb5">{__("Albums", "video-gallery-block")}</Label>
           {albums.map((alb, albIndex) => {
             const isInc = albs.includes(alb);
 
@@ -99,12 +103,13 @@ const ItemSettings = ({
                     val ? [...albs, alb] : albs.filter((id) => id !== alb),
                   );
                 }}
+                __nextHasNoMarginBottom
               />
             );
           })}
-        </>
+        </div>
       )}
-    </>
+    </div>
   );
 };
 export default ItemSettings;

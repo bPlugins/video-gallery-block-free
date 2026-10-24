@@ -21,6 +21,7 @@ import {
 } from "../../utils/functions";
 import { prefix } from "../../utils/data";
 import { watchPlay } from "../../utils/playTracking";
+import { itemDetails } from "../../utils/details";
 import fancyboxDragGuard from "../../utils/fancyboxDragGuard";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
@@ -263,6 +264,8 @@ const VideoGallery = ({
   // Editor only: tiles that cannot be edited (a channel feed's) play on a
   // single click, since there is nothing for a click to select.
   previewOnClick = false,
+  // Editor only: (index, prevIndex, nextIndex) => the tile's hover toolbar.
+  renderTileTools,
 }) => {
   const { videos, albums, options, filter, perPage, loadMoreLabel } = attributes;
   const [activeAlbum, setActiveAlbum] = useState("*");
@@ -744,11 +747,12 @@ const VideoGallery = ({
         )}
 
         <div id={`${id}-gallery`} className="videoGallery" ref={galleryRef}>
-          {revealedVideos.map(({ item, index }) => {
+          {revealedVideos.map(({ item, index }, position) => {
             const { video, poster, caption = "", albs } = item;
             const label = captionText(caption);
             const gated = consentGateEnabled && !consentGranted;
             const inlineSrc = playInline ? inlineSource(video) : null;
+            const details = itemDetails(item, options, isEditor);
 
             if (inlineSrc && playingIndex === index) {
               return (
@@ -865,7 +869,19 @@ const VideoGallery = ({
                   caption={caption}
                 />
 
-                {options?.showCaptionOnThumbnail && caption && (
+                {details ? (
+                  // "Show channel name" under the title; a tile without a
+                  // channel keeps the caption it always had (render.php).
+                  <div className="galleryItemCaption">
+                    {options?.showCaptionOnThumbnail && caption && (
+                      <span
+                        className="galleryItemCaption__text"
+                        dangerouslySetInnerHTML={{ __html: sanitizeHTML(caption) }}
+                      />
+                    )}
+                    <span className="vgbItemDetails">{details}</span>
+                  </div>
+                ) : options?.showCaptionOnThumbnail && caption && (
                   <div
                     className="galleryItemCaption"
                     /*
@@ -886,6 +902,14 @@ const VideoGallery = ({
                     </svg>
                   </span>
                 )}
+
+                {isEditor &&
+                  renderTileTools &&
+                  renderTileTools(
+                    index,
+                    revealedVideos[position - 1]?.index ?? -1,
+                    revealedVideos[position + 1]?.index ?? -1,
+                  )}
               </a>
             );
           })}

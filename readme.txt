@@ -2,7 +2,7 @@
 Contributors: bplugins, abuhayat, himur98, freemius
 Tags: video gallery, youtube gallery, vimeo gallery, video playlist, block
 Tested up to: 7.1
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 Requires PHP: 7.4
 Requires at least: 6.5
 Donate link: https://www.buymeacoffee.com/abuhayat
@@ -265,6 +265,26 @@ To build the plugin from source:
 Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
+
+= 1.7.0 - 24 October 2026 =
+* New: Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar.
+* New: Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click "Check now". If YouTube or Vimeo can't be reached, the last videos stay on the page.
+* New: Paste a single video's link and the gallery offers that creator's whole channel.
+* New: The YouTube Shorts option (all videos, hide Shorts, only Shorts) also works for channel feeds.
+* New: Play in place. A video can play inside its own tile instead of the lightbox (YouTube, Vimeo, Facebook and video files), one at a time.
+* New: Feed alerts. When a feed stops updating, for example because of a wrong or expired API key, a used-up daily quota or a deleted playlist, administrators see a notice saying what is wrong and where to fix it. It can be hidden for a day, sent by email if you turn that on, and goes away by itself once the feed works again.
+* New: Show the channel name under each title for YouTube and Vimeo feeds.
+* New: "Add from Media Library": pick or upload many videos at once.
+* New: Drag video files from your computer, or YouTube and Vimeo links from another tab, onto the gallery to add them.
+* New: "Copy these videos to My videos" turns a feed's videos into your own list, to reorder and edit.
+* New: Drag videos on the canvas to reorder them, or use the Move left / Move right buttons.
+* Improvement: Clearer settings. Panels follow the order you work in (Video source, Videos, Layout, Display, Playback, Privacy & SEO), feed setup is a set of short steps, and short dropdowns are now buttons.
+* Improvement: YouTube thumbnails use the best size that exists for each video, and the live page now shows the same thumbnail as the editor instead of a cropped, blurrier one.
+* Improvement: Video SEO markup gives feed videos their real publish date.
+* Improvement: When "delete data on uninstall" is on, deleting the plugin also removes the YouTube API key and the cached feeds.
+* Fix: Full-width galleries no longer stick out past the edge of the page in classic themes such as Hello Elementor, on computers with a visible scrollbar.
+* Fix: The upgrade (checkout) window opens again; it could fail with a 520 error.
+* Fix: The lightbox no longer keeps following the mouse after the button is released outside the window.
 
 = 1.6.0 - 13 October 2026 =
 * Update: Freemius SDK updated to 2.13.5.

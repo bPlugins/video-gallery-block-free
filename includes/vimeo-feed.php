@@ -138,9 +138,10 @@ function vidgalblk_vimeo_feed_time( $date ) {
  * @param string   $title     Title.
  * @param int|bool $timestamp Upload time.
  * @param string   $thumbnail Thumbnail URL.
+ * @param array    $extra     Optional: channel, channelUrl.
  * @return array Video.
  */
-function vidgalblk_vimeo_feed_video( $id, $title, $timestamp, $thumbnail ) {
+function vidgalblk_vimeo_feed_video( $id, $title, $timestamp, $thumbnail, $extra = array() ) {
 	$thumbnail = (string) $thumbnail;
 	if ( preg_match( '#^https://i\.vimeocdn\.com/#', $thumbnail ) ) {
 		$thumbnail = preg_replace( '#-d_\d+(x\d+)?(?=$|\?)#', '-d_1280', $thumbnail );
@@ -155,7 +156,24 @@ function vidgalblk_vimeo_feed_video( $id, $title, $timestamp, $thumbnail ) {
 		'albs'       => array(),
 		'dateAdded'  => $timestamp ? $timestamp * 1000 : 0,
 		'uploadDate' => $timestamp ? gmdate( 'c', $timestamp ) : '',
-	);
+	) + vidgalblk_vimeo_feed_details( $extra );
+}
+
+/**
+ * The channel a Vimeo source gave, cleaned; empty ones left out.
+ *
+ * @param array $extra channel, channelUrl.
+ * @return array
+ */
+function vidgalblk_vimeo_feed_details( $extra ) {
+	$out = array();
+	if ( ! empty( $extra['channel'] ) ) {
+		$out['channel'] = sanitize_text_field( (string) $extra['channel'] );
+	}
+	if ( ! empty( $extra['channelUrl'] ) && preg_match( '#^https://vimeo\.com/#', (string) $extra['channelUrl'] ) ) {
+		$out['channelUrl'] = esc_url_raw( (string) $extra['channelUrl'] );
+	}
+	return $out;
 }
 
 /**
@@ -200,8 +218,15 @@ function vidgalblk_vimeo_feed_rss( $parsed ) {
 		$media     = $item->children( 'http://search.yahoo.com/mrss/' );
 		$thumbnail = isset( $media->content->thumbnail ) ? (string) $media->content->thumbnail->attributes()->url : '';
 		$time      = strtotime( (string) $item->pubDate );
+		$extra     = array(
+			'channel' => isset( $media->content->credit ) ? (string) $media->content->credit : '',
+		);
+		// A user's own feed: every video is theirs, so their page is known.
+		if ( 'vimeo_user' === $parsed['type'] ) {
+			$extra['channelUrl'] = 'https://vimeo.com/' . rawurlencode( $parsed['id'] );
+		}
 
-		$videos[] = vidgalblk_vimeo_feed_video( $m[1], (string) $item->title, $time, $thumbnail );
+		$videos[] = vidgalblk_vimeo_feed_video( $m[1], (string) $item->title, $time, $thumbnail, $extra );
 		if ( count( $videos ) >= VIDGALBLK_FEED_MAX ) {
 			break;
 		}
@@ -274,7 +299,11 @@ function vidgalblk_vimeo_feed_fetch( $parsed ) {
 			$id,
 			$item['title'] ?? '',
 			vidgalblk_vimeo_feed_time( $item['upload_date'] ?? '' ),
-			$item['thumbnail_large'] ?? ''
+			$item['thumbnail_large'] ?? '',
+			array(
+				'channel'    => $item['user_name'] ?? '',
+				'channelUrl' => $item['user_url'] ?? '',
+			)
 		);
 		if ( count( $videos ) >= VIDGALBLK_FEED_MAX ) {
 			break;

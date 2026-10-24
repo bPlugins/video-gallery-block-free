@@ -311,6 +311,7 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 * Fix: Full-width galleries no longer stick out past the edge of the page in classic themes such as Hello Elementor, on computers with a visible scrollbar.
 * Fix: The upgrade (checkout) window opens again; it could fail with a 520 error.
 * Fix: The lightbox no longer keeps following the mouse after the button is released outside the window.
+* Fix: Google Analytics never received 25/50/75% progress or video_watch_complete for Vimeo videos.
 
 = 1.6.0 - 13 October 2026 =
 * Update: Freemius SDK updated to 2.13.5.

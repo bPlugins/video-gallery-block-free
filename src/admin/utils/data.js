@@ -213,6 +213,7 @@ export const welcomeInfo = (adminUrl = "") => ({
         __("<strong>Fix:</strong> Full-width galleries no longer stick out past the edge of the page in classic themes such as Hello Elementor, on computers with a visible scrollbar.", "video-gallery-block"),
         __("<strong>Fix:</strong> The upgrade (checkout) window opens again; it could fail with a 520 error.", "video-gallery-block"),
         __("<strong>Fix:</strong> The lightbox no longer keeps following the mouse after the button is released outside the window.", "video-gallery-block"),
+        "<strong>Fix:</strong> Google Analytics never received 25/50/75% progress or video_watch_complete for Vimeo videos.",
       ],
     },
     {

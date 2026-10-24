@@ -80,7 +80,10 @@ const subscribe = (frame) => {
       channel: "widget",
     });
   } else if (isVimeoHost(host)) {
-    ["play", "timeupdate", "ended"].forEach((value) =>
+    // Vimeo's player still answers on its older channels ("playProgress",
+    // "finish") and sends nothing on the new ones to a page that only asked
+    // for those -- so ask for both spellings.
+    ["play", "timeupdate", "playProgress", "ended", "finish"].forEach((value) =>
       post(frame, { method: "addEventListener", value }),
     );
   }
@@ -132,10 +135,10 @@ const onMessage = (event) => {
     }
   } else if (data.event === "play") {
     tracker.play();
-  } else if (data.event === "timeupdate") {
+  } else if (data.event === "timeupdate" || data.event === "playProgress") {
     // Vimeo reports `percent` as a 0-1 fraction.
     tracker.progress((data.data?.percent || 0) * 100);
-  } else if (data.event === "ended") {
+  } else if (data.event === "ended" || data.event === "finish") {
     tracker.progress(100);
     tracker.complete();
   } else if (data.event === "ready") {

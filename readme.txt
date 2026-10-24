@@ -67,7 +67,22 @@ The Pro version adds 31 more video blocks, Wistia, live streams, view counts and
 
 [**Video Gallery Block Pro**](https://bplugins.com/products/video-gallery-block/pricing/) extends the plugin with additional Gutenberg video blocks and advanced gallery layouts.
 
-**Pro features include:**
+**Free vs Pro at a glance:**
+
+- **Blocks:** Free has 1 video gallery block — Pro adds **31 more video blocks** (32 in total).
+- **Layouts:** Free has a responsive grid — Pro adds **Cards, List and Showcase** layouts, plus sliders, carousels, masonry, bento, justified, marquee, timeline, tabs, map and more as separate blocks.
+- **Channel feeds:** Free shows 1 YouTube or Vimeo channel or playlist, up to 50 videos — Pro merges **up to 10 channels or playlists** and shows **up to 1,000 videos** or a whole channel, with Live, Search and chosen-videos feeds and keyword filters.
+- **Feeds in other blocks:** Free has feeds in the gallery — Pro brings channel feeds to **20 more blocks**.
+- **Video details:** Free shows the channel name — Pro adds **view counts and like counts**.
+- **Live streams:** Pro only — **LIVE and Upcoming badges** and a live player above the gallery.
+- **Playback:** Free has the lightbox and play in place — Pro adds **preview on hover**, **actions when a video ends** (next video, replay or your own button) and a site-wide choice of player.
+- **Titles:** Pro only — title **on the video, on hover or below it**, and long titles cut to 1–3 lines.
+- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files — Pro adds **Wistia**.
+- **Privacy:** Free has GDPR consent in the gallery — Pro has it in **every block**.
+- **Design:** Free has the essential style controls — Pro adds **advanced typography, overlays and per-element styling**.
+- **Support:** Free uses the WordPress.org forum — Pro gets **priority email support**.
+
+**Only in Pro:**
 
 - **31 Premium Video Blocks:** Video Slider, Carousel, Playlist Gallery, Masonry Video Grid, Lightbox Video Gallery, Parallax Row Video Gallery, Slider Autoplay Video, Video Testimonial Section, Video Podcast Episodes, Video Stories, Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour.
 - **More Channel Feed Power:** Feed types (Channel, Live, Search, chosen Videos), up to 10 channels or playlists merged in one gallery, up to 1,000 videos or a whole channel, and title keyword filters.

@@ -8,6 +8,7 @@ import {
   getTypoCSS,
 } from "../../../../../../bpl-tools/utils/getCSS";
 import { prefix } from "../../utils/data";
+import { sanitizeStyleTag } from '../../../utils/sanitizeStyleTag';
 
 /**
  * Layout is driven by custom properties, not by generated rules.
@@ -270,7 +271,7 @@ const Style = ({ attributes, id, isEditor, galleryRef }) => {
   return (
     <style
       dangerouslySetInnerHTML={{
-        __html: `
+        __html: sanitizeStyleTag(`
 		${getTypoCSS("", filterBtnTypo)?.googleFontLink}
 		${getTypoCSS("", styles?.caption?.typography)?.googleFontLink}
 		${getTypoCSS("", styles?.lightBoxCaption?.typography)?.googleFontLink}
@@ -355,7 +356,7 @@ const Style = ({ attributes, id, isEditor, galleryRef }) => {
 		`
         : ""
     }
-		`.replace(/\s+/g, " "),
+		`).replace(/\s+/g, " "),
       }}
     />
   );

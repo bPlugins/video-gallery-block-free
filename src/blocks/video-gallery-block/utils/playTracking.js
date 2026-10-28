@@ -19,6 +19,8 @@
  * for each of the 25, 50 and 75 percent marks.
  */
 
+import { getLightboxRoot } from "./lightboxHost";
+
 const MARKS = [25, 50, 75];
 
 const hostOf = (origin) => {
@@ -105,7 +107,11 @@ const onMessage = (event) => {
   }
   if (!data || typeof data !== "object") return;
 
-  const frame = Array.from(document.querySelectorAll("iframe")).find(
+  // The lightbox lives in a shadow root, which `document` does not search.
+  const frame = [
+    ...document.querySelectorAll("iframe"),
+    ...(getLightboxRoot()?.querySelectorAll("iframe") || []),
+  ].find(
     (f) => f.contentWindow === event.source,
   );
   const tracker = frame && watchedFrames.get(frame);

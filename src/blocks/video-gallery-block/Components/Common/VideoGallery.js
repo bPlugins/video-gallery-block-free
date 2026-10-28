@@ -2,7 +2,8 @@ import { useState, useEffect, useLayoutEffect, useMemo, useRef, useCallback } fr
 import { __, sprintf } from "@wordpress/i18n";
 import { Fancybox } from "@fancyapps/ui";
 import VideoThumbnail from "react-video-thumbnail";
-import "@fancyapps/ui/dist/fancybox/fancybox.css";
+// Scoped to this plugin's own lightbox; see tools/scope-fancybox-css.js.
+import "../../fancybox-scoped.css";
 
 import Style from "./Style";
 import VideoGalleryFilter from "./VideoGalleryFilter";
@@ -18,14 +19,28 @@ import {
   isYoutubeShort,
   plyrOptions,
   videoProviderId,
+  safeLightboxSrc,
+  slideAlt,
 } from "../../utils/functions";
 import { prefix } from "../../utils/data";
 import { watchPlay } from "../../utils/playTracking";
 import { itemDetails } from "../../utils/details";
 import fancyboxDragGuard from "../../utils/fancyboxDragGuard";
+import { getLightboxMount } from "../../utils/lightboxHost";
+import Plyr from "plyr";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
 fancyboxDragGuard();
+
+/*
+ * Our own lightbox attribute, never `data-fancybox`. That one is the default
+ * selector every Fancybox copy (any other plugin's, any version) auto-binds on
+ * the document, so sharing it made two copies fight over one click: the
+ * lightbox opened twice, was blocked by the other copy, or never opened, and
+ * the other plugin's copy also took over our items. Keep in sync with
+ * `render.php`.
+ */
+const LIGHTBOX_ATTR = "data-vgb-lightbox";
 
 /**
  * Turn the <video> in a lightbox slide into a Plyr player.
@@ -43,13 +58,17 @@ const initPlyr = (slide) => {
     "video, .fancybox__html5video",
   );
 
-  if (typeof Plyr === "undefined" || !videoEls?.length) {
+  if (!videoEls?.length) {
     return;
   }
 
   videoEls.forEach((el) => {
     if (!el.plyr) {
-      new Plyr(el, plyrOptions);
+      // Our own copy of Plyr, never a global another plugin may have loaded
+      // under the same name. In the isolated lightbox the icon sprite lives in
+      // that root (see lightboxHost.js), so Plyr must not fetch its own.
+      const isolated = el.getRootNode() instanceof ShadowRoot;
+      new Plyr(el, isolated ? { ...plyrOptions, loadSprite: false } : plyrOptions);
     }
   });
 };
@@ -76,7 +95,7 @@ const pushVideoEvent = (slide, eventName = "video_start", extra = {}) => {
    * unreadable `video_url` in Analytics, and fail `videoProviderId()`'s
    * plain URL check. `videoUrl` (set on the item by `showLightbox()`) is the
    * real one; `triggerEl`'s `data-video-url` is the same thing for a slide
-   * Fancybox opened on its own via `[data-fancybox]` DOM binding, which
+   * Fancybox opened on its own via `[data-vgb-lightbox]` DOM binding, which
    * never passes through `showLightbox()` at all.
    */
   const url =
@@ -117,8 +136,16 @@ const stripThumb = (item) => {
  * themed ancestor with `overflow: hidden`, a `transform`, or a stacking
  * context of its own -- and then it was clipped rather than covering anything.
  */
-const fancyboxOptions = (id, { trackVideoEvents = false } = {}) => ({
+const fancyboxOptions = (id, { trackVideoEvents = false, isolated = false } = {}) => ({
+  // Front end: mounted in a shadow root no other plugin's CSS can reach.
+  ...(isolated ? { parentEl: () => getLightboxMount() } : {}),
   mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
+  /*
+   * Group by our own attribute. Fancybox defaults to `data-fancybox`, which
+   * every other plugin's copy of Fancybox auto-binds on the whole document, so
+   * a shared attribute made two copies react to one click.
+   */
+  groupAttr: LIGHTBOX_ATTR,
   Toolbar: {
     display: {
       left: ["counter"],
@@ -168,6 +195,14 @@ const fancyboxOptions = (id, { trackVideoEvents = false } = {}) => ({
     },
   },
 });
+
+/**
+ * Whether playing this video loads a third-party player -- what the consent
+ * notice ("Ask before loading YouTube / Vimeo") is about. A file on the site
+ * itself shares nothing with anyone, so it plays without the notice.
+ */
+const needsConsent = (video) =>
+  !!(getYoutubeId(video) || getVimeoId(video) || isFacebookVideo(video));
 
 /** Who a video's consent notice should say it is hosted by. */
 const providerName = (video) => {
@@ -603,8 +638,8 @@ const VideoGallery = ({
     const container = galleryRef.current;
     Fancybox.bind(
       container,
-      "[data-fancybox]",
-      fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled }),
+      `[${LIGHTBOX_ATTR}]`,
+      fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled, isolated: true }),
     );
 
     return () => {
@@ -668,7 +703,8 @@ const VideoGallery = ({
           // around for GA4 tracking below -- an embed URL full of query
           // params makes for an unreadable `video_url` in Analytics reports,
           // and would also fail the plain `isFacebookVideo()` check there.
-          src: facebook ? facebookEmbedUrl(rawSrc) : rawSrc,
+          src: facebook ? facebookEmbedUrl(rawSrc) : safeLightboxSrc(rawSrc),
+          alt: slideAlt(item.caption),
           type: facebook ? "iframe" : undefined,
           videoUrl: rawSrc,
           /*
@@ -687,7 +723,7 @@ const VideoGallery = ({
       }),
       {
         startIndex,
-        ...fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled }),
+        ...fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled, isolated: !isEditor }),
       },
     );
   };
@@ -750,7 +786,7 @@ const VideoGallery = ({
           {revealedVideos.map(({ item, index }, position) => {
             const { video, poster, caption = "", albs } = item;
             const label = captionText(caption);
-            const gated = consentGateEnabled && !consentGranted;
+            const gated = consentGateEnabled && !consentGranted && needsConsent(video);
             const inlineSrc = playInline ? inlineSource(video) : null;
             const details = itemDetails(item, options, isEditor);
 
@@ -800,7 +836,7 @@ const VideoGallery = ({
                 className={`galleryItem ${albumClasses(albums, albs)} ${
                   isEditor && index === activeIndex ? "bPlNowEditing" : ""
                 }`}
-                {...(gated || inlineSrc ? {} : { "data-fancybox": true })}
+                {...(gated || inlineSrc ? {} : { [LIGHTBOX_ATTR]: true })}
                 {...(!gated && isFacebookVideo(video)
                   ? { "data-src": facebookEmbedUrl(video), "data-type": "iframe" }
                   : {})}
@@ -816,7 +852,7 @@ const VideoGallery = ({
                        * as `data-src` instead of the real one. This is the
                        * one place `pushVideoEvent()` can still get the
                        * original, clean URL from for a video opened via
-                       * native `[data-fancybox]` binding rather than
+                       * native `[data-vgb-lightbox]` binding rather than
                        * `showLightbox()`.
                        */
                       "data-video-url": video || poster,
@@ -839,7 +875,7 @@ const VideoGallery = ({
                   }
 
                   if (!isEditor) {
-                    // The lightbox opens itself through `data-fancybox`.
+                    // The lightbox opens itself through `data-vgb-lightbox`.
                     if (inlineSrc) {
                       e.preventDefault();
                       startInline(index);

@@ -18,7 +18,7 @@ export const dashboardInfo = (info) => {
     name: `Video Gallery Block`,
     displayName: `Video Gallery Block - Display your videos as a gallery in a professional way`,
     description:
-      "A lightweight Gutenberg block plugin for WordPress that lets you easily create responsive video galleries with albums, filters, captions, and lightbox support. Showcase YouTube, Vimeo, or self hosted videos in a lightbox grid layout directly in the block editor.",
+      "Show your YouTube channel, playlist, Vimeo videos or your own videos as a fast, responsive gallery with albums, filters and a lightbox. New uploads appear by themselves. Video SEO markup, GDPR consent and Google Analytics tracking are included free.",
     slug,
     version,
     licenseActiveNonce,
@@ -54,11 +54,13 @@ export const dashboardInfo = (info) => {
 export const welcomeInfo = (adminUrl = "") => ({
   // Hero card keyword chips
   keywords: [
-    __("Gallery", "video-gallery-block"),
+    __("Channel Feed", "video-gallery-block"),
     __("Albums", "video-gallery-block"),
     __("Filters", "video-gallery-block"),
     __("Lightbox", "video-gallery-block"),
-    __("Captions", "video-gallery-block"),
+    __("Video SEO", "video-gallery-block"),
+    __("GDPR", "video-gallery-block"),
+    __("Analytics", "video-gallery-block"),
   ],
   keywordsLabel: __("Features", "video-gallery-block"),
 
@@ -78,7 +80,7 @@ export const welcomeInfo = (adminUrl = "") => ({
           {
             num: 2,
             title: __("Add Your Videos", "video-gallery-block"),
-            body: __("Add <strong>YouTube</strong>, <strong>Vimeo</strong>, or self-hosted videos.", "video-gallery-block"),
+            body: __("Paste <strong>YouTube</strong>, <strong>Vimeo</strong> or <strong>Facebook</strong> links, upload your own videos, or show a whole <strong>channel</strong> that updates itself.", "video-gallery-block"),
           },
           {
             num: 3,
@@ -214,6 +216,8 @@ export const welcomeInfo = (adminUrl = "") => ({
         __("<strong>Fix:</strong> The upgrade (checkout) window opens again; it could fail with a 520 error.", "video-gallery-block"),
         __("<strong>Fix:</strong> The lightbox no longer keeps following the mouse after the button is released outside the window.", "video-gallery-block"),
         "<strong>Fix:</strong> Google Analytics never received 25/50/75% progress or video_watch_complete for Vimeo videos.",
+        __("<strong>Fix:</strong> The lightbox no longer conflicts with other plugins that also load Fancybox.", "video-gallery-block"),
+        __("<strong>Security:</strong> Hardened block CSS output.", "video-gallery-block"),
       ],
     },
     {
@@ -399,14 +403,17 @@ export const welcomeInfo = (adminUrl = "") => ({
 
   // Pro upsell bullets (free users only)
   proFeatures: [
-    __("31 premium blocks including Video Slider, Carousel, Playlist, and Bento Grid.", "video-gallery-block"),
-    __("Masonry and mixed-ratio layouts.", "video-gallery-block"),
-    __("Sliders and carousels with autoplay.", "video-gallery-block"),
-    __("Playlist gallery with navigation.", "video-gallery-block"),
-    __("Parallax background video sections.", "video-gallery-block"),
+    __("31 more video blocks: sliders, carousels, masonry, playlists, Shorts reels, course accordions and more.", "video-gallery-block"),
+    __("Live streams with LIVE and Upcoming badges, and a live player above the gallery.", "video-gallery-block"),
+    __("Merge up to 10 channels or playlists, show up to 1,000 videos, filter by title keywords.", "video-gallery-block"),
+    __("Channel feeds in 20 more blocks.", "video-gallery-block"),
+    __("Cards, List and Showcase layouts, with the title on the video, on hover or below it.", "video-gallery-block"),
+    __("Preview on hover, and actions when a video ends: next video, replay or your own button.", "video-gallery-block"),
+    __("View counts and like counts.", "video-gallery-block"),
+    __("GDPR consent in every block.", "video-gallery-block"),
+    __("Wistia videos in most Pro blocks.", "video-gallery-block"),
+    __("WooCommerce product video carousel.", "video-gallery-block"),
     __("Advanced typography and overlays.", "video-gallery-block"),
-    __("Custom navigation and player controls.", "video-gallery-block"),
-    __("WooCommerce product carousel.", "video-gallery-block"),
     __("Priority support.", "video-gallery-block"),
   ],
 });

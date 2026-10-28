@@ -166,6 +166,55 @@ export const captionText = (caption) => {
     .trim();
 };
 
+const IMAGE_LINK = /\.(avif|bmp|gif|ico|jpe?g|png|svg|webp)(?:[?#]|$)/i;
+
+/**
+ * A link made safe to hand to the lightbox.
+ *
+ * Fancybox decides a slide is a picture from how the link ends, and puts the
+ * link and the caption into an <img> tag as text. So a YouTube or Vimeo link
+ * with ".jpg" tacked on is reduced to the plain video link (the picture
+ * reading is what let a caption break out of the alt attribute), and quotes
+ * and angle brackets are percent-encoded so a link can never close the
+ * attribute it is written into.
+ *
+ * @param {string} url The video or poster link.
+ * @return {string} The link, safe for Fancybox.
+ */
+export const safeLightboxSrc = (url) => {
+  if (!url || typeof url !== "string") return "";
+  let src = url.trim();
+
+  if (IMAGE_LINK.test(src)) {
+    const youtube = getYoutubeId(src);
+    const vimeo = getVimeoId(src);
+
+    if (youtube) src = "https://www.youtube.com/watch?v=" + youtube;
+    else if (vimeo) src = "https://vimeo.com/" + vimeo;
+  }
+
+  return src.replace(/["'<>`\s]/g, (char) =>
+    "%" + char.charCodeAt(0).toString(16).toUpperCase().padStart(2, "0"),
+  );
+};
+
+/**
+ * Escapes text for use inside a double-quoted HTML attribute.
+ */
+export const escapeAttr = (text) =>
+  String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+/**
+ * The lightbox's alt text for a slide: the caption as plain text, escaped.
+ * Never empty, because Fancybox falls back to the caption's HTML when it is.
+ */
+export const slideAlt = (caption) => escapeAttr(captionText(caption) || "Video");
+
 export const camelCase = (str) => {
   if (typeof str !== "string") return "";
   return str

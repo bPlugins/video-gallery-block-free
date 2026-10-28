@@ -24,7 +24,7 @@ const fancyboxDragGuard = () => {
     (event) => {
       pressed =
         0 === event.button &&
-        !!event.target?.closest?.(".fancybox__container");
+        !!event.composedPath?.()[0]?.closest?.(".fancybox__container");
     },
     true,
   );

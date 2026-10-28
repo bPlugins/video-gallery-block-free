@@ -328,6 +328,19 @@
   border-color: #ccc;
 }
 
+/*
+ * Another plugin's Fancybox 5 stylesheet carries
+ * `.fancybox__container:not([aria-hidden]) { opacity: 0 }` (and a Fancybox 6
+ * one hides it with `visibility` until `is-ready`). Only the Fancybox that
+ * bundled that stylesheet sets the attribute / class, so with it on the page
+ * this lightbox opened fully transparent. The leading `html` lets this win
+ * whichever stylesheet loads last.
+ */
+html .fancybox__container.vidgalblkFancyBox {
+  opacity: 1;
+  visibility: visible;
+}
+
 .vidgalblkFancyBox {
   .fancybox-content {
     .plyr {

@@ -547,6 +547,73 @@ function vidgalblk_caption_tags() {
 }
 
 /**
+ * A video or poster link, made safe to print and to hand to the lightbox.
+ *
+ * Fancybox treats a link that ends like an image file as a picture and writes
+ * it, with the caption, into an <img> tag as text -- so a YouTube or Vimeo link
+ * with ".jpg" on the end is cut back to the plain video link, and
+ * esc_url_raw() drops quotes and angle brackets, which could otherwise close
+ * the attribute the link is written into.
+ *
+ * @param string $url A video or poster link.
+ * @return string The link, safe to use.
+ */
+function vidgalblk_clean_link( $url ) {
+	$url = trim( (string) $url );
+
+	if ( '' === $url ) {
+		return '';
+	}
+
+	if ( preg_match( '/\.(avif|bmp|gif|ico|jpe?g|png|svg|webp)(?:[?#]|$)/i', $url ) ) {
+		if ( preg_match( '#youtube(?:-nocookie)?\.com|youtu\.be#i', $url ) && preg_match( '#(?:[?&]v=|youtu\.be/|/embed/|/shorts/|/live/)([A-Za-z0-9_-]{11})#i', $url, $match ) ) {
+			$url = 'https://www.youtube.com/watch?v=' . $match[1];
+		} elseif ( preg_match( '#vimeo\.com/(?:.*/)?(\d+)#i', $url, $match ) ) {
+			$url = 'https://vimeo.com/' . $match[1];
+		}
+	}
+
+	return esc_url_raw( $url );
+}
+
+/**
+ * The videos of a gallery with every link and caption cleaned.
+ *
+ * A caption can come from a stranger -- it is filled in from the video's title
+ * on YouTube or Vimeo -- and these values are written into the page's markup
+ * and into the data the lightbox script reads, so they are cleaned here once,
+ * before either happens.
+ *
+ * @param array $videos The gallery's videos.
+ * @return array The same videos, cleaned.
+ */
+function vidgalblk_clean_videos( $videos ) {
+	if ( ! is_array( $videos ) ) {
+		return array();
+	}
+
+	foreach ( $videos as $index => $video ) {
+		if ( ! is_array( $video ) ) {
+			continue;
+		}
+
+		foreach ( array( 'video', 'poster' ) as $key ) {
+			if ( isset( $video[ $key ] ) && is_string( $video[ $key ] ) ) {
+				$video[ $key ] = vidgalblk_clean_link( $video[ $key ] );
+			}
+		}
+
+		if ( isset( $video['caption'] ) && is_string( $video['caption'] ) ) {
+			$video['caption'] = wp_kses( $video['caption'], vidgalblk_caption_tags() );
+		}
+
+		$videos[ $index ] = $video;
+	}
+
+	return $videos;
+}
+
+/**
  * The custom properties that drive the gallery's layout.
  *
  * The grid in `style.scss` reads these, and `Style.js` sets the same ones in

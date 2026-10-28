@@ -6,6 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 import Settings from "./Settings/Settings";
 import VideoGallery from "../Common/VideoGallery";
+import useEditorThumbs from "../../utils/useEditorThumbs";
 import { prefix } from "../../utils/data";
 import FrontShortCode from "./FrontShortCode/FrontShortCode";
 import FeedPlaceholder from "./FeedPlaceholder";
@@ -99,6 +100,8 @@ const Edit = (props) => {
     setActiveIndex,
   });
   const showDropOverlay = dnd.dragging || !!dnd.upload;
+  // Editor only: Vimeo thumbnails the page gets from the server.
+  const editorThumbs = useEditorThumbs(attributes.videos, !isFeed);
   const blockProps = useBlockProps({
     id,
     ref: dnd.ref,
@@ -175,6 +178,7 @@ const Edit = (props) => {
             <VideoGallery
               attributes={galleryAttributes}
               id={id}
+              thumbs={editorThumbs}
               activeIndex={safeActiveIndex}
               setActiveIndex={setActiveIndex}
               renderTileTools={renderTileTools}

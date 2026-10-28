@@ -54,6 +54,7 @@ $vidgalblk_videos     = vidgalblk_apply_sort_order(
 	$vidgalblk_videos,
 	$attributes['options']['sortOrder'] ?? 'manual'
 );
+$vidgalblk_videos     = vidgalblk_clean_videos( $vidgalblk_videos );
 $attributes['videos'] = $vidgalblk_videos;
 
 $vidgalblk_albums = isset( $attributes['albums'] ) && is_array( $attributes['albums'] ) ? $attributes['albums'] : array();
@@ -148,7 +149,7 @@ do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
 				class="galleryItem <?php echo esc_attr( vidgalblk_album_classes( $vidgalblk_albums, $vidgalblk_video['albs'] ?? array() ) ); ?>"
 				href="<?php echo esc_url( $vidgalblk_src ); ?>"
 				aria-label="<?php echo esc_attr( $vidgalblk_label ); ?>"
-				data-fancybox
+				data-vgb-lightbox
 				<?php if ( $vidgalblk_is_facebook ) : ?>
 					data-src="<?php echo esc_url( vidgalblk_facebook_embed_url( $vidgalblk_src ) ); ?>"
 					data-type="iframe"

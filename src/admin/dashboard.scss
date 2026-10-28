@@ -59,6 +59,12 @@
 		}
 	}
 
+	// The generic "ul li" dot above is for plain lists; the uninstall card's list has its own trash icon.
+	.cleanupList li::before {
+		content: none;
+		display: none;
+	}
+
 	.settingsWarning {
 		color: #b45309;
 		font-weight: 500;

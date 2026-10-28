@@ -1,6 +1,6 @@
 === Video Gallery Block – showcase your videos in a filterable gallery ===
 Contributors: bplugins, abuhayat, himur98, freemius
-Tags: video gallery, youtube gallery, vimeo gallery, video playlist, block
+Tags: video gallery, youtube gallery, vimeo gallery, youtube feed, video playlist
 Tested up to: 7.1
 Stable tag: 1.7.0
 Requires PHP: 7.4
@@ -9,7 +9,7 @@ Donate link: https://www.buymeacoffee.com/abuhayat
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Responsive video gallery block for Gutenberg with YouTube, Vimeo, albums, category filters, thumbnails, captions, and lightbox video popups.
+Show a YouTube channel, playlist or Vimeo videos as a gallery that updates itself. Free video SEO, GDPR consent and Google Analytics tracking.
 
 == Description ==
 
@@ -24,6 +24,22 @@ Responsive video gallery block for Gutenberg with YouTube, Vimeo, albums, catego
 Organize videos into albums, let visitors filter by category, and play everything in an elegant lightbox popup. Thumbnails are generated automatically (or upload your own poster images), captions keep every video labeled, and scripts load only when the block is used so your site stays fast.
 
 The Pro version adds 31 more video blocks (most of them also play Wistia), live streams, view counts and advanced layouts like sliders, carousels, masonry grids, and playlist galleries – ideal for video portfolios, product galleries, training libraries, and course videos.
+
+### Included Free
+
+Things many video gallery plugins keep for a paid plan, all in the free **Video Gallery** block:
+
+- **Automatic channel feeds:** point it at a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, and new videos appear by themselves.
+- **Video SEO markup:** Schema.org `VideoObject` JSON-LD for every video.
+- **GDPR consent:** no YouTube, Vimeo or Facebook player loads, and no third-party cookie is set, until the visitor agrees.
+- **Google Analytics 4 video events:** play, 25%, 50%, 75% and finished, with the video's title.
+- **Thumbnails served from your own site:** no request to YouTube or Vimeo on every page view.
+
+### Fast by Design
+
+- **No jQuery, no Isotope:** about 120 KB less JavaScript on the front end.
+- **Rendered on the server:** search engines and visitors see the gallery instantly, and it still works on sites that delay JavaScript (WP Rocket, LiteSpeed, Perfmatters).
+- **Loads only when used:** scripts and styles are added only on pages that contain the block, and a video loads its player only when someone plays it.
 
 ### Free Features
 
@@ -121,6 +137,7 @@ Everything below is part of the free **Video Gallery** block.
 
 = Feedback =
 
+- Enjoying Video Gallery Block? A quick [rating on WordPress.org](https://wordpress.org/support/plugin/video-gallery-block/reviews/#new-post) helps other people find it.
 - Did you like this plugin? Dislike it? Do you have a feature request? [Please share your feedback with us](mailto:support@bplugins.com 'Send feedback')
 
 ### Check Out The Parent Plugin of This Plugin-
@@ -166,6 +183,27 @@ Video Gallery Block helps you create responsive video galleries, YouTube galleri
 = Can I create a YouTube video gallery in WordPress? =
 Yes. The free version supports YouTube videos and lets you organize them into responsive video gallery layouts.
 
+= How do I show my latest YouTube videos automatically in WordPress? =
+In the block's **Video source** panel choose **YouTube / Vimeo**, paste your channel or playlist link and pick how often to check (every hour up to once a day). New uploads then appear on their own. You can also click **Check now**.
+
+= Do I need a YouTube API key? =
+For a YouTube channel or playlist feed, yes: a free YouTube Data API key, set up once. The sidebar walks you through it step by step. Vimeo feeds need no key at all. Adding single videos by link, or many at once with Bulk Import, needs no key for either site.
+
+= Is it GDPR compliant? Does it set cookies before a video is played? =
+Turn on **Ask before loading YouTube / Vimeo (GDPR)** under Privacy & SEO. The player, and with it any third-party cookie, loads only after the visitor agrees, and the choice is remembered. YouTube and Vimeo thumbnails are served from your own site.
+
+= Does it work with WP Rocket, LiteSpeed or other "delay JavaScript" settings? =
+Yes. The gallery is built on the server, so it is visible straight away, and it starts correctly even when a performance plugin delays scripts.
+
+= Does it add video schema so my videos can appear in Google? =
+Yes. Each video gets Schema.org `VideoObject` markup. If your SEO plugin already does this, switch **Video SEO markup** off under Privacy & SEO.
+
+= Can I show only YouTube Shorts, or hide them? =
+Yes. Under Layout choose to show all videos, hide Shorts or show only Shorts. It also works for channel feeds.
+
+= Can I use it with Elementor or the classic editor? =
+Yes. Use the `[video_gallery]` shortcode, and the shortcode generator in the plugin dashboard, anywhere shortcodes work.
+
 = Can I create a Vimeo video gallery in WordPress? =
 Yes. Vimeo videos are supported and can be displayed in responsive video galleries.
 
@@ -204,7 +242,7 @@ Free users can use the WordPress.org support forum. Pro users receive priority e
 
 == Screenshots ==
 
-1. Responsive Video Gallery Layout
+1. Show your YouTube or Vimeo channel on your site, with new uploads added automatically
 2. Video Testimonial Gallery (Pro)
 3. Parallax Video Gallery (Pro)
 4. Video Slider Gallery (Pro)
@@ -213,7 +251,7 @@ Free users can use the WordPress.org support forum. Pro users receive priority e
 7. Masonry Video Gallery (Pro)
 8. Video Playlist Gallery (Pro)
 9. Video Carousel Gallery (Pro)
-10. Video Gallery Block Settings
+10. Album filters for your video library
 11. Video Gallery Shortcode Generator.
 12. Video Shorts Reel. (Pro)
 13. Video Showcase Wall. (Pro)
@@ -238,6 +276,10 @@ Free users can use the WordPress.org support forum. Pro users receive priority e
 32. Video Wedding Story Gallery. (Pro)
 33. Video Menu Showcase. (Pro)
 34. Video Feature Tour. (Pro)
+35. Videos play in a clean lightbox
+36. Looks great on desktop and phone
+37. Play videos inside the tile
+38. Ask before loading YouTube (GDPR consent)
 
 == Source Code ==
 
@@ -293,6 +335,7 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 == Changelog ==
 
 = 1.7.0 - 24 October 2026 =
+* Security: Hardened video links and captions in the Video Gallery block. A video title copied from YouTube or Vimeo can no longer run script when the lightbox opens. Thanks to Patchstack for the report.
 * New: Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar.
 * New: Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click "Check now". If YouTube or Vimeo can't be reached, the last videos stay on the page.
 * New: Paste a single video's link and the gallery offers that creator's whole channel.
@@ -312,6 +355,8 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 * Fix: The upgrade (checkout) window opens again; it could fail with a 520 error.
 * Fix: The lightbox no longer keeps following the mouse after the button is released outside the window.
 * Fix: Google Analytics never received 25/50/75% progress or video_watch_complete for Vimeo videos.
+* Fix: The lightbox no longer conflicts with other plugins that also load Fancybox.
+* Security: Hardened block CSS output.
 
 = 1.6.0 - 13 October 2026 =
 * Update: Freemius SDK updated to 2.13.5.

@@ -463,6 +463,13 @@
       scroll-margin-top: calc(var(--topbar-h) + 24px);
     }
 
+    .doc-article h2.part-title {
+      font-size: 1.75rem;
+      margin-top: 3.6rem;
+      padding-top: 2.2rem;
+      border-top: 1px solid var(--line);
+    }
+
     .doc-article h3 {
       font-size: 1.08rem;
       color: var(--ink);
@@ -1192,6 +1199,10 @@
       color: var(--brand);
     }
 
+    .toc li.toc-part { margin-top: .9rem; }
+    .toc li.toc-part a { color: var(--ink); font-weight: 650; }
+    .toc li:not(.toc-part) a { padding-left: .1rem; }
+
     .toc a.active {
       color: var(--brand);
       font-weight: 600;
@@ -1320,7 +1331,7 @@
 <div class="layout">
 <!-- ===================== SIDEBAR ===================== -->
 <aside class="sidebar" id="sidebar">
-<nav id="sideNav"><div class="nav-group" data-group="Getting Started"><button class="nav-group-head">Getting Started<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#introduction">Introduction</a><a data-nav="" href="#free-install">Installation and Activation</a></div></div><div class="nav-group" data-group="How To Use"><button class="nav-group-head">How To Use<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a><a data-nav="" href="#free-add-videos">Add Videos to Your Gallery</a><a data-nav="" href="#free-feed">Show a YouTube or Vimeo Channel</a><a data-nav="" href="#free-albums">Organize Videos with Albums &amp; Filters</a><a data-nav="" href="#free-shortcode">Show a Gallery Anywhere with Shortcodes</a><a data-nav="" href="#free-layout">Customize Gallery Layout &amp; Style</a></div></div><div class="nav-group" data-group="Additional Features &amp; Settings"><button class="nav-group-head">Additional Features &amp; Settings<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#free-privacy-analytics">Privacy, Analytics &amp; Video SEO</a><a data-nav="" href="#free-dashboard">Plugin Dashboard &amp; Settings</a></div></div><div class="nav-group" data-group="Pro Features"><button class="nav-group-head">Pro Features<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a><a data-nav="" href="#pro-blocks">Choose the Right Pro Video Layout</a><a data-nav="" href="#pro-feed">Pro YouTube &amp; Vimeo Feeds</a><a data-nav="" href="#pro-gallery-options">Pro Gallery Layouts &amp; Playback</a><a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a></div></div><a class="nav-top-link" data-nav="" href="#pro-faq">FAQs &amp; Troubleshooting</a></nav>
+<nav id="sideNav"><a class="nav-top-link" data-nav="" href="#introduction">Getting Started</a><div class="nav-group" data-group="How To Use"><button class="nav-group-head">How To Use<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#free-feed">YouTube &amp; Vimeo Channel Feeds</a><a data-nav="" href="#free-albums">Albums, Filters &amp; Lightbox</a><a data-nav="" href="#free-layout">Customize Layout &amp; Style</a><a data-nav="" href="#free-shortcode">Shortcodes</a></div></div><div class="nav-group" data-group="Additional Features &amp; Settings"><button class="nav-group-head">Additional Features &amp; Settings<svg class="chev" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m9 18 6-6-6-6"></path></svg></button><div class="nav-group-items"><a data-nav="" href="#free-privacy-analytics">Privacy, Analytics &amp; Video SEO</a><a data-nav="" href="#free-dashboard">Dashboard, Settings &amp; Pro Setup</a></div></div><a class="nav-top-link" data-nav="" href="#pro-blocks">Pro Layouts &amp; Product Videos</a><a class="nav-top-link" data-nav="" href="#pro-faq">FAQs &amp; Troubleshooting</a></nav>
 </aside>
 <!-- ===================== MAIN ===================== -->
 <main class="main">
@@ -1339,23 +1350,22 @@
 <span class="bc-current" id="bcTitle"></span>
 </nav>
 <div id="articles">
-<article class="doc-article" data-group="Getting Started" data-title="Introduction" id="introduction">
-<h1>Video Gallery Block: Complete Setup &amp; Customization Guide</h1>
-<p class="lead">Welcome to the Video Gallery Block user guide. This guide shows you how to add videos to your WordPress site, organize them into albums, choose a layout, change the design and show the same gallery on other pages.</p>
+<article class="doc-article" data-group="" data-title="Getting Started" id="introduction">
+<h1>Getting Started with Video Gallery Block</h1>
+<p class="lead">Welcome to the <a href="https://wordpress.org/plugins/video-gallery-block/" rel="noopener" target="_blank">Video Gallery Block</a> user guide. This guide shows you how to add videos to your WordPress site, organize them into albums, choose a layout, change the design and show the same gallery on other pages.</p>
 <p>You do not need coding skills or a technical background. Follow the steps in order and you can build your first video gallery without learning WordPress developer terms.</p>
 <figure class="media-slot" data-caption="A published gallery: tiles with play icons, captions and a row of album filter buttons above them." data-media="image" data-src="docs-assets/free-gallery-result.png"></figure>
 <h2 id="intro-before">Before You Begin</h2>
 <p>Make sure you have the following:</p>
 <ul>
 <li><strong>A WordPress website</strong> where you can install plugins. It needs WordPress 6.5 or newer, PHP 7.4 or newer and the block editor, which is the default editor. Most hosts already meet this.</li>
-<li><strong>Administrator access</strong> so you can install and activate Video Gallery Block.</li>
+<li><strong>Administrator access</strong> so you can install and activate <a href="https://wordpress.org/plugins/video-gallery-block/" rel="noopener" target="_blank">Video Gallery Block</a>.</li>
 <li><strong>At least one video link</strong> from YouTube, Vimeo or Facebook that you want to show on your site.</li>
 <li><strong>A thumbnail image</strong> if you want to use your own. This is optional, because YouTube and Vimeo supply one automatically.</li>
 </ul>
 <p>After installation, start with <a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a>. The first setup will teach you the basic workflow before you explore the extra features. If you later want more layouts, see <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p>
-</article>
-<article class="doc-article" data-group="Getting Started" data-title="Installation and Activation" id="free-install">
-<h1>Installation and Activation</h1>
+
+<h2 class="part-title" id="free-install">Installation and Activation</h2>
 <p class="lead">Before you build a gallery, make sure the plugin is available in your WordPress editor. This is a one-time setup; after activation, you can move straight to creating your first gallery.</p>
 <h2 id="free-install-steps">Install the Plugin</h2>
 <p>Use WordPress's built-in plugin installer; it downloads and prepares the plugin for you.</p>
@@ -1369,9 +1379,8 @@
 <p>After activation, look for <strong>Video Gallery</strong> in the left side of your WordPress dashboard. Seeing that menu is the sign that setup is complete.</p>
 <figure class="media-slot" data-caption="The Video Gallery item in the left menu with its submenu open. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-install-menu.png"></figure>
 <div class="callout tip"><span class="co-label">Tip</span><p>If you received a ZIP file instead, open <strong>Plugins &gt; Add New Plugin &gt; Upload Plugin</strong>, choose the file and install it.</p></div>
-<p>Now turn the empty page into a working gallery: <a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a>.</p></article>
-<article class="doc-article" data-group="How To Use" data-title="Create Your First Video Gallery" id="free-quick-start">
-<h1>Create Your First Video Gallery</h1>
+<p>Now turn the empty page into a working gallery: <a data-nav="" href="#free-quick-start">Create Your First Video Gallery</a>.</p>
+<h2 class="part-title" id="free-quick-start">Create Your First Video Gallery</h2>
 <p class="lead">The quickest way to learn the block is to publish a simple gallery first. Once you have seen it on your page, you can add more videos and explore the settings without guessing what each option changes.</p>
 <h2 id="free-qs-block">Add the Video Gallery Block to a Page</h2>
 <ol class="steps">
@@ -1380,11 +1389,11 @@
 <li>Type <strong>Video Gallery Block</strong> in the search box.<figure class="media-slot" data-caption="The inserter with the name typed in. The arrow marks the search box." data-media="image" data-src="docs-assets/free-qs-search.png"></figure></li>
 <li>Click <strong>Video Gallery Block</strong> to add it to the page.<figure class="media-slot" data-caption="The block inserter with Video Gallery Block in the results. The arrow marks the block." data-media="image" data-src="docs-assets/free-qs-inserter.png"></figure></li>
 <li>In the right sidebar, open the <strong>General</strong> tab, then the <strong>Videos</strong> panel. It sits right under the <strong>Video source</strong> panel.<figure class="media-slot" data-caption="The sidebar of the selected gallery, with the Help, Video source and Videos panels at the top of the General tab. The arrows mark the General tab and the Videos panel." data-media="image" data-src="docs-assets/free-videos-panel.png"></figure></li>
-<li>Paste a YouTube or Vimeo link into the <strong>Video</strong> box.<figure class="media-slot" data-caption="The first video in the Videos panel with a YouTube link pasted in, and the Thumbnail and Title fields under it. The arrow marks the Video box." data-media="image" data-src="docs-assets/free-qs-first-video.png"></figure></li>
+<li>Paste a YouTube or Vimeo link into the <strong>Video</strong> box.<figure class="media-slot" data-caption="The first video in the Videos panel with a YouTube link pasted in, and the Thumbnail and Title fields under it. The arrow marks the Video box. The other tiles are videos already in the gallery." data-media="image" data-src="docs-assets/free-qs-first-video.png"></figure></li>
 <li>Click <strong>Publish</strong>, or <strong>Update</strong> if the page is already live.<figure class="media-slot" data-caption="The editor top bar. The arrow marks the Publish button." data-media="image" data-src="docs-assets/free-qs-publish.png"></figure></li>
 </ol>
-<p>For YouTube and Vimeo, the plugin usually fills in the title and thumbnail for you, so you can see the gallery take shape with very little setup.</p>
-<figure class="media-slot" data-caption="The finished gallery on the front of the site. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-qs-result.png"></figure><p>Your first gallery is live. That is the first milestone. Next, add the videos you actually want visitors to watch; you can organize and style the gallery once the content is in place.</p>
+<p>For YouTube and Vimeo, the plugin usually fills in the title and thumbnail for you, so you can see the gallery take shape with very little setup. Add more videos the same way and each one becomes a tile in the gallery.</p>
+<figure class="media-slot" data-caption="The finished gallery on the front of the site, here with six videos added. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-qs-result.png"></figure><p>Your first gallery is live. That is the first milestone. Next, add the videos you actually want visitors to watch; you can organize and style the gallery once the content is in place.</p>
 <h2 id="free-qs-patterns">Start with a Ready-Made Pattern (Optional)</h2>
 <p>Prefer a ready-made design? A pattern is a layout you can insert instead of starting from a blank page. If you already published the simple gallery above, treat these steps as an alternative way to start another gallery.</p>
 <ol class="steps">
@@ -1402,9 +1411,8 @@
 <li><strong>Portfolio showreel wall:</strong> four tight columns, no captions.</li>
 </ul>
 <div class="callout tip"><span class="co-label">Tip</span><p>The sample videos are only placeholders. Replace every one you want to keep in the layout before publishing, or visitors may see the samples.</p></div>
-<p>Now fill the gallery with your own content: <a data-nav="" href="#free-add-videos">Add Videos to Your Gallery</a>.</p></article>
-<article class="doc-article" data-group="How To Use" data-title="Add Videos to Your Gallery" id="free-add-videos">
-<h1>Add Videos to Your Gallery</h1>
+<p>Now fill the gallery with your own content: <a data-nav="" href="#free-add-videos">Add Videos to Your Gallery</a>.</p>
+<h2 class="part-title" id="free-add-videos">Add Videos to Your Gallery</h2>
 <p class="lead">Your first gallery gives you the starting point. Now add the videos people came to see: add them one at a time when you want control, or use Bulk Import when you already have a list of links.</p>
 <h2 id="free-add-one">Add One Video</h2>
 <ol class="steps">
@@ -1422,6 +1430,21 @@
 <div class="callout tip"><span class="co-label">Tip</span><p>Facebook links do not fill in the title or poster automatically, so add those details yourself.</p></div>
 <h2 id="free-add-shape">Where the Thumbnail Is Saved</h2>
 <p>Downloaded thumbnails are saved in your WordPress Media Library, the same place you manage the other images on your site.</p>
+<h2 id="free-add-media">Add Many Videos from the Media Library</h2>
+<p>Do you have video files on your own site? Add all of them in one go, instead of pasting one link at a time.</p>
+<ol class="steps">
+<li>Select the gallery, open the <strong>General</strong> tab, then open the <strong>Import videos</strong> panel.<figure class="media-slot" data-caption="The General tab of a selected gallery. The arrow marks the Import videos panel." data-media="image" data-src="docs-assets/free-bulk-panel.png"></figure></li>
+<li>Click <strong>Add from Media Library</strong>.<figure class="media-slot" data-caption="The Import videos panel. The arrow marks the Add from Media Library button." data-media="image" data-src="docs-assets/free-add-media-library.png"></figure></li>
+<li>Tick as many videos as you like, or upload new ones in the same window, then confirm. Every video becomes a tile, with its name as the title.<figure class="media-slot" data-caption="The Add videos window with some videos ticked. The arrow marks the Select button." data-media="image" data-src="docs-assets/free-add-media-modal.png"></figure></li>
+</ol>
+<div class="callout tip"><span class="co-label">Tip</span><p>You can also drag video files from your computer straight onto the gallery in the editor. A box that says <strong>Drop videos to add them</strong> shows up while you drag. YouTube and Vimeo links work the same way: drag the link from the address bar of another browser tab and drop it on the gallery.</p></div>
+<h2 id="free-add-order">Change the Order of Your Videos</h2>
+<p>The tiles show up in the order of your list. Move a video when you want it first, or last.</p>
+<ol class="steps">
+<li>Hold the mouse over a tile in the editor. A small bar shows up on the tile. Drag the dotted handle to a new place, or click an arrow to move the tile one step.<figure class="media-slot" data-caption="A tile with its small bar open. The arrow marks the Move right button." data-media="image" data-src="docs-assets/free-reorder-tile.png"></figure></li>
+<li>Prefer the sidebar? Open the <strong>Videos</strong> panel, click a video, then click the <strong>Move earlier</strong> or <strong>Move later</strong> button at the top of the panel.<figure class="media-slot" data-caption="The Videos panel. The arrow marks the Move later button." data-media="image" data-src="docs-assets/free-reorder-panel.png"></figure></li>
+</ol>
+<p>To sort by date instead, see <a href="#free-layout-order">Choose the Video Order</a>.</p>
 <h2 id="free-bulk-import">Add Many Videos with Bulk Import</h2>
 <p>Already have a list of links? Bulk Import saves you from repeating the same add-video steps for every item.</p>
 <h2 id="free-bulk-steps">Import Multiple Video Links</h2>
@@ -1441,99 +1464,164 @@
 </ul>
 <div class="callout tip"><span class="co-label">Tip</span><p>Posting new videos to YouTube or Vimeo every week? Instead of adding each one here, let the gallery follow your channel or playlist. See <a data-nav="" href="#free-feed">Show a YouTube or Vimeo Channel Automatically</a>.</p></div>
 <p>Once the gallery has several videos, help visitors find the right one by grouping related clips into albums and adding filters. If you would rather fill the gallery from a channel, continue to <a data-nav="" href="#free-feed">Show a YouTube or Vimeo Channel Automatically</a> first.</p></article>
-<article class="doc-article" data-group="How To Use" data-title="Show a YouTube or Vimeo Channel" id="free-feed">
-<h1>Show a YouTube or Vimeo Channel Automatically</h1>
-<p class="lead">Adding videos by hand works well for a fixed collection. If you post new videos often, let the gallery follow your channel or playlist instead: paste one link once, and new uploads appear on your site by themselves.</p>
-<p>This is called a <strong>feed</strong>. It shows the newest videos from a YouTube channel or playlist, or from a Vimeo profile, channel, group or showcase. Vimeo links work straight away. YouTube links need a free key from Google, which you set up once in about two minutes.</p>
+<article class="doc-article" data-group="How To Use" data-title="YouTube &amp; Vimeo Channel Feeds" id="free-feed">
+<h1>YouTube &amp; Vimeo Channel Feeds</h1>
+<p class="lead">Post new videos often? Let the gallery follow your channel or playlist. Paste one link, and every new upload shows up by itself.</p>
+<p>This is called a <strong>feed</strong>. Vimeo links work at once. YouTube links need a free key from Google, which you make one time.</p>
 <figure class="media-slot" data-caption="A gallery filled from a YouTube channel on the front of the site. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-feed-result.png"></figure>
 <h2 id="free-feed-turn-on">Switch the Gallery to a Channel or Playlist</h2>
 <ol class="steps">
-<li>Select the gallery, then open the <strong>General</strong> tab and the <strong>Video source</strong> panel, the first panel under <strong>Help</strong>.<figure class="media-slot" data-caption="The sidebar of a selected gallery. The arrows mark the General tab and the Video source panel." data-media="image" data-src="docs-assets/free-feed-source-panel.png"></figure></li>
-<li>Under <strong>Where do the videos come from?</strong>, choose <strong>YouTube / Vimeo</strong>. The other choice, <strong>My videos</strong>, is the list you add yourself.<figure class="media-slot" data-caption="The Video source panel with its My videos and YouTube / Vimeo buttons. The arrow marks the YouTube / Vimeo button." data-media="image" data-src="docs-assets/free-feed-choose.png"></figure></li>
-<li>In step 1, <strong>Choose a channel or playlist</strong>, paste your link into the <strong>YouTube or Vimeo link</strong> box.<figure class="media-slot" data-caption="Step 1 of the Video source panel with a channel link pasted in. The arrow marks the YouTube or Vimeo link box." data-media="image" data-src="docs-assets/free-feed-link.png"></figure></li>
-<li>Click <strong>Show videos</strong>. For a YouTube link, connect YouTube first; see <a data-nav="" href="#free-feed-key">Connect YouTube with a Free Key</a> below.<figure class="media-slot" data-caption="The same step. The arrow marks the Show videos button." data-media="image" data-src="docs-assets/free-feed-show.png"></figure></li>
+<li>Select the gallery. On the <strong>General</strong> tab, open <strong>Video source</strong>.<figure class="media-slot" data-caption="The sidebar of a selected gallery. The arrows mark the General tab and the Video source panel." data-media="image" data-src="docs-assets/free-feed-source-panel.png"></figure></li>
+<li>Choose <strong>YouTube / Vimeo</strong>.<figure class="media-slot" data-caption="The Video source panel with its My videos and YouTube / Vimeo buttons. The arrow marks the YouTube / Vimeo button." data-media="image" data-src="docs-assets/free-feed-choose.png"></figure></li>
+<li>Paste your link into the <strong>YouTube or Vimeo link</strong> box.<figure class="media-slot" data-caption="Step 1 of the Video source panel with a channel link pasted in. The arrow marks the YouTube or Vimeo link box." data-media="image" data-src="docs-assets/free-feed-link.png"></figure></li>
+<li>Click <strong>Show videos</strong>. For YouTube, connect it first (see below).<figure class="media-slot" data-caption="The same step. The arrow marks the Show videos button." data-media="image" data-src="docs-assets/free-feed-show.png"></figure></li>
 </ol>
-<p>When the videos load, step 1 turns green with a tick and shows the channel name, the number of videos and when they were last updated, for example <strong>YouTube channel · 12 videos · updated just now</strong>.</p>
+<p>When the videos load, step 1 turns green.</p>
 <figure class="media-slot" data-caption="Step 1 after the videos loaded: a green tick in place of the step number, and the channel name, the number of videos and the update time. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-feed-status.png"></figure>
-<p>Every finished step folds to one line with a short summary, such as <strong>Connected</strong> or <strong>12 videos · every 6 hours</strong>, so a returning editor sees the setup at a glance. Click a folded step's title to open it again.</p>
-<div class="callout tip"><span class="co-label">Tip</span><p>You can also paste the link on the page itself. While the gallery has no link yet, it shows a <strong>Channel or playlist gallery</strong> box with the same link field. To show a different channel later, paste the new link and click <strong>Update link</strong>. A gallery shows one link at a time.</p></div>
+<div class="callout tip"><span class="co-label">Tip</span></div>
 <h2 id="free-feed-links">Which Links You Can Use</h2>
 <ul>
 <li><strong>YouTube channel:</strong> the channel's address, such as youtube.com/@name.</li>
-<li><strong>YouTube playlist:</strong> a link that contains <strong>list=</strong>. The playlist must be public or unlisted, not private.</li>
+<li><strong>YouTube playlist:</strong> a link with <strong>list=</strong>. It must not be private.</li>
 <li><strong>Vimeo profile:</strong> such as vimeo.com/name.</li>
 <li><strong>Vimeo channel or group:</strong> such as vimeo.com/channels/name or vimeo.com/groups/name.</li>
-<li><strong>Vimeo showcase</strong>, which is Vimeo's name for a playlist: vimeo.com/showcase/ followed by its number. On Vimeo, copy it from the showcase's <strong>Share</strong> button.</li>
+<li><strong>Vimeo showcase:</strong> vimeo.com/showcase/ and a number.</li>
 </ul>
-<p>A link to a single video does not work here, because a feed needs a list. If you paste one, the block tells you, and it may offer a <strong>Show all videos from ...</strong> button that switches to that creator's channel in one click.</p>
-<p>Only public videos are shown. Private videos never appear, and Vimeo also leaves out unlisted videos. Want to show your favorite videos? Put them in a public YouTube playlist and paste the playlist's link.</p>
+<p>A link to one video does not work. A feed needs a channel or playlist.</p>
+<p>Only public videos are shown.</p>
 <h2 id="free-feed-key">Connect YouTube with a Free Key (One Time)</h2>
-<p>YouTube links need an <strong>API key</strong>: a free code from Google that lets your site ask YouTube for a channel's list of videos. YouTube's old key-free channel feed has stopped working reliably, so the plugin uses YouTube's own supported service, the YouTube Data API v3. You set the key up once, and it then works for every gallery on your site. Vimeo links do not need a key.</p>
+<p>An <strong>API key</strong> is a free code from Google. It lets your site ask YouTube for a channel's videos. You make it once, and it works for every gallery. Vimeo does not need a key. Follow the steps below.</p>
 <ol class="steps">
-<li>In step 2, <strong>Connect YouTube</strong>, click the <strong>Connect YouTube</strong> button if the instructions are not open yet.<figure class="media-slot" data-caption="Step 2 of the Video source panel, with the note Only needed for YouTube links. The arrow marks the Connect YouTube button." data-media="image" data-src="docs-assets/free-feed-connect.png"></figure></li>
-<li>Click <strong>Open Google Cloud</strong>, sign in with your Google account and create a project. Any name works.<figure class="media-slot" data-caption="The connect instructions in step 2. The arrow marks the Open Google Cloud link." data-media="image" data-src="docs-assets/free-feed-google-cloud.png"></figure></li>
-<li>Back in the editor, click <strong>Open the API page</strong>, then click <strong>Enable</strong> on the <strong>YouTube Data API v3</strong> page.<figure class="media-slot" data-caption="The YouTube Data API v3 page in Google Cloud. The arrow marks the Enable button." data-media="image" data-src="docs-assets/free-feed-enable-api.png"></figure></li>
-<li>In Google Cloud, go to <strong>Credentials</strong>, click <strong>Create credentials</strong>, choose <strong>API key</strong> and copy the key. It starts with AIza.<figure class="media-slot" data-caption="The Credentials page in Google Cloud with the Create credentials menu open. The arrow marks API key." data-media="image" data-src="docs-assets/free-feed-create-key.png"></figure></li>
-<li>Paste the key into the <strong>YouTube API key</strong> box and click <strong>Save key</strong>.<figure class="media-slot" data-caption="Step 2 with a key pasted in. The arrows mark the YouTube API key box and the Save key button." data-media="image" data-src="docs-assets/free-feed-save-key.png"></figure></li>
+<li>Click <strong>Connect YouTube</strong>.<figure class="media-slot" data-caption="Step 2 of the Video source panel, with the note Only needed for YouTube links. The arrow marks the Connect YouTube button." data-media="image" data-src="docs-assets/free-feed-connect.png"></figure></li>
+<li>Click <strong>Open Google Cloud</strong> and sign in with your Google account.<figure class="media-slot" data-caption="The connect instructions in step 2. The arrow marks the Open Google Cloud link." data-media="image" data-src="docs-assets/free-feed-google-cloud.png"></figure></li>
+<li>At the top, click the project name (or <strong>Select a project</strong>), then <strong>New project</strong>.<figure class="media-slot" data-caption="The Select a project window in Google Cloud. The arrow marks the New project button." data-media="image" data-src="docs-assets/free-feed-gc-project-menu.png"></figure></li>
+<li>Type any name and click <strong>Create</strong>.<figure class="media-slot" data-caption="The New Project form in Google Cloud. The arrow marks the Create button." data-media="image" data-src="docs-assets/free-feed-gc-new-project.png"></figure></li>
+<li>When the message appears, click <strong>Select project</strong>. (Missed it? Click the bell icon.)<figure class="media-slot" data-caption="The Google Cloud notifications. The arrow marks Select Project." data-media="image" data-src="docs-assets/free-feed-gc-select-project.png"></figure></li>
+<li>Back in the editor, click <strong>Open the API page</strong>.<figure class="media-slot" data-caption="The connect instructions in step 2. The arrow marks the Open the API page link." data-media="image" data-src="docs-assets/free-feed-open-api-page.png"></figure></li>
+<li>Click <strong>Enable</strong>.<figure class="media-slot" data-caption="The YouTube Data API v3 page in Google Cloud. The arrow marks the Enable button." data-media="image" data-src="docs-assets/free-feed-enable-api.png"></figure></li>
+<li>In the left menu, click <strong>Credentials</strong>.<figure class="media-slot" data-caption="The APIs and services menu in Google Cloud. The arrow marks Credentials." data-media="image" data-src="docs-assets/free-feed-gc-credentials-menu.png"></figure></li>
+<li>At the top, click <strong>Create credentials</strong>, then click <strong>API key</strong>.<figure class="media-slot" data-caption="The Credentials page in Google Cloud with the Create credentials menu open. The arrow marks API key." data-media="image" data-src="docs-assets/free-feed-create-key.png"></figure></li>
+<li>Under <strong>Select API restrictions</strong>, tick <strong>YouTube Data API v3</strong> and click <strong>OK</strong>.<figure class="media-slot" data-caption="The Create API key form with the API list open. The arrow marks YouTube Data API v3." data-media="image" data-src="docs-assets/free-feed-gc-key-api.png"></figure></li>
+<li>Click <strong>Create</strong>.<figure class="media-slot" data-caption="The Create API key form with YouTube Data API v3 selected. The arrow marks the Create button." data-media="image" data-src="docs-assets/free-feed-gc-api-key-form.png"></figure></li>
+<li>Copy the key. It starts with <strong>AIza</strong>.<figure class="media-slot" data-caption="The API key created window, with a sample key. The arrow marks the copy icon." data-media="image" data-src="docs-assets/free-feed-gc-key-created.png"></figure></li>
+<li>In the editor, paste the key into <strong>YouTube API key</strong> and click <strong>Save key</strong>.<figure class="media-slot" data-caption="Step 2 with a key pasted in. The arrows mark the YouTube API key box and the Save key button." data-media="image" data-src="docs-assets/free-feed-save-key.png"></figure></li>
 </ol>
-<p>The block tests the key before saving it. When it works, step 2 turns green with a tick and shows <strong>Connected</strong> with the last characters of your key, and the videos load. Next time you open the gallery, step 2 is folded to one line: <strong>Connected</strong> and the end of your key.</p>
+<p>The key is free. Keep it private, like a password.</p>
+<p>When the key works, step 2 turns green and says <strong>Connected</strong>. Your videos load.</p>
 <figure class="media-slot" data-caption="Step 2 after the key was saved: a green tick, Connected with the end of the key, and the Change key link. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-feed-connected.png"></figure>
 <ul>
-<li>The key stays on your server. Visitors never see it.</li>
-<li>Only a site administrator can add or change the key. Other editors see a note asking an administrator to connect YouTube once; after that, they can make channel galleries too.</li>
-<li>To use a different key later, click the folded step 2 to open it, then click <strong>Change key</strong>.</li>
-<li>Google gives each key 10,000 free quota units a day. A normal feed uses only a few units each time it checks for new videos, so one key is enough for most sites.</li>
+<li>To use another key later, open step 2 and click <strong>Change key</strong>.</li>
 </ul>
 <h2 id="free-feed-display">Choose How Many Videos and How Often to Check</h2>
 <ol class="steps">
-<li>Open step 3, <strong>How many &amp; how often</strong>. If it is folded to one line, click its title. Then drag <strong>Number of videos</strong>. You can show up to 50, newest first.<figure class="media-slot" data-caption="The How many and how often step of the Video source panel, open. The arrow marks the Number of videos slider." data-media="image" data-src="docs-assets/free-feed-count.png"></figure></li>
-<li>Optional: type a number in <strong>Show first</strong> to show only that many videos at first, with a <strong>Load More</strong> button for the rest. Zero shows them all. Once a number is set, you can change the button's wording in <strong>Load More button text</strong>.</li>
-<li>Under <strong>Check for new videos</strong>, click <strong>1 h</strong>, <strong>6 h</strong>, <strong>12 h</strong> or <strong>Daily</strong>. Point at a button to see its full name, such as <strong>Every 6 hours</strong>. The default is every 6 hours. New uploads appear on your site within this time, with no work from you.<figure class="media-slot" data-caption="The How many and how often step. The arrow marks the Check for new videos buttons: 1 h, 6 h, 12 h and Daily." data-media="image" data-src="docs-assets/free-feed-refresh.png"></figure></li>
-<li>Click <strong>Check now</strong> when you want the newest videos straight away, for example right after you upload one.<figure class="media-slot" data-caption="The bottom of the How many and how often step. The arrow marks the Check now button." data-media="image" data-src="docs-assets/free-feed-check-now.png"></figure></li>
+<li>Open <strong>How many &amp; how often</strong>. Drag <strong>Number of videos</strong> (up to 50, newest first).<figure class="media-slot" data-caption="The How many and how often step of the Video source panel, open. The arrow marks the Number of videos slider." data-media="image" data-src="docs-assets/free-feed-count.png"></figure></li>
+<li>Optional: type a number in <strong>Show first</strong>. The rest wait behind a <strong>Load More</strong> button.<figure class="media-slot" data-caption="The How many and how often step. The arrow marks the Show first box." data-media="image" data-src="docs-assets/free-feed-show-first.png"></figure></li>
+<li>Under <strong>Check for new videos</strong>, pick how often: <strong>1 h</strong>, <strong>6 h</strong>, <strong>12 h</strong> or <strong>Daily</strong>.<figure class="media-slot" data-caption="The How many and how often step. The arrow marks the Check for new videos buttons: 1 h, 6 h, 12 h and Daily." data-media="image" data-src="docs-assets/free-feed-refresh.png"></figure></li>
+<li>Click <strong>Check now</strong> to get the newest videos right away.<figure class="media-slot" data-caption="The bottom of the How many and how often step. The arrow marks the Check now button." data-media="image" data-src="docs-assets/free-feed-check-now.png"></figure></li>
 </ol>
-<p>How many &amp; how often is step 3 for a YouTube link. A Vimeo link has no key step, so it is step 2. Once set, it folds to a summary such as <strong>12 videos · every 6 hours</strong>.</p>
 <h2 id="free-feed-shorts">Hide Shorts or Show Only Shorts</h2>
-<p>A YouTube channel has regular videos and Shorts. You can show both, or only one kind.</p>
+<p>Show all videos, hide Shorts, or show only Shorts.</p>
 <ol class="steps">
-<li>In the <strong>How many &amp; how often</strong> step, choose <strong>All Videos</strong>, <strong>Hide Shorts</strong> or <strong>Only Shorts</strong> under <strong>YouTube Shorts</strong>.<figure class="media-slot" data-caption="The How many and how often step of a gallery that shows a YouTube channel. The arrow marks the YouTube Shorts buttons: All Videos, Hide Shorts and Only Shorts." data-media="image" data-src="docs-assets/free-feed-shorts.png"></figure></li>
+<li>In <strong>How many &amp; how often</strong>, choose under <strong>YouTube Shorts</strong>.<figure class="media-slot" data-caption="The How many and how often step of a gallery that shows a YouTube channel. The arrow marks the YouTube Shorts buttons: All Videos, Hide Shorts and Only Shorts." data-media="image" data-src="docs-assets/free-feed-shorts.png"></figure></li>
 </ol>
-<p>This works for YouTube channel links. A playlist or a Vimeo link is shown as it is, so the option is not offered there. Hiding Shorts does not lower your count: the gallery still fills up to the number of videos you chose.</p>
 <h2 id="free-feed-off">Go Back to Your Own Videos</h2>
-<p>While the feed is on, the <strong>Videos</strong>, <strong>Import videos</strong> and <strong>Albums &amp; filter bar</strong> panels are hidden, because the videos come from the channel. Your own video list is not deleted. To get it back, choose <strong>My videos</strong> under <strong>Where do the videos come from?</strong>. The feed link is remembered too, so you can switch back to it the same way.</p>
+<p>Choose <strong>My videos</strong> under <strong>Where do the videos come from?</strong>. Your own list is still there. Nothing was deleted.</p>
+<h2 id="free-feed-copy">Copy a Feed to Your Own List</h2>
+<p>Want to rename, remove or reorder feed videos? Copy them to your own list first.</p>
+<ol class="steps">
+<li>In <strong>Video source</strong>, click <strong>Copy these videos to My videos</strong>.<figure class="media-slot" data-caption="The Video source panel with a channel loaded. The arrow marks the Copy these videos to My videos button." data-media="image" data-src="docs-assets/free-feed-copy.png"></figure></li>
+<li>Made a mistake? Click <strong>Undo</strong> in the message.<figure class="media-slot" data-caption="The message after copying. The arrow marks the Undo link." data-media="image" data-src="docs-assets/free-feed-copied.png"></figure></li>
+</ol>
+<p>The copied videos are now yours. They no longer update by themselves.</p>
 <h2 id="free-feed-good">Good to Know</h2>
 <ul>
-<li><strong>New videos are not instant.</strong> The gallery keeps a saved copy of the list and looks for new uploads at the time you chose under <strong>Check for new videos</strong>. This keeps your page fast: visitors never wait for YouTube or Vimeo.</li>
-<li><strong>The gallery never empties itself.</strong> If YouTube or Vimeo cannot be reached, or the key stops working, the gallery keeps showing the last videos it loaded. In the editor, step 1 then says <strong>Showing the last videos we got. Could not update just now:</strong> followed by the reason.</li>
-<li><strong>Daily quota.</strong> If your key's free daily quota is used up, the videos already shown stay up, and new ones appear after the quota resets at midnight, Pacific time.</li>
-<li><strong>Sort order still works.</strong> Under <strong>Sort order</strong> in the <strong>Layout</strong> panel, <strong>Newest</strong> and <strong>Oldest</strong> sort feed videos by the date they were published. <strong>Feed order</strong> keeps the order YouTube or Vimeo lists them in.</li>
-<li><strong>Page cache.</strong> If your site uses a caching plugin, visitors may see the new videos only after that plugin refreshes its saved copy of the page.</li>
+<li><strong>New videos are not instant.</strong> The gallery checks at the time you chose. This keeps your page fast.</li>
+<li><strong>The gallery never goes empty.</strong> If YouTube cannot be reached, it keeps the last videos it had.</li>
+<li><strong>Using a cache plugin?</strong> Visitors may see new videos only after the cache refreshes.</li>
 </ul>
 <h2 id="free-feed-alerts">Get Told When a Feed Stops Updating</h2>
-<p>Because the gallery keeps showing its last videos, a broken feed is easy to miss: nothing looks wrong, but new uploads stop arriving. So the plugin warns site administrators when a feed keeps failing on the live site.</p>
-<p>The warning is a red notice at the top of the <strong>Dashboard</strong>, the <strong>Plugins</strong> page and the <strong>Video Gallery</strong> screens. It starts with <strong>Video Gallery: a video feed has stopped updating.</strong> For each problem it shows:</p>
-<ul>
-<li>what went wrong, in plain words, for example that the key is not valid or the daily quota is used up;</li>
-<li>the link that stopped updating;</li>
-<li>a page where the gallery appears (<strong>Seen on</strong>) and how long the problem has lasted (<strong>Since ... ago</strong>).</li>
-</ul>
+<p>If a feed keeps failing, a red notice appears at the top of the <strong>Dashboard</strong>. It says what went wrong, for example the key is not valid. It goes away by itself when the feed works again.</p>
 <figure class="media-slot" data-caption="The feed notice on the WordPress Dashboard. The arrows mark the Hide for a day link and the Email me about feed problems link." data-media="image" data-src="docs-assets/free-feed-alert-notice.png"></figure>
-<p>The notice appears for problems such as these:</p>
 <ul>
-<li>the YouTube key is missing, not valid or restricted, or YouTube Data API v3 is not turned on for it;</li>
-<li>the key's daily quota is used up;</li>
-<li>the channel, playlist or Vimeo page cannot be found, for example because it was deleted or made private;</li>
-<li>your site could not reach YouTube or Vimeo for more than six hours. Shorter outages are ignored, because they usually fix themselves.</li>
+<li>Click <strong>Hide for a day</strong> to hide it for 24 hours.</li>
+<li>Click <strong>Email me about feed problems</strong> to get an email too.</li>
 </ul>
-<p>For a key problem, the notice also tells you where to fix it: edit any page with a video feed, select the block, open <strong>Video source → Connect YouTube</strong> and click <strong>Change key</strong>.</p>
+<div class="callout tip"><span class="co-label">Tip</span><p>With Pro, a feed can mix several channels, show live streams and work in 20 other blocks. See <a data-nav="" href="#pro-feed">Pro YouTube &amp; Vimeo Feeds</a>.</p></div>
+<p>Next: <a data-nav="" href="#free-layout">Customize Gallery Layout &amp; Style</a>.</p>
+<h2 class="part-title" id="pro-feed">Pro YouTube &amp; Vimeo Feeds</h2>
+<p class="lead">The free gallery follows one channel. With Pro, a feed can mix several channels, show live streams, filter by title, and work in 20 other blocks.</p>
+<p>Set up the feed first, as in <a data-nav="" href="#free-feed">Show a YouTube or Vimeo Channel Automatically</a>. With Pro you get two more optional steps: <strong>Keywords</strong> and <strong>Live streams</strong>.</p>
+<h2 id="pro-feed-type">Choose What the Feed Shows</h2>
+<ol class="steps">
+<li>Open <strong>Video source</strong> and choose <strong>YouTube / Vimeo</strong>.<figure class="media-slot" data-caption="The Video source panel in Pro. The arrow marks the YouTube / Vimeo button." data-media="image" data-src="docs-assets/pro-feed-source.png"></figure></li>
+<li>Pick a <strong>Feed type</strong> card: <strong>Channel</strong>, <strong>Live</strong>, <strong>Search</strong> or <strong>Videos</strong>.<figure class="media-slot" data-caption="Step 1 of the Video source panel in Pro, with the four Feed type cards in a two-by-two grid. The arrow marks the Feed type cards." data-media="image" data-src="docs-assets/pro-feed-type.png"></figure></li>
+<li>Fill in the field below, then click <strong>Show videos</strong>.<figure class="media-slot" data-caption="The Choose what to show step with a channel loaded. The arrow marks the link box. Before any videos are loaded, the button under it says Show videos instead of Update link." data-media="image" data-src="docs-assets/pro-feed-type-field.png"></figure></li>
+</ol>
 <ul>
-<li>Click <strong>Hide for a day</strong> to put the notice away for 24 hours. If a new problem appears in the meantime, the notice comes back straight away.</li>
-<li>Click <strong>Email me about feed problems</strong> to also get an email at your site's administration email address. Each problem is emailed once, and again only if it is still there a day later. Emails are off until you turn them on; click <strong>Stop emailing me about feed problems</strong> to turn them off again.</li>
+<li><strong>Channel:</strong> a channel or playlist link.</li>
+<li><strong>Live:</strong> a channel's live streams.</li>
+<li><strong>Search:</strong> type words, for example <em>wordpress tutorial</em>. You get the top 50 videos.</li>
+<li><strong>Videos:</strong> paste up to 50 video links, one per line.</li>
 </ul>
-<p>You do not need to close the notice once the problem is fixed. It goes away by itself as soon as the feed loads again. A wrong link typed in the editor does not create a notice; the editor explains that problem right under the link.</p>
-<div class="callout tip"><span class="co-label">Tip</span><p>With Video Gallery Pro, a feed can combine several channels, show many more videos, live streams or search results, and fill 20 other Pro blocks. See <a data-nav="" href="#pro-feed">Pro YouTube &amp; Vimeo Feeds</a>.</p></div>
-<p>Albums are for videos you add yourself, so with a feed you can skip ahead to <a data-nav="" href="#free-layout">Customize Gallery Layout &amp; Style</a>. To learn how visitors watch videos, or to organize a hand-picked gallery, continue to <a data-nav="" href="#free-albums">Organize Videos with Albums &amp; Filters</a>.</p></article>
-<article class="doc-article" data-group="How To Use" data-title="Organize Videos with Albums &amp; Filters" id="free-albums">
-<h1>Organize Videos with Albums, Filters &amp; Lightbox</h1>
+<h2 id="pro-feed-search">Search Feeds Use More Quota</h2>
+<p>Google gives your key 10,000 free units a day. A search check costs 100 units. So for search feeds, keep <strong>Check for new videos</strong> at a few hours or <strong>Daily</strong>. Do not use <strong>15 min</strong>.</p>
+<h2 id="pro-feed-links">Combine Several Channels or Playlists</h2>
+<p>One gallery can follow up to 10 links. You can mix YouTube and Vimeo. Videos are shown together, newest first.</p>
+<ol class="steps">
+<li>Under the first link, find <strong>More channels or playlists</strong>.<figure class="media-slot" data-caption="Step 1 with one channel loaded. The arrow marks the More channels or playlists area." data-media="image" data-src="docs-assets/pro-feed-more-links.png"></figure></li>
+<li>Paste another link and click <strong>Add link</strong>.<figure class="media-slot" data-caption="The More channels or playlists area with a second link pasted in. The arrow marks the Add link button." data-media="image" data-src="docs-assets/pro-feed-add-link.png"></figure></li>
+</ol>
+<h2 id="pro-feed-count">Show More Videos, or All of Them</h2>
+<ul>
+<li><strong>Number of videos</strong> goes up to 1,000.</li>
+<li>Turn on <strong>All videos</strong> to show every video. A <strong>Load More</strong> button shows the rest.</li>
+</ul>
+<figure class="media-slot" data-caption="The How many and how often step in Pro. The arrows mark the All videos switch and the Number of videos slider." data-media="image" data-src="docs-assets/pro-feed-all-videos.png"></figure>
+<h2 id="pro-feed-filter">Show or Hide Videos by Title Words</h2>
+<p>Use the <strong>Keywords</strong> step when a channel posts more than you want to show.</p>
+<ol class="steps">
+<li>Type words into <strong>Only show videos whose title has</strong>, for example <em>tutorial, review</em>.<figure class="media-slot" data-caption="The Keywords step, marked Optional. The arrows mark the Only show videos whose title has box and the Hide videos whose title has box." data-media="image" data-src="docs-assets/pro-feed-filter.png"></figure></li>
+<li>Type words into <strong>Hide videos whose title has</strong>, for example <em>sponsored, trailer</em>.<figure class="media-slot" data-caption="The Keywords step. The lower arrow marks the Hide videos whose title has box." data-media="image" data-src="docs-assets/pro-feed-filter.png"></figure></li>
+</ol>
+<p>Capital letters do not matter. Leave both boxes empty to show every video.</p>
+<h2 id="pro-feed-live">Show Live Streams</h2>
+<p>The <strong>Live streams</strong> step works with YouTube.</p>
+<p>Under <strong>When the channel is live</strong>, choose one:</p>
+<ul>
+<li><strong>Player on top</strong> (default): the live stream plays in a big player above the gallery.</li>
+<li><strong>First in gallery</strong>: the live stream moves to the front with a <strong>LIVE</strong> badge.</li>
+<li><strong>Normal order</strong>: no change.</li>
+</ul>
+<p>Also in this step:</p>
+<ul>
+<li><strong>Live stream link</strong>: paste a stream that is not in your list.</li>
+<li><strong>Hide upcoming streams</strong>: hides streams that have not started.</li>
+</ul>
+<figure class="media-slot" data-caption="The Live streams step, marked Optional. The arrows mark the When the channel is live buttons (Player on top, First in gallery, Normal order) and the Hide upcoming streams switch." data-media="image" data-src="docs-assets/pro-feed-live.png"></figure>
+<figure class="media-slot" data-caption="A gallery with a live stream playing in the large player above it. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-feed-live-result.png"></figure>
+<h2 id="pro-feed-refresh">Check for New Videos Every 15 Minutes</h2>
+<p>Pro adds a <strong>15 min</strong> button to <strong>Check for new videos</strong>. Use it for a channel that posts or goes live often.</p>
+<h2 id="pro-feed-blocks">Use a Feed in Other Pro Blocks</h2>
+<p>20 Pro blocks can use a feed too. They have the same <strong>Video source</strong> panel.</p>
+<ol class="steps">
+<li>Select the block. On the <strong>General</strong> tab, open <strong>Video source</strong>.<figure class="media-slot" data-caption="The sidebar of a Video Shorts Reel. The arrows mark the General tab and the Video source panel." data-media="image" data-src="docs-assets/pro-feed-block-source.png"></figure></li>
+<li>Choose <strong>YouTube / Vimeo</strong>, paste your link and click <strong>Show videos</strong>.<figure class="media-slot" data-caption="The Video source panel of a Pro block with a channel loaded. The arrow marks the YouTube or Vimeo link box." data-media="image" data-src="docs-assets/pro-feed-block-link.png"></figure></li>
+<li>In <strong>How many &amp; how often</strong>, set how many videos and how often to check.<figure class="media-slot" data-caption="The How many and how often step of another Pro block. The arrow marks the Number of videos slider." data-media="image" data-src="docs-assets/pro-feed-block-count.png"></figure></li>
+</ol>
+<p>Blocks with a feed: Lightbox Video Gallery, Masonry Video Grid, Parallax Row Video Gallery, Slider Autoplay Video, Video Bento Grid, Video Carousel Gallery, Video Curriculum Accordion, Video Expanding Panels, Video Flip Cards Gallery, Video Justified Gallery, Video Marquee Wall, Video Wall with Floating Player, Video Playlist Gallery, Video Podcast Episodes, Video Shorts Reel, Video Showcase Wall, Video Slider, Video Swipe Deck, Video Tabs Gallery and Video Timeline Gallery.</p>
+<ul>
+<li>Live streams: use the <strong>Show live streams first</strong> switch.<figure class="media-slot" data-caption="The Live streams step of a Video Carousel Gallery. The arrow marks the Show live streams first switch." data-media="image" data-src="docs-assets/pro-feed-block-live.png"></figure></li>
+<li>Shorts: use the <strong>YouTube Shorts</strong> buttons.<figure class="media-slot" data-caption="The How many and how often step of a Video Carousel Gallery that shows a YouTube channel. The arrow marks the YouTube Shorts buttons." data-media="image" data-src="docs-assets/pro-feed-block-shorts.png"></figure></li>
+<li><strong>Video Shorts Reel</strong> shows only Shorts. Choose <strong>All Videos</strong> to add normal videos.<figure class="media-slot" data-caption="The same buttons in Video Shorts Reel. The arrow marks the YouTube Shorts buttons." data-media="image" data-src="docs-assets/pro-feed-reel-shorts.png"></figure></li>
+<li><strong>Video Curriculum Accordion</strong>: each link is one section. Add more under <strong>More playlists — each one is a section</strong>. Set <strong>Videos per section</strong>.<figure class="media-slot" data-caption="The Choose what to show step of Video Curriculum Accordion. The arrow marks More playlists, each one is a section." data-media="image" data-src="docs-assets/pro-feed-accordion-links.png"></figure><figure class="media-slot" data-caption="The How many and how often step of Video Curriculum Accordion. The arrow marks the Videos per section slider." data-media="image" data-src="docs-assets/pro-feed-accordion-count.png"></figure></li>
+<li><strong>Video Tabs Gallery</strong>: each link is one tab. Add more under <strong>More playlists — each one is a tab</strong>. Set <strong>Videos per tab</strong>.<figure class="media-slot" data-caption="The Choose what to show step of Video Tabs Gallery. The arrow marks More playlists, each one is a tab." data-media="image" data-src="docs-assets/pro-feed-tabs-links.png"></figure><figure class="media-slot" data-caption="The How many and how often step of Video Tabs Gallery. The arrow marks the Videos per tab slider." data-media="image" data-src="docs-assets/pro-feed-tabs-count.png"></figure></li>
+<li><strong>Slider Autoplay Video</strong>: in <strong>Layout</strong>, switch on <strong>Fill the card with YouTube / Vimeo</strong> to remove dark bands.<figure class="media-slot" data-caption="The Layout panel of Slider Autoplay Video with YouTube slides. The arrow marks the Fill the card with YouTube / Vimeo switch." data-media="image" data-src="docs-assets/pro-feed-slider-fill.png"></figure></li>
+</ul>
+<p>Video Stories, Video Comparison Gallery and Video Map Gallery have no feed.</p>
+<figure class="media-slot" data-caption="A Video Curriculum Accordion built from two YouTube playlists, one section each. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-feed-blocks-result.png"></figure>
+<p>Next: <a data-nav="" href="#pro-gallery-options">Pro Gallery Layouts &amp; Playback</a>.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Albums, Filters &amp; Lightbox" id="free-albums">
+<h1>Albums, Filters &amp; Lightbox</h1>
 <p class="lead">A few videos are easy to browse. As the gallery grows, visitors need a quick way to find a topic instead of scanning every thumbnail. Start by grouping related clips into albums, then let visitors filter by topic.</p><p>An <strong>album</strong> is a group of related videos, such as Tutorials, Products or Customer Stories. The <strong>filter bar</strong> displays the album names as buttons visitors can choose.</p>
 <h2 id="free-albums-create">Create an Album</h2>
 <ol class="steps">
@@ -1555,7 +1643,7 @@
 <ol class="steps">
 <li>Open the <strong>General</strong> tab, then the <strong>Albums &amp; filter bar</strong> panel, and scroll to <strong>Filter bar</strong> under the album list.<figure class="media-slot" data-caption="The Albums and filter bar panel with two albums, and the Filter bar heading under them. One arrow marks the General tab and the other marks the Filter bar heading." data-media="image" data-src="docs-assets/free-filter-panel.png"></figure></li>
 <li>Switch <strong>Show filter bar</strong> on or off.<figure class="media-slot" data-caption="The Filter bar part of the Albums and filter bar panel. The arrow marks the Show filter bar switch." data-media="image" data-src="docs-assets/free-filter-toggle.png"></figure></li>
-<li>Change the text in <strong>“All” button label</strong>. It is the button that shows every video. The default is All Videos. Leave it empty to hide the filter bar.<figure class="media-slot" data-caption="The Filter bar part of the Albums and filter bar panel. The arrow marks the “All” button label box." data-media="image" data-src="docs-assets/free-filter-common.png"></figure></li>
+<li>Change the text in <strong>&quot;All&quot; button label</strong>. It is the button that shows every video. The default is All Videos. Leave it empty to hide the filter bar.<figure class="media-slot" data-caption="The Filter bar part of the Albums and filter bar panel. The arrow marks the &quot;All&quot; button label box." data-media="image" data-src="docs-assets/free-filter-common.png"></figure></li>
 </ol>
 <p>The filter bar appears only when the gallery has at least one album. If you cannot see it, check that an album exists and that a video has been assigned to it.</p>
 <h2 id="free-filter-colors">Change the Filter Button Style</h2>
@@ -1597,7 +1685,184 @@
 <li>Change <strong>Hover zoom</strong>: how much the icon grows when the pointer is on it. Set it to 1 to turn the zoom off.<figure class="media-slot" data-caption="The Play icon panel in the Style tab. The arrow marks the Hover zoom slider." data-media="image" data-src="docs-assets/free-playicon-zoom.png"></figure></li>
 </ol>
 <p>Your videos are now easier to browse. If you want to reuse this same gallery on another page, continue to <a data-nav="" href="#free-shortcode">Show a Gallery Anywhere with Shortcodes</a>.</p></article>
-<article class="doc-article" data-group="How To Use" data-title="Show a Gallery Anywhere with Shortcodes" id="free-shortcode">
+<article class="doc-article" data-group="How To Use" data-title="Customize Layout &amp; Style" id="free-layout">
+<h1>Customize Layout &amp; Style</h1>
+<p class="lead">Make the gallery look good on a computer, a tablet and a phone.</p>
+<h2 id="free-layout-columns">Adjust Columns for Desktop, Tablet and Mobile</h2>
+<p>Use more columns on a computer and fewer on a phone.</p>
+<ol class="steps">
+<li>On the <strong>General</strong> tab, open <strong>Layout</strong>.<figure class="media-slot" data-caption="The General tab with the Layout panel open. The arrows mark the General tab and the Layout panel." data-media="image" data-src="docs-assets/free-layout-tab-panel.png"></figure></li>
+<li>Pick a device with the icon next to <strong>Columns</strong>.<figure class="media-slot" data-caption="The Layout panel. The arrow marks the device icon beside Columns." data-media="image" data-src="docs-assets/free-layout-device.png"></figure></li>
+<li>Drag the slider to choose 1 to 6 columns.<figure class="media-slot" data-caption="The Columns slider. The arrow marks the slider handle." data-media="image" data-src="docs-assets/free-layout-columns.png"></figure></li>
+</ol>
+<h2 id="free-layout-gaps">Adjust the Space Between Videos</h2>
+<p>Set the space between videos in <strong>Layout</strong>, under <strong>Gaps</strong>.</p>
+<ol class="steps">
+<li>Type a number in <strong>Between columns</strong> (left and right).<figure class="media-slot" data-caption="The Gaps row of the Layout panel. The arrow marks the Between columns box." data-media="image" data-src="docs-assets/free-layout-colgap.png"></figure></li>
+<li>Type a number in <strong>Between rows</strong> (above and below).<figure class="media-slot" data-caption="The Gaps row of the Layout panel. The arrow marks the Between rows box." data-media="image" data-src="docs-assets/free-layout-rowgap.png"></figure></li>
+</ol>
+<h2 id="free-layout-align">Align the Last Row</h2>
+<p>If the last row has fewer videos, choose where they sit.</p>
+<ol class="steps">
+<li>In <strong>Layout</strong>, choose <strong>Left</strong>, <strong>Center</strong> or <strong>Right</strong> under <strong>Row alignment</strong>.<figure class="media-slot" data-caption="The Layout panel. The arrow marks the Row alignment buttons." data-media="image" data-src="docs-assets/free-layout-rowalign.png"></figure></li>
+</ol>
+<h2 id="free-layout-popup">Match the Popup to the Video Shape</h2>
+<p>Let the popup follow each video's shape.</p>
+<ol class="steps">
+<li>On the <strong>General</strong> tab, open <strong>Playback</strong>.<figure class="media-slot" data-caption="The sidebar with the General tab and the Playback panel open. One arrow marks the General tab and the other marks the Playback panel." data-media="image" data-src="docs-assets/free-playback-panel.png"></figure></li>
+<li>Switch on <strong>Popup width as aspect ratio</strong>.<figure class="media-slot" data-caption="The Playback panel. The arrow marks the Popup width as aspect ratio switch." data-media="image" data-src="docs-assets/free-layout-popup-ratio.png"></figure></li>
+</ol>
+<h2 id="free-layout-order">Choose the Video Order</h2>
+<ol class="steps">
+<li>In <strong>Layout</strong>, choose <strong>Manual</strong>, <strong>Newest</strong> or <strong>Oldest</strong> under <strong>Sort order</strong>.<figure class="media-slot" data-caption="The Order part of the Layout panel. The arrow marks the Sort order buttons: Manual, Newest and Oldest." data-media="image" data-src="docs-assets/free-layout-sort.png"></figure></li>
+</ol>
+<p><strong>Manual</strong> keeps your own order. For a channel, it reads <strong>Feed order</strong>.</p>
+<h2 id="free-layout-loadmore">Show Fewer Videos First with Load More</h2>
+<p>For a long gallery, show a few videos first. A <strong>Load More</strong> button shows the rest.</p>
+<ol class="steps">
+<li>Open <strong>Display</strong>. Under <strong>Videos shown</strong>, type a number in <strong>Show first</strong>. Zero shows all.<figure class="media-slot" data-caption="The Videos shown part of the Display panel. The arrow marks the Show first box." data-media="image" data-src="docs-assets/free-layout-perpage.png"></figure></li>
+<li>Change <strong>Load more button text</strong> if you like.<figure class="media-slot" data-caption="The Display panel after a number was set. The arrow marks the Load more button text box." data-media="image" data-src="docs-assets/free-layout-loadmore.png"></figure></li>
+</ol>
+<p>For a channel, find these in <strong>How many &amp; how often</strong>. See <a data-nav="" href="#free-feed-display">Choose How Many Videos and How Often to Check</a>.</p>
+<h2 id="free-layout-shape">Choose the Thumbnail Shape</h2>
+<p>Pick a shape for the thumbnails. Use <strong>9:16</strong> for Shorts.</p>
+<ol class="steps">
+<li>In <strong>Layout</strong>, find <strong>Thumbnails</strong>.<figure class="media-slot" data-caption="The General tab with the Layout panel open. The arrows mark the General tab and the Layout panel." data-media="image" data-src="docs-assets/free-layout-tab-panel.png"></figure></li>
+<li>Choose <strong>Fixed</strong>, <strong>16:9</strong>, <strong>4:3</strong>, <strong>1:1</strong> or <strong>9:16</strong> under <strong>Thumbnail shape</strong>.<figure class="media-slot" data-caption="The Thumbnails part of the Layout panel. The arrow marks the Thumbnail shape buttons." data-media="image" data-src="docs-assets/free-layout-shape.png"></figure></li>
+<li>With <strong>Fixed</strong>, type a <strong>Height</strong>.<figure class="media-slot" data-caption="The Thumbnails part of the Layout panel with Fixed chosen. The arrow marks the Height box." data-media="image" data-src="docs-assets/free-layout-height.png"></figure></li>
+</ol>
+<h2 id="free-layout-shorts">Show All Videos or Only YouTube Shorts</h2>
+<p>This shows when the gallery has a YouTube video.</p>
+<ol class="steps">
+<li>On the <strong>General</strong> tab, open <strong>Display</strong>.<figure class="media-slot" data-caption="The sidebar with the General tab and the Display panel open. One arrow marks the General tab and the other marks the Display panel." data-media="image" data-src="docs-assets/free-options-panel.png"></figure></li>
+<li>Under <strong>Videos shown</strong>, choose <strong>All</strong>, <strong>Hide</strong> or <strong>Only</strong> under <strong>YouTube Shorts</strong>.<figure class="media-slot" data-caption="The Videos shown part of the Display panel. The arrow marks the YouTube Shorts buttons: All, Hide and Only." data-media="image" data-src="docs-assets/free-layout-shorts.png"></figure></li>
+</ol>
+<p><strong>Hide</strong> leaves Shorts out. <strong>Only</strong> shows only Shorts. For a channel, see <a data-nav="" href="#free-feed-shorts">Hide Shorts or Show Only Shorts</a>.</p>
+<h2 id="free-layout-poster">Control Thumbnail Fit and Titles</h2>
+<ol class="steps">
+<li>In <strong>Layout</strong>, choose <strong>Cover</strong>, <strong>Contain</strong>, <strong>Fill</strong> or <strong>None</strong> under <strong>Thumbnail fit</strong>.<figure class="media-slot" data-caption="The Thumbnails part of the Layout panel. The arrow marks the Thumbnail fit buttons: Cover, Contain, Fill and None." data-media="image" data-src="docs-assets/free-layout-posterfit.png"></figure></li>
+<li>In <strong>Display</strong>, switch <strong>Show title</strong> on.<figure class="media-slot" data-caption="The Display panel. The arrow marks the Show title switch." data-media="image" data-src="docs-assets/free-layout-showcaption.png"></figure></li>
+</ol>
+<h2 id="free-display-channel">Show the Channel Name</h2>
+<p>Show the channel name under each title. This works for channel galleries only.</p>
+<ol class="steps">
+<li>Open the <strong>General</strong> tab, then the <strong>Display</strong> panel.<figure class="media-slot" data-caption="The General tab with the Display panel open. The arrows mark the General tab and the Display panel." data-media="image" data-src="docs-assets/free-display-panel.png"></figure></li>
+<li>Switch <strong>Show channel name</strong> on.<figure class="media-slot" data-caption="The Display panel. The arrow marks the Show channel name switch." data-media="image" data-src="docs-assets/free-display-channel.png"></figure></li>
+</ol>
+<h2 id="free-styling">Change Colors, Borders, Fonts and Shadows</h2>
+<p>Match the gallery to your site. The <strong>Style</strong> tab has these panels: <strong>Gallery</strong>, <strong>Thumbnail</strong>, <strong>Title &amp; text</strong>, <strong>Play icon</strong>, <strong>Album filter bar</strong> and <strong>Lightbox caption</strong>.</p>
+<h2 id="free-styling-gallery">Style the Gallery Area</h2>
+<p>This styles the area around the tiles.</p>
+<ol class="steps">
+<li>Open the <strong>Style</strong> tab, then <strong>Gallery</strong>.<figure class="media-slot" data-caption="The Style tab with its panels listed: Gallery, Thumbnail, Title and text, Play icon, Album filter bar and Lightbox caption. The arrow marks the Gallery panel." data-media="image" data-src="docs-assets/free-style-gallery.png"></figure></li>
+<li>Pick a <strong>Background</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Background control." data-media="image" data-src="docs-assets/free-style-background.png"></figure></li>
+<li>Set <strong>Padding</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Padding control." data-media="image" data-src="docs-assets/free-style-padding.png"></figure></li>
+<li>Set a <strong>Border</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Border control." data-media="image" data-src="docs-assets/free-style-border.png"></figure></li>
+<li>Add a <strong>Shadow</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Shadow control." data-media="image" data-src="docs-assets/free-style-shadow.png"></figure></li>
+</ol>
+<h2 id="free-styling-item">Style Each Video Tile</h2>
+<p>These apply to every video tile.</p>
+<ol class="steps">
+<li>In the <strong>Style</strong> tab, open <strong>Thumbnail</strong>.<figure class="media-slot" data-caption="The sidebar with the Style tab and the Thumbnail panel open. One arrow marks the Style tab and the other marks the Thumbnail panel." data-media="image" data-src="docs-assets/free-item-panel.png"></figure></li>
+<li>Set a <strong>Border</strong>.<figure class="media-slot" data-caption="The Thumbnail panel. The arrow marks the Border control." data-media="image" data-src="docs-assets/free-style-itemborder.png"></figure></li>
+<li>Add a <strong>Shadow</strong>.<figure class="media-slot" data-caption="The Thumbnail panel. The arrow marks the Shadow control." data-media="image" data-src="docs-assets/free-style-itemshadow.png"></figure></li>
+</ol>
+<h2 id="free-styling-caption">Style the Titles</h2>
+<p>This panel shows once <strong>Show title</strong> is on.</p>
+<ol class="steps">
+<li>In the <strong>Style</strong> tab, open <strong>Title &amp; text</strong>. Set the font with <strong>Typography</strong>.<figure class="media-slot" data-caption="The Title and text panel in the Style tab. The arrow marks Typography." data-media="image" data-src="docs-assets/free-style-captypo.png"></figure></li>
+<li>Set <strong>Colors</strong>.<figure class="media-slot" data-caption="The Title and text panel. The arrow marks Colors." data-media="image" data-src="docs-assets/free-style-capcolors.png"></figure></li>
+<li>Set <strong>Padding</strong>.<figure class="media-slot" data-caption="The Title and text panel. The arrow marks Padding." data-media="image" data-src="docs-assets/free-style-cappad.png"></figure></li>
+</ol>
+<div class="callout tip"><span class="co-label">Tip</span></div>
+<p>Your gallery is ready. Optional next: <a data-nav="" href="#free-privacy-analytics">Privacy, Analytics &amp; Video SEO</a>.</p>
+<h2 class="part-title" id="pro-gallery-options">Pro Gallery Layouts, Titles &amp; Playback</h2>
+<p class="lead">With Pro, the Video Gallery gets four layouts, tidier titles, an action when a video ends, and silent previews on hover.</p>
+<p>Find them on the <strong>General</strong> tab: <strong>Layout</strong>, <strong>Display</strong> and <strong>Playback</strong>. You need an active Pro license.</p>
+<h2 id="pro-layouts">Choose a Gallery Layout</h2>
+<ol class="steps">
+<li>Select the gallery. On the <strong>General</strong> tab, open <strong>Layout</strong>.<figure class="media-slot" data-caption="The sidebar of a selected gallery in Pro. The arrows mark the General tab and the Layout panel." data-media="image" data-src="docs-assets/pro-gallery-layout-panel.png"></figure></li>
+<li>Click a card: <strong>Grid</strong>, <strong>Cards</strong>, <strong>List</strong> or <strong>Showcase</strong>.<figure class="media-slot" data-caption="The top of the Layout panel. The arrow marks the four Layout picture cards: Grid, Cards, List and Showcase." data-media="image" data-src="docs-assets/pro-gallery-layout-buttons.png"></figure></li>
+</ol>
+<ul>
+<li><strong>Grid:</strong> videos side by side. This is the usual look.</li>
+<li><strong>Cards:</strong> each video on a card, with its title below.</li>
+<li><strong>List:</strong> one video per row, picture on the left, title on the right.</li>
+<li><strong>Showcase:</strong> a big player on top, videos below it. Click a video to play it in the big player.</li>
+</ul>
+<p>For Cards, List and Showcase, switch on <strong>Show the date</strong> in <strong>Display</strong> to show when each video was published.</p>
+<figure class="media-slot" data-caption="The Cards layout on a published page, each video on a card with its title under the picture. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-gallery-layouts-cards.png"></figure>
+<figure class="media-slot" data-caption="The List layout on a published page, one video per row with the picture on the left and the title on the right. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-gallery-layouts-list.png"></figure>
+<figure class="media-slot" data-caption="The Showcase layout on a published page, a big player on top and the videos below it. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-gallery-layouts-showcase.png"></figure>
+<div class="callout tip"><span class="co-label">Tip</span><p>Set <strong>Thumbnail shape</strong> (in <strong>Layout</strong>) to <strong>16:9</strong> so all pictures look the same.</p></div>
+<h2 id="pro-title-position">Place the Title Over, On Hover or Below the Video</h2>
+<p>In the Grid layout, choose where the title goes.</p>
+<ol class="steps">
+<li>Open <strong>Display</strong> and click a card under <strong>Title</strong>.<figure class="media-slot" data-caption="The top of the Display panel in the Grid layout. The arrow marks the four Title picture cards: Hidden, Over video, On hover and Below." data-media="image" data-src="docs-assets/pro-gallery-title-position.png"></figure></li>
+</ol>
+<ul>
+<li><strong>Hidden:</strong> no title. It still shows in the lightbox.</li>
+<li><strong>Over video:</strong> the title sits on the video. This is the usual choice.</li>
+<li><strong>On hover:</strong> the title shows when the mouse is over the video.</li>
+<li><strong>Below:</strong> the title sits under the video.</li>
+</ul>
+<h2 id="pro-title-length">Keep Long Titles Short</h2>
+<p>Long titles can make tiles uneven. <strong>Title length</strong> cuts them to a few lines.</p>
+<ol class="steps">
+<li>In <strong>Display</strong>, choose <strong>Full</strong>, <strong>1 line</strong>, <strong>2 lines</strong> or <strong>3 lines</strong> under <strong>Title length</strong>.<figure class="media-slot" data-caption="The Display panel. The arrow marks the Title length buttons." data-media="image" data-src="docs-assets/pro-gallery-title-length.png"></figure></li>
+<li>Keep <strong>Expand cut-off titles on hover</strong> on to show the whole title when the mouse is over the video.<figure class="media-slot" data-caption="The Display panel with a line limit chosen. The arrow marks the Expand cut-off titles on hover switch." data-media="image" data-src="docs-assets/pro-gallery-title-hover.png"></figure></li>
+</ol>
+<h2 id="pro-video-details">Show the Channel Name, Views and Likes</h2>
+<p>Show who made a video and how many people watched or liked it. This works for YouTube and Vimeo channel videos.</p>
+<ol class="steps">
+<li>In <strong>Display</strong>, scroll to <strong>Video details</strong>.<figure class="media-slot" data-caption="The General tab of a Pro Video Gallery with the Display panel open. The arrows mark the General tab and the Display panel." data-media="image" data-src="docs-assets/pro-gallery-display-panel.png"></figure></li>
+<li>Switch on <strong>Show channel name</strong>, <strong>Show view count</strong> or <strong>Show like count</strong>.<figure class="media-slot" data-caption="The Video details part of the Display panel. The arrows mark the Show channel name, Show view count and Show like count switches." data-media="image" data-src="docs-assets/pro-gallery-video-details.png"></figure></li>
+</ol>
+<p>Vimeo shows the channel name only.</p>
+<h2 id="pro-end-action">Choose What Happens When a Video Ends</h2>
+<ol class="steps">
+<li>Open <strong>Playback</strong>.<figure class="media-slot" data-caption="The sidebar with the General tab and the Playback panel open. One arrow marks the General tab and the other marks the Playback panel." data-media="image" data-src="docs-assets/free-playback-panel.png"></figure></li>
+<li>Under <strong>When a video ends</strong>, click <strong>Nothing</strong>, <strong>Next video</strong>, <strong>Replay</strong> or <strong>Button</strong>.<figure class="media-slot" data-caption="The Playback panel. The arrow marks the When a video ends cards: Nothing, Next video, Replay and Button." data-media="image" data-src="docs-assets/pro-gallery-end-action.png"></figure></li>
+</ol>
+<ul>
+<li><strong>Nothing:</strong> the video just stops.</li>
+<li><strong>Next video:</strong> the next video starts by itself.</li>
+<li><strong>Replay:</strong> the video starts again.</li>
+<li><strong>Button:</strong> a button with your link shows when the video ends.</li>
+</ul>
+<p>For <strong>Button</strong>, fill in:</p>
+<ul>
+<li><strong>Button text</strong>: the words on the button.</li>
+<li><strong>Button link</strong>: a web address that starts with https://.</li>
+<li><strong>Open the link in a new tab</strong>: switch it on to keep your page open.</li>
+</ul>
+<figure class="media-slot" data-caption="The Playback panel with Button chosen, and the button box under the cards. The arrows mark the Button text box, the Button link box and the Open the link in a new tab switch." data-media="image" data-src="docs-assets/pro-gallery-end-button.png"></figure>
+<p>These work with video files, YouTube and Vimeo, not Facebook.</p>
+<h2 id="pro-hover-preview">Preview Videos on Hover</h2>
+<ol class="steps">
+<li>In the <strong>Playback</strong> panel, switch on <strong>Preview on hover</strong>.<figure class="media-slot" data-caption="The Playback panel. The arrow marks the Preview on hover switch." data-media="image" data-src="docs-assets/pro-gallery-hover-preview.png"></figure></li>
+</ol>
+<p>The video plays silently while the mouse is over it.</p>
+<h2 id="pro-player-choice">Choose the Player for YouTube and Vimeo</h2>
+<p>By default, YouTube and Vimeo play in the bPlugins player. You can use their own controls instead. It counts for every Pro block.</p>
+<ol class="steps">
+<li>In the left menu, open <strong>Video Gallery</strong>, then <strong>Settings</strong>.<figure class="media-slot" data-caption="The Video Gallery menu in the admin. The arrow marks Settings." data-media="image" data-src="docs-assets/pro-settings-menu.png"></figure></li>
+<li>Choose a player and click <strong>Save Changes</strong>.<figure class="media-slot" data-caption="The Video Gallery Settings page. The arrows mark the YouTube / Vimeo player controls choice and the Save Changes button." data-media="image" data-src="docs-assets/pro-player-choice.png"></figure></li>
+</ol>
+<h2 id="pro-gdpr">Ask Before Loading YouTube or Vimeo in Pro Blocks</h2>
+<p>YouTube and Vimeo may set cookies as soon as they load. Turn on a notice so visitors can agree first. It is off by default.</p>
+<ol class="steps">
+<li>Select the Pro block. Open its <strong>General</strong> tab.<figure class="media-slot" data-caption="A selected Pro block. The arrow marks the General tab." data-media="image" data-src="docs-assets/pro-gdpr-general-tab.png"></figure></li>
+<li>At the bottom, open <strong>Privacy</strong>.<figure class="media-slot" data-caption="The last panel of the General tab. The arrow marks the Privacy panel." data-media="image" data-src="docs-assets/pro-gdpr-privacy-panel.png"></figure></li>
+<li>Switch on <strong>Ask before loading YouTube / Vimeo (GDPR)</strong>.<figure class="media-slot" data-caption="The Privacy panel at the end of a Pro block's General tab. The arrow marks the Ask before loading YouTube / Vimeo (GDPR) switch." data-media="image" data-src="docs-assets/pro-gdpr-toggle.png"></figure></li>
+</ol>
+<p>Visitors now see a short notice with a <strong>Load Video</strong> button. Nothing loads from YouTube or Vimeo until they click it.</p>
+<figure class="media-slot" data-caption="The privacy notice with the Load Video button in a Pro block on the front of the site. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-gdpr-notice.png"></figure>
+<ul>
+<li>One click counts for the whole site.</li>
+</ul>
+<p>Next: <a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a>.</p></article>
+<article class="doc-article" data-group="How To Use" data-title="Shortcodes" id="free-shortcode">
 <h1>Show a Gallery Anywhere with Shortcodes</h1>
 <p class="lead">Once one gallery looks right, you do not need to rebuild it for every page. A <strong>shortcode</strong> is a small piece of text in square brackets that tells WordPress to display a saved gallery wherever you place it.</p><p>For example, <code>[video_gallery id=12]</code> tells WordPress to show the gallery saved with that ID. Your number may be different.</p>
 <h2 id="free-shortcode-make">Save a Gallery and Copy Its Shortcode</h2>
@@ -1619,94 +1884,9 @@
 </ol>
 <div class="callout tip"><span class="co-label">Tip</span><p>In the editor, the shortcode looks like plain text. On the live page, visitors see the actual gallery. You can also copy it from the <strong>Shortcode</strong> column on the Video Gallery list page.</p></div>
 <p>That is the benefit: one saved gallery can appear on several pages. Update it once, and every page using its shortcode displays the updated version. Next, make its layout and appearance fit your site in <a data-nav="" href="#free-layout">Customize Gallery Layout &amp; Style</a>.</p></article>
-<article class="doc-article" data-group="How To Use" data-title="Customize Gallery Layout &amp; Style" id="free-layout">
-<h1>Customize Gallery Layout &amp; Style</h1>
-<p class="lead">Your videos are in place and visitors can find them. Now make the gallery comfortable to browse on desktop, tablet and phone: set the layout first, then the thumbnails, then the visual details that make it feel part of your site.</p>
-<h2 id="free-layout-columns">Adjust Columns for Desktop, Tablet and Mobile</h2>
-<p>A desktop can fit more columns; a phone usually needs fewer so each thumbnail stays easy to see. Set the column count separately for each device.</p>
-<ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Layout</strong> panel.<figure class="media-slot" data-caption="The General tab with the Layout panel open. The arrows mark the General tab and the Layout panel." data-media="image" data-src="docs-assets/free-layout-tab-panel.png"></figure></li>
-<li>Pick Desktop, Tablet or Mobile with the device icon next to <strong>Columns</strong>.<figure class="media-slot" data-caption="The Layout panel. The arrow marks the device icon beside Columns." data-media="image" data-src="docs-assets/free-layout-device.png"></figure></li>
-<li>Drag the slider to choose 1 to 6 columns.<figure class="media-slot" data-caption="The Columns slider. The arrow marks the slider handle." data-media="image" data-src="docs-assets/free-layout-columns.png"></figure></li>
-</ol>
-<h2 id="free-layout-gaps">Adjust the Space Between Videos</h2>
-<p>Both gaps sit side by side under <strong>Gaps</strong> in the <strong>Layout</strong> panel, in pixels. Like the columns, they can differ for each device.</p>
-<ol class="steps">
-<li>Pick a device with the icon next to <strong>Gaps</strong>, then type a number in <strong>Between columns</strong>. This is the space left and right.<figure class="media-slot" data-caption="The Gaps row of the Layout panel. The arrow marks the Between columns box." data-media="image" data-src="docs-assets/free-layout-colgap.png"></figure></li>
-<li>Type a number in <strong>Between rows</strong>. This is the space above and below.<figure class="media-slot" data-caption="The Gaps row of the Layout panel. The arrow marks the Between rows box." data-media="image" data-src="docs-assets/free-layout-rowgap.png"></figure></li>
-</ol>
-<h2 id="free-layout-align">Align the Last Row</h2>
-<p>If the final row has fewer videos than the rows above it, choose whether those remaining tiles sit on the left, in the center or on the right.</p>
-<ol class="steps">
-<li>In the <strong>Layout</strong> panel, choose <strong>Left</strong>, <strong>Center</strong> or <strong>Right</strong> under <strong>Row alignment</strong>.<figure class="media-slot" data-caption="The Layout panel. The arrow marks the Row alignment buttons." data-media="image" data-src="docs-assets/free-layout-rowalign.png"></figure></li>
-</ol>
-<h2 id="free-layout-popup">Match the Popup to the Video Shape</h2>
-<p>Portrait and landscape videos have different proportions. Turn this on when you want the popup player to follow each video's shape instead of forcing every video into the same frame.</p>
-<ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Playback</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Playback panel open. One arrow marks the General tab and the other marks the Playback panel." data-media="image" data-src="docs-assets/free-playback-panel.png"></figure></li>
-<li>Switch on <strong>Popup width as aspect ratio</strong>. It is shown while <strong>When a video is clicked</strong> is set to <strong>Lightbox</strong>.<figure class="media-slot" data-caption="The Playback panel. The arrow marks the Popup width as aspect ratio switch." data-media="image" data-src="docs-assets/free-layout-popup-ratio.png"></figure></li>
-</ol>
-<h2 id="free-layout-order">Choose the Video Order</h2>
-<ol class="steps">
-<li>In the <strong>Layout</strong> panel, under the <strong>Order</strong> heading, choose <strong>Manual</strong>, <strong>Newest</strong> or <strong>Oldest</strong> under <strong>Sort order</strong>.<figure class="media-slot" data-caption="The Order part of the Layout panel. The arrow marks the Sort order buttons: Manual, Newest and Oldest." data-media="image" data-src="docs-assets/free-layout-sort.png"></figure></li>
-</ol>
-<p>Choose <strong>Manual</strong> when the sequence matters and you want to keep the order of your video list. Use <strong>Newest</strong> or <strong>Oldest</strong> when date order is more useful; videos added before dates were recorded count as the oldest. For a gallery that shows a channel, the first button reads <strong>Feed order</strong> instead of Manual.</p>
-<h2 id="free-layout-loadmore">Show Fewer Videos First with Load More</h2>
-<p>For a long gallery, show a smaller first group instead of making visitors scroll past every video at once. The <strong>Load More</strong> button lets them decide when to see the next group.</p>
-<ol class="steps">
-<li>Open the <strong>Display</strong> panel. Under <strong>Videos shown</strong>, type a number in <strong>Show first</strong>. Zero shows every video.<figure class="media-slot" data-caption="The Videos shown part of the Display panel. The arrow marks the Show first box." data-media="image" data-src="docs-assets/free-layout-perpage.png"></figure></li>
-<li>Change <strong>Load more button text</strong> for your own wording. It appears once a number is set.<figure class="media-slot" data-caption="The Display panel after a number was set. The arrow marks the Load more button text box." data-media="image" data-src="docs-assets/free-layout-loadmore.png"></figure></li>
-</ol>
-<p>For a gallery that shows a channel, these two settings are in the <strong>How many &amp; how often</strong> step of the <strong>Video source</strong> panel instead. See <a data-nav="" href="#free-feed-display">Choose How Many Videos and How Often to Check</a>.</p>
-<h2 id="free-layout-shape">Choose the Thumbnail Shape</h2>
-<p>Choose a thumbnail shape that suits the videos. A consistent shape makes the grid look tidy; <strong>9:16</strong> is suited to tall Shorts and Reels.</p>
-<ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Layout</strong> panel, and find the <strong>Thumbnails</strong> heading.<figure class="media-slot" data-caption="The General tab with the Layout panel open. The arrows mark the General tab and the Layout panel." data-media="image" data-src="docs-assets/free-layout-tab-panel.png"></figure></li>
-<li>Choose <strong>Fixed</strong>, <strong>16:9</strong>, <strong>4:3</strong>, <strong>1:1</strong> or <strong>9:16</strong> under <strong>Thumbnail shape</strong>.<figure class="media-slot" data-caption="The Thumbnails part of the Layout panel. The arrow marks the Thumbnail shape buttons." data-media="image" data-src="docs-assets/free-layout-shape.png"></figure></li>
-<li>With <strong>Fixed</strong>, type a number in the <strong>Height</strong> box that appears.<figure class="media-slot" data-caption="The Thumbnails part of the Layout panel with Fixed chosen. The arrow marks the Height box." data-media="image" data-src="docs-assets/free-layout-height.png"></figure></li>
-</ol>
-<h2 id="free-layout-shorts">Show All Videos or Only YouTube Shorts</h2>
-<p>This option appears when the gallery holds at least one YouTube video.</p>
-<ol class="steps">
-<li>Open the <strong>General</strong> tab, then the <strong>Display</strong> panel.<figure class="media-slot" data-caption="The sidebar with the General tab and the Display panel open. One arrow marks the General tab and the other marks the Display panel." data-media="image" data-src="docs-assets/free-options-panel.png"></figure></li>
-<li>Under <strong>Videos shown</strong>, choose <strong>All</strong>, <strong>Hide</strong> or <strong>Only</strong> under <strong>YouTube Shorts</strong>.<figure class="media-slot" data-caption="The Videos shown part of the Display panel. The arrow marks the YouTube Shorts buttons: All, Hide and Only." data-media="image" data-src="docs-assets/free-layout-shorts.png"></figure></li>
-</ol>
-<p><strong>Hide</strong> leaves Shorts out; <strong>Only</strong> shows Shorts and nothing else. For a gallery that shows a channel, see <a data-nav="" href="#free-feed-shorts">Hide Shorts or Show Only Shorts</a>.</p>
-<h2 id="free-layout-poster">Control Thumbnail Fit and Titles</h2>
-<ol class="steps">
-<li>In the <strong>Layout</strong> panel, under <strong>Thumbnails</strong>, choose <strong>Cover</strong>, <strong>Contain</strong>, <strong>Fill</strong> or <strong>None</strong> under <strong>Thumbnail fit</strong>. Cover fills the tile fully; the line under the buttons explains each choice.<figure class="media-slot" data-caption="The Thumbnails part of the Layout panel. The arrow marks the Thumbnail fit buttons: Cover, Contain, Fill and None." data-media="image" data-src="docs-assets/free-layout-posterfit.png"></figure></li>
-<li>In the <strong>Display</strong> panel, switch <strong>Show title</strong> on to place each video's title over the bottom of its tile.<figure class="media-slot" data-caption="The Display panel. The arrow marks the Show title switch." data-media="image" data-src="docs-assets/free-layout-showcaption.png"></figure></li>
-</ol>
-<h2 id="free-styling">Change Colors, Borders, Fonts and Shadows</h2>
-<p>Once the layout feels right, match the gallery to your website. The Style tab has a panel for each part: <strong>Gallery</strong>, <strong>Thumbnail</strong>, <strong>Title &amp; text</strong>, <strong>Play icon</strong>, <strong>Album filter bar</strong> and <strong>Lightbox caption</strong>. A panel is listed only when its part is shown; for example, <strong>Title &amp; text</strong> appears once <strong>Show title</strong> is on.</p>
-<h2 id="free-styling-gallery">Style the Gallery Area</h2>
-<p>The Gallery panel styles the area around the tiles, rather than the individual videos.</p>
-<ol class="steps">
-<li>Open the <strong>Style</strong> tab, then the <strong>Gallery</strong> panel.<figure class="media-slot" data-caption="The Style tab with its panels listed: Gallery, Thumbnail, Title and text, Play icon, Album filter bar and Lightbox caption. The arrow marks the Gallery panel." data-media="image" data-src="docs-assets/free-style-gallery.png"></figure></li>
-<li>Pick a color or image under <strong>Background</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Background control." data-media="image" data-src="docs-assets/free-style-background.png"></figure></li>
-<li>Set the space inside the box with <strong>Padding</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Padding control." data-media="image" data-src="docs-assets/free-style-padding.png"></figure></li>
-<li>Add an outline and round the corners with <strong>Border</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Border control." data-media="image" data-src="docs-assets/free-style-border.png"></figure></li>
-<li>Add a soft drop shadow with <strong>Shadow</strong>.<figure class="media-slot" data-caption="The Gallery panel. The arrow marks the Shadow control." data-media="image" data-src="docs-assets/free-style-shadow.png"></figure></li>
-</ol>
-<h2 id="free-styling-item">Style Each Video Tile</h2>
-<p>These settings apply to each video tile, so use them to keep the thumbnails visually consistent.</p>
-<ol class="steps">
-<li>Open the <strong>Thumbnail</strong> panel in the <strong>Style</strong> tab.<figure class="media-slot" data-caption="The sidebar with the Style tab and the Thumbnail panel open. One arrow marks the Style tab and the other marks the Thumbnail panel." data-media="image" data-src="docs-assets/free-item-panel.png"></figure></li>
-<li>Round the corners or add an outline with <strong>Border</strong>.<figure class="media-slot" data-caption="The Thumbnail panel. The arrow marks the Border control." data-media="image" data-src="docs-assets/free-style-itemborder.png"></figure></li>
-<li>Add a shadow under each tile with <strong>Shadow</strong>.<figure class="media-slot" data-caption="The Thumbnail panel. The arrow marks the Shadow control." data-media="image" data-src="docs-assets/free-style-itemshadow.png"></figure></li>
-</ol>
-<h2 id="free-styling-caption">Style the Titles</h2>
-<p>The <strong>Title &amp; text</strong> panel is listed once <strong>Show title</strong> is on in the <strong>Display</strong> panel.</p>
-<ol class="steps">
-<li>Open the <strong>Title &amp; text</strong> panel in the <strong>Style</strong> tab and set the font with <strong>Typography</strong>.<figure class="media-slot" data-caption="The Title and text panel in the Style tab. The arrow marks Typography." data-media="image" data-src="docs-assets/free-style-captypo.png"></figure></li>
-<li>Set text and background colors with <strong>Colors</strong>.<figure class="media-slot" data-caption="The Title and text panel. The arrow marks Colors." data-media="image" data-src="docs-assets/free-style-capcolors.png"></figure></li>
-<li>Set the space around the text with <strong>Padding</strong>.<figure class="media-slot" data-caption="The Title and text panel. The arrow marks Padding." data-media="image" data-src="docs-assets/free-style-cappad.png"></figure></li>
-</ol>
-<div class="callout tip"><span class="co-label">Tip</span><p>Change one setting at a time and check the preview as you go. It is easier to spot which change improved the result.</p></div>
-<p>The gallery is ready to publish. If your site needs visitor consent, playback measurement or extra video information for search engines, those optional settings are next: <a data-nav="" href="#free-privacy-analytics">Privacy, Analytics &amp; Video SEO</a>.</p></article>
 <article class="doc-article" data-group="Additional Features &amp; Settings" data-title="Privacy, Analytics &amp; Video SEO" id="free-privacy-analytics">
 <h1>Privacy, Analytics &amp; Video SEO</h1>
-<p class="lead">Your gallery is ready. These optional settings control what happens around playback: whether visitors choose before a video loads, whether plays are sent to Google Analytics, and what information search engines receive about each video.</p>
+<p class="lead">Your gallery is ready. These settings are optional. They decide three things: should visitors say yes before a video loads, should plays be sent to Google Analytics, and what search engines learn about each video.</p>
 <p>These are separate options, not a required setup sequence. Use only the ones your site needs; if a feature is not relevant, leave it off or keep its current setting.</p><h2 id="free-privacy-consent">Ask for Permission Before Loading a Video</h2>
 <p>YouTube, Vimeo and Facebook may set cookies when their players load. Enable this option if you want visitors to choose before the video player is loaded.</p>
 <ol class="steps">
@@ -1740,13 +1920,13 @@
 </ol>
 <h2 id="free-seo-better">Give Search Engines Better Video Information</h2>
 <ol class="steps">
-<li>Give every video a clear title.</li>
-<li>Give every video a thumbnail.</li>
-<li>Use real video links, not links to other pages.</li>
+<li>Give every video a clear title.<figure class="media-slot" data-caption="A video in the Videos panel. The arrow marks the Title box." data-media="image" data-src="docs-assets/free-add-caption.png"></figure></li>
+<li>Give every video a thumbnail.<figure class="media-slot" data-caption="A video in the Videos panel. The arrow marks the Thumbnail box." data-media="image" data-src="docs-assets/free-add-poster.png"></figure></li>
+<li>Use real video links, not links to other pages.<figure class="media-slot" data-caption="A video in the Videos panel. The arrow marks the Video box." data-media="image" data-src="docs-assets/free-add-video-url.png"></figure></li>
 </ol>
 <p>For plugin-wide settings, demos and help resources, continue to <a data-nav="" href="#free-dashboard">Plugin Dashboard &amp; Settings</a>.</p></article>
-<article class="doc-article" data-group="Additional Features &amp; Settings" data-title="Plugin Dashboard &amp; Settings" id="free-dashboard">
-<h1>Plugin Dashboard &amp; Settings</h1>
+<article class="doc-article" data-group="Additional Features &amp; Settings" data-title="Dashboard, Settings &amp; Pro Setup" id="free-dashboard">
+<h1>Dashboard, Settings &amp; Pro Setup</h1>
 <p class="lead">You will do most gallery work in the page editor. Open the Video Gallery dashboard when you need plugin-wide information, demos, block controls or a setting that affects saved data.</p>
 <h2 id="free-dashboard-open">Open the Video Gallery Dashboard</h2>
 <ol class="steps">
@@ -1756,16 +1936,15 @@
 <p>The page has <strong>Welcome</strong>, <strong>Blocks</strong>, <strong>Demos</strong>, <strong>Pricing</strong>, <strong>Feature Comparison</strong> and <strong>Settings</strong> tabs. On a small screen, use the menu button to reveal them.</p>
 <figure class="media-slot" data-caption="The Help and Demos page with the tab menu open. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/free-dash-welcome.png"></figure>
 <h2 id="free-dashboard-delete">Choose What Happens to Saved Data If You Delete the Plugin</h2>
-<p>Deleting a plugin is different from deactivating it. By default, your saved galleries are kept when the plugin is uninstalled. Turn on <strong>Delete plugin data on uninstall</strong> only if you want those saved galleries removed too.</p>
+<p>Deleting a plugin is different from deactivating it. By default, your saved galleries are kept when the plugin is uninstalled. Turn on <strong>Delete Data on Uninstall</strong> only if you want those saved galleries removed too.</p>
 <ol class="steps">
 <li>Open the <strong>Settings</strong> tab.<figure class="media-slot" data-caption="The Help and Demos tab menu. The arrow marks the Settings tab." data-media="image" data-src="docs-assets/free-dash-settings-tab.png"></figure></li>
-<li>Switch the toggle under <strong>Delete plugin data on uninstall</strong>. Confirm the warning.<figure class="media-slot" data-caption="The Delete plugin data on uninstall card. The arrow marks the toggle." data-media="image" data-src="docs-assets/free-dash-delete-toggle.png"></figure></li>
+<li>Switch the toggle under <strong>Delete Data on Uninstall</strong>. Confirm the warning.<figure class="media-slot" data-caption="The Delete Data on Uninstall card. The arrow marks the toggle." data-media="image" data-src="docs-assets/free-dash-delete-toggle.png"></figure></li>
 </ol>
 <div class="callout tip"><span class="co-label">Warning</span><p>If this option is on, uninstalling permanently removes the plugin's saved gallery data. Deactivating the plugin does not delete it, so check this setting carefully before uninstalling.</p></div>
-<p>If the free gallery does what your site needs, you can stop here. If you need more specialized layouts or advanced video features, continue to <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p></article>
-<article class="doc-article" data-group="Pro Features" data-title="Set Up Video Gallery Pro" id="pro-overview">
-<h1>Set Up Video Gallery Pro</h1>
-<p class="lead">Consider Pro when the standard gallery no longer fits the experience you want to build. Pro adds more layout choices and features for stores and visitor interaction.</p>
+<p>If the free gallery does what your site needs, you can stop here. If you need more specialized layouts or advanced video features, continue to <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p>
+<h2 class="part-title" id="pro-overview">Set Up Video Gallery Pro</h2>
+<p class="lead">Consider <a href="https://bplugins.com/products/video-gallery-block/" rel="noopener" target="_blank">Video Gallery Pro</a> when the standard gallery no longer fits the experience you want to build. Pro adds more layout choices and features for stores and visitor interaction. See the <a href="https://bplugins.com/products/video-gallery-block/pricing/" rel="noopener" target="_blank">pricing</a> before you decide.</p>
 <p>The steps will feel familiar: add a block, replace its sample videos, adjust the settings, preview and publish.</p><h2 id="pro-adds">What Pro Adds</h2>
 <ul>
 <li><strong>31 more blocks</strong>, each built for one job.</li>
@@ -1782,7 +1961,7 @@
 <ol class="steps">
 <li>Click the gallery in the editor to select it.<figure class="media-slot" data-caption="The editor with the gallery selected. The arrow marks the gallery." data-media="image" data-src="docs-assets/free-vs-pro-select.png"></figure></li>
 <li>Click <strong>Check Pro Version</strong> in the block toolbar.<figure class="media-slot" data-caption="The block toolbar above the gallery. The arrow marks the Check Pro Version button." data-media="image" data-src="docs-assets/free-pro-check.png"></figure></li>
-<li>A card opens with a summary of what Pro adds. It is a list only, so no Pro block is shown. Click <strong>Upgrade to Pro</strong> if you want to see the plans. The pricing page opens in a new tab.<figure class="media-slot" data-caption="The Pro card. The arrow marks the Upgrade to Pro button." data-media="image" data-src="docs-assets/free-pro-card.png"></figure></li>
+<li>A card opens with a summary of what Pro adds. It is a list only, so no Pro block is shown. Click <strong>Upgrade to Pro</strong> if you want to see the <a href="https://bplugins.com/products/video-gallery-block/pricing/" rel="noopener" target="_blank">plans</a>. The pricing page opens in a new tab.<figure class="media-slot" data-caption="The Pro card. The arrow marks the Upgrade to Pro button." data-media="image" data-src="docs-assets/free-pro-card.png"></figure></li>
 </ol>
 <h2 id="pro-install">Install Video Gallery Pro</h2>
 <p>Use the Pro ZIP file from your purchase. You do not need to delete your existing free galleries or remove the free plugin by hand.</p>
@@ -1849,9 +2028,9 @@
 <figure class="media-slot" data-caption="The finished Video Slider on a published page. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-qs-result.png"></figure><p>Your first Pro gallery is published. You have now used the same core workflow with a more specialized layout; next, choose a block based on the experience your page needs.</p>
 <p>Next, choose the group that fits your page: <a data-nav="" href="#pro-sliders">Sliders &amp; Carousels</a>, <a data-nav="" href="#pro-grids">Grids &amp; Video Walls</a>, <a data-nav="" href="#pro-playlist-and-learning">Playlists, Courses &amp; Timelines</a>, <a data-nav="" href="#pro-stories-and-shorts">Stories &amp; Shorts</a> or <a data-nav="" href="#pro-business">Business layouts</a>.</p>
 </article>
-<article class="doc-article" data-group="Pro Features" data-title="Choose the Right Pro Video Layout" id="pro-blocks">
-<h1>Choose the Right Pro Video Layout</h1>
-<p class="lead">Thirty-one extra blocks can look like a long catalogue. You do not need to learn them all. Start with what visitors should do: slide through videos, browse a wall, follow a lesson, watch short clips or explore business content, then choose the matching group below.</p>
+<article class="doc-article" data-group="" data-title="Pro Layouts &amp; Product Videos" id="pro-blocks">
+<h1>Pro Layouts &amp; Product Videos</h1>
+<p class="lead">Thirty-one extra <a href="https://bplugins.com/products/video-gallery-block/" rel="noopener" target="_blank">Video Gallery Pro</a> blocks can look like a long catalogue. You do not need to learn them all. Start with what visitors should do: slide through videos, browse a wall, follow a lesson, watch short clips or explore business content, then choose the matching group below.</p>
 <p>The editing steps stay familiar: add the block, add videos, then adjust its General, Layout and Style settings. The main choice is the way you want visitors to browse.</p><h2 id="pro-blocks-add">Add Any Pro Video Block</h2>
 <ol class="steps">
 <li>Open a page in the editor and click the <strong>+</strong> button at the top left.<figure class="media-slot" data-caption="A page in the editor. The arrow marks the Block Inserter plus button." data-media="image" data-src="docs-assets/pro-qs-plus.png"></figure></li>
@@ -1919,168 +2098,8 @@
 </ul>
 <figure class="media-slot" data-caption="A Video Property Tour Gallery on a published page, with the feature player and property cards. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-business-result.png"></figure>
 <figure class="media-slot" data-caption="A Video Testimonial Section with review cards, and a Video Menu Showcase with category tabs. This is a result image, so it has no arrow." data-media="image" data-src="docs-assets/pro-business-more.png"></figure>
-<p>Choose the layout that solves the page's main job; do not add extra complexity unless it helps visitors. Many of these blocks can also fill themselves from a YouTube or Vimeo channel; continue to <a data-nav="" href="#pro-feed">Pro YouTube &amp; Vimeo Feeds</a>. For store product videos or views, likes, saves and comments, see <a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a>.</p></article>
-<article class="doc-article" data-group="Pro Features" data-title="Pro YouTube &amp; Vimeo Feeds" id="pro-feed">
-<h1>Pro YouTube &amp; Vimeo Feeds</h1>
-<p class="lead">The free gallery can follow one channel or playlist. Pro lets a feed do much more: combine several channels, show hundreds of videos, show live streams or search results, filter videos by title, and fill 20 other Pro blocks.</p>
-<p>Start with the basic setup in <a data-nav="" href="#free-feed">Show a YouTube or Vimeo Channel Automatically</a>: the same <strong>Video source</strong> panel, the same one-time YouTube key and the same <strong>How many &amp; how often</strong> step. The options below are added on top once your Pro license is active, including two optional steps, <strong>Keywords</strong> and <strong>Live streams</strong>, marked <strong>Optional</strong>. Without an active license, the feed works like the free one.</p>
-<h2 id="pro-feed-type">Choose What the Feed Shows</h2>
-<ol class="steps">
-<li>Select the Video Gallery block, open the <strong>Video source</strong> panel and choose <strong>YouTube / Vimeo</strong>.<figure class="media-slot" data-caption="The Video source panel in Pro. The arrow marks the YouTube / Vimeo button." data-media="image" data-src="docs-assets/pro-feed-source.png"></figure></li>
-<li>In step 1, <strong>Choose what to show</strong>, pick one of the four <strong>Feed type</strong> cards: <strong>Channel</strong>, <strong>Live</strong>, <strong>Search</strong> or <strong>Videos</strong>.<figure class="media-slot" data-caption="Step 1 of the Video source panel in Pro, with the four Feed type cards in a two-by-two grid. The arrow marks the Feed type cards." data-media="image" data-src="docs-assets/pro-feed-type.png"></figure></li>
-<li>Fill in the field under the cards for that type, then click <strong>Show videos</strong>.</li>
-</ol>
-<ul>
-<li><strong>Channel:</strong> a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase. This is the same link as in the free plugin.</li>
-<li><strong>Live:</strong> paste a channel's link into <strong>YouTube channel</strong> to show its live streams: live now, coming up, and past ones.</li>
-<li><strong>Search:</strong> type words into <strong>Search YouTube for</strong>, for example <em>wordpress tutorial</em>. The gallery shows YouTube's top 50 videos for those words.</li>
-<li><strong>Videos:</strong> paste up to 50 YouTube video links into <strong>YouTube video links</strong>, one per line. They show in that order, with their titles and thumbnails from YouTube, and a video that is made private drops out by itself.</li>
-</ul>
-<h2 id="pro-feed-search">How a Search Feed Uses Your YouTube Quota</h2>
-<p>Google gives your key 10,000 free quota units a day. A channel or playlist uses only a few units each time it checks for new videos. A search costs much more: <strong>each check uses 100 units</strong>. For one search feed, that means up to:</p>
-<ul>
-<li>100 units a day when <strong>Check for new videos</strong> is set to <strong>Daily</strong>;</li>
-<li>2,400 units a day when it is set to <strong>1 h</strong> (every hour);</li>
-<li>9,600 units a day when it is set to <strong>15 min</strong> (every 15 minutes), which is almost the whole daily quota.</li>
-</ul>
-<p>So keep <strong>Check for new videos</strong> at a few hours or more for search feeds, especially if your site has several. If the quota runs out, the videos already shown stay up, and new ones appear after the quota resets at midnight, Pacific time.</p>
-<h2 id="pro-feed-links">Combine Several Channels or Playlists</h2>
-<p>One gallery can follow up to 10 links: the main one plus up to 9 more. Videos from every link are shown together, newest first, and a video that is in two lists is shown only once. You can mix YouTube and Vimeo links.</p>
-<ol class="steps">
-<li>Once the first link has loaded, find <strong>More channels or playlists</strong> under it in step 1.<figure class="media-slot" data-caption="Step 1 with one channel loaded. The arrow marks the More channels or playlists area." data-media="image" data-src="docs-assets/pro-feed-more-links.png"></figure></li>
-<li>Paste another link into the box and click <strong>Add link</strong>.<figure class="media-slot" data-caption="The More channels or playlists area with a second link pasted in. The arrow marks the Add link button." data-media="image" data-src="docs-assets/pro-feed-add-link.png"></figure></li>
-</ol>
-<p>Each added link is listed with a cross to remove it. If one link stops working, the others keep showing, and the problem is explained under that link.</p>
-<h2 id="pro-feed-count">Show More Videos, or All of Them</h2>
-<ul>
-<li>In the <strong>How many &amp; how often</strong> step, <strong>Number of videos</strong> goes up to 1,000, counted across all your links together. Above 200, the gallery shows them a page at a time with a <strong>Load More</strong> button.</li>
-<li>Turn on <strong>All videos</strong>, at the top of the same step, to show every video instead of a set number. The gallery shows the first 12, or your <strong>Show first</strong> number from the same step, then a Load More button for the rest. Change its wording in <strong>Load More button text</strong>.</li>
-<li>A channel with more than 1,000 videos shows its newest 1,000. Vimeo gives at most 60 videos per link.</li>
-</ul>
-<figure class="media-slot" data-caption="The How many and how often step in Pro. The arrows mark the All videos switch and the Number of videos slider." data-media="image" data-src="docs-assets/pro-feed-all-videos.png"></figure>
-<h2 id="pro-feed-filter">Show or Hide Videos by Title Words</h2>
-<p>The <strong>Keywords</strong> step is optional. Use it when a channel posts more than you want to show. Once set, it folds to a summary such as <strong>Only: tutorial · Hide: trailer</strong>.</p>
-<ol class="steps">
-<li>In the <strong>Keywords</strong> step, type words into <strong>Only show videos whose title has</strong>, separated by commas, for example <em>tutorial, review</em>. A video needs any one of them.<figure class="media-slot" data-caption="The Keywords step, marked Optional. The arrows mark the Only show videos whose title has box and the Hide videos whose title has box." data-media="image" data-src="docs-assets/pro-feed-filter.png"></figure></li>
-<li>Type words into <strong>Hide videos whose title has</strong>, for example <em>sponsored, trailer</em>, to leave those videos out.</li>
-</ol>
-<p>Capital letters do not matter. Leave both boxes empty to show every video. If no video matches, the block says so on the page in the editor; use fewer or different words.</p>
-<h2 id="pro-feed-live">Show Live Streams</h2>
-<p>The <strong>Live streams</strong> step is optional and works with YouTube. It is the last step, shown once the feed has a YouTube link.</p>
-<p>Under <strong>When the channel is live</strong>, choose one of three buttons:</p>
-<ul>
-<li><strong>Player on top</strong> (the default): while the channel is live, its stream plays in a large player above the gallery, muted until the viewer turns the sound on. When the stream ends, the player goes away by itself.</li>
-<li><strong>First in gallery</strong>: a stream that is live right now moves to the front of the gallery, with a <strong>LIVE</strong> badge.</li>
-<li><strong>Normal order</strong>: live streams keep their place in the gallery.</li>
-</ul>
-<p>The same step also has:</p>
-<ul>
-<li><strong>Live stream link</strong>, shown with <strong>Player on top</strong>: paste a YouTube stream that is not in your list, such as an unlisted one, and it plays above the gallery while it is live. With the other two choices, a link already saved here joins the gallery while the stream is live.</li>
-<li><strong>Hide upcoming streams</strong>: leaves out streams that are scheduled but have not started yet. Otherwise they show with an <strong>Upcoming</strong> badge.</li>
-</ul>
-<p>Once changed from the defaults, the step folds to a summary such as <strong>First in gallery · upcoming hidden</strong>.</p>
-<figure class="media-slot" data-caption="The Live streams step, marked Optional. The arrows mark the When the channel is live buttons (Player on top, First in gallery, Normal order) and the Hide upcoming streams switch." data-media="image" data-src="docs-assets/pro-feed-live.png"></figure>
-<figure class="media-slot" data-caption="A gallery with a live stream playing in the large player above it. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-feed-live-result.png"></figure>
-<h2 id="pro-feed-refresh">Check for New Videos Every 15 Minutes</h2>
-<p>Pro adds a <strong>15 min</strong> button (every 15 minutes) to <strong>Check for new videos</strong> in the <strong>How many &amp; how often</strong> step. Use it for a channel that posts or goes live often. A stream that was scheduled ahead shows as live within a few minutes of starting; one started without notice appears at the next check. Each check uses some of your daily quota, so use the shortest time only where you need it, and never for a search feed you check often.</p>
-<h2 id="pro-feed-blocks">Use a Feed in Other Pro Blocks</h2>
-<p>Twenty Pro blocks can take their videos from a channel or playlist too. Each one has the same <strong>Video source</strong> panel at the top of its <strong>General</strong> tab, with the same steps.</p>
-<ol class="steps">
-<li>Select the block and open the <strong>Video source</strong> panel on the <strong>General</strong> tab.<figure class="media-slot" data-caption="The sidebar of a Video Shorts Reel. The arrows mark the General tab and the Video source panel." data-media="image" data-src="docs-assets/pro-feed-block-source.png"></figure></li>
-<li>Choose <strong>YouTube / Vimeo</strong>, pick a <strong>Feed type</strong> card in step 1 if the block shows them, paste your link and click <strong>Show videos</strong>.<figure class="media-slot" data-caption="The Video source panel of a Pro block with a channel loaded. The arrow marks the YouTube or Vimeo link box." data-media="image" data-src="docs-assets/pro-feed-block-link.png"></figure></li>
-<li>Set the number of videos and how often to check in the <strong>How many &amp; how often</strong> step.</li>
-</ol>
-<p>These blocks have it: Lightbox Video Gallery, Masonry Video Grid, Parallax Row Video Gallery, Slider Autoplay Video, Video Bento Grid, Video Carousel Gallery, Video Curriculum Accordion, Video Expanding Panels, Video Flip Cards Gallery, Video Justified Gallery, Video Marquee Wall, Video Wall with Floating Player, Video Playlist Gallery, Video Podcast Episodes, Video Shorts Reel, Video Showcase Wall, Video Slider, Video Swipe Deck, Video Tabs Gallery and Video Timeline Gallery.</p>
-<ul>
-<li>A block shows up to 100 videos from a feed. More links, the <strong>Keywords</strong> step and the <strong>Live streams</strong> step work here too; in these blocks the Live streams step has a <strong>Show live streams first</strong> switch instead of the three <strong>When the channel is live</strong> buttons, plus <strong>Hide upcoming streams</strong>. <strong>All videos</strong>, <strong>Show first</strong> with Load More and the large live player are only in the Video Gallery block.</li>
-<li>For a YouTube channel, these blocks have their own <strong>YouTube Shorts</strong> buttons in the <strong>How many &amp; how often</strong> step.</li>
-<li><strong>Video Shorts Reel</strong> shows Shorts only by default. Choose <strong>All Videos</strong> to include regular videos.</li>
-<li><strong>Video Curriculum Accordion</strong> makes one section per link, named after the playlist, with its videos in the playlist's own order. Add sections under <strong>More playlists — each one is a section</strong>, and set <strong>Videos per section</strong>.</li>
-<li><strong>Video Tabs Gallery</strong> makes one tab per link, named after the playlist. Add tabs under <strong>More playlists — each one is a tab</strong>, and set <strong>Videos per tab</strong>.</li>
-<li><strong>Slider Autoplay Video</strong>: switch on <strong>Fill the card with YouTube / Vimeo</strong> in its <strong>Options</strong> panel to crop YouTube and Vimeo videos so they fill the whole card, with no dark bands above and below.</li>
-<li>The block's own videos are kept. Choose <strong>My videos</strong> any time to get them back.</li>
-</ul>
-<p>Video Stories, Video Comparison Gallery, Video Map Gallery and the blocks that play only your own video files do not have a feed, because their videos need details a channel cannot supply.</p>
-<figure class="media-slot" data-caption="A Video Curriculum Accordion built from two YouTube playlists, one section each. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-feed-blocks-result.png"></figure>
-<p>Next, give the Video Gallery block itself a new look: <a data-nav="" href="#pro-gallery-options">Pro Gallery Layouts &amp; Playback</a>.</p></article>
-<article class="doc-article" data-group="Pro Features" data-title="Pro Gallery Layouts &amp; Playback" id="pro-gallery-options">
-<h1>Pro Gallery Layouts, Titles &amp; Playback</h1>
-<p class="lead">With Pro, the Video Gallery block gets more choices: four layouts, tidier titles, an action when a video ends and silent previews on hover. Every Pro block can also ask before loading YouTube or Vimeo.</p>
-<p>All of these are in the block's sidebar, on the <strong>General</strong> tab: the layout in <strong>Layout</strong>, the title choices in <strong>Display</strong>, and the end action and hover preview in <strong>Playback</strong>. The layouts and the hover preview need an active Pro license; without one, the gallery shows as a grid.</p>
-<h2 id="pro-layouts">Choose a Gallery Layout</h2>
-<ol class="steps">
-<li>Select the gallery and open the <strong>Layout</strong> panel on the <strong>General</strong> tab.<figure class="media-slot" data-caption="The sidebar of a selected gallery in Pro. The arrows mark the General tab and the Layout panel." data-media="image" data-src="docs-assets/pro-gallery-layout-panel.png"></figure></li>
-<li>At the top of the panel, click one of the four picture cards under <strong>Layout</strong>: <strong>Grid</strong>, <strong>Cards</strong>, <strong>List</strong> or <strong>Showcase</strong>. The line under the cards describes the one you chose.<figure class="media-slot" data-caption="The top of the Layout panel. The arrow marks the four Layout picture cards: Grid, Cards, List and Showcase." data-media="image" data-src="docs-assets/pro-gallery-layout-buttons.png"></figure></li>
-</ol>
-<ul>
-<li><strong>Grid:</strong> videos side by side, with the title over the picture. This is how the gallery has always looked.</li>
-<li><strong>Cards:</strong> each video on a card, with its title, and the date if you like, under the picture.</li>
-<li><strong>List:</strong> one video per row, with the picture on the left and the title on the right. Under <strong>Columns &amp; spacing</strong>, set how much of the row the picture takes with <strong>Picture width (%)</strong> (20 to 60), and choose 1 or 2 <strong>Columns on large screens</strong>. Tablets and phones always show one column. <strong>Row alignment</strong> is not offered, because a list row is always full.</li>
-<li><strong>Showcase:</strong> a big player on top and the videos below it. Clicking a video plays it in the big player, so <strong>When a video is clicked</strong> is not offered in the <strong>Playback</strong> panel for this layout.</li>
-</ul>
-<p>For Cards, List and Showcase, switch on <strong>Show the date</strong> in the <strong>Display</strong> panel to show when each video was published on YouTube or Vimeo, or the day it was added to the gallery. It uses your site's date format. Style the text in the <strong>Title &amp; text</strong> panel of the <strong>Style</strong> tab: <strong>Title typography</strong>, <strong>Title color</strong>, <strong>Date typography</strong>, <strong>Date color</strong> and <strong>Text padding</strong>. The box around each video is in the <strong>Thumbnail</strong> panel of the Style tab: <strong>Card background</strong> and, for Showcase, <strong>Selected video outline</strong>.</p>
-<figure class="media-slot" data-caption="The same videos in the Cards, List and Showcase layouts on a published page. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-gallery-layouts-result.png"></figure>
-<div class="callout tip"><span class="co-label">Tip</span><p>Set <strong>General &gt; Layout &gt; Thumbnail shape</strong> to <strong>16:9</strong> so every picture in Cards, List or Showcase has the same shape.</p></div>
-<h2 id="pro-title-position">Place the Title Over, On Hover or Below the Video</h2>
-<p>In the Grid layout you can choose where each title sits, or hide it.</p>
-<ol class="steps">
-<li>Open the <strong>Display</strong> panel on the <strong>General</strong> tab and click one of the four picture cards under <strong>Title</strong>: <strong>Hidden</strong>, <strong>Over video</strong>, <strong>On hover</strong> or <strong>Below</strong>.<figure class="media-slot" data-caption="The top of the Display panel in the Grid layout. The arrow marks the four Title picture cards: Hidden, Over video, On hover and Below." data-media="image" data-src="docs-assets/pro-gallery-title-position.png"></figure></li>
-</ol>
-<ul>
-<li><strong>Hidden:</strong> no title on the thumbnails. It still shows in the lightbox.</li>
-<li><strong>Over video:</strong> the title sits over the bottom of the video. This is the usual choice.</li>
-<li><strong>On hover:</strong> the title appears over the video when the pointer is on it. On phones and tablets it always shows.</li>
-<li><strong>Below:</strong> the title sits in a bar under the video, so it never covers the picture.</li>
-</ul>
-<p>In the Cards, List and Showcase layouts, the layout places the title itself, so the Display panel has a simple <strong>Show title</strong> switch instead of the cards.</p>
-<h2 id="pro-title-length">Keep Long Titles Short</h2>
-<p>Long titles can make tiles uneven. <strong>Title length</strong> cuts them to a set number of lines, ending in "…".</p>
-<ol class="steps">
-<li>With a title shown, choose <strong>Full</strong>, <strong>1 line</strong>, <strong>2 lines</strong> or <strong>3 lines</strong> under <strong>Title length</strong> in the <strong>Display</strong> panel. Full shows every title whole.<figure class="media-slot" data-caption="The Display panel. The arrow marks the Title length buttons." data-media="image" data-src="docs-assets/pro-gallery-title-length.png"></figure></li>
-<li>Keep <strong>Expand cut-off titles on hover</strong> on if you want the whole title to show while the pointer is over the video. It appears in the Grid layout once a line limit is chosen and the title is not set to Below.<figure class="media-slot" data-caption="The Display panel with a line limit chosen. The arrow marks the Expand cut-off titles on hover switch." data-media="image" data-src="docs-assets/pro-gallery-title-hover.png"></figure></li>
-</ol>
-<p>The title is always shown whole in the lightbox.</p>
-<h2 id="pro-end-action">Choose What Happens When a Video Ends</h2>
-<ol class="steps">
-<li>Open the <strong>Playback</strong> panel on the <strong>General</strong> tab.<figure class="media-slot" data-caption="The sidebar with the General tab and the Playback panel open. One arrow marks the General tab and the other marks the Playback panel." data-media="image" data-src="docs-assets/free-playback-panel.png"></figure></li>
-<li>Click <strong>Nothing</strong>, <strong>Next video</strong>, <strong>Replay</strong> or <strong>Button</strong> under <strong>When a video ends</strong>. Each choice is a small card with an icon.<figure class="media-slot" data-caption="The Playback panel. The arrow marks the When a video ends cards: Nothing, Next video, Replay and Button." data-media="image" data-src="docs-assets/pro-gallery-end-action.png"></figure></li>
-</ol>
-<ul>
-<li><strong>Nothing:</strong> the video just stops, as usual.</li>
-<li><strong>Next video:</strong> the next video starts by itself: in the lightbox, in its tile with Play in place, or in the big player with Showcase. It stops after the last one.</li>
-<li><strong>Replay:</strong> the video starts again from the beginning.</li>
-<li><strong>Button:</strong> a button with your link shows over the finished video, next to <strong>Watch again</strong>. Use it to send viewers to a product, a sign-up page or your channel.</li>
-</ul>
-<p>For <strong>Button</strong>, fill in the box that opens under the cards:</p>
-<ul>
-<li><strong>Button text</strong>: left empty, it reads <strong>Watch more</strong>.</li>
-<li><strong>Button link</strong>: a web address. Left empty, no button shows. If the block says <strong>This link can't be used. Start it with https://</strong>, add https:// at the start.</li>
-<li><strong>Open the link in a new tab</strong>: switch it on to keep your page open. In the editor the button always opens a new tab, so your unsaved changes stay.</li>
-</ul>
-<figure class="media-slot" data-caption="The Playback panel with Button chosen, and the button box under the cards. The arrows mark the Button text box, the Button link box and the Open the link in a new tab switch." data-media="image" data-src="docs-assets/pro-gallery-end-button.png"></figure>
-<p>These actions work with video files, YouTube and Vimeo. Facebook's player does not tell the page when a video ends, so they do not work with Facebook videos.</p>
-<h2 id="pro-hover-preview">Preview Videos on Hover</h2>
-<ol class="steps">
-<li>In the <strong>Playback</strong> panel, switch on <strong>Preview on hover</strong>.<figure class="media-slot" data-caption="The Playback panel. The arrow marks the Preview on hover switch." data-media="image" data-src="docs-assets/pro-gallery-hover-preview.png"></figure></li>
-</ol>
-<p>While the pointer rests on a video, it plays silently in its tile, so visitors get a taste before they click. It works with YouTube, Vimeo and video files. With <strong>Ask before loading YouTube / Vimeo (GDPR)</strong> on, the preview waits until the visitor has agreed.</p>
-<h2 id="pro-gdpr">Ask Before Loading YouTube or Vimeo in Pro Blocks</h2>
-<p>YouTube and Vimeo may set cookies as soon as their player or thumbnail loads. The Video Gallery block has <a data-nav="" href="#free-privacy-consent">Ask before loading YouTube / Vimeo (GDPR)</a> in its <strong>Privacy &amp; SEO</strong> panel for this. Every other Pro block has the same switch in a panel of its own, called <strong>Privacy</strong>, at the end of its <strong>General</strong> tab. It is off by default, so existing pages do not change until you turn it on.</p>
-<ol class="steps">
-<li>Select the Pro block and open its <strong>General</strong> tab.</li>
-<li>Scroll to the bottom and open the <strong>Privacy</strong> panel. It is the last panel of the tab in every Pro block.</li>
-<li>Switch on <strong>Ask before loading YouTube / Vimeo (GDPR)</strong>.<figure class="media-slot" data-caption="The Privacy panel at the end of a Pro block's General tab. The arrow marks the Ask before loading YouTube / Vimeo (GDPR) switch." data-media="image" data-src="docs-assets/pro-gdpr-toggle.png"></figure></li>
-</ol>
-<p>In place of the player, visitors now see a short notice, for example <strong>This video is hosted by YouTube. Playing it loads their player and shares data with them, in line with their privacy policy.</strong>, with a <strong>Load Video</strong> button. Nothing loads from YouTube or Vimeo, not even their thumbnails, until the visitor clicks it.</p>
-<figure class="media-slot" data-caption="The privacy notice with the Load Video button in a Pro block on the front of the site. This is a result image, so there is no arrow." data-media="image" data-src="docs-assets/pro-gdpr-notice.png"></figure>
-<ul>
-<li>One agreement counts for the whole site. After a visitor clicks <strong>Load Video</strong> in any block or gallery, every video on the site loads normally, on this visit and on later visits in the same browser.</li>
-<li>Video files from your Media Library are not affected; they play as usual.</li>
-<li>A poster image from your own Media Library still shows behind the notice.</li>
-</ul>
-<p>For product videos and visitor reactions, continue to <a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a>.</p></article>
-<article class="doc-article" data-group="Pro Features" data-title="Product Videos &amp; Visitor Engagement" id="pro-woocommerce">
-<h1>Product Videos &amp; Visitor Engagement</h1>
+<p>Choose the layout that solves the page's main job; do not add extra complexity unless it helps visitors. Many of these blocks can also fill themselves from a YouTube or Vimeo channel; continue to <a data-nav="" href="#pro-feed">Pro YouTube &amp; Vimeo Feeds</a>. For store product videos or views, likes, saves and comments, see <a data-nav="" href="#pro-woocommerce">Product Videos &amp; Visitor Engagement</a>.</p>
+<h2 class="part-title" id="pro-woocommerce">Product Videos &amp; Visitor Engagement</h2>
 <p class="lead">A video can do more than play. It can help someone understand a product, or invite them to react to what they watch. This section covers both uses: product videos first, then views, likes, saves and comments.</p>
 <h2 id="pwc-need">Before You Use WooCommerce Product Videos</h2>
 <p>WooCommerce is the WordPress plugin used to run an online store. It must be installed and active to connect a video to an existing store product. If you do not use WooCommerce, you can still enter a title, price and product link yourself.</p>
@@ -2093,7 +2112,7 @@
 <p>Once linked, the card pulls the product title, price, sale price and image from WooCommerce. That means you do not have to update those details separately in the gallery.</p>
 <h2 id="pwc-manual">Add Product Details Manually</h2>
 <ol class="steps">
-<li>Leave <strong>Use WooCommerce Product</strong> off.</li>
+<li>Leave <strong>Use WooCommerce Product</strong> off.<figure class="media-slot" data-caption="A video in the Videos panel. The arrow marks the Use WooCommerce Product switch, which stays off." data-media="image" data-src="docs-assets/pro-woo-toggle.png"></figure></li>
 <li>Add the <strong>Product Image</strong> and the <strong>Title</strong>.<figure class="media-slot" data-caption="An open video item with the switch off. The arrows mark the Product Image box and the Title box." data-media="image" data-src="docs-assets/pro-woo-image-title.png"></figure></li>
 <li>Type the <strong>Current Price</strong> and the <strong>Original Price</strong>.<figure class="media-slot" data-caption="The same video item further down. The arrows mark the Current Price box and the Original Price box." data-media="image" data-src="docs-assets/pro-woo-prices.png"></figure></li>
 <li>Paste the <strong>Product URL</strong>.<figure class="media-slot" data-caption="The same video item further down. The arrow marks the Product URL box." data-media="image" data-src="docs-assets/pro-woo-url.png"></figure></li>
@@ -2121,7 +2140,7 @@
 <li>Select the <strong>Video Shorts Reel</strong> block.<figure class="media-slot" data-caption="The Video Shorts Reel selected in the editor. The arrow marks the block." data-media="image" data-src="docs-assets/pro-stats-select-reel.png"></figure></li>
 <li>Switch on <strong>Show Action Rail</strong>.<figure class="media-slot" data-caption="The Overlays and Controls panel of the Shorts Reel. The arrow marks the Show Action Rail switch." data-media="image" data-src="docs-assets/pro-stats-action-rail.png"></figure></li>
 </ol>
-<p>You do not need to switch on the save bookmark separately. Logged-in visitors see it on the card automatically; use the <strong>Saved Button</strong> panel in the Style tab to change its appearance.</p>
+<p>You do not need to switch on the save bookmark separately. Logged-in visitors see it on the card automatically; use the <strong>Saved button</strong> panel in the Style tab to change its appearance.</p>
 <h2 id="pst-saved">Show a Logged-In Visitor Their Saved Videos</h2>
 <p>Add <code>[vsr_saved_videos]</code> to a page with a Shortcode block to show the logged-in visitor a grid of videos they have saved. This is separate from the gallery shortcode: it displays that visitor's saved list, not a specific gallery.</p>
 <h2 id="pst-moderate">Manage Likes and Comments</h2>
@@ -2133,79 +2152,79 @@
 <p>If something does not behave as expected, the <a data-nav="" href="#pro-faq">FAQs &amp; Troubleshooting</a> section has quick answers and fixes.</p></article>
 <article class="doc-article" data-group="" data-title="FAQs &amp; Troubleshooting" id="pro-faq">
 <h1>FAQs &amp; Troubleshooting</h1>
-<p class="lead">Use this page when you need a quick answer or a feature is not behaving as expected. Start with the question that matches your situation; the fixes below cover common problems.</p>
+<p class="lead">Find a quick answer here.</p>
 <h2 id="pfaq-list">Common Questions</h2>
 <div class="faq-list">
 <div class="faq-item open">
 <button class="faq-q"><span>Is there a free version?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>Yes. The free version includes the Video Gallery block, albums, filters, a lightbox and Bulk Import. Pro adds 31 specialized blocks and extra features. See <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p></div>
+<div class="faq-a"><p>Yes. Free has the Video Gallery block, albums, filters and a lightbox. Pro adds 31 more blocks and extra features. See <a data-nav="" href="#pro-overview">Set Up Video Gallery Pro</a>.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Which video sources work?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>The free gallery accepts YouTube, Vimeo and Facebook video links. You can also use video files from your WordPress Media Library. Wistia is available in selected Pro blocks.</p></div>
+<div class="faq-a"><p>YouTube, Vimeo, Facebook, and video files from your Media Library. Some Pro blocks also take Wistia.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Do I need an API key?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>Not for videos you add yourself. An API key is a special code some services use to connect with another app. For single YouTube and Vimeo videos, paste the link; no key is needed. You only need a free YouTube key if a gallery should show a YouTube channel or playlist automatically. Vimeo channels need no key. See <a data-nav="" href="#free-feed-key">Connect YouTube with a Free Key</a>.</p></div>
+<div class="faq-a"><p>Only if a gallery should follow a YouTube channel. Single videos need no key. Vimeo needs no key. See <a data-nav="" href="#free-feed-key">Connect YouTube with a Free Key</a>.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Does the YouTube key cost anything?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>No. Google gives each key 10,000 free quota units a day. A channel or playlist feed uses only a few units each time it checks for new videos, so one key is enough for most sites. A Pro search feed uses 100 units per check; see <a data-nav="" href="#pro-feed-search">How a Search Feed Uses Your YouTube Quota</a>.</p></div>
+<div class="faq-a"><p>No. The key is free, and one key is enough for most sites.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Can I show my YouTube favorites or liked videos?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>Not directly. YouTube no longer has a public favorites list, and your liked videos are private. Instead, add the videos you want to a playlist on YouTube, make the playlist public or unlisted, and paste the playlist's link as the feed. Videos you add to that playlist later appear in the gallery by themselves.</p></div>
+<div class="faq-a"><p>Not directly. Put the videos in a public YouTube playlist and paste the playlist link.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>How many videos can a channel feed show?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>Up to 50 in the free plugin. With Pro, the Video Gallery block shows up to 1,000 across all its links, or every video with <strong>All videos</strong>, and the other Pro blocks show up to 100. Vimeo gives at most 60 videos per link. See <a data-nav="" href="#pro-feed-count">Show More Videos, or All of Them</a>.</p></div>
+<div class="faq-a"><p>Free: up to 50. Pro: up to 1,000 in the Video Gallery, and 100 in other Pro blocks. Vimeo gives at most 60 per link.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Will turning on a feed delete the videos I added?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>No. Your own list is kept while the feed is on. Choose <strong>My videos</strong> in the <strong>Video source</strong> panel to get it back. See <a data-nav="" href="#free-feed-off">Go Back to Your Own Videos</a>.</p></div>
+<div class="faq-a"><p>No. Choose <strong>My videos</strong> in <strong>Video source</strong> to get your list back. See <a data-nav="" href="#free-feed-off">Go Back to Your Own Videos</a>.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Will my free galleries still work after I upgrade?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>Yes. Video Gallery Pro includes the gallery block, and your existing galleries do not need to be rebuilt. Follow the Pro installation steps and check that the Pro plugin is active. See <a data-nav="" href="#pro-install">Install Video Gallery Pro</a>.</p></div>
+<div class="faq-a"><p>Yes. Install Pro and activate it. Your galleries stay as they are. See <a data-nav="" href="#pro-install">Install Video Gallery Pro</a>.</p></div>
 </div>
 <div class="faq-item">
 <button class="faq-q"><span>Can I put a gallery on a page without the block editor?</span><span class="faq-toggle"><svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" viewbox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></span></button>
-<div class="faq-a"><p>Yes. Copy the saved gallery's shortcode, such as <code>[video_gallery id=12]</code>, and paste it where you want the gallery to appear. The ID in your shortcode may be different.</p></div>
+<div class="faq-a"><p>Yes. Copy the gallery's shortcode, such as <code>[video_gallery id=12]</code>, and paste it on the page.</p></div>
 </div>
 </div>
 <h2 id="pro-troubleshooting">Common Problems and Fixes</h2>
-<p>Match the symptom to the heading below and try that fix first. Reload the editor or live page afterward to check whether it solved the problem.</p>
+<p>Find your problem below and try the fix.</p>
 <h2 id="pts-locked">Pro Blocks Still Look Locked After Upgrading</h2>
-<p>The license may not be active. Open <strong>Video Gallery &gt; Help &amp; Demos &gt; Activation</strong> and check that the status says <strong>Activated</strong>. See <a data-nav="" href="#pro-activate">Activate Your Pro License</a>.</p>
+<p>Open <strong>Video Gallery &gt; Help &amp; Demos &gt; Activation</strong> and check that it says <strong>Activated</strong>. See <a data-nav="" href="#pro-activate">Activate Your Pro License</a>.</p>
 <h2 id="pts-activation">My Pro License Will Not Activate</h2>
-<p>Read the message on the Activation tab. It should identify the issue, for example, a mistyped key, an expired license or no activations remaining. Correct that issue and try again.</p>
+<p>Read the message on the Activation tab. Fix the problem, for example a wrong key, and try again.</p>
 <h2 id="pts-missing">A Video Block Is Missing from the Inserter</h2>
-<p>The block may be hidden in the plugin settings. Open <strong>Video Gallery &gt; Help &amp; Demos &gt; Blocks</strong>, turn that block on, then reload the editor. See <a data-nav="" href="#pro-switch-blocks">Hide Pro Blocks You Do Not Use</a> for the same setting.</p>
+<p>Open <strong>Video Gallery &gt; Help &amp; Demos &gt; Blocks</strong>, turn the block on, and reload the editor.</p>
 <h2 id="pts-thumb">A Video Shows a Blank Thumbnail</h2>
-<p>Select the video, open its settings in the <strong>Videos</strong> panel and add an image in the <strong>Thumbnail</strong> field (called <strong>Poster</strong> in some Pro blocks). That image is used as the thumbnail before playback.</p>
+<p>In the <strong>Videos</strong> panel, add an image in the <strong>Thumbnail</strong> field (<strong>Poster</strong> in some Pro blocks).</p>
 <h2 id="pts-sound">A Video Will Not Autoplay with Sound</h2>
-<p>Most browsers block videos from autoplaying with sound before a visitor interacts with the page. Keep autoplay muted, or let visitors press Play themselves.</p>
+<p>Browsers block autoplay with sound. Keep autoplay muted, or let visitors press Play.</p>
 <h2 id="pts-feed-error">My Feed Shows an Error</h2>
-<p>The message under the link in step 1 of the <strong>Video source</strong> panel says what is wrong. A step with a problem stays open instead of folding, so you can see it straight away. The most common ones:</p>
+<p>The message under the link says what is wrong. Common ones:</p>
 <ul>
-<li><strong>Connect YouTube first</strong>: add your free key in the <strong>Connect YouTube</strong> step. See <a data-nav="" href="#free-feed-key">Connect YouTube with a Free Key</a>.</li>
-<li><strong>This API key is not valid.</strong> Copy the key again from Google Cloud. It starts with AIza.</li>
-<li><strong>The key works, but "YouTube Data API v3" is not turned on</strong>: open the API page from the Connect YouTube step, click <strong>Enable</strong>, wait a minute and try again.</li>
-<li><strong>This key has a restriction that blocks your site.</strong> In Google Cloud, open the key and set <strong>Application restrictions</strong> to <strong>None</strong>. Limiting it to YouTube Data API v3 under API restrictions is fine.</li>
-<li><strong>We could not find that channel or playlist.</strong> Check that the link opens on YouTube or Vimeo and that the playlist is public or unlisted, not private.</li>
-<li><strong>This is a link to one video, not a list.</strong> Paste the channel or playlist link instead, or click <strong>Show all videos from ...</strong> if the block offers it.</li>
-<li><strong>Your site could not reach YouTube just now</strong> (or Vimeo): wait a minute and click <strong>Check now</strong>. If it keeps happening, ask your host whether your site may connect to other websites.</li>
+<li><strong>Connect YouTube first</strong>: add your free key. See <a data-nav="" href="#free-feed-key">Connect YouTube with a Free Key</a>.</li>
+<li><strong>This API key is not valid.</strong> Copy it again. It starts with AIza.</li>
+<li><strong>"YouTube Data API v3" is not turned on</strong>: open the API page, click <strong>Enable</strong>, wait a minute.</li>
+<li><strong>This key has a restriction that blocks your site.</strong> In Google Cloud, set <strong>Application restrictions</strong> to <strong>None</strong>.</li>
+<li><strong>We could not find that channel or playlist.</strong> Check that the link opens, and that it is not private.</li>
+<li><strong>This is a link to one video, not a list.</strong> Paste a channel or playlist link.</li>
+<li><strong>Your site could not reach YouTube just now.</strong> Wait a minute, then click <strong>Check now</strong>.</li>
 </ul>
 <h2 id="pts-feed-new">New Videos Don't Appear Right Away</h2>
-<p>This is normal. The gallery keeps a saved copy of the list and looks for new uploads at the time set under <strong>Check for new videos</strong>, such as every 6 hours. To update now, open the page in the editor and click <strong>Check now</strong> in the <strong>How many &amp; how often</strong> step. If you use a caching plugin, clear its cache too. Also check that the new video is public, matches your <strong>YouTube Shorts</strong> choice and, in Pro, your <strong>Keywords</strong>.</p>
+<p>This is normal. The gallery checks at the time you chose. To update now, click <strong>Check now</strong> in <strong>How many &amp; how often</strong>. Using a cache plugin? Clear its cache too.</p>
 <h2 id="pts-feed-empty">My Feed Shows No Videos</h2>
-<p>If the block says <strong>No public videos found here.</strong>, the list has no public videos, or the Shorts choice leaves nothing: try <strong>All Videos</strong> under <strong>YouTube Shorts</strong> in the <strong>How many &amp; how often</strong> step. Private videos are never shown, and Vimeo also leaves out unlisted ones. In Pro, if the block says <strong>No video matches the keyword settings</strong>, change the words in the <strong>Keywords</strong> step of the <strong>Video source</strong> panel.</p>
+<p>The channel has no public videos, or your Shorts choice hides them all. Try <strong>All Videos</strong> under <strong>YouTube Shorts</strong>. In Pro, check your <strong>Keywords</strong> too.</p>
 <h2 id="pts-feed-quota">YouTube Says the Daily Quota Is Used Up</h2>
-<p>Your key has used its 10,000 free units for today. Nothing breaks: the videos already shown stay up, and new ones appear after the quota resets at midnight, Pacific time. To avoid it, choose a longer time under <strong>Check for new videos</strong>, especially for Pro search feeds and anything set to <strong>15 min</strong>. See <a data-nav="" href="#pro-feed-search">How a Search Feed Uses Your YouTube Quota</a>.</p>
+<p>Your key used up its free units for today. Videos already shown stay up. New ones appear tomorrow. Choose a longer time under <strong>Check for new videos</strong>. See <a data-nav="" href="#pro-feed-search">Search Feeds Use More Quota</a>.</p>
 <h2 id="pts-feed-notice">A "Video Feed Has Stopped Updating" Notice Appeared</h2>
-<p>A feed on your live site keeps failing. Read the reason in the notice, fix it (for a key problem: edit a page with a feed, open <strong>Video source → Connect YouTube</strong> and click <strong>Change key</strong>), and the notice goes away by itself once the feed loads again. Click <strong>Hide for a day</strong> if you need time. See <a data-nav="" href="#free-feed-alerts">Get Told When a Feed Stops Updating</a>.</p>
+<p>A feed keeps failing. Read the reason in the notice and fix it. The notice goes away by itself. See <a data-nav="" href="#free-feed-alerts">Get Told When a Feed Stops Updating</a>.</p>
 <h2 id="pts-play-in-place">A Video Playing in Its Tile Has Black Bars</h2>
-<p>The tile's shape does not match the video. With <strong>Play in place</strong>, set <strong>Thumbnail shape</strong> in the <strong>Layout</strong> panel of the <strong>General</strong> tab to <strong>16:9</strong>, or <strong>9:16</strong> for Shorts. See <a data-nav="" href="#free-play-in-place">Play Videos in Their Tiles Instead</a>.</p>
+<p>The tile shape does not match the video. In <strong>Layout</strong>, set <strong>Thumbnail shape</strong> to <strong>16:9</strong> (<strong>9:16</strong> for Shorts). See <a data-nav="" href="#free-play-in-place">Play Videos in Their Tiles Instead</a>.</p>
 </article>
 </div>
 <div class="article-feedback" id="feedback"></div>
@@ -2247,6 +2266,7 @@
         toc.style.visibility = heads.length ? "" : "hidden";
         Array.prototype.forEach.call(heads, function (h) {
           var li = document.createElement("li");
+          if (h.classList.contains("part-title")) li.className = "toc-part";
           var a = document.createElement("a");
           a.href = "#" + h.id;
           a.textContent = h.textContent;

@@ -39,17 +39,24 @@ const mountGalleries = () => {
     // is how a Vimeo poster gets here without the browser having to ask Vimeo.
     const thumbs = readJSON(galleryEl.dataset.thumbs, []);
 
+    // Width, height and a `srcset` for the cached thumbnails, so the redrawn
+    // tiles keep the (smaller) picture the server chose. Absent on older output.
+    const thumbSetData = readJSON(galleryEl.dataset.thumbSets, null);
+
     try {
       createRoot(galleryEl).render(
         <VideoGallery
           attributes={attributes}
           thumbs={thumbs}
+          thumbSets={thumbSetData?.sets}
+          thumbSizes={thumbSetData?.sizes}
           id={galleryEl.id}
         />,
       );
 
       galleryEl.removeAttribute("data-attributes");
       galleryEl.removeAttribute("data-thumbs");
+      galleryEl.removeAttribute("data-thumb-sets");
     } catch (error) {
       // Leave the server-rendered markup in place: a gallery that cannot be
       // enhanced is still a gallery of links to the videos.

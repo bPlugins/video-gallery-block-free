@@ -2,7 +2,7 @@
 Contributors: bplugins, abuhayat, himur98, freemius
 Tags: video gallery, youtube gallery, vimeo gallery, youtube feed, video playlist
 Tested up to: 7.1
-Stable tag: 1.7.0
+Stable tag: 1.8.0
 Requires PHP: 7.4
 Requires at least: 6.5
 Donate link: https://www.buymeacoffee.com/abuhayat
@@ -17,11 +17,13 @@ Show a YouTube channel, playlist or Vimeo videos as a gallery that updates itsel
 
 **[Video Gallery Block](https://bplugins.com/products/video-gallery-block/)** | **[Pricing](https://bplugins.com/products/video-gallery-block/pricing/)** | **[Support](https://bplugins.com/support/)** | **[Demo](https://bblockswp.com/demo/video-gallery)**
 
+https://youtu.be/BqockphExRI
+
 ### Why Video Gallery Block?
 
-**Video Gallery Block** is a lightweight WordPress video gallery plugin that lets you create responsive video galleries, YouTube galleries, Vimeo galleries, and video collections directly inside the Gutenberg block editor.
+**Video Gallery Block** is a WordPress video gallery plugin that lets you create responsive video galleries, YouTube galleries, Vimeo galleries, and video collections directly inside the Gutenberg block editor. It loads its scripts only on pages that use it and needs no jQuery.
 
-Organize videos into albums, let visitors filter by category, and play everything in an elegant lightbox popup. Thumbnails are generated automatically (or upload your own poster images), captions keep every video labeled, and scripts load only when the block is used so your site stays fast.
+Organize videos into albums, let visitors filter by category, and play everything in an elegant lightbox popup. Thumbnails are generated automatically (or upload your own poster images), and captions keep every video labeled.
 
 The Pro version adds 31 more video blocks (most of them also play Wistia), live streams, view counts and advanced layouts like sliders, carousels, masonry grids, and playlist galleries – ideal for video portfolios, product galleries, training libraries, and course videos.
 
@@ -31,19 +33,24 @@ Things many video gallery plugins keep for a paid plan, all in the free **Video 
 
 - **Automatic channel feeds:** point it at a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, and new videos appear by themselves.
 - **Video SEO markup:** Schema.org `VideoObject` JSON-LD for every video.
-- **GDPR consent:** no YouTube, Vimeo or Facebook player loads, and no third-party cookie is set, until the visitor agrees.
+- **GDPR consent (off by default):** turn it on under Privacy & SEO, and no YouTube, Vimeo or Facebook player loads, and no third-party cookie is set, until the visitor agrees.
 - **Google Analytics 4 video events:** play, 25%, 50%, 75% and finished, with the video's title.
 - **Thumbnails served from your own site:** no request to YouTube or Vimeo on every page view.
 
 ### Fast by Design
 
-- **No jQuery, no Isotope:** about 120 KB less JavaScript on the front end.
+- **No jQuery, no Isotope:** about 120 KB less JavaScript on the front end than older versions of this plugin.
 - **Rendered on the server:** search engines and visitors see the gallery instantly, and it still works on sites that delay JavaScript (WP Rocket, LiteSpeed, Perfmatters).
 - **Loads only when used:** scripts and styles are added only on pages that contain the block, and a video loads its player only when someone plays it.
+- **Thumbnails from your own site:** YouTube and Vimeo thumbnails are cached in your Media Library, so there is no request to YouTube or Vimeo on every page view.
 
 ### Free Features
 
 Everything below is part of the free **Video Gallery** block.
+
+Watch how a YouTube or Vimeo channel fills the gallery by itself:
+
+https://youtu.be/mtPZe8Uxd8s
 
 - **Responsive Video Gallery Block:** Clean grid layouts that automatically adapt to desktop, tablet, and mobile screens.
 - **Album & Filter System:** Organize videos into albums and let visitors filter by category.
@@ -52,25 +59,21 @@ Everything below is part of the free **Video Gallery** block.
 - **Custom Styling Controls:** Adjust spacing, padding, borders, backgrounds, and shadows from the block settings.
 - **Automatic or Custom Thumbnails:** Auto-generate thumbnails or upload custom poster images.
 - **Video Captions:** Add captions or titles to each video in the gallery.
+- **AI helper (optional):** Describe the gallery you want and preview the changes before you apply them, write titles for videos that have none, and sort your videos into albums. It needs WordPress 7.0 or newer and an AI provider connected under Settings > Connectors. Nothing happens until you press a button, and you can undo it.
 - **Lightbox Video Popup:** Play videos in an elegant popup lightbox.
 - **Bulk Import:** Paste a list of video links, one per line, and the gallery fills itself in — titles and posters come from YouTube and Vimeo automatically, with no API key to set up.
 - **Thumbnail Shape:** Lay tiles out as 16:9, 4:3, 1:1 or 9:16 for vertical Shorts and Reels, instead of a fixed pixel height.
-- **Video SEO Markup (free):** Every video is described to Google and AI search with Schema.org `VideoObject` JSON-LD, so your gallery can appear as a video result. Comparable plugins sell this as a premium add-on.
 - **Ready-Made Section Patterns:** Five fully configured patterns in the inserter — Video gallery with album filters, Course video library, Product demo showcase, Customer video stories, and Portfolio showreel wall — so you start from a finished layout, not a blank block.
 - **Show / Hide Filter Bar:** A dedicated toggle to show or hide the album filter buttons.
-- **Cached Thumbnails:** YouTube and Vimeo thumbnails are downloaded into your Media Library once and served from your own site after that — no third-party request on every page view, and no more thumbnails that go missing when a provider reshuffles its sizes.
 - **Load More Pagination:** Set how many videos show at first; a Load More button reveals the rest, so a large gallery doesn't overwhelm the page on first paint.
 - **YouTube Shorts Filter:** Show every video, hide Shorts, or show only Shorts — detected from the link itself, no API key needed.
 - **Play Icon on Thumbnails:** A play icon over every tile, so it reads as a video before anyone hovers or clicks — color, size, and the hover zoom are all customizable, or turn it off entirely.
 - **Item Border & Shadow:** Round the corners and add a drop shadow to each thumbnail tile, independent of the gallery container's own border and shadow.
-- **Server-Side Rendered:** The gallery is built on the server, so search engines and visitors see it instantly — even on sites that delay JavaScript (WP Rocket, LiteSpeed, Perfmatters).
-- **Optimized Script Loading:** Scripts load only when the block is used, keeping your site fast.
 - **Translation Ready:** Fully compatible with multilingual websites.
 - **Sort Order:** Show videos in the order you added them, or automatically sort by Newest First / Oldest First — no need to re-order videos by hand after a Bulk Import.
 - **Row Alignment:** Control how a leftover row (one that doesn't fill every column) lines up — left, center, or right — instead of it always being stretched or left stranded on one side.
 - **Per-Device Column & Row Gap:** Set the spacing between tiles separately for desktop, tablet, and mobile, the same way column counts already work per device.
 - **Facebook Video Support:** Add Facebook videos to the gallery alongside YouTube and Vimeo, using Facebook's public embed — no app or API key required.
-- **GDPR Consent-Gated Embeds:** Optionally require a visitor's consent before any YouTube, Vimeo, or Facebook player loads, so the gallery doesn't set third-party cookies until someone agrees to watch.
 - **YouTube & Vimeo Channel Auto-Feed:** Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase. New uploads appear by themselves on the schedule you choose (hourly to daily), or click "Check now". Vimeo needs no key; YouTube needs a free Data API key once, with step-by-step setup in the sidebar.
 - **Feed Alerts:** If a feed stops updating (a wrong or expired key, a used-up quota, a deleted playlist), administrators see a notice that says what is wrong and where to fix it, with an optional email.
 - **Channel Name:** Show the channel's name under each title for YouTube and Vimeo feeds.
@@ -79,7 +82,6 @@ Everything below is part of the free **Video Gallery** block.
 - **Drag to Reorder:** Drag videos on the canvas to change their order, or use the Move left / Move right buttons.
 - **Copy a Feed to Your Own List:** Turn a channel's videos into your own list in one click, then reorder or edit them.
 - **Easy, Step-by-Step Settings:** Panels follow the order you work in — Video source, Videos, Layout, Display, Playback, Privacy & SEO — with buttons instead of long dropdowns.
-- **Google Analytics 4 Video Tracking:** Send video_start, video_play, video_watch_progress and video_watch_complete events (with title, provider and URL) to Google Analytics. Works with Site Kit, GA4 or Google Tag Manager already on the site, nothing extra to configure.
 
 ### Pro Version
 
@@ -94,9 +96,9 @@ Everything below is part of the free **Video Gallery** block.
 - **Playback** [Video Gallery]: Free has the lightbox and play in place — Pro adds **preview on hover** and **actions when a video ends** (next video, replay or your own button).
 - **Live streams** [Video Gallery]: Pro only — **LIVE and Upcoming badges**, live streams first, and a live player above the gallery.
 - **Channel feeds** [Video Gallery]: Free shows 1 YouTube or Vimeo channel or playlist, up to 50 videos — Pro merges **up to 10 channels or playlists**, shows **up to 1,000 videos** or a whole channel, and adds Live, Search and chosen-videos feeds and title keyword filters.
-- **Channel feeds in other blocks** [20 Pro blocks]: Pro only — up to 100 videos, merged channels and keyword filters in Lightbox Video Gallery, Masonry Video Grid, Parallax Row Video Gallery, Slider Autoplay Video, Video Bento Grid, Video Carousel Gallery, Video Curriculum Accordion (one section per playlist), Video Expanding Panels, Video Flip Cards Gallery, Video Justified Gallery, Video Marquee Wall, Video Wall with Floating Player, Video Playlist Gallery, Video Podcast Episodes, Video Shorts Reel, Video Showcase Wall, Video Slider, Video Swipe Deck, Video Tabs Gallery (one tab per playlist) and Video Timeline Gallery.
-- **Choice of player** [20 Pro blocks]: Pro only — play YouTube and Vimeo in the bPlugins player or with their own controls, site-wide, in Masonry Video Grid, Video Bento Grid, Video Curriculum Accordion, Video Expanding Panels, Video Feature Tour, Video Flip Cards Gallery, Video Hotspot Scene, Video Justified Gallery, Video Map Gallery, Video Marquee Wall, Video Menu Showcase, Video Wall with Floating Player, Video Podcast Episodes, Video Property Tour Gallery, Video Scrollytelling Showcase, Video Showcase Wall, Video Tabs Gallery, Video Timeline Gallery, Video Wedding Story Gallery and Video Workout Planner.
-- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files in Video Gallery — Pro adds **Wistia** in 24 Pro blocks: Lightbox Video Gallery, Parallax Row Video Gallery, Slider Autoplay Video, Video Bento Grid, Video Carousel Gallery, Video Comparison Gallery, Video Curriculum Accordion, Video Expanding Panels, Video Justified Gallery, Video Map Gallery, Video Marquee Wall, Video Menu Showcase, Video Wall with Floating Player, Video Playlist Gallery, Video Podcast Episodes, Video Property Tour Gallery, Video Scrollytelling Showcase, Video Shorts Reel, Video Showcase Wall, Video Slider, Video Stories, Video Swipe Deck, Video Tabs Gallery and Video Testimonial Section.
+- **Channel feeds in other blocks** [20 Pro blocks]: Pro only. Up to 100 videos, merged channels and keyword filters in 20 more blocks, such as Lightbox Video Gallery, Masonry Video Grid, Video Slider and Video Playlist Gallery. Video Curriculum Accordion makes one section per playlist, and Video Tabs Gallery one tab per playlist.
+- **Choice of player** [20 Pro blocks]: Pro only. Play YouTube and Vimeo in the bPlugins player or with their own controls, site-wide, in 20 Pro blocks such as Masonry Video Grid, Video Bento Grid and Video Map Gallery.
+- **Video sources:** Free plays YouTube, Vimeo, Facebook and your own files in Video Gallery. Pro adds **Wistia** in 24 Pro blocks, such as Lightbox Video Gallery, Video Slider and Video Playlist Gallery.
 - **Privacy** [all 32 blocks]: Free has GDPR consent in Video Gallery — Pro has it in **every block**.
 - **Design** [all Pro blocks]: Free has the essential style controls — Pro adds **advanced typography, overlays and per-element styling**.
 - **Support:** Free uses the WordPress.org forum — Pro gets **priority email support**.
@@ -116,6 +118,10 @@ Everything below is part of the free **Video Gallery** block.
 [Try the Video Gallery Block](https://bplugins.com/products/video-gallery-block/pricing/) – Unlock all premium features now!
 
 ### How to Use
+
+Need a YouTube API key for a channel feed? It is free and takes about 2 minutes:
+
+https://youtu.be/0cIHKcSjCmQ
 
 1. Open any page or post in the WordPress block editor (Gutenberg).
 2. Click the **+ (Add Block)** button and search for **Video Gallery Block**, then insert it.
@@ -164,7 +170,7 @@ Other plugins by our team:
 
 **From your WordPress dashboard (recommended):**
 
-1. Go to **Plugins → Add New**.
+1. Go to **Plugins → Add Plugin**.
 2. Search for **"Video Gallery Block"**.
 3. Click **Install Now**, then **Activate**.
 4. Add the **Video Gallery Block** to any post or page in the Gutenberg editor.
@@ -172,7 +178,7 @@ Other plugins by our team:
 **Manual installation:**
 
 1. Download the plugin ZIP file.
-2. Go to **Plugins → Add New → Upload Plugin** and upload `video-gallery-block.zip`, or upload the plugin folder to `/wp-content/plugins/`.
+2. Go to **Plugins → Add Plugin → Upload Plugin** and upload `video-gallery-block.zip`, or upload the plugin folder to `/wp-content/plugins/`.
 3. Click **Install Now** and activate the plugin from the **Plugins** menu.
 
 == Frequently Asked Questions ==
@@ -184,13 +190,22 @@ Video Gallery Block helps you create responsive video galleries, YouTube galleri
 Yes. The free version supports YouTube videos and lets you organize them into responsive video gallery layouts.
 
 = How do I show my latest YouTube videos automatically in WordPress? =
-In the block's **Video source** panel choose **YouTube / Vimeo**, paste your channel or playlist link and pick how often to check (every hour up to once a day). New uploads then appear on their own. You can also click **Check now**.
+In the block's **Video source** panel choose **YouTube / Vimeo**, paste your channel or playlist link and pick how often to check (every hour up to once a day). New uploads then appear on their own. You can also click **Check now**. In Pro you can merge up to 10 channels or playlists, show up to 1,000 videos or a whole channel, and filter by title keywords.
 
 = Do I need a YouTube API key? =
 For a YouTube channel or playlist feed, yes: a free YouTube Data API key, set up once. The sidebar walks you through it step by step. Vimeo feeds need no key at all. Adding single videos by link, or many at once with Bulk Import, needs no key for either site.
 
+= Where do I get a YouTube API key? =
+It is free and takes about 2 minutes, once. 1) Sign in to [Google Cloud](https://console.cloud.google.com/apis/credentials) and create a project (any name). 2) Open the [YouTube Data API v3 page](https://console.cloud.google.com/apis/library/youtube.googleapis.com) and click **Enable**. 3) Go to **Credentials > Create credentials > API key** and copy the key. 4) In the block's **Video source** panel choose **YouTube / Vimeo**, paste the key and click **Save**. The sidebar shows the same steps with links, so you can follow them without leaving the editor. Prefer to watch? [How to get a YouTube API key in 2 minutes (video)](https://youtu.be/0cIHKcSjCmQ).
+
+= Can I show live streams? =
+Yes, in Pro. It marks videos LIVE or Upcoming, puts live streams first, and can show a live player above the gallery that goes away when the stream ends.
+
 = Is it GDPR compliant? Does it set cookies before a video is played? =
-Turn on **Ask before loading YouTube / Vimeo (GDPR)** under Privacy & SEO. The player, and with it any third-party cookie, loads only after the visitor agrees, and the choice is remembered. YouTube and Vimeo thumbnails are served from your own site.
+Turn on **Ask before loading YouTube / Vimeo (GDPR)** under Privacy & SEO. The player, and with it any third-party cookie, loads only after the visitor agrees, and the choice is remembered. YouTube and Vimeo thumbnails are served from your own site. In Pro this works in every block.
+
+= Does the plugin use AI? Is any of my data sent anywhere? =
+Only if you choose to use it. The **Edit with AI** panel in the block's sidebar works with WordPress 7.0 or newer and the AI provider you connect under Settings > Connectors. The plugin has no AI server of its own and never sees your API key. When you press a button, WordPress sends your provider: the text you typed, the gallery's current settings (columns, colors and so on) and, for titles and albums, the video links, file names and titles. Your visitors' data, your posts and your users are not sent. Nothing is applied until you click **Apply**, and you can **Undo** it. If no provider is connected, the panel says so and nothing is sent.
 
 = Does it work with WP Rocket, LiteSpeed or other "delay JavaScript" settings? =
 Yes. The gallery is built on the server, so it is visible straight away, and it starts correctly even when a performance plugin delays scripts.
@@ -243,43 +258,47 @@ Free users can use the WordPress.org support forum. Pro users receive priority e
 == Screenshots ==
 
 1. Show your YouTube or Vimeo channel on your site, with new uploads added automatically
-2. Video Testimonial Gallery (Pro)
-3. Parallax Video Gallery (Pro)
-4. Video Slider Gallery (Pro)
-5. Autoplay Video Slider (Pro)
-6. Lightbox Video Gallery (Pro)
-7. Masonry Video Gallery (Pro)
-8. Video Playlist Gallery (Pro)
-9. Video Carousel Gallery (Pro)
-10. Album filters for your video library
-11. Video Gallery Shortcode Generator.
-12. Video Shorts Reel. (Pro)
-13. Video Showcase Wall. (Pro)
-14. Video Curriculum Accordion. (Pro)
-15. Video Hotspot Scene. (Pro)
-16. Video Tabs Gallery. (Pro)
-17. Video Scrollytelling Showcase. (Pro)
-18. Video Timeline Gallery. (Pro)
-19. Video Bento Grid. (Pro)
-20. Video Comparison Gallery. (Pro)
-21. Video Justified Gallery. (Pro)
-22. Video Expanding Panels. (Pro)
-23. Video Wall with Floating Player (PiP). (Pro)
-24. Video Swipe Deck. (Pro)
-25. Video Marquee Wall. (Pro)
-26. Video Flip Cards Gallery. (Pro)
-27. Video Map Gallery. (Pro)
-28. Video Stories. (Pro)
-29. Video Podcast Episodes. (Pro)
-30. Video Property Tour Gallery. (Pro)
-31. Video Workout Planner. (Pro)
-32. Video Wedding Story Gallery. (Pro)
-33. Video Menu Showcase. (Pro)
-34. Video Feature Tour. (Pro)
-35. Videos play in a clean lightbox
-36. Looks great on desktop and phone
-37. Play videos inside the tile
-38. Ask before loading YouTube (GDPR consent)
+2. Album filters for your video library
+3. Classic Shortcode Generator
+4. Videos play in a clean lightbox
+5. Looks great on desktop and phone
+6. Play videos inside the tile
+7. Ask before loading YouTube (GDPR consent)
+8. Video Testimonial Section (Pro)
+9. Parallax Video Gallery (Pro)
+10. Video Slider (Pro)
+11. Autoplay Video Slider (Pro)
+12. Lightbox Video Gallery (Pro)
+13. Masonry Video Grid (Pro)
+14. Video Playlist Gallery (Pro)
+15. Video Carousel (Pro)
+16. Video Shorts Reel (Pro)
+17. Video Showcase Wall (Pro)
+18. Video Curriculum Accordion (Pro)
+19. Video Hotspot Scene (Pro)
+20. Video Tabs Gallery (Pro)
+21. Video Scrollytelling Showcase (Pro)
+22. Video Timeline Gallery (Pro)
+23. Video Bento Grid (Pro)
+24. Video Comparison Gallery (Pro)
+25. Video Justified Gallery (Pro)
+26. Video Expanding Panels (Pro)
+27. Video Wall with Floating Player (PiP) (Pro)
+28. Video Swipe Deck (Pro)
+29. Video Marquee Wall (Pro)
+30. Video Flip Cards Gallery (Pro)
+31. Video Map Gallery (Pro)
+32. Video Stories (Pro)
+33. Video Podcast Episodes (Pro)
+34. Video Property Tour Gallery (Pro)
+35. Video Workout Planner (Pro)
+36. Video Wedding Story Gallery (Pro)
+37. Video Menu Showcase (Pro)
+38. Video Feature Tour (Pro)
+
+== External Services ==
+
+* **AI provider you connect (optional).** The Edit with AI panel sends your request to the AI provider you connected in WordPress (Settings > Connectors), through WordPress's own AI client, and only when you press a button. What is sent: the text you typed, the gallery's current settings and, for titles and albums, the video links, file names and titles. Please see the terms of service and privacy policy of the provider you chose.
 
 == Source Code ==
 
@@ -334,8 +353,13 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
 
-= 1.7.0 - 24 October 2026 =
-* Security: Hardened video links and captions in the Video Gallery block. A video title copied from YouTube or Vimeo can no longer run script when the lightbox opens. Thanks to Patchstack for the report.
+= 1.8.0 - 2 November 2026 =
+* New: Edit with AI. Describe the gallery you want and preview the changes before you apply them, write titles for videos that have none, and sort videos into albums. It needs WordPress 7.0 or newer and an AI provider connected under Settings > Connectors; nothing happens until you press a button, and you can undo it.
+* New: A single, polite request to rate the plugin appears on the Dashboard and Plugins screens after a week of use. It can be dismissed or postponed, never returns once dismissed, and is not shown on sites with a Pro license.
+* Improvement: Faster galleries. Cached YouTube and Vimeo thumbnails now get a smaller copy and explicit width and height, so phones and standard screens download less and the page no longer shifts while images load. The look of the gallery does not change.
+
+= 1.7.0 - 28 October 2026 =
+* Security: Hardened video links and captions in the Video Gallery block. A video title or caption can no longer run script when the lightbox opens, whether the gallery video is opened from the page or from the editor. Thanks to Patchstack for the report.
 * New: Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar.
 * New: Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click "Check now". If YouTube or Vimeo can't be reached, the last videos stay on the page.
 * New: Paste a single video's link and the gallery offers that creator's whole channel.

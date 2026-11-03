@@ -40,6 +40,7 @@ import {
   emUnit,
 } from "../../../../../../../bpl-tools/utils/options";
 
+import AiAssistant from "../AiAssistant";
 import {
   generalStyleTabs,
   aspectRatioOptions,
@@ -277,7 +278,12 @@ const Settings = ({
                 <>
                   <HelpPanel
                     slug="video-gallery-block"
-                    docsLink="https://bblockswp.com/docs/video-gallery-block"
+                    /* docsLink="https://bblockswp.com/docs/video-gallery-block" */
+                  />
+
+                  <AiAssistant
+                    attributes={attributes}
+                    setAttributes={setAttributes}
                   />
 
                   <PanelBody

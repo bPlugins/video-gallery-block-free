@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Video Gallery Block
  * Description: Display your videos as gallery in a professional way.
- * Version: 1.7.0
+ * Version: 1.8.0
  * Requires PHP: 7.4
  * Requires at least: 6.5
  * Author: bPlugins
@@ -39,7 +39,7 @@ if (function_exists('vgb_fs')) {
         defined('WP_DEBUG') && WP_DEBUG
         && isset($_SERVER['HTTP_HOST'])
         && 'localhost' === strtok(sanitize_text_field(wp_unslash($_SERVER['HTTP_HOST'])), ':')
-    ) ? time() : '1.7.0');
+    ) ? time() : '1.8.0');
     define('VIDGALBLK_DIR_URL', plugin_dir_url(__FILE__));
     define('VIDGALBLK_PUBLIC_DIR', VIDGALBLK_DIR_URL . 'public/');
     define('VIDGALBLK_DIR_PATH', plugin_dir_path(__FILE__));
@@ -54,11 +54,18 @@ if (function_exists('vgb_fs')) {
     require_once VIDGALBLK_DIR_PATH . '/includes/vimeo-feed.php';
     // Tells administrators when a feed stops updating (key, quota, a deleted playlist).
     require_once VIDGALBLK_DIR_PATH . '/includes/feed-alerts.php';
+    // "Edit with AI": describe the gallery, preview the changes, apply. Uses WordPress's own AI Client (WP 7.0+).
+    require_once VIDGALBLK_DIR_PATH . '/includes/ai-assistant.php';
+    // Read-only abilities so AI apps (Claude, ChatGPT) can look at the site's galleries, through WordPress's Abilities API.
+    require_once VIDGALBLK_DIR_PATH . '/includes/abilities.php';
 
     require_once VIDGALBLK_DIR_PATH . '/includes/rootPlugin/plugin.php';
 
     // Ready-made sections for the inserter.
     require_once VIDGALBLK_DIR_PATH . '/includes/patterns.php';
+
+    // One polite, dismissible review request (admins only, after a week).
+    require_once VIDGALBLK_DIR_PATH . '/includes/review-notice.php';
 
     // Main plugin class
     if (!class_exists('VidGalBlkPlugin')) {

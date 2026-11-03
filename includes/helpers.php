@@ -377,6 +377,13 @@ function vidgalblk_cache_remote_thumbnail( $remote_url, $cache_key ) {
 	 */
 	update_option( $option_name, $attach_id, false );
 
+	// The smaller copy the gallery serves to narrower tiles, made right away so
+	// a new thumbnail is light from its first page view.
+	$cached_size = wp_getimagesize( $upload['file'] );
+	if ( is_array( $cached_size ) && ! empty( $cached_size[0] ) && (int) $cached_size[0] > VIDGALBLK_THUMB_SMALL + 80 ) {
+		vidgalblk_make_small_thumbnail( $upload['file'] );
+	}
+
 	return $upload['url'];
 }
 
@@ -472,6 +479,222 @@ function vidgalblk_thumbnail_url( $video ) {
 
 	return '';
 }
+
+if ( ! defined( 'VIDGALBLK_THUMB_SMALL' ) ) {
+	/** Width, in pixels, of the smaller copy made of a cached thumbnail. */
+	define( 'VIDGALBLK_THUMB_SMALL', 640 );
+}
+
+/**
+ * The file name pattern of the thumbnails this plugin caches itself.
+ *
+ * Only these are ever resized: never a poster the owner chose, and never any
+ * other image in the Media Library.
+ *
+ * @return string Regular expression, matching a path relative to the uploads folder.
+ */
+function vidgalblk_cached_thumbnail_pattern() {
+	return '#^(?:[\w/.-]+/)?(?:yt_(?:maxresdefault|sddefault)_[\w-]{11}|vimeo_\d+)\.(?:jpe?g|png|webp)$#i';
+}
+
+/**
+ * Where the smaller copy of a cached thumbnail lives: `name-640w.jpg` beside it.
+ *
+ * @param string $file Full path of the cached thumbnail.
+ * @return string Full path of its smaller copy.
+ */
+function vidgalblk_small_thumbnail_path( $file ) {
+	return preg_replace( '#\.(jpe?g|png|webp)$#i', '-' . VIDGALBLK_THUMB_SMALL . 'w.$1', $file );
+}
+
+/**
+ * Make the smaller copy of a cached thumbnail, once.
+ *
+ * YouTube's best thumbnail is 1280 pixels wide (about 110 KB), shown in a tile
+ * that is often a third of that. A 640 pixel copy is about a third of the
+ * weight, and the browser picks whichever one fits (see
+ * `vidgalblk_thumbnail_set()`). If the server has no image library, nothing is
+ * made and the gallery simply keeps using the full-size picture.
+ *
+ * @param string $file Full path of the cached thumbnail.
+ * @return bool True if the smaller copy exists afterwards.
+ */
+function vidgalblk_make_small_thumbnail( $file ) {
+	$small = vidgalblk_small_thumbnail_path( $file );
+
+	if ( is_file( $small ) ) {
+		return true;
+	}
+
+	$miss_key = 'vidgalblk_smallmiss_' . md5( $file );
+	if ( get_transient( $miss_key ) ) {
+		return false;
+	}
+
+	$editor = wp_get_image_editor( $file );
+	$saved  = null;
+
+	if ( ! is_wp_error( $editor ) ) {
+		$editor->set_quality( 80 );
+		$resized = $editor->resize( VIDGALBLK_THUMB_SMALL, null, false );
+		if ( ! is_wp_error( $resized ) ) {
+			$saved = $editor->save( $small );
+		}
+	}
+
+	if ( ! is_array( $saved ) || ! is_file( $small ) ) {
+		// No image library, or an unreadable file: do not try again for a day.
+		set_transient( $miss_key, 1, DAY_IN_SECONDS );
+		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Size information for one cached thumbnail, so the page can load the right
+ * picture for the tile and reserve its shape.
+ *
+ * Returns `width`/`height` of the full-size picture and, when a smaller copy
+ * exists (or can be made now), a `srcset` the browser chooses from. Returns
+ * null for anything that is not one of this plugin's own cached thumbnails --
+ * a poster the owner uploaded, or a picture still on YouTube's or Vimeo's
+ * server -- which then render exactly as they always did.
+ *
+ * Copies missing for thumbnails cached by an older version are made on page
+ * views, a few at a time, so no single request does much work.
+ *
+ * @param string $url Thumbnail URL as returned by vidgalblk_thumbnail_url().
+ * @return array|null `width`, `height`, `srcset`; or null.
+ */
+function vidgalblk_thumbnail_set( $url ) {
+	static $memo   = array();
+	static $budget = 4;
+
+	if ( ! is_string( $url ) || '' === $url ) {
+		return null;
+	}
+	if ( array_key_exists( $url, $memo ) ) {
+		return $memo[ $url ];
+	}
+	$memo[ $url ] = null;
+
+	$uploads = wp_get_upload_dir();
+	if ( ! empty( $uploads['error'] ) ) {
+		return null;
+	}
+
+	$base = trailingslashit( $uploads['baseurl'] );
+	if ( 0 !== strpos( $url, $base ) ) {
+		return null;
+	}
+
+	$relative = substr( $url, strlen( $base ) );
+	if ( false !== strpos( $relative, '..' ) || ! preg_match( vidgalblk_cached_thumbnail_pattern(), $relative ) ) {
+		return null;
+	}
+
+	$file = trailingslashit( $uploads['basedir'] ) . $relative;
+	if ( ! is_file( $file ) ) {
+		return null;
+	}
+
+	$size = wp_getimagesize( $file );
+	if ( ! is_array( $size ) || empty( $size[0] ) || empty( $size[1] ) ) {
+		return null;
+	}
+
+	$set = array(
+		'width'  => (int) $size[0],
+		'height' => (int) $size[1],
+		'srcset' => '',
+	);
+
+	// Only worth a smaller copy when the picture is clearly larger than it.
+	if ( $set['width'] > VIDGALBLK_THUMB_SMALL + 80 ) {
+		$small = vidgalblk_small_thumbnail_path( $file );
+
+		if ( ! is_file( $small ) && $budget > 0 ) {
+			--$budget;
+			vidgalblk_make_small_thumbnail( $file );
+		}
+
+		if ( is_file( $small ) ) {
+			$set['srcset'] = esc_url_raw( vidgalblk_small_thumbnail_path( $url ) ) . ' ' . VIDGALBLK_THUMB_SMALL . 'w, ' . esc_url_raw( $url ) . ' ' . $set['width'] . 'w';
+		}
+	}
+
+	$memo[ $url ] = $set;
+
+	return $set;
+}
+
+/**
+ * The `sizes` attribute for a gallery's thumbnails, from its column counts.
+ *
+ * Mirrors the stylesheet: one tile is a share of the viewport at the same
+ * 576px / 768px breakpoints. A gallery inside a narrow column is overestimated,
+ * which only ever makes the browser pick the larger picture, never a blurry one.
+ *
+ * @param array $attributes Block attributes.
+ * @return string `sizes` value.
+ */
+function vidgalblk_thumbnail_sizes( $attributes ) {
+	$columns = isset( $attributes['columns'] ) ? $attributes['columns'] : array();
+
+	if ( is_numeric( $columns ) ) {
+		$desktop = (int) $columns;
+		$tablet  = max( 1, $desktop - 1 );
+		$mobile  = 1;
+	} else {
+		$columns = is_array( $columns ) ? $columns : array();
+		$desktop = (int) ( $columns['desktop'] ?? 3 );
+		$tablet  = (int) ( $columns['tablet'] ?? 2 );
+		$mobile  = (int) ( $columns['mobile'] ?? 1 );
+	}
+
+	$share = function ( $count ) {
+		return round( 100 / max( 1, min( 12, $count ) ), 2 ) . 'vw';
+	};
+
+	return '(max-width: 576px) ' . $share( $mobile ) . ', (max-width: 768px) ' . $share( $tablet ) . ', ' . $share( $desktop );
+}
+
+/**
+ * Keep WordPress from putting `auto,` in front of a thumbnail's `sizes`.
+ *
+ * Since WordPress 6.7, every lazy-loaded image in post content gets
+ * `sizes="auto, ..."`. Before the page has been laid out, a browser reads `auto`
+ * as "as wide as the width attribute" and fetches the full-size file; after
+ * layout it fetches the smaller copy too -- two downloads for one thumbnail.
+ * The thumbnails' own `sizes` already describes the tile, so it is left alone.
+ *
+ * @param string $image The `<img>` tag.
+ * @return string The tag, with `sizes` as this plugin wrote it.
+ */
+function vidgalblk_keep_thumbnail_sizes( $image ) {
+	if ( is_string( $image ) && false !== strpos( $image, 'data-vgb-thumb' ) ) {
+		$image = str_replace( 'sizes="auto, ', 'sizes="', $image );
+	}
+
+	return $image;
+}
+// After WordPress's own filter (priority 10), so it has already added `auto`.
+add_filter( 'wp_content_img_tag', 'vidgalblk_keep_thumbnail_sizes', 20 );
+
+/**
+ * Remove a thumbnail's smaller copy together with the thumbnail itself.
+ *
+ * @param int $post_id Attachment being deleted.
+ */
+function vidgalblk_delete_small_thumbnail( $post_id ) {
+	$file = get_attached_file( $post_id );
+
+	if ( $file && preg_match( '#(?:yt_(?:maxresdefault|sddefault)_[\w-]{11}|vimeo_\d+)\.(?:jpe?g|png|webp)$#i', $file ) ) {
+		wp_delete_file( vidgalblk_small_thumbnail_path( $file ) );
+	}
+}
+add_action( 'delete_attachment', 'vidgalblk_delete_small_thumbnail' );
 
 /**
  * A CSS-safe class for an album, from its position in the album list.

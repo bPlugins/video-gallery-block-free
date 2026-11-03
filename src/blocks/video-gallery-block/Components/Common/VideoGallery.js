@@ -229,7 +229,7 @@ const providerName = (video) => {
  * down on `error` is what stops a missing `maxresdefault.jpg` -- YouTube does
  * not have one for every video -- from showing as a broken image.
  */
-const Thumbnail = ({ video, poster, thumb, caption }) => {
+const Thumbnail = ({ video, poster, thumb, thumbSet, thumbSizes, caption }) => {
   const candidates = useMemo(
     () =>
       [...new Set([poster, thumb, ...getYoutubeThumbnails(video)].filter(Boolean))],
@@ -259,13 +259,36 @@ const Thumbnail = ({ video, poster, thumb, caption }) => {
     return null;
   }
 
+  /*
+   * The server's own cached picture, with its real size and (when there is
+   * one) a smaller copy for narrow tiles. Only for that exact picture: if it
+   * fails and the list steps down to another source, none of this applies.
+   * The stylesheet gives the image width/height 100%, so the attributes only
+   * tell the browser its shape; they never change the layout.
+   */
+  const sized = thumbSet && thumb && candidates[index] === thumb ? thumbSet : null;
+
   return (
     <figure className="galleryFigure">
       <img
-        src={candidates[index]}
-        alt={captionText(caption)}
+        /*
+         * With a srcset, no `src` is given: after mounting, React assigns
+         * `img.src = <the prop>` once more, and that makes the browser fetch the
+         * full-size file on top of the smaller copy it had already chosen. The
+         * browser picks from `srcSet` on its own. (The server's markup keeps its
+         * `src`, so a visitor without JavaScript is unaffected.)
+         */
+        {...(sized
+          ? {
+              width: sized.width,
+              height: sized.height,
+              ...(sized.srcset ? { srcSet: sized.srcset, sizes: thumbSizes } : {}),
+            }
+          : {})}
         loading="lazy"
         decoding="async"
+        src={sized?.srcset ? undefined : candidates[index]}
+        alt={captionText(caption)}
         onError={() => setIndex((current) => current + 1)}
         onLoad={(event) => {
           /*
@@ -294,6 +317,10 @@ const VideoGallery = ({
   attributes,
   id,
   thumbs,
+  // Frontend only: width/height/srcset of the cached thumbnails (index-aligned
+  // with `thumbs`) and the `sizes` they are used with. Absent in the editor.
+  thumbSets,
+  thumbSizes,
   activeIndex,
   setActiveIndex,
   // Editor only: tiles that cannot be edited (a channel feed's) play on a
@@ -897,11 +924,21 @@ const VideoGallery = ({
                   e.stopPropagation();
                   openVideo(index);
                 }}
-                data-caption={sanitizeHTML(caption)}>
+                data-caption={sanitizeHTML(caption)}
+                /*
+                 * What Fancybox writes into an image slide's alt="". It reads
+                 * this attribute's value back as plain text and puts it into
+                 * the tag as it is, so it is escaped here, once. Without it
+                 * Fancybox falls back to the caption, quotes and all, and a
+                 * caption could close the attribute and add an onerror.
+                 */
+                data-alt={slideAlt(caption)}>
                 <Thumbnail
                   video={video}
                   poster={poster}
                   thumb={thumbs?.[index]}
+                  thumbSet={thumbSets?.[index]}
+                  thumbSizes={thumbSizes}
                   caption={caption}
                 />
 

@@ -1,7 +1,6 @@
 import { __ } from "@wordpress/i18n";
 import blocks from "./blocks";
 import { videoGalleryBanner } from "../assets/banner";
-import { videoGalleryLogo } from "../assets/logo";
 
 const slug = "video-gallery-block";
 
@@ -28,7 +27,7 @@ export const dashboardInfo = (info) => {
     allBlocks: blocks,
     displayOurPlugins: true,
     media: {
-      logo: videoGalleryLogo,
+      logo: `https://ps.w.org/${slug}/assets/icon.svg?rev=3623385`,
       banner: `https://ps.w.org/${slug}/assets/banner-772x250.png`,
       thumbnail: videoGalleryBanner,
     },
@@ -70,6 +69,8 @@ export const welcomeInfo = (adminUrl = "") => ({
       {
         key: "gutenberg",
         label: __("Gutenberg", "video-gallery-block"),
+        video: "https://www.youtube.com/watch?v=mtPZe8Uxd8s",
+        isYoutube: true,
         steps: [
           {
             num: 1,
@@ -97,6 +98,8 @@ export const welcomeInfo = (adminUrl = "") => ({
       {
         key: "shortcode",
         label: __("Shortcode", "video-gallery-block"),
+        video: "https://www.youtube.com/watch?v=mtPZe8Uxd8s",
+        isYoutube: true,
         steps: [
           {
             num: 1,
@@ -131,6 +134,8 @@ export const welcomeInfo = (adminUrl = "") => ({
       {
         key: "elementor",
         label: __("Elementor", "video-gallery-block"),
+        video: "https://www.youtube.com/watch?v=mtPZe8Uxd8s",
+        isYoutube: true,
         steps: [
           {
             num: 1,
@@ -161,6 +166,8 @@ export const welcomeInfo = (adminUrl = "") => ({
       {
         key: "php",
         label: __("PHP", "video-gallery-block"),
+        video: "https://www.youtube.com/watch?v=mtPZe8Uxd8s",
+        isYoutube: true,
         steps: [
           {
             num: 1,
@@ -197,6 +204,7 @@ export const welcomeInfo = (adminUrl = "") => ({
       version: "1.7.0 - 24 October 2026",
       type: "new",
       list: [
+        __("<strong>Security:</strong> Hardened video links and captions in the Video Gallery block. A video title or caption can no longer run script when the lightbox opens, whether the gallery video is opened from the page or from the editor. Thanks to Patchstack for the report.", "video-gallery-block"),
         __("<strong>New:</strong> Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar.", "video-gallery-block"),
         __("<strong>New:</strong> Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click \"Check now\". If YouTube or Vimeo can't be reached, the last videos stay on the page.", "video-gallery-block"),
         __("<strong>New:</strong> Paste a single video's link and the gallery offers that creator's whole channel.", "video-gallery-block"),
@@ -432,7 +440,7 @@ export const demoInfo = {
 export const pricingInfo = {
   // Freemius puts this in the checkout iframe URL, so it has to stay a short
   // https link. A data URI makes the URL about 11 KB and Cloudflare answers 520.
-  logo: `https://ps.w.org/${slug}/assets/icon-256x256.png`,
+  logo: `https://ps.w.org/${slug}/assets/icon.svg?rev=3623385`,
   pluginId: 20637,
   planId: 34353,
   licenses: [1, 3, null],

@@ -964,3 +964,177 @@
     outline-offset: 2px;
   }
 }
+
+/* "Edit with AI" panel (editor sidebar). */
+.vgbAi {
+  &__text {
+    margin: 0 0 12px;
+    color: #50575e;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 0 0 12px;
+  }
+
+  &__chip {
+    border: 1px solid #c3c4c7;
+    border-radius: 999px;
+    background: #fff;
+    color: #1e1e1e;
+    cursor: pointer;
+    font-size: 11px;
+    line-height: 1;
+    padding: 6px 10px;
+
+    &:hover {
+      border-color: var(--wp-admin-theme-color, #2271b1);
+      color: var(--wp-admin-theme-color, #2271b1);
+    }
+  }
+
+  &__notice {
+    margin: 12px 0 0;
+  }
+
+  &__result {
+    margin-top: 12px;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0 0 12px;
+    padding: 0;
+
+    li {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 12px;
+      padding: 6px 0;
+    }
+  }
+
+  &__value {
+    color: #50575e;
+    text-align: right;
+    word-break: break-word;
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
+
+.vgbAi__more {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+
+  .vgbAi__text {
+    margin: 0;
+  }
+}
+
+.vgbAi__file {
+  color: #50575e;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.vgbAi__new {
+  background: #e7f0fe;
+  border-radius: 999px;
+  color: #0a4bb3;
+  font-size: 10px;
+  font-style: normal;
+  margin-left: 6px;
+  padding: 1px 6px;
+}
+
+.vgbAi__steps {
+  color: #50575e;
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0 0 14px;
+  padding-left: 18px;
+
+  li {
+    margin: 0 0 6px;
+  }
+}
+
+.vgbAi__setup {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vgbAi__setupItem {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 14px;
+  opacity: 0.6;
+
+  &.is-current,
+  &.is-done {
+    opacity: 1;
+  }
+}
+
+.vgbAi__setupNum {
+  align-items: center;
+  background: #dcdcde;
+  border-radius: 50%;
+  color: #1d2327;
+  display: flex;
+  flex: 0 0 22px;
+  font-size: 12px;
+  font-weight: 600;
+  height: 22px;
+  justify-content: center;
+  width: 22px;
+
+  .is-current > & {
+    background: #2271b1;
+    color: #fff;
+  }
+
+  .is-done > & {
+    background: #00a32a;
+    color: #fff;
+  }
+}
+
+.vgbAi__setupBody {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  gap: 4px;
+  line-height: 1.4;
+
+  span {
+    color: #50575e;
+  }
+}
+
+
+
+
+
+
+

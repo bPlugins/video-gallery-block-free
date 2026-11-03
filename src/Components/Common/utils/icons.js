@@ -1,15 +1,27 @@
 const iconColor = "#136EF5";
 
 export const videoGalleryIcon = (
+  // The plugin logo as a one-colour glyph: four video tiles around a larger
+  // tile with the play triangle cut out. It takes the editor's own icon colour.
   <svg
     xmlns="http://www.w3.org/2000/svg"
     className="bPlBlockIcon"
-    viewBox="0 0 1000 1000"
+    viewBox="0 0 24 24"
     width={24}
-    height={24}>
-    <path d="M889.5,73.5H285.6c-63.9,0-100.5,36.6-100.5,100.5v25.1h50.3v-25.1c0-36.2,14.1-50.3,50.3-50.3h603.9c36.6,0,50.3,13.6,50.3,50.3v425.7c0,36.6-13.6,50.3-50.3,50.3h-25.1v50.3h25.1c64.8,0,100.5-35.7,100.5-100.5V174.1C990,109.2,954.3,73.5,889.5,73.5z" />
-    <path d="M713.6,248h-598C47.5,248,10,283.7,10,348.5v477.4c0,60.1,40.4,100.5,100.5,100.5h603.1c63.9,0,100.5-36.6,100.5-100.5V348.5C814.1,284.6,777.5,248,713.6,248z M763.8,782.1v43.9c0,36.2-14.1,50.3-50.3,50.3h-45.4h-37.3H110.5c-45.4,0-50.3-35.1-50.3-50.3v-133v-35.5V348.5c0-31.8,9-50.3,55.4-50.3h598c36.2,0,50.3,14.1,50.3,50.3v399.3V782.1z" />
-    <path d="M324.1,449v301.5l213.6-150.8L324.1,449z" />
+    height={24}
+    fill="currentColor"
+    aria-hidden="true"
+    focusable="false">
+    <g opacity="0.5">
+      <rect x="1.5" y="3" width="8" height="5.5" rx="1.4" />
+      <rect x="14.5" y="3" width="8" height="5.5" rx="1.4" />
+      <rect x="1.5" y="15.5" width="8" height="5.5" rx="1.4" />
+      <rect x="14.5" y="15.5" width="8" height="5.5" rx="1.4" />
+    </g>
+    <path
+      fillRule="evenodd"
+      d="M7 7.6h10a2 2 0 0 1 2 2v4.8a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9.6a2 2 0 0 1 2-2zm3.2 2.2v4.4l4.2-2.2z"
+    />
   </svg>
 );
 

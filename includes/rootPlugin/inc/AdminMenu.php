@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class AdminMenu  {
     function __construct() {
         add_action('admin_menu', [$this, 'adminMenu']);
+        add_filter('plugin_action_links_' . plugin_basename(VIDGALBLK_DIR_PATH . 'index.php'), [$this, 'actionLinks']);
         add_action('admin_head', [$this, 'highlightHelpDemoMenu']);
     }
     /**
@@ -29,6 +30,22 @@ class AdminMenu  {
             }
         </style>
     <?php }
+
+    /**
+     * "Help" and "Demo" links under the plugin's name on the Plugins screen,
+     * each opening in a new tab. Help is the plugin's own Help & Demos page.
+     *
+     * @param array $links The plugin's existing action links.
+     * @return array The links with Help and Demo added.
+     */
+    function actionLinks($links){
+        $extra = [
+            '<a href="' . esc_url(admin_url('edit.php?post_type=video-gallery-block&page=vgb-help-demo')) . '" target="_blank" rel="noopener" style="font-weight:600;">' . esc_html__('Help', 'video-gallery-block') . '</a>',
+            '<a href="' . esc_url('https://bblockswp.com/demo/video-gallery-block-all-demos/') . '" target="_blank" rel="noopener" style="font-weight:600;">' . esc_html__('Demo', 'video-gallery-block') . '</a>',
+        ];
+
+        return array_merge($links, $extra);
+    }
 
     function adminMenu(){
         add_submenu_page(

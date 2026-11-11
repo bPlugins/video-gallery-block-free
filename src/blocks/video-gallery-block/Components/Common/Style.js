@@ -105,6 +105,87 @@ const varsToCSS = (vars) =>
     .map(([name, value]) => `${name}: ${value};`)
     .join(" ");
 
+/**
+ * Album filter bar spacing: space between the buttons, the bar's padding and
+ * margin, and the buttons' padding, per device. Only what was set is written,
+ * so a gallery saved before these options keeps the stylesheet's look
+ * (gap 12px, padding 20px 0, margin 0 0 20px, buttons 10px 20px).
+ */
+const FILTER_DEVICES = [
+  ["desktop", ["desktop"]],
+  ["tablet", ["tablet", "desktop"]],
+  ["mobile", ["mobile", "tablet", "desktop"]],
+];
+const pickDevice = (value, order) => {
+  if (!value || "object" !== typeof value) return undefined;
+  for (const device of order) {
+    if (undefined !== value[device] && null !== value[device] && "" !== value[device]) return value[device];
+  }
+  return undefined;
+};
+// The line under the filter buttons: hidden, or its own color / thickness.
+// Nothing set keeps the stylesheet's 1px grey line.
+const DIVIDER_COLOR = /^(#[0-9a-f]{3,8}|rgba?\([\d\s.,%]+\)|hsla?\([\d\s.,%deg]+\)|var\(--[\w-]+\))$/i;
+const filterDividerCSS = (divider, barSl) => {
+  if (!divider || "object" !== typeof divider) return "";
+  if (false === divider.show) return `${barSl}{border-bottom: 0;}`;
+  const parts = [];
+  if (undefined !== divider.width && "" !== divider.width) {
+    parts.push(`border-bottom-width: ${Math.min(4, Math.max(1, parseInt(divider.width) || 1))}px;`);
+  }
+  const color = String(divider.color || "").trim();
+  if (color && DIVIDER_COLOR.test(color)) parts.push(`border-bottom-color: ${color};`);
+  return parts.length ? `${barSl}{${parts.join("")}}` : "";
+};
+
+const filterBarCSS = (filterBar, barSl, buttonSl) => {
+  if (!filterBar || "object" !== typeof filterBar) return "";
+  const media = { tablet: "@media (max-width: 768px)", mobile: "@media (max-width: 576px)" };
+  return filterDividerCSS(filterBar.divider, barSl) + FILTER_DEVICES.map(([device, order]) => {
+    const gap = pickDevice(filterBar.gap, order);
+    const padding = pickDevice(filterBar.padding, order);
+    const margin = pickDevice(filterBar.margin, order);
+    const btnPadding = pickDevice(filterBar.btnPadding, order);
+    const bar = [
+      undefined !== gap ? `gap: ${Math.max(0, parseInt(gap) || 0)}px;` : "",
+      padding ? `padding: ${getSpaceCSS(padding)};` : "",
+      margin ? `margin: ${getSpaceCSS(margin)};` : "",
+    ].join("");
+    const button = btnPadding ? `padding: ${getSpaceCSS(btnPadding)};` : "";
+    const css = `${bar ? `${barSl}{${bar}}` : ""}${button ? `${buttonSl}{${button}}` : ""}`;
+    if (!css) return "";
+    return media[device] ? `${media[device]}{${css}}` : css;
+  }).join("\n");
+};
+
+/**
+ * The Load More button's own look. Each part is written only once it was set:
+ * until then it keeps following the filter buttons' typography and colors.
+ */
+const LOAD_MORE_ALIGN = {
+  left: "margin-left: 0; margin-right: auto;",
+  center: "margin-left: auto; margin-right: auto;",
+  right: "margin-left: auto; margin-right: 0;",
+  full: "width: 100%;",
+};
+const loadMoreCSS = (style, btn) => {
+  if (!style || "object" !== typeof style) return { fonts: "", css: "" };
+  const out = [];
+  const typo = style.typo ? getTypoCSS(btn, style.typo) : null;
+  if (typo) out.push(typo.styles);
+  if (style.colors) out.push(`${btn}{${getColorsCSS(style.colors)}}`);
+  if (style.hoverColors) out.push(`${btn}:hover{${getColorsCSS(style.hoverColors)}}`);
+  if (style.padding) out.push(`${btn}{padding: ${getSpaceCSS(style.padding)};}`);
+  if (undefined !== style.radius && "" !== style.radius) {
+    out.push(`${btn}{border-radius: ${Math.max(0, parseInt(style.radius) || 0)}px;}`);
+  }
+  if (LOAD_MORE_ALIGN[style.align]) out.push(`${btn}{${LOAD_MORE_ALIGN[style.align]}}`);
+  if (undefined !== style.spaceAbove && "" !== style.spaceAbove) {
+    out.push(`${btn}{margin-top: ${Math.max(0, parseInt(style.spaceAbove) || 0)}px;}`);
+  }
+  return { fonts: typo?.googleFontLink || "", css: out.join("\n") };
+};
+
 const Style = ({ attributes, id, isEditor, galleryRef }) => {
   const {
     isPopupWidthAsRatio,
@@ -135,6 +216,7 @@ const Style = ({ attributes, id, isEditor, galleryRef }) => {
   const filterButtonSl = `${videoGallerySl} .filter button`;
   const loadMoreButtonSl = `${videoGallerySl} .vidgalblkLoadMore`;
   const buttonSl = `${filterButtonSl}, ${loadMoreButtonSl}`;
+  const loadMoreLook = loadMoreCSS(attributes.loadMoreStyle, loadMoreButtonSl);
   const playIconSl = `${videoGallerySl} .videoGallery .playIcon`;
   const playIconSvgSl = `${playIconSl} svg`;
   const galleryItemSl = `${videoGallerySl} .videoGallery .galleryItem`;
@@ -321,6 +403,11 @@ const Style = ({ attributes, id, isEditor, galleryRef }) => {
 		${loadMoreButtonSl}:hover{
 			${getColorsCSS(filterBtnHoverColors)}
 		}
+
+		${filterBarCSS(attributes.filterBar, `${videoGallerySl} .filter`, filterButtonSl)}
+
+		${loadMoreLook.fonts}
+		${loadMoreLook.css}
 
 		${playIconSl}{
 			${getColorsCSS(playIconColors)}

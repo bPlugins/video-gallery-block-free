@@ -24,6 +24,7 @@ import {
   Label,
   Background,
   Device,
+  ColorControl,
   ColorsControl,
   HelpPanel,
   Typography,
@@ -50,6 +51,10 @@ import ItemSettings from "./ItemSettings";
 import BulkImport from "./BulkImport";
 import CopyFeedButton from "./CopyFeedButton";
 import FeedSource from "./FeedSource";
+import LoadMoreCount, { RestToggle } from "./LoadMoreCount";
+import LoadMoreStylePanel from "./LoadMoreStylePanel";
+import AnimationPanel from "./AnimationPanel";
+import AlignOptions from "./AlignOptions";
 import { isVimeoFeedUrl } from "../../../utils/youtubeFeed";
 import { getYoutubeId } from "../../../utils/functions";
 import { updateData } from "../../../../../../../bpl-tools/utils/functions";
@@ -97,6 +102,12 @@ const Section = ({ children }) => (
 
 /** "px" after a number field. */
 const pxSuffix = <span className="vgbUnit">px</span>;
+
+// The album filter bar's usual spacing (style.scss), shown until changed.
+const FILTER_BTN_PADDING = { vertical: "10px", horizontal: "20px" };
+const FILTER_BAR_PADDING = { vertical: "20px", horizontal: "0px" };
+const FILTER_DIVIDER_COLOR = "#e3e3e3";
+const FILTER_BAR_MARGIN = { side: 4, top: "0px", right: "0px", bottom: "20px", left: "0px" };
 
 const Settings = ({
   attributes,
@@ -257,6 +268,24 @@ const Settings = ({
     setActiveIndex,
   };
 
+  // Album filter bar spacing: one value per device; a device not set uses the larger screen's.
+  const filterBar = attributes.filterBar || {};
+  const filterBarValue = (key) => {
+    const value = filterBar[key] || {};
+    const order = { desktop: ["desktop"], tablet: ["tablet", "desktop"], mobile: ["mobile", "tablet", "desktop"] }[currentDevice] || ["desktop"];
+    const found = order.find((d) => undefined !== value[d] && null !== value[d] && "" !== value[d]);
+    return found ? value[found] : undefined;
+  };
+  const setFilterBar = (key, val) =>
+    setAttributes({
+      filterBar: { ...filterBar, [key]: { ...(filterBar[key] || {}), [currentDevice]: val } },
+    });
+  // The divider is one look for every screen size, so it is not per device.
+  const setDivider = (val) =>
+    setAttributes({
+      filterBar: { ...filterBar, divider: { ...(filterBar.divider || {}), ...val } },
+    });
+
   /** Label on the left, Desktop/Tablet/Mobile switch on the right. */
   const deviceRow = (text) => (
     <PanelRow className="vgbLabelRow">
@@ -350,6 +379,14 @@ const Settings = ({
                       <PanelBody
                         className="bPlPanelBody vgbVideosPanel"
                         title={__("Videos", "video-gallery-block")}>
+                        {(attributes.videos || []).length > 1 && (
+                          <p className="vgbOrderRow__hint vgbPickHint">
+                            {__(
+                              "To remove several videos, Ctrl/⌘ + click them on the canvas (Shift + click picks a run), then Remove in the toolbar.",
+                              "video-gallery-block",
+                            )}
+                          </p>
+                        )}
                         {canMove && (
                           <div className="vgbOrderRow">
                             <span className="vgbOrderRow__hint">
@@ -402,7 +439,7 @@ const Settings = ({
 
                       <PanelBody
                         className="bPlPanelBody vgbPanel vgbAlbumsPanel addRemoveItems"
-                        title={__("Albums & filter bar", "video-gallery-block")}
+                        title={__("Album filter bar", "video-gallery-block")}
                         initialOpen={false}>
                         {!albums.length && (
                           <p className="vgbHint">
@@ -571,13 +608,7 @@ const Settings = ({
                           "Where a last row that isn't full sits.",
                           "video-gallery-block",
                         )}>
-                        {rowAlignOptions.map((option) => (
-                          <ToggleGroupControlOption
-                            key={option.value}
-                            value={option.value}
-                            label={option.label}
-                          />
-                        ))}
+                        <AlignOptions options={rowAlignOptions} />
                       </ToggleGroupControl>
                     </div>
 
@@ -688,6 +719,16 @@ const Settings = ({
                     />
 
                     <ToggleControl
+                      label={__("Show upload time", "video-gallery-block")}
+                      checked={!!options?.showUploadTime}
+                      onChange={(val) => setOption("showUploadTime", val)}
+                      help={__(
+                        "How long ago each video was uploaded, like “3 days ago”. YouTube videos you add yourself need your YouTube API key (the one channel galleries use).",
+                        "video-gallery-block",
+                      )}
+                    />
+
+                    <ToggleControl
                       label={__("Show play icon", "video-gallery-block")}
                       checked={showPlayIcon}
                       onChange={(val) => setOption("showPlayIcon", val)}
@@ -738,7 +779,7 @@ const Settings = ({
 
                         <NumberControl
                           className="vgbInlineNumber"
-                          label={__("Show first", "video-gallery-block")}
+                          label={__("Videos on first page", "video-gallery-block")}
                           labelPosition="side"
                           value={perPage || 0}
                           min={0}
@@ -752,6 +793,23 @@ const Settings = ({
                         />
 
                         {perPage > 0 && (
+                          <RestToggle
+                            attributes={attributes}
+                            setAttributes={setAttributes}
+                            firstPage={perPage}
+                          />
+                        )}
+
+                        {perPage > 0 && "none" !== attributes.pagination && (
+                          <LoadMoreCount
+                            attributes={attributes}
+                            setAttributes={setAttributes}
+                            firstPage={perPage}
+                            numberProps={{ className: "vgbInlineNumber", labelPosition: "side" }}
+                          />
+                        )}
+
+                        {perPage > 0 && "none" !== attributes.pagination && (
                           <TextControl
                             label={__("Load more button text", "video-gallery-block")}
                             value={loadMoreLabel}
@@ -803,9 +861,21 @@ const Settings = ({
 
                     {!playInline && (
                       <ToggleControl
-                        label={__("Popup width as aspect ratio", "video-gallery-block")}
+                        label={__("Lightbox follows the video’s shape", "video-gallery-block")}
                         checked={isPopupWidthAsRatio}
                         onChange={(val) => setAttributes({ isPopupWidthAsRatio: val })}
+                      />
+                    )}
+
+                    {!playInline && (
+                      <ToggleControl
+                        label={__("Autoplay videos in the lightbox", "video-gallery-block")}
+                        checked={false !== options?.lightboxAutoplay}
+                        onChange={(val) => setOption("lightboxAutoplay", val)}
+                        help={__(
+                          "Starts each video when the lightbox opens or you pick another one. Turn it off to wait for a click on play.",
+                          "video-gallery-block",
+                        )}
                       />
                     )}
                   </PanelBody>
@@ -1037,7 +1107,78 @@ const Settings = ({
                         onChange={(val) => setAttributes({ filterBtnHoverColors: val })}
                         defaults={{ color: "#fff", bg: "#ff7a00" }}
                       />
+
+                      {/*
+                        Spacing, per device. Empty until changed: the bar keeps
+                        its usual look (the defaults below are that look).
+                      */}
+                      {deviceRow(__("Space between buttons", "video-gallery-block"))}
+                      <NumberControl
+                        className="vgbInlineNumber"
+                        label={__("Space between buttons", "video-gallery-block")}
+                        hideLabelFromVision
+                        value={filterBarValue("gap") ?? 12}
+                        min={0}
+                        max={100}
+                        suffix={pxSuffix}
+                        onChange={(val) =>
+                          setFilterBar("gap", Math.max(0, parseInt(val) || 0))
+                        }
+                      />
+
+                      {deviceRow(__("Button padding", "video-gallery-block"))}
+                      <SpaceControl
+                        value={filterBarValue("btnPadding") || FILTER_BTN_PADDING}
+                        onChange={(val) => setFilterBar("btnPadding", val)}
+                        defaults={FILTER_BTN_PADDING}
+                      />
+
+                      {deviceRow(__("Bar padding", "video-gallery-block"))}
+                      <SpaceControl
+                        value={filterBarValue("padding") || FILTER_BAR_PADDING}
+                        onChange={(val) => setFilterBar("padding", val)}
+                        defaults={FILTER_BAR_PADDING}
+                      />
+
+                      {deviceRow(__("Bar margin", "video-gallery-block"))}
+                      <SpaceControl
+                        value={filterBarValue("margin") || FILTER_BAR_MARGIN}
+                        onChange={(val) => setFilterBar("margin", val)}
+                        defaults={FILTER_BAR_MARGIN}
+                      />
+
+                      {/* The line under the buttons. Untouched, it stays the usual 1px grey line. */}
+                      <ToggleControl
+                        className="mt15"
+                        label={__("Divider line", "video-gallery-block")}
+                        checked={false !== filterBar.divider?.show}
+                        onChange={(show) => setDivider({ show })}
+                      />
+                      {false !== filterBar.divider?.show && (
+                        <>
+                          <ColorControl
+                            label={__("Line color", "video-gallery-block")}
+                            value={filterBar.divider?.color || FILTER_DIVIDER_COLOR}
+                            onChange={(color) => setDivider({ color })}
+                            defaultColor={FILTER_DIVIDER_COLOR}
+                          />
+                          <RangeControl
+                            label={__("Line thickness", "video-gallery-block")}
+                            value={filterBar.divider?.width ?? 1}
+                            onChange={(width) => setDivider({ width: width ?? 1 })}
+                            min={1}
+                            max={4}
+                            allowReset
+                            resetFallbackValue={1}
+                          />
+                        </>
+                      )}
                     </PanelBody>
+                  )}
+
+                  {/* Only when some videos wait behind the button. */}
+                  {attributes.perPage > 0 && "none" !== attributes.pagination && (
+                    <LoadMoreStylePanel attributes={attributes} setAttributes={setAttributes} />
                   )}
 
                   {!playInline && (
@@ -1090,6 +1231,8 @@ const Settings = ({
                       />
                     </PanelBody>
                   )}
+
+                  <AnimationPanel attributes={attributes} setAttributes={setAttributes} />
                 </>
               )}
             </>

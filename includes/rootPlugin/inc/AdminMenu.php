@@ -18,33 +18,31 @@ class AdminMenu  {
      */
     function highlightHelpDemoMenu() { ?>
         <style>
-            #adminmenu a[href*="page=vgb-help-demo"],
-            #adminmenu a[href*="page=vgb-help-demo"] *,
-            #adminmenu a[href*="page=vgb-help-demo"]:hover,
-            #adminmenu a[href*="page=vgb-help-demo"]:hover *,
-            #adminmenu a[href*="page=vgb-help-demo"]:focus,
-            #adminmenu a[href*="page=vgb-help-demo"]:focus *,
-            #adminmenu li.current a[href*="page=vgb-help-demo"],
-            #adminmenu li.current a[href*="page=vgb-help-demo"] * {
+            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"],
+            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"] *,
+            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:hover,
+            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:hover *,
+            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:focus,
+            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:focus *,
+            #adminmenu li.current a[href^="edit.php"][href$="page=vgb-help-demo"],
+            #adminmenu li.current a[href^="edit.php"][href$="page=vgb-help-demo"] * {
                 color: #f18500 !important;
             }
         </style>
     <?php }
 
     /**
-     * "Help" and "Demo" links under the plugin's name on the Plugins screen,
-     * each opening in a new tab. Help is the plugin's own Help & Demos page.
+     * A bold, colored "Dashboard!" link under the plugin's name on the Plugins
+     * screen. It opens the plugin's Help & Demos page (docs and every demo) in a
+     * new tab.
      *
      * @param array $links The plugin's existing action links.
-     * @return array The links with Help and Demo added.
+     * @return array The links with Dashboard! added.
      */
     function actionLinks($links){
-        $extra = [
-            '<a href="' . esc_url(admin_url('edit.php?post_type=video-gallery-block&page=vgb-help-demo')) . '" target="_blank" rel="noopener" style="font-weight:600;">' . esc_html__('Help', 'video-gallery-block') . '</a>',
-            '<a href="' . esc_url('https://bblockswp.com/demo/video-gallery-block-all-demos/') . '" target="_blank" rel="noopener" style="font-weight:600;">' . esc_html__('Demo', 'video-gallery-block') . '</a>',
-        ];
+        $links[] = '<a href="' . esc_url(admin_url('edit.php?post_type=video-gallery-block&page=vgb-help-demo')) . '" target="_blank" rel="noopener" style="font-weight:700;color:#f18500;">' . esc_html__('Dashboard!', 'video-gallery-block') . '</a>';
 
-        return array_merge($links, $extra);
+        return $links;
     }
 
     function adminMenu(){
@@ -64,7 +62,8 @@ class AdminMenu  {
                 id='vidgalblkDashboard'
                 data-info='<?php echo esc_attr( wp_json_encode( [
                     'version' => VIDGALBLK_PLUGIN_VERSION,
-                    'adminUrl' => admin_url(), 
+                    'adminUrl' => admin_url(),
+                    'restUrl' => esc_url_raw( rest_url() ),
                     'nonce' => wp_create_nonce('vidgalblk_activation_nonce'),
                     'uninstallNonce' => wp_create_nonce('vidgalblk_activation_nonce'),
                     'deleteDataOnUninstall' => get_option('vidgalblk_delete_data_on_uninstall', false),

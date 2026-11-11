@@ -61,6 +61,7 @@ $vidgalblk_albums = isset( $attributes['albums'] ) && is_array( $attributes['alb
 $vidgalblk_filter = isset( $attributes['filter'] ) && is_array( $attributes['filter'] ) ? $attributes['filter'] : array();
 $vidgalblk_show_caption   = ! empty( $attributes['options']['showCaptionOnThumbnail'] );
 $vidgalblk_show_channel   = ! empty( $attributes['options']['showChannel'] );
+$vidgalblk_show_time      = ! empty( $attributes['options']['showUploadTime'] );
 $vidgalblk_show_play_icon = false !== ( $attributes['options']['showPlayIcon'] ?? true );
 
 // The filter bar is worth showing only when there is something to filter by.
@@ -123,8 +124,18 @@ $vidgalblk_wrapper = get_block_wrapper_attributes( $vidgalblk_wrapper_attrs );
  * @param string $id         Unique wrapper element id.
  */
 do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
+
+// Hover effect: the same classes as animationClasses() in utils/animation.js.
+$vidgalblk_root_classes = array( 'vidgalblkVideoGallery' );
+$vidgalblk_animation    = isset( $attributes['animation'] ) && is_array( $attributes['animation'] ) ? $attributes['animation'] : array();
+if ( 'zoom' === ( $vidgalblk_animation['hover'] ?? '' ) ) {
+	$vidgalblk_root_classes[] = 'vgbHover-zoom';
+	if ( in_array( $vidgalblk_animation['speed'] ?? '', array( 'slow', 'fast' ), true ) ) {
+		$vidgalblk_root_classes[] = 'vgbAnimSpeed-' . $vidgalblk_animation['speed'];
+	}
+}
 ?>
-<div <?php echo $vidgalblk_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by get_block_wrapper_attributes(). ?>><div class="vidgalblkVideoGallery">
+<div <?php echo $vidgalblk_wrapper; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by get_block_wrapper_attributes(). ?>><div class="<?php echo esc_attr( implode( ' ', $vidgalblk_root_classes ) ); ?>">
 	<?php if ( $vidgalblk_show_filter ) : ?>
 		<div id="<?php echo esc_attr( $vidgalblk_id ); ?>-filter" class="filter" role="group">
 			<button type="button" class="current" data-filter="*" aria-pressed="true"><?php echo esc_html( $vidgalblk_filter['commonLabel'] ); ?></button>
@@ -194,10 +205,10 @@ do_action( 'vidgalblk_before_block', $attributes, $vidgalblk_id );
 				<?php
 				// "Show channel name": the channel under the title. A tile
 				// without one keeps the caption it always had.
-				$vidgalblk_channel = $vidgalblk_show_channel ? vidgalblk_item_channel( $vidgalblk_video ) : '';
+				$vidgalblk_channel = vidgalblk_item_details( $vidgalblk_video, $vidgalblk_show_channel, $vidgalblk_show_time );
 				if ( '' !== $vidgalblk_channel ) :
 					?>
-					<div class="galleryItemCaption"><?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?><span class="galleryItemCaption__text"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></span><?php endif; ?><span class="vgbItemDetails"><?php echo $vidgalblk_channel; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in vidgalblk_item_channel(). ?></span></div>
+					<div class="galleryItemCaption"><?php if ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?><span class="galleryItemCaption__text"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></span><?php endif; ?><span class="vgbItemDetails"><?php echo $vidgalblk_channel; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in vidgalblk_item_details(). ?></span></div>
 				<?php elseif ( $vidgalblk_show_caption && '' !== $vidgalblk_caption ) : ?>
 					<div class="galleryItemCaption"><?php echo wp_kses( $vidgalblk_caption, vidgalblk_caption_tags() ); ?></div>
 				<?php endif; ?>

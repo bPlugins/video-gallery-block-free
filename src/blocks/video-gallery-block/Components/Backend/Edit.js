@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { withSelect } from "@wordpress/data";
-import { useBlockProps } from "@wordpress/block-editor";
-import { Spinner } from "@wordpress/components";
-import { __ } from "@wordpress/i18n";
+import { BlockControls, useBlockProps } from "@wordpress/block-editor";
+import { Spinner, ToolbarButton, ToolbarGroup } from "@wordpress/components";
+import { __, _n, sprintf } from "@wordpress/i18n";
 
 import Settings from "./Settings/Settings";
 import VideoGallery from "../Common/VideoGallery";
@@ -13,6 +13,7 @@ import FeedPlaceholder from "./FeedPlaceholder";
 import TileTools, { DropOverlay } from "./TileTools";
 import useCanvasVideoDnd from "./useCanvasVideoDnd";
 import { moveItem } from "../../utils/editorItems";
+import useUploadDates from "../../utils/useUploadDates";
 import {
   isVimeoFeedUrl,
   useYoutubeFeed,
@@ -45,6 +46,8 @@ const Edit = (props) => {
    */
   const feed = attributes.feed || {};
   const isFeed = !!feed.enabled;
+  // "Show upload time": the gallery's own videos get their upload date (a feed's already have it).
+  useUploadDates(clientId, attributes.videos, !isFeed && !!attributes.options?.showUploadTime);
   const keyState = useYoutubeKey(isFeed);
   // Vimeo needs no key; only a YouTube link waits for one.
   const canLoadFeed = !!keyState.connected || isVimeoFeedUrl(feed.url);
@@ -114,6 +117,72 @@ const Edit = (props) => {
       setActiveIndex(moved.active);
     }
   };
+  /*
+   * Several videos at once: Ctrl/⌘ + click adds a tile to the picked ones (or
+   * takes it away), Shift + click picks every tile from the last one clicked;
+   * then "Remove" in the block toolbar. My videos only.
+   */
+  const [picked, setPicked] = useState([]);
+  const anchor = useRef(null);
+  const ownVideos = Array.isArray(attributes.videos) ? attributes.videos : [];
+  useEffect(() => {
+    setPicked([]);
+    anchor.current = null;
+  }, [isFeed, ownVideos.length]);
+  const onSelectVideo = (index, { toggle, range, order }) => {
+    if (!toggle && !range) {
+      setPicked([index]);
+      anchor.current = index;
+      return;
+    }
+    // Starting a pick: the video already being edited is in it.
+    const base = picked.length ? picked : [safeActiveIndex];
+    if (range && null !== anchor.current) {
+      // Every tile between the two, as they show on the canvas.
+      const shown = Array.isArray(order) && order.length ? order : null;
+      let run;
+      if (shown && shown.includes(anchor.current) && shown.includes(index)) {
+        const a = shown.indexOf(anchor.current);
+        const z = shown.indexOf(index);
+        run = shown.slice(Math.min(a, z), Math.max(a, z) + 1);
+      } else {
+        const from = Math.min(anchor.current, index);
+        const to = Math.max(anchor.current, index);
+        run = Array.from({ length: to - from + 1 }, (_, k) => from + k);
+      }
+      setPicked(Array.from(new Set([...base, ...run])));
+    } else {
+      setPicked(base.includes(index) ? base.filter((i) => i !== index) : [...base, index]);
+    }
+    anchor.current = index;
+  };
+  const removePicked = () => {
+    const drop = new Set(picked);
+    setAttributes({ videos: ownVideos.filter((_, i) => !drop.has(i)) });
+    setActiveIndex(0);
+    setPicked([]);
+  };
+  const pickTools = !isFeed && picked.length > 1 && (
+    <BlockControls group="other">
+      <ToolbarGroup>
+        <ToolbarButton
+          icon="trash"
+          onClick={removePicked}
+          label={__("Remove these videos from the gallery", "video-gallery-block")}
+          showTooltip>
+          {sprintf(
+            /* translators: %d: number of videos */
+            _n("Remove %d video", "Remove %d videos", picked.length, "video-gallery-block"),
+            picked.length,
+          )}
+        </ToolbarButton>
+        <ToolbarButton onClick={() => setPicked([safeActiveIndex])}>
+          {__("Cancel", "video-gallery-block")}
+        </ToolbarButton>
+      </ToolbarGroup>
+    </BlockControls>
+  );
+
   const renderTileTools = canMove
     ? (index, prev, next) => (
         <TileTools index={index} prev={prev} next={next} canMove onMove={onMove} />
@@ -122,6 +191,7 @@ const Edit = (props) => {
 
   return (
     <>
+      {pickTools}
       <Settings
         attributes={attributes}
         setAttributes={setAttributes}
@@ -182,6 +252,8 @@ const Edit = (props) => {
               activeIndex={safeActiveIndex}
               setActiveIndex={setActiveIndex}
               renderTileTools={renderTileTools}
+              selectedIndexes={picked}
+              onSelectVideo={onSelectVideo}
             />
           )
         )}

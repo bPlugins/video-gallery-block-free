@@ -289,12 +289,6 @@
     text-decoration: none !important;
     color: inherit !important;
     display: block;
-    overflow: visible !important;
-
-    .galleryFigure {
-      overflow: hidden;
-      border-radius: inherit;
-    }
 
     .react-thumbnail-generator {
       overflow: hidden;
@@ -314,20 +308,25 @@
       }
     }
 
-    // Tooltip hint
+    // Tooltip hint. It sits inside the tile, at the top, so the tile can clip
+    // its corners exactly as on the live page: a tile with a rounded border
+    // then has no square caption or image corners poking past the curve.
     &::after {
       content: attr(data-editor-hint);
       position: absolute;
-      bottom: calc(100% + 8px);
+      top: 8px;
       left: 50%;
-      transform: translateX(-50%) translateY(4px);
+      width: max-content;
+      max-width: calc(100% - 16px);
+      text-align: center;
+      transform: translateX(-50%) translateY(-4px);
       background: rgba(0, 0, 0, 0.85);
       color: #fff;
       font-size: 11px;
       line-height: 1.4;
       padding: 5px 10px;
       border-radius: 4px;
-      white-space: nowrap;
+      white-space: normal;
       pointer-events: none;
       opacity: 0;
       transition:
@@ -424,6 +423,24 @@
 
   &.isDone &__num {
     background: #00a32a;
+  }
+
+  // Optional: works as it is, nothing to finish.
+  &.isOptional &__num {
+    background: #fff;
+    color: #757575;
+    box-shadow: inset 0 0 0 2px #c3c4c7;
+  }
+
+  &__tag {
+    margin-left: 8px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: #f0f0f0;
+    color: #757575;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 18px;
   }
 }
 
@@ -967,6 +984,17 @@
 
 /* "Edit with AI" panel (editor sidebar). */
 .vgbAi {
+  // "Nothing has changed yet": above a preview, so it is not taken for the change itself.
+  &__pending {
+    margin: 0 0 8px;
+    padding: 6px 10px;
+    border-left: 3px solid #dba617;
+    background: #fcf9e8;
+    color: #1e1e1e;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
   &__text {
     margin: 0 0 12px;
     color: #50575e;
@@ -1138,3 +1166,122 @@
 
 
 
+
+.vgbAi__file.is-wrap {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.vgbAi__test {
+  margin-top: 16px;
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0;
+
+  .vgbAi__notice {
+    margin: 8px 0 0;
+  }
+}
+
+.vgbAi__keys {
+  font-size: 12px;
+  color: #50575e;
+}
+
+
+
+.vgbAi__provider {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+
+  select {
+    max-width: 100%;
+  }
+}
+
+// The provider in use, as on Settings → Connectors: logo, name, "Change".
+.vgbAi__using {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid #e0e0e0;
+  background: #fff;
+
+  .components-button.is-link {
+    flex: none;
+    font-size: 12px;
+  }
+}
+
+.vgbAi__usingLogo {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  span {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    color: #1e1e1e;
+    font-size: 11px;
+    font-weight: 700;
+  }
+}
+
+.vgbAi__usingText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+
+  strong {
+    font-size: 13px;
+  }
+
+  span {
+    color: #50575e;
+    font-size: 11.5px;
+  }
+}
+
+.vgbAi__testLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #757575;
+
+  .components-button.is-link,
+  a {
+    font-size: 12px;
+  }
+
+  .vgbAi__notice {
+    flex-basis: 100%;
+  }
+}
+
+
+
+// My videos: how to pick several at once.
+.vgbPickHint {
+  display: block;
+  margin: 0 0 12px;
+}

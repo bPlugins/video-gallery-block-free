@@ -9,6 +9,7 @@ export const dashboardInfo = (info) => {
     version,
     licenseActiveNonce,
     adminUrl,
+    restUrl,
     uninstallNonce,
     deleteDataOnUninstall,
   } = info;
@@ -24,6 +25,7 @@ export const dashboardInfo = (info) => {
     uninstallNonce,
     deleteDataOnUninstall,
     adminUrl,
+    restUrl,
     allBlocks: blocks,
     displayOurPlugins: true,
     media: {

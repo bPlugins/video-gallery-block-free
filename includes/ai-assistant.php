@@ -26,12 +26,32 @@ if ( ! defined( 'ABSPATH' ) ) {
 class VidGalBlk_AI_Assistant {
 
 	const REST_NS     = 'vidgalblk/v1';
-	const RATE_MAX    = 20;   // requests ...
+	const RATE_MAX    = 60;   // requests ...
 	const RATE_WINDOW = 600;  // ... per ten minutes, per user.
 	const MAX_PROMPT  = 600;
 
 	public static function init() {
 		add_action( 'rest_api_init', array( __CLASS__, 'register_routes' ) );
+		// A key was added, changed or removed, or a provider plugin was switched: forget what we remembered about the provider.
+		add_action( 'added_option', array( __CLASS__, 'maybe_flush_option' ) );
+		add_action( 'updated_option', array( __CLASS__, 'maybe_flush_option' ) );
+		add_action( 'deleted_option', array( __CLASS__, 'maybe_flush_option' ) );
+		add_action( 'activated_plugin', array( __CLASS__, 'flush_status' ) );
+		add_action( 'deactivated_plugin', array( __CLASS__, 'flush_status' ) );
+	}
+
+	/** Only a provider's API key option (connectors_ai_<provider>_api_key) matters here. */
+	public static function maybe_flush_option( $option ) {
+		if ( is_string( $option ) && 1 === preg_match( '/^connectors_ai_[a-z0-9_]+_api_key$/', $option ) ) {
+			self::flush_status();
+		}
+	}
+
+	/** Forget the remembered "ready" answer (and, in Pro, what the provider can do). */
+	public static function flush_status() {
+		delete_transient( 'vidgalblk_ai_ready' );
+		/** Lets the Pro build forget what it remembered about the provider's abilities. */
+		do_action( 'vidgalblk_ai_status_flushed' );
 	}
 
 	/* ------------------------------------------------------------------ *
@@ -79,15 +99,15 @@ class VidGalBlk_AI_Assistant {
 
 		// A provider answered a little while ago: no need to ask again on every editor load.
 		if ( get_transient( 'vidgalblk_ai_ready' ) ) {
-			return array(
+			return self::with_providers( array(
 				'state'          => 'ready',
 				'connectors_url' => $connectors_url,
-			);
+			) );
 		}
 
 		$supported = false;
 		try {
-			$supported = (bool) wp_ai_client_prompt( 'ping' )->is_supported_for_text_generation();
+			$supported = (bool) self::prompt( 'ping' )->is_supported_for_text_generation();
 		} catch ( \Throwable $e ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement
 			$supported = false;
 		}
@@ -107,10 +127,35 @@ class VidGalBlk_AI_Assistant {
 
 		// Connected, but the provider cannot be used right now (it did not answer, or
 		// the key is not accepted): different from "not set up", and fixed differently.
-		return array(
+		return self::with_providers( array(
 			'state'          => $supported ? 'ready' : 'unreachable',
 			'connectors_url' => $connectors_url,
-		);
+		) );
+	}
+
+	/** With two or more ready providers, an administrator may choose which one to use. */
+	private static function with_providers( $status ) {
+		$all = self::connected_providers();
+		if ( count( $all ) >= 1 && current_user_can( 'manage_options' ) ) {
+			$list = array();
+			foreach ( $all as $id => $name ) {
+				$list[] = array( 'id' => $id, 'name' => $name );
+			}
+			$status['providers'] = $list;
+			$status['provider']  = self::chosen_provider();
+		}
+		return $status;
+	}
+
+	/** Save the provider an administrator chose ('' = let WordPress pick). */
+	public static function rest_provider( WP_REST_Request $request ) {
+		$id = (string) $request->get_param( 'provider' );
+		if ( '' !== $id && ! isset( self::connected_providers()[ $id ] ) ) {
+			return self::error( 'vidgalblk_ai_provider', __( 'That provider is not ready. Connect it under Settings, Connectors first.', 'video-gallery-block' ), 400 );
+		}
+		update_option( self::PROVIDER_OPTION, $id, false );
+		self::flush_status();
+		return rest_ensure_response( self::status() );
 	}
 
 	/** Whether the WordPress "AI" plugin's Connector Approvals screen is active (the page where an admin allows a plugin). */
@@ -142,7 +187,20 @@ class VidGalBlk_AI_Assistant {
 		if ( ! function_exists( 'wp_get_connectors' ) ) {
 			return true; // Cannot tell; let the live check decide.
 		}
-		foreach ( wp_get_connectors() as $connector ) {
+		return (bool) self::connected_providers();
+	}
+
+	/**
+	 * The AI providers that are ready: their plugin is active and a key is saved.
+	 *
+	 * @return array<string,string> provider id => name
+	 */
+	public static function connected_providers() {
+		$found = array();
+		if ( ! function_exists( 'wp_get_connectors' ) ) {
+			return $found;
+		}
+		foreach ( wp_get_connectors() as $id => $connector ) {
 			if ( 'ai_provider' !== ( $connector['type'] ?? '' ) ) {
 				continue;
 			}
@@ -159,11 +217,36 @@ class VidGalBlk_AI_Assistant {
 			$has_key = ( ! empty( $auth['setting_name'] ) && '' !== (string) get_option( $auth['setting_name'], '' ) )
 				|| ( ! empty( $auth['constant_name'] ) && defined( $auth['constant_name'] ) && '' !== (string) constant( $auth['constant_name'] ) )
 				|| ( ! empty( $auth['env_var_name'] ) && '' !== (string) getenv( $auth['env_var_name'] ) );
-			if ( $has_key ) {
-				return true;
+			if ( $has_key && is_string( $id ) && '' !== $id ) {
+				$found[ $id ] = isset( $connector['name'] ) && is_string( $connector['name'] ) ? $connector['name'] : $id;
 			}
 		}
-		return false;
+		return $found;
+	}
+
+	const PROVIDER_OPTION = 'vidgalblk_ai_provider';
+
+	/** The provider the site administrator chose, if it is still ready; '' lets WordPress pick. */
+	public static function chosen_provider() {
+		$id = get_option( self::PROVIDER_OPTION, '' );
+		return is_string( $id ) && '' !== $id && isset( self::connected_providers()[ $id ] ) ? $id : '';
+	}
+
+	/** The name of the provider in use (the chosen one, or the only one connected); '' when unsure. */
+	private static function provider_name() {
+		$all    = self::connected_providers();
+		$chosen = self::chosen_provider();
+		if ( '' !== $chosen && isset( $all[ $chosen ] ) ) {
+			return (string) $all[ $chosen ];
+		}
+		return 1 === count( $all ) ? (string) reset( $all ) : '';
+	}
+
+	/** A prompt builder that uses the chosen provider, when there is one. */
+	private static function prompt( $text = null ) {
+		$builder = null === $text ? wp_ai_client_prompt() : wp_ai_client_prompt( $text );
+		$chosen  = self::chosen_provider();
+		return '' !== $chosen ? $builder->using_provider( $chosen ) : $builder;
 	}
 
 	/* ------------------------------------------------------------------ *
@@ -317,6 +400,11 @@ class VidGalBlk_AI_Assistant {
 				'label' => __( 'Videos per page', 'video-gallery-block' ),
 				'desc'  => 'Show this many videos, then a Load more button. 0 shows all.',
 			),
+			'loadMoreCount' => array(
+				'type' => 'int', 'min' => -1, 'max' => 60, 'path' => array( 'loadMoreCount' ), 'default' => 0,
+				'label' => __( 'Videos per Load more click', 'video-gallery-block' ),
+				'desc'  => 'How many more videos each Load more click shows. 0 means the same as Videos per page, -1 shows all the rest at once. Only matters when Videos per page is above 0.',
+			),
 			'feedUrl' => array(
 				'type' => 'feed', 'default' => '',
 				'label' => __( 'YouTube / Vimeo channel or playlist', 'video-gallery-block' ),
@@ -339,6 +427,32 @@ class VidGalBlk_AI_Assistant {
 				'methods'             => 'GET',
 				'callback'            => array( __CLASS__, 'rest_status' ),
 				'permission_callback' => array( __CLASS__, 'can_use' ),
+				'args'                => array(
+					'refresh' => array( 'type' => 'boolean', 'default' => false ),
+				),
+			)
+		);
+		register_rest_route(
+			self::REST_NS,
+			'/ai/test',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( __CLASS__, 'rest_test' ),
+				'permission_callback' => array( __CLASS__, 'can_use' ),
+			)
+		);
+		register_rest_route(
+			self::REST_NS,
+			'/ai/provider',
+			array(
+				'methods'             => 'POST',
+				'callback'            => array( __CLASS__, 'rest_provider' ),
+				'permission_callback' => static function () {
+					return current_user_can( 'manage_options' );
+				},
+				'args'                => array(
+					'provider' => array( 'type' => 'string', 'default' => '', 'sanitize_callback' => 'sanitize_key' ),
+				),
 			)
 		);
 		register_rest_route(
@@ -357,6 +471,11 @@ class VidGalBlk_AI_Assistant {
 					'attributes' => array(
 						'type'    => 'object',
 						'default' => array(),
+					),
+					'block'      => array(
+						'type'              => 'string',
+						'default'           => '',
+						'sanitize_callback' => 'sanitize_text_field',
 					),
 				),
 			)
@@ -392,9 +511,131 @@ class VidGalBlk_AI_Assistant {
 	public static function can_use() {
 		return current_user_can( 'edit_posts' );
 	}
+	public static function rest_status( WP_REST_Request $request ) {
+		// "Check again" asks for a fresh look.
+		if ( $request->get_param( 'refresh' ) ) {
+			self::flush_status();
+		}
+		$status = self::status();
+		if ( current_user_can( 'manage_options' ) ) {
+			$status['available'] = self::available_providers();
+		}
+		return rest_ensure_response( $status );
+	}
 
-	public static function rest_status() {
-		return rest_ensure_response( self::status() );
+	/**
+	 * Every AI provider WordPress lists under Settings, Connectors, and where each one stands
+	 * (plugin installed, active, key added), so the setup screen can show the right next step.
+	 */
+	private static function available_providers() {
+		$list = array();
+		if ( ! function_exists( 'wp_get_connectors' ) ) {
+			return $list;
+		}
+		$connected = self::connected_providers();
+		foreach ( wp_get_connectors() as $id => $connector ) {
+			if ( 'ai_provider' !== ( $connector['type'] ?? '' ) || ! is_string( $id ) || '' === $id || count( $list ) >= 20 ) {
+				continue;
+			}
+			$file      = isset( $connector['plugin']['file'] ) && is_string( $connector['plugin']['file'] ) ? $connector['plugin']['file'] : '';
+			$slug      = '' !== $file ? dirname( $file ) : '';
+			$slug      = preg_match( '/^[a-z0-9-]+$/', $slug ) ? $slug : '';
+			$installed = '' === $file || file_exists( WP_PLUGIN_DIR . '/' . $file );
+			$active    = isset( $connector['plugin']['is_active'] ) && is_callable( $connector['plugin']['is_active'] )
+				? (bool) call_user_func( $connector['plugin']['is_active'] )
+				: '' === $file;
+			$list[]    = array(
+				'id'        => $id,
+				'name'      => isset( $connector['name'] ) && is_string( $connector['name'] ) ? sanitize_text_field( $connector['name'] ) : $id,
+				'slug'      => $slug,
+				'installed' => $installed,
+				'active'    => $active,
+				'connected' => isset( $connected[ $id ] ),
+				// What it can do and its logo, as on Settings, Connectors.
+				'description' => isset( $connector['description'] ) && is_string( $connector['description'] ) ? sanitize_text_field( $connector['description'] ) : '',
+				'logo'        => self::provider_logo( $connector['logo_url'] ?? '' ),
+			);
+		}
+		// Providers WordPress does not list on its own (some only appear with the WordPress "AI"
+		// plugin), offered as plugins from the WordPress.org directory. Install links only.
+		$have = array();
+		foreach ( $list as $row ) {
+			$have[ $row['slug'] ]                  = true;
+			$have[ strtolower( $row['name'] ) ] = true;
+		}
+		$about = array(
+			'ai-provider-for-mistral'    => __( 'Text generation with Mistral AI models.', 'video-gallery-block' ),
+			'vercel-ai-gateway-provider' => __( 'Models from many providers through one Vercel API key.', 'video-gallery-block' ),
+			'ai-provider-for-deepseek'   => __( 'Text generation with DeepSeek models.', 'video-gallery-block' ),
+			'ai-provider-for-openrouter' => __( 'Models from many providers through one OpenRouter key.', 'video-gallery-block' ),
+		);
+		foreach ( array(
+			'ai-provider-for-mistral'    => 'Mistral',
+			'vercel-ai-gateway-provider' => 'Vercel AI Gateway',
+			'ai-provider-for-deepseek'   => 'DeepSeek',
+			'ai-provider-for-openrouter' => 'OpenRouter',
+		) as $slug => $name ) {
+			if ( isset( $have[ $slug ] ) || isset( $have[ strtolower( $name ) ] ) || count( $list ) >= 20 ) {
+				continue;
+			}
+			$list[] = array(
+				'id'        => 'suggested-' . $slug,
+				'name'      => $name,
+				'slug'      => $slug,
+				'installed' => is_dir( WP_PLUGIN_DIR . '/' . $slug ),
+				'active'    => false,
+				'connected'   => false,
+				'suggested'   => true,
+				'description' => $about[ $slug ],
+				'logo'        => '',
+			);
+		}
+		return $list;
+	}
+
+	/**
+	 * A provider's logo link, only when it is a plain http(s) image link on this
+	 * site (a provider plugin's own file); anything else shows a letter instead.
+	 *
+	 * @param mixed $url The connector's `logo_url`.
+	 * @return string Link, or ''.
+	 */
+	private static function provider_logo( $url ) {
+		if ( ! is_string( $url ) || '' === $url ) {
+			return '';
+		}
+		$url  = esc_url_raw( $url, array( 'http', 'https' ) );
+		$home = wp_parse_url( home_url(), PHP_URL_HOST );
+		if ( '' === $url || wp_parse_url( $url, PHP_URL_HOST ) !== $home || ! preg_match( '/\.(svg|png|jpe?g|webp)$/i', (string) wp_parse_url( $url, PHP_URL_PATH ) ) ) {
+			return '';
+		}
+		return $url;
+	}
+
+	/**
+	 * "Test connection": one tiny real request, so a person learns at once whether
+	 * the provider, key and approval work, with the same plain messages as everywhere else.
+	 */
+	public static function rest_test() {
+		$status = self::status();
+		if ( ! in_array( $status['state'], array( 'ready', 'unreachable' ), true ) ) {
+			return self::error( 'vidgalblk_ai_' . $status['state'], self::state_message( $status['state'] ), 400 );
+		}
+		if ( self::rate_limited() ) {
+			return self::error( 'vidgalblk_ai_rate', __( 'Too many AI requests in a short time. Please wait a few minutes and try again.', 'video-gallery-block' ), 429 );
+		}
+		delete_transient( 'vidgalblk_ai_ready' );
+		$schema = array(
+			'type'       => 'object',
+			'properties' => array( 'ok' => array( 'type' => 'boolean' ) ),
+			'required'   => array( 'ok' ),
+		);
+		$raw = self::complete( 'test', 'This is a connection test. Reply with JSON only: {"ok": true}.', 'ping', $schema, array() );
+		if ( is_wp_error( $raw ) ) {
+			return $raw;
+		}
+		set_transient( 'vidgalblk_ai_ready', 1, 10 * MINUTE_IN_SECONDS );
+		return rest_ensure_response( array( 'ok' => true, 'message' => __( 'Connected. AI is working.', 'video-gallery-block' ) ) );
 	}
 
 	private static function error( $code, $message, $http = 400 ) {
@@ -436,7 +677,11 @@ class VidGalBlk_AI_Assistant {
 			return self::error( 'vidgalblk_ai_rate', __( 'Too many AI requests in a short time. Please wait a few minutes and try again.', 'video-gallery-block' ), 429 );
 		}
 
-		$fields  = self::fields();
+		/** The settings the AI may change: the main gallery's list, or another block's (see block_fields). */
+		$fields = apply_filters( 'vidgalblk_ai_gallery_fields', self::fields(), (string) $request->get_param( 'block' ) );
+		if ( ! $fields ) {
+			return self::error( 'vidgalblk_ai_unsupported', __( 'This block has no settings the AI can change.', 'video-gallery-block' ), 400 );
+		}
 		$attrs   = is_array( $request->get_param( 'attributes' ) ) ? $request->get_param( 'attributes' ) : array();
 		$current = self::read_current( $attrs, $fields );
 
@@ -586,6 +831,7 @@ class VidGalBlk_AI_Assistant {
 							'i'     => array( 'type' => 'integer' ),
 							'title' => array( 'type' => 'string' ),
 						),
+						'required'   => array( 'i', 'title' ),
 					),
 				),
 				'message' => array( 'type' => 'string' ),
@@ -853,15 +1099,52 @@ class VidGalBlk_AI_Assistant {
 			return $pre;
 		}
 
+		/**
+		 * Which AI models to prefer, by ID (for example 'gemini-flash-latest').
+		 * Empty lets WordPress choose, which is the default.
+		 */
 		$models = apply_filters( 'vidgalblk_ai_model_preference', array() );
 		$models = is_array( $models ) ? array_map( 'strval', array_values( $models ) ) : array();
 
+		// A provider sometimes answers with nothing or stumbles once: ask once more before giving up.
+		static $retried = false;
+
+		$text = self::generate_once( $system, $user, $schema, $images, $models );
+
+		// The usual model has no room left (a free key often has none for the newest model):
+		// try up to two other models of the same provider before giving up. Only when the
+		// site has not chosen a model itself.
+		if ( is_wp_error( $text ) && ! $models && self::is_quota_error( $text ) ) {
+			foreach ( self::fallback_models() as $model ) {
+				$again = self::generate_once( $system, $user, $schema, $images, array( $model ) );
+				if ( ! is_wp_error( $again ) ) {
+					$text = $again;
+					break;
+				}
+			}
+		}
+
+		if ( is_wp_error( $text ) ) {
+			return self::provider_error( $text );
+		}
+		if ( ! is_string( $text ) || '' === trim( $text ) ) {
+			if ( ! $retried ) {
+				$retried = true;
+				$again   = self::complete( $kind, $system, $user, $schema, $context, $images );
+				$retried = false;
+				return $again;
+			}
+			return self::error( 'vidgalblk_ai_failed', __( 'The AI could not answer right now. Please try again in a moment.', 'video-gallery-block' ), 502 );
+		}
+		return $text;
+	}
+
+	/** One request: with the answer's shape first; if the provider rejects the shape (400), once more asking only for JSON. */
+	private static function generate_once( $system, $user, $schema, $images, $models ) {
 		$text = null;
 		try {
-			// First with the answer's shape; if the provider rejects the shape
-			// (400), once more asking only for JSON.
 			foreach ( array( true, false ) as $with_schema ) {
-				$builder = wp_ai_client_prompt( $user )
+				$builder = self::prompt( $user )
 					->using_system_instruction( $system )
 					->using_temperature( 0.2 );
 				// Pictures for the AI to look at, each after a label saying which video it is.
@@ -871,31 +1154,74 @@ class VidGalBlk_AI_Assistant {
 				$builder = $with_schema
 					? $builder->as_json_response( $schema )
 					: $builder->as_json_response();
-
-				/**
-				 * Which AI models to prefer, by ID (for example 'gemini-flash-latest').
-				 * Empty lets WordPress choose, which is the default.
-				 */
 				if ( $models ) {
 					$builder = $builder->using_model_preference( ...$models );
 				}
-
 				$text = $builder->generate_text();
 				if ( ! is_wp_error( $text ) || false === strpos( $text->get_error_message(), '400' ) ) {
 					break;
 				}
 			}
 		} catch ( Throwable $e ) {
-			return self::error( 'vidgalblk_ai_failed', __( 'The AI could not answer right now. Please try again in a moment.', 'video-gallery-block' ), 502 );
-		}
-
-		if ( is_wp_error( $text ) ) {
-			return self::provider_error( $text );
-		}
-		if ( ! is_string( $text ) || '' === trim( $text ) ) {
-			return self::error( 'vidgalblk_ai_failed', __( 'The AI could not answer right now. Please try again in a moment.', 'video-gallery-block' ), 502 );
+			return null;
 		}
 		return $text;
+	}
+
+	/** Whether a provider error is "no quota / too many requests". */
+	private static function is_quota_error( $error ) {
+		$text = strtolower( $error->get_error_message() );
+		return false !== strpos( $text, '429' ) || false !== strpos( $text, 'quota' ) || false !== strpos( $text, 'too many requests' ) || false !== strpos( $text, 'rate limit' );
+	}
+
+	/**
+	 * Other text models of the provider in use, smaller ones first (they usually have room on
+	 * a free key). At most two, remembered for ten minutes. A site can change the list.
+	 *
+	 * @return string[]
+	 */
+	private static function fallback_models() {
+		$key  = 'vidgalblk_ai_fallback_' . self::chosen_provider();
+		$list = get_transient( $key );
+		if ( ! is_array( $list ) ) {
+			$list = array();
+			try {
+				$req = new \WordPress\AiClient\Providers\Models\DTO\ModelRequirements( array( \WordPress\AiClient\Providers\Models\Enums\CapabilityEnum::textGeneration() ), array() );
+				$reg = \WordPress\AiClient\AiClient::defaultRegistry();
+				$chosen = self::chosen_provider();
+				$groups = '' !== $chosen ? $reg->findProviderModelsMetadataForSupport( $chosen, $req ) : $reg->findModelsMetadataForSupport( $req );
+				$ids    = array();
+				foreach ( $groups as $group ) {
+					$models = is_object( $group ) && method_exists( $group, 'getModels' ) ? $group->getModels() : array( $group );
+					foreach ( $models as $m ) {
+						if ( is_object( $m ) && method_exists( $m, 'getId' ) ) {
+							$ids[] = (string) $m->getId();
+						}
+					}
+				}
+				$ids = array_values( array_unique( $ids ) );
+				// Smaller, cheaper models first: "lite", then "flash", "mini", "haiku".
+				usort( $ids, static function ( $a, $b ) {
+					$rank = static function ( $id ) {
+						foreach ( array( 'lite', 'mini', 'flash', 'haiku', 'small' ) as $i => $word ) {
+							if ( false !== stripos( $id, $word ) ) {
+								return $i;
+							}
+						}
+						return 99;
+					};
+					return $rank( $a ) <=> $rank( $b );
+				} );
+				$list = array_slice( $ids, 0, 2 );
+			} catch ( Throwable $e ) {
+				$list = array();
+			}
+			if ( $list ) {
+				set_transient( $key, $list, 10 * MINUTE_IN_SECONDS );
+			}
+		}
+		$list = apply_filters( 'vidgalblk_ai_fallback_models', $list );
+		return is_array( $list ) ? array_slice( array_map( 'strval', array_values( $list ) ), 0, 2 ) : array();
 	}
 
 	/**
@@ -913,6 +1239,14 @@ class VidGalBlk_AI_Assistant {
 			);
 		}
 
+		if ( false !== strpos( $text, 'timed out' ) || false !== strpos( $text, 'curl error 28' ) || false !== strpos( $text, 'timeout' ) ) {
+			return self::error(
+				'vidgalblk_ai_timeout',
+				__( 'The AI provider took too long to answer. Please try again.', 'video-gallery-block' ),
+				504
+			);
+		}
+
 		if ( false !== strpos( $text, '503' ) || false !== strpos( $text, 'high demand' ) || false !== strpos( $text, 'overloaded' ) ) {
 			return self::error(
 				'vidgalblk_ai_busy',
@@ -922,9 +1256,13 @@ class VidGalBlk_AI_Assistant {
 		}
 
 		if ( false !== strpos( $text, '429' ) || false !== strpos( $text, 'quota' ) || false !== strpos( $text, 'too many requests' ) || false !== strpos( $text, 'rate limit' ) ) {
+			$name = self::provider_name();
 			return self::error(
 				'vidgalblk_ai_quota',
-				__( 'The AI provider says its usage limit has been reached. Check the plan or billing with your provider, or try again later.', 'video-gallery-block' ),
+				'' !== $name
+					/* translators: %s: AI provider name, for example Google */
+					? sprintf( __( '%s says its usage limit has been reached. Free keys allow very few requests: wait a few minutes, or turn on billing for the key, then try again.', 'video-gallery-block' ), $name )
+					: __( 'The AI provider says its usage limit has been reached. Wait a few minutes, or check the plan or billing with your provider, then try again.', 'video-gallery-block' ),
 				429
 			);
 		}
@@ -963,7 +1301,7 @@ class VidGalBlk_AI_Assistant {
 			. "\n\nRules:\n"
 			. "- Reply with JSON only: {\"changes\": {...}, \"message\": \"...\"}.\n"
 			. "- In \"changes\" include only settings the user's request needs. If the request needs nothing from the list, return an empty \"changes\" object and say so in \"message\".\n"
-			. "- \"message\" is one short, friendly sentence saying what you changed, in the user's language.\n"
+			. "- \"message\" is one short, friendly sentence saying what will change, in the user's language. Nothing changes until the user presses Apply, so never write it as done: write \"This will set ...\", not \"Set ...\" or \"Added ...\".\n"
 			. "- Colors are hex only. A dark theme means a dark background color with light text and buttons that stay readable.\n"
 			. "- Never invent a link. Use feedUrl only if the user gave a YouTube or Vimeo link.\n"
 			. "- Never add settings that are not in the list. Never output HTML or code.";
@@ -1158,13 +1496,18 @@ class VidGalBlk_AI_Assistant {
 			$stored = '';
 		}
 
+		// Down the path, as deep as it goes, so a sibling setting is never replaced.
 		$path = $f['path'];
-		if ( 1 === count( $path ) ) {
-			$patch[ $path[0] ] = $stored;
-		} else {
-			$patch[ $path[0] ] = isset( $patch[ $path[0] ] ) && is_array( $patch[ $path[0] ] ) ? $patch[ $path[0] ] : array();
-			$patch[ $path[0] ][ $path[1] ] = $stored;
+		$last = array_pop( $path );
+		$node = &$patch;
+		foreach ( $path as $step ) {
+			if ( ! isset( $node[ $step ] ) || ! is_array( $node[ $step ] ) ) {
+				$node[ $step ] = array();
+			}
+			$node = &$node[ $step ];
 		}
+		$node[ $last ] = $stored;
+		unset( $node );
 		return $patch;
 	}
 

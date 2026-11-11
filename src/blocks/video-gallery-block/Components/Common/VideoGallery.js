@@ -23,10 +23,13 @@ import {
   slideAlt,
 } from "../../utils/functions";
 import { prefix } from "../../utils/data";
+import { animationClasses, animationOf } from "../../utils/animation";
 import { watchPlay } from "../../utils/playTracking";
 import { itemDetails } from "../../utils/details";
 import fancyboxDragGuard from "../../utils/fancyboxDragGuard";
 import { getLightboxMount } from "../../utils/lightboxHost";
+import { stopOtherSlides, playCurrentSlide } from "../../utils/lightboxVideo";
+import { fillVideoThumbs, reserveVideoThumbs } from "../../utils/lightboxThumbs";
 import Plyr from "plyr";
 import { sanitizeHTML } from "../../../../../../bpl-tools/utils/common";
 
@@ -136,7 +139,10 @@ const stripThumb = (item) => {
  * themed ancestor with `overflow: hidden`, a `transform`, or a stacking
  * context of its own -- and then it was clipped rather than covering anything.
  */
-const fancyboxOptions = (id, { trackVideoEvents = false, isolated = false } = {}) => ({
+const fancyboxOptions = (
+  id,
+  { trackVideoEvents = false, isolated = false, autoplay = true } = {},
+) => ({
   // Front end: mounted in a shadow root no other plugin's CSS can reach.
   ...(isolated ? { parentEl: () => getLightboxMount() } : {}),
   mainClass: `vidgalblkFancyBox ${id}-fancyBox`,
@@ -153,15 +159,32 @@ const fancyboxOptions = (id, { trackVideoEvents = false, isolated = false } = {}
       right: ["share", "zoom", "slideshow", "fullscreen", "close"],
     },
   },
-  Carousel: { infinite: false },
+  Carousel: {
+    infinite: false,
+    // The "Autoplay videos in the lightbox" option: read by lightboxVideo.js,
+    // and Fancybox starts videos itself too unless told not to.
+    vgbAutoplay: autoplay,
+    Video: { autoplay },
+  },
   Thumbs: { autoStart: true },
   contentClick: "toggleZoom",
   on: {
-    // A video playing in place would keep playing under the lightbox; stop it.
-    ready: () => {
+    /*
+     * Picking another video: stop the one you left (its sound kept going) and
+     * start the new one. See lightboxVideo.js.
+     */
+    "Carousel.change": (fancybox, carousel) => {
+      stopOtherSlides(carousel);
+      playCurrentSlide(carousel);
+    },
+    // A video file opened before its tile had a picture: see lightboxThumbs.js.
+    initSlides: (fancybox, slides) => reserveVideoThumbs(slides),
+    ready: (fancybox) => {
+      // A video playing in place would keep playing under the lightbox; stop it.
       window.dispatchEvent(
         new CustomEvent("vidgalblkInlinePlay", { detail: "lightbox" }),
       );
+      fillVideoThumbs(fancybox);
     },
     /*
      * Not `done` -- that was never a real Fancybox v5 event, so the handler
@@ -181,6 +204,11 @@ const fancyboxOptions = (id, { trackVideoEvents = false, isolated = false } = {}
      */
     "Carousel.contentReady": (fancybox, carousel, slide) => {
       initPlyr(slide);
+      // The video you opened starts on its own (a video file; YouTube and
+      // Vimeo start once their player is ready -- see lightboxVideo.js).
+      if (carousel?.getPage?.()?.slides?.[0] === slide) {
+        playCurrentSlide(carousel);
+      }
       if (trackVideoEvents) {
         pushVideoEvent(slide);
         // `video_start` above means the video was opened; this is the real play.
@@ -328,8 +356,15 @@ const VideoGallery = ({
   previewOnClick = false,
   // Editor only: (index, prevIndex, nextIndex) => the tile's hover toolbar.
   renderTileTools,
+  // Editor only: tiles picked with Ctrl/⌘ or Shift + click, to remove several
+  // at once, and what to do on such a click: (index, { toggle, range }).
+  selectedIndexes,
+  onSelectVideo,
 }) => {
-  const { videos, albums, options, filter, perPage, loadMoreLabel } = attributes;
+  const { videos, albums, options, filter, perPage, loadMoreLabel, loadMoreCount } = attributes;
+  // Each Load More click: as many as the first page, all the rest (-1), or a set number.
+  const loadMoreStep =
+    loadMoreCount > 0 ? loadMoreCount : loadMoreCount < 0 ? Infinity : perPage;
   const [activeAlbum, setActiveAlbum] = useState("*");
   const [visibleCount, setVisibleCount] = useState(perPage > 0 ? perPage : Infinity);
   const galleryRef = useRef(null);
@@ -364,6 +399,7 @@ const VideoGallery = ({
   // Real plays only -- an editor previewing the gallery while writing a page
   // should not show up in the site's own Analytics as a visitor watching it.
   const gaTrackingEnabled = !!options?.gaTracking && !isEditor;
+  const lightboxAutoplay = false !== options?.lightboxAutoplay;
   const [consentGranted, setConsentGranted] = useState(() => {
     try {
       return "1" === window.localStorage.getItem("vidgalblkVideoConsent");
@@ -655,7 +691,8 @@ const VideoGallery = ({
 
   const revealedVideos =
     perPage > 0 ? visibleVideos.slice(0, visibleCount) : visibleVideos;
-  const hasMore = revealedVideos.length < visibleVideos.length;
+  // "Show the rest of the videos" off (`pagination: "none"`): the first page only, no button.
+  const hasMore = "none" !== attributes.pagination && revealedVideos.length < visibleVideos.length;
 
   // Lightbox, front end only -- in the editor it is opened imperatively below
   // so that clicking a thumbnail also selects that video for editing.
@@ -663,10 +700,21 @@ const VideoGallery = ({
     if (isEditor || !galleryRef.current) return;
 
     const container = galleryRef.current;
+    /*
+     * Build the lightbox's isolated home now, so its stylesheets have loaded
+     * by the first click. Built on that click instead, Fancybox measured a
+     * lightbox with no styles yet, counted a single page, and opened every
+     * tile on the first video.
+     */
+    getLightboxMount();
     Fancybox.bind(
       container,
       `[${LIGHTBOX_ATTR}]`,
-      fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled, isolated: true }),
+      fancyboxOptions(id, {
+        trackVideoEvents: gaTrackingEnabled,
+        isolated: true,
+        autoplay: lightboxAutoplay,
+      }),
     );
 
     return () => {
@@ -678,7 +726,7 @@ const VideoGallery = ({
       Fancybox.unbind(container);
       Fancybox.close();
     };
-  }, [id, isEditor, gaTrackingEnabled]);
+  }, [id, isEditor, gaTrackingEnabled, lightboxAutoplay]);
 
   // The same Analytics events as the lightbox sends, for a video played in place.
   useEffect(() => {
@@ -750,7 +798,11 @@ const VideoGallery = ({
       }),
       {
         startIndex,
-        ...fancyboxOptions(id, { trackVideoEvents: gaTrackingEnabled, isolated: !isEditor }),
+        ...fancyboxOptions(id, {
+          trackVideoEvents: gaTrackingEnabled,
+          isolated: !isEditor,
+          autoplay: lightboxAutoplay,
+        }),
       },
     );
   };
@@ -799,7 +851,7 @@ const VideoGallery = ({
         galleryRef={galleryRef}
       />
 
-      <div className={prefix}>
+      <div className={[prefix, ...animationClasses(animationOf(attributes))].join(" ")}>
         {showFilter && (
           <VideoGalleryFilter
             attributes={attributes}
@@ -861,7 +913,7 @@ const VideoGallery = ({
                     }
                   : {})}
                 className={`galleryItem ${albumClasses(albums, albs)} ${
-                  isEditor && index === activeIndex ? "bPlNowEditing" : ""
+                  isEditor && (index === activeIndex || selectedIndexes?.includes(index)) ? "bPlNowEditing" : ""
                 }`}
                 {...(gated || inlineSrc ? {} : { [LIGHTBOX_ATTR]: true })}
                 {...(!gated && isFacebookVideo(video)
@@ -911,10 +963,20 @@ const VideoGallery = ({
                   }
                   e.preventDefault();
                   e.stopPropagation();
+                  // Ctrl/⌘ + click adds or takes away one; Shift + click picks a run.
+                  if (onSelectVideo && (e.ctrlKey || e.metaKey || e.shiftKey)) {
+                    // The tiles in the order they show (a sorted gallery is not in list order).
+                    const order = Array.from(
+                      e.currentTarget.parentElement?.querySelectorAll(".galleryItem[data-item-key]") || [],
+                    ).map((tile) => Number(tile.dataset.itemKey));
+                    onSelectVideo(index, { toggle: e.ctrlKey || e.metaKey, range: e.shiftKey, order });
+                    return;
+                  }
                   if (previewOnClick) {
                     openVideo(index);
                     return;
                   }
+                  onSelectVideo?.(index, {});
                   setActiveIndex(index);
                 }}
                 onDoubleClick={(e) => {
@@ -994,7 +1056,7 @@ const VideoGallery = ({
             className="vidgalblkLoadMore"
             onClick={() =>
               setVisibleCount((count) =>
-                Math.min(count + perPage, visibleVideos.length),
+                Math.min(count + loadMoreStep, visibleVideos.length),
               )
             }>
             {loadMoreLabel || __("Load More", "video-gallery-block")}

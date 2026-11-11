@@ -341,7 +341,24 @@ html .fancybox__container.vidgalblkFancyBox {
   visibility: visible;
 }
 
+/*
+ * The same kind of stylesheet (Lightbox Block ships one) gives the thumbnail
+ * strip `.is-modern .f-thumbs__slide { pointer-events: none; transform: ... }`.
+ * In the block editor, where this lightbox is not isolated, that made every
+ * thumbnail unclickable and shifted it twice. Fancybox 6 sets neither.
+ */
+.fancybox__container.vidgalblkFancyBox .f-thumbs.is-modern .f-thumbs__slide {
+  pointer-events: auto;
+  transform: none;
+}
+
 .vidgalblkFancyBox {
+  // Fancybox 6 frames an iframe slide (a Facebook video) in a white, padded box.
+  .has-iframe {
+    --f-html-padding: 0;
+    --f-html-bg: transparent;
+  }
+
   .fancybox-content {
     .plyr {
       height: 100%;
@@ -373,3 +390,6 @@ html .fancybox__container.vidgalblkFancyBox {
     }
   }
 }
+
+// Hover effect.
+@import "./animation";

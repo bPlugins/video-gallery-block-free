@@ -16,6 +16,7 @@ import { updateData } from "../../../../../../../bpl-tools/utils/functions";
 
 import { GOOGLE_LINKS, isVimeoFeedUrl, timeAgo } from "../../../utils/youtubeFeed";
 import { shortsFilterOptions } from "../../../utils/options";
+import LoadMoreCount, { RestToggle } from "./LoadMoreCount";
 import "./feedSteps.scss";
 
 /**
@@ -41,15 +42,15 @@ const Chevron = () => (
 );
 
 /*
- * A step turns green with a tick once it is done, and then folds to its title
+ * A step turns green with a tick once it is done, and then folds to its title. An optional one -- settings that already work as they are -- says so,
  * and a one-line `summary`; clicking the title opens it again. A step that
  * gets finished while it is open -- the one being worked on -- stays open.
  * `pending`: still finding out whether it is done (a saved link loading), so
  * nothing is decided yet.
  */
-const Step = ({ number, title, done = false, summary = "", pending = false, children }) => {
+const Step = ({ number, title, done = false, optional = false, summary = "", pending = false, children }) => {
   const id = useInstanceId(Step, "vgbFeedStep");
-  const collapsible = !!summary && done;
+  const collapsible = !!summary && (done || optional);
   // null: follow `done`; true / false: what the person chose.
   const [open, setOpen] = useState(null);
   // Whether it could fold, as last seen once known.
@@ -79,12 +80,15 @@ const Step = ({ number, title, done = false, summary = "", pending = false, chil
         {tick ? "✓" : number}
       </span>
       <span className="vgbFeedStep__title">{title}</span>
+      {optional && !tick && (
+        <span className="vgbFeedStep__tag">{__("Optional", "video-gallery-block")}</span>
+      )}
     </>
   );
 
   return (
     <div
-      className={`vgbFeedStep ${tick ? "isDone" : ""} ${collapsible ? "isCollapsible" : ""} ${
+      className={`vgbFeedStep ${tick ? "isDone" : optional ? "isOptional" : ""} ${collapsible ? "isCollapsible" : ""} ${
         isOpen ? "isOpen" : "isCollapsed"
       }`}>
       {collapsible ? (
@@ -614,29 +618,6 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
           </div>
         )}
 
-        <NumberControl
-          className="mt20 vgbFeedShowFirst"
-          label={__("Show first", "video-gallery-block")}
-          value={perPage}
-          min={0}
-          onChange={(val) => setAttributes({ perPage: Math.max(0, parseInt(val) || 0) })}
-          help={__(
-            "Then a Load More button shows the rest. 0 shows all.",
-            "video-gallery-block",
-          )}
-          __nextHasNoMarginBottom
-        />
-
-        {perPage > 0 && (
-          <TextControl
-            className="mt20"
-            label={__("Load More button text", "video-gallery-block")}
-            value={attributes.loadMoreLabel || ""}
-            onChange={(val) => setAttributes({ loadMoreLabel: val })}
-            __nextHasNoMarginBottom
-          />
-        )}
-
         <div className="mt20 vgbToggleGroupWrap vgbFeedRefresh">
           <ToggleGroupControl
             label={__("Check for new videos", "video-gallery-block")}
@@ -667,6 +648,66 @@ const FeedSource = ({ attributes, setAttributes, keyState, feedState }) => {
             onClick={() => feedState.reload()}>
             {__("Check now", "video-gallery-block")}
           </Button>
+        )}
+      </Step>
+
+      <Step
+        number={isVimeo ? 3 : 4}
+        title={__("Pages & loading", "video-gallery-block")}
+        optional
+        done={perPage > 0}
+        summary={
+          perPage > 0
+            ? sprintf(
+                /* translators: %d: videos on the first page. */
+                __("%d first · Load more button", "video-gallery-block"),
+                perPage,
+              )
+            : __("All at once", "video-gallery-block")
+        }>
+        <NumberControl
+          className="vgbFeedShowFirst"
+          label={__("Videos on first page", "video-gallery-block")}
+          value={perPage}
+          min={0}
+          onChange={(val) => setAttributes({ perPage: Math.max(0, parseInt(val) || 0) })}
+          help={__(
+            "Then a Load More button shows the rest. 0 shows all.",
+            "video-gallery-block",
+          )}
+          __nextHasNoMarginBottom
+        />
+
+        {perPage > 0 && (
+          <RestToggle
+            attributes={attributes}
+            setAttributes={setAttributes}
+            firstPage={perPage}
+            className="mt20"
+          />
+        )}
+
+        {/* Always shown: changing how many each click adds starts paging (12 first). */}
+        {"none" !== attributes.pagination && <LoadMoreCount
+          attributes={attributes}
+          setAttributes={(patch) =>
+            setAttributes({
+              ...patch,
+              ...(!(perPage > 0) && "loadMoreCount" in patch ? { perPage: 12 } : {}),
+            })
+          }
+          firstPage={perPage || 12}
+          numberProps={{ className: "mt20" }}
+        />}
+
+        {"none" !== attributes.pagination && (
+          <TextControl
+            className="mt20"
+            label={__("Load More button text", "video-gallery-block")}
+            value={attributes.loadMoreLabel || ""}
+            onChange={(val) => setAttributes({ loadMoreLabel: val })}
+            __nextHasNoMarginBottom
+          />
         )}
       </Step>
     </div>

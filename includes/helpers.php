@@ -990,3 +990,67 @@ function vidgalblk_item_channel( $video ) {
 		? sprintf( '<span class="vgbItemChannel" role="link" tabindex="0" data-href="%1$s">%2$s</span>', $url, esc_html( $channel ) )
 		: sprintf( '<span class="vgbItemChannel">%s</span>', esc_html( $channel ) );
 }
+
+/**
+ * "3 days ago": how long ago, in the largest whole unit. The same steps and
+ * words as timeAgo() in utils/details.js, so the editor shows what the page
+ * prints (the page script writes it again when it runs, so a cached page is
+ * never out of date for long).
+ *
+ * @param int $timestamp Unix seconds.
+ * @return string
+ */
+function vidgalblk_time_ago( $timestamp ) {
+	$diff  = max( 0, time() - (int) $timestamp );
+	$steps = array(
+		/* translators: %s: a number of years. */
+		array( YEAR_IN_SECONDS, _n_noop( '%s year ago', '%s years ago', 'video-gallery-block' ) ),
+		/* translators: %s: a number of months. */
+		array( 30 * DAY_IN_SECONDS, _n_noop( '%s month ago', '%s months ago', 'video-gallery-block' ) ),
+		/* translators: %s: a number of weeks. */
+		array( WEEK_IN_SECONDS, _n_noop( '%s week ago', '%s weeks ago', 'video-gallery-block' ) ),
+		/* translators: %s: a number of days. */
+		array( DAY_IN_SECONDS, _n_noop( '%s day ago', '%s days ago', 'video-gallery-block' ) ),
+		/* translators: %s: a number of hours. */
+		array( HOUR_IN_SECONDS, _n_noop( '%s hour ago', '%s hours ago', 'video-gallery-block' ) ),
+		/* translators: %s: a number of minutes. */
+		array( MINUTE_IN_SECONDS, _n_noop( '%s minute ago', '%s minutes ago', 'video-gallery-block' ) ),
+	);
+	foreach ( $steps as $step ) {
+		if ( $diff >= $step[0] ) {
+			$count = (int) floor( $diff / $step[0] );
+			return sprintf( translate_nooped_plural( $step[1], $count, 'video-gallery-block' ), number_format_i18n( $count ) );
+		}
+	}
+	return __( 'Just now', 'video-gallery-block' );
+}
+
+/**
+ * "Show channel name" and "Show upload time": the channel and how long ago
+ * the video was uploaded (its real upload date only, never the day it was
+ * added), joined by " · ", or '' when there is neither. The same as
+ * itemDetails() in utils/details.js.
+ *
+ * @param array $video        One entry from the videos attribute.
+ * @param bool  $show_channel Whether the channel shows.
+ * @param bool  $show_time    Whether the upload time shows.
+ * @return string HTML.
+ */
+function vidgalblk_item_details( $video, $show_channel, $show_time ) {
+	$parts = array();
+	if ( $show_channel ) {
+		$channel = vidgalblk_item_channel( $video );
+		if ( '' !== $channel ) {
+			$parts[] = $channel;
+		}
+	}
+	$uploaded = $show_time && is_array( $video ) && ! empty( $video['uploadDate'] ) ? strtotime( (string) $video['uploadDate'] ) : false;
+	if ( $uploaded ) {
+		$parts[] = sprintf(
+			'<time class="vgbItemTime" datetime="%1$s">%2$s</time>',
+			esc_attr( gmdate( 'c', $uploaded ) ),
+			esc_html( vidgalblk_time_ago( $uploaded ) )
+		);
+	}
+	return implode( ' · ', $parts );
+}

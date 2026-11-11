@@ -21,7 +21,7 @@
 		"bundle": "npm run lint && npm run build && npm run i18n && npm run plugin-zip"
 	},
 	"dependencies": {
-		"@fancyapps/ui": "^5.0.36",
+		"@fancyapps/ui": "6.0.17",
 		"@gsap/react": "^2.1.1",
 		"animejs": "^3.2.2",
 		"immer": "^10.1.1",

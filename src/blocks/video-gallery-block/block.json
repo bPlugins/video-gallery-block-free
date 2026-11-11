@@ -81,9 +81,25 @@
       "type": "number",
       "default": 0
     },
+    "animation": {
+      "type": "object",
+      "default": {}
+    },
     "loadMoreLabel": {
       "type": "string",
       "default": "Load More"
+    },
+    "loadMoreCount": {
+      "type": "number",
+      "default": 0
+    },
+    "pagination": {
+      "type": "string",
+      "default": "loadmore"
+    },
+    "loadMoreStyle": {
+      "type": "object",
+      "default": {}
     },
     "background": {
       "type": "object",
@@ -139,6 +155,10 @@
         "color": "#fff",
         "bg": "#ff7a00"
       }
+    },
+    "filterBar": {
+      "type": "object",
+      "default": {}
     },
     "playIconColors": {
       "type": "object",

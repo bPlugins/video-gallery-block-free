@@ -52,6 +52,8 @@ if (function_exists('vgb_fs')) {
     // YouTube / Vimeo channel and playlist auto-feed, and its editor endpoints.
     require_once VIDGALBLK_DIR_PATH . '/includes/youtube-feed.php';
     require_once VIDGALBLK_DIR_PATH . '/includes/vimeo-feed.php';
+    // "Show upload time": each video's upload date, looked up in the editor.
+    require_once VIDGALBLK_DIR_PATH . '/includes/upload-dates.php';
     // Tells administrators when a feed stops updating (key, quota, a deleted playlist).
     require_once VIDGALBLK_DIR_PATH . '/includes/feed-alerts.php';
     // "Edit with AI": describe the gallery, preview the changes, apply. Uses WordPress's own AI Client (WP 7.0+).

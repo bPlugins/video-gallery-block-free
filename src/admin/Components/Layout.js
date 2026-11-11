@@ -6,6 +6,7 @@ const navigation = [
   { name: "Welcome", href: "/welcome" },
   { name: "Blocks", href: "/blocks" },
   { name: "Demos", href: "/demos" },
+  { name: "AI Setup", href: "/ai" },
   { name: "Pricing", href: "/pricing" },
   { name: "Feature Comparison", href: "/feature-comparison" },
   { name: "Settings", href: "/settings" },

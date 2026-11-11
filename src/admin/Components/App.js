@@ -11,6 +11,7 @@ import Pricing from "../../../../bpl-tools/Admin/Pricing";
 import FeatureCompare from "../../../../bpl-tools/Admin/FeatureCompare";
 import OurPlugins from "../../../../bpl-tools/Admin/OurPlugins";
 import Blocks from "../../../../bpl-tools/Admin/Blocks";
+import AiSetup from "./AiSetup";
 import Layout from "./Layout";
 import Settings from "../../../../bpl-tools/Admin/Settings";
 import { demoInfo, pricingInfo, welcomeInfo } from "../utils/data";
@@ -34,6 +35,8 @@ const App = (props) => {
             path="demos"
             element={<Demos demoInfo={demoInfo} {...props} />}
           />
+
+          <Route path="ai" element={<AiSetup restUrl={props.restUrl} adminUrl={props.adminUrl} />} />
 
           <Route
             path="pricing"

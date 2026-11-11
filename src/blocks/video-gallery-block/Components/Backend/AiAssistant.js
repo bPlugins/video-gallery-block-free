@@ -1,4 +1,4 @@
-import { useEffect, useState } from "@wordpress/element";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import { select } from "@wordpress/data";
 import { __, _n, sprintf } from "@wordpress/i18n";
 import apiFetch from "@wordpress/api-fetch";
@@ -17,6 +17,22 @@ import {
  * value; this panel only shows the answer and applies it when the user says so.
  * Nothing changes until Apply.
  */
+
+// A sparkle by the panel title: the one panel that is AI, easy to find among the
+// settings. Violet into the panel blue -- the colors people know from other AI
+// tools -- so it reads as "AI" at a glance. Inline style, so the sidebar grey
+// never paints over it.
+const aiIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="vgbAiSparkle" x1="3" y1="3" x2="21" y2="21" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stopColor="#7b61ff" />
+        <stop offset="1" stopColor="#146ef5" />
+      </linearGradient>
+    </defs>
+    <path style={{ fill: "url(#vgbAiSparkle)" }} d="M10 3l1.8 5.2L17 10l-5.2 1.8L10 17l-1.8-5.2L3 10l5.2-1.8L10 3zm8 10l.9 2.1 2.1.9-2.1.9L18 21l-.9-2.1L15 18l2.1-.9L18 13z" />
+  </svg>
+);
 
 // The only settings sent to the server, so the AI knows what the gallery is now.
 const SENT = [
@@ -61,7 +77,7 @@ const unique = (list) => Array.from(new Set(list));
 let statusRequest = null;
 export const loadStatus = (force = false) => {
   if (force || !statusRequest) {
-    statusRequest = apiFetch({ path: "/vidgalblk/v1/ai/status" })
+    statusRequest = apiFetch({ path: "/vidgalblk/v1/ai/status" + (force ? "?refresh=1" : "") })
       .then((value) => {
         if ("ready" !== value.state) statusRequest = null;
         return value;
@@ -97,7 +113,140 @@ const AiAssistant = ({ attributes, setAttributes }) => {
   const [job, setJob] = useState(null); // titles / albums answer
   const [error, setError] = useState("");
   const [undo, setUndo] = useState(null);
+  const lastCall = useRef(null); // the last request, to run again after an error
   const [checking, setChecking] = useState(false);
+
+  // The answer can land below the fold of a tall sidebar: bring it into view.
+  useEffect(() => {
+    if (!result && !job && !error) return;
+    const t = setTimeout(() => {
+      const el = document.querySelector(".vgbAi .vgbAi__result, .vgbAi .vgbAi__notice");
+      if (el && el.scrollIntoView) {
+        const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        // A preview must show its Apply button: people took the preview for the change itself.
+        const actions = el.querySelector(".vgbAi__actions");
+        (actions || el).scrollIntoView({ block: actions ? "end" : "nearest", behavior: reduce ? "auto" : "smooth" });
+      }
+    }, 60);
+    return () => clearTimeout(t);
+  }, [result, job, error]);
+
+  // "Test connection": one tiny real request, answered in plain words.
+  const [testing, setTesting] = useState(false);
+  const [testResult, setTestResult] = useState(null); // { ok, text }
+  const runTest = async () => {
+    setTesting(true);
+    setTestResult(null);
+    try {
+      const res = await apiFetch({ path: "/vidgalblk/v1/ai/test", method: "POST" });
+      setTestResult({ ok: true, text: res?.message || __("Connected. AI is working.", "video-gallery-block") });
+      loadStatus(true).then((value) => setStatus(value));
+    } catch (e) {
+      setTestResult({
+        ok: false,
+        text: e?.message || __("We could not reach your AI provider right now.", "video-gallery-block"),
+      });
+    } finally {
+      setTesting(false);
+    }
+  };
+  // With two or more providers ready, an administrator picks which one the plugin uses.
+  const [chosenNow, setChosenNow] = useState(null); // shown at once, before the server has answered
+  const chooseProvider = async (provider) => {
+    setChosenNow(provider);
+    setTestResult(null);
+    try {
+      await apiFetch({ path: "/vidgalblk/v1/ai/provider", method: "POST", data: { provider } });
+      const value = await loadStatus(true);
+      setStatus(value);
+    } catch (e) {
+      setTestResult({ ok: false, text: e?.message || __("Could not save the choice.", "video-gallery-block") });
+    } finally {
+      setChosenNow(null);
+    }
+  };
+  // Every provider WordPress lists; the ones not set up yet are greyed out and say so.
+  const providerList =
+    status && Array.isArray(status.providers) && status.providers.length
+      ? Array.isArray(status.available) && status.available.length
+        ? status.available.filter((p) => !p.suggested)
+        : status.providers.map((p) => ({ ...p, connected: true }))
+      : [];
+  /*
+   * Which provider the gallery's AI uses, in one line (its logo and name, as in
+   * Settings → Connectors). With two or more connected, "Change" picks among
+   * them; setting more up is on the AI Setup page.
+   */
+  const [picking, setPicking] = useState(false);
+  const connectedList = providerList.filter((p) => p.connected);
+  const chosenId = null !== chosenNow ? chosenNow : status?.provider || "";
+  const chosen = connectedList.find((p) => p.id === chosenId);
+  const shown = chosen || (1 === connectedList.length ? connectedList[0] : null);
+  const logoOf = (id) => (status?.available || []).find((p) => p.id === id)?.logo || "";
+  const providerChoice = connectedList.length ? (
+    <div className="vgbAi__provider">
+      <div className="vgbAi__using">
+        <span className="vgbAi__usingLogo" aria-hidden="true">
+          {shown && logoOf(shown.id) ? (
+            <img src={logoOf(shown.id)} alt="" width="24" height="24" />
+          ) : (
+            <span>{shown ? shown.name.charAt(0) : "A"}</span>
+          )}
+        </span>
+        <span className="vgbAi__usingText">
+          <strong>{shown ? shown.name : __("Automatic", "video-gallery-block")}</strong>
+          <span>
+            {chosen
+              ? __("AI provider", "video-gallery-block")
+              : connectedList.length > 1
+              ? sprintf(
+                  /* translators: %s: provider names, comma-separated. */
+                  __("WordPress picks from %s", "video-gallery-block"),
+                  connectedList.map((p) => p.name).join(", "),
+                )
+              : __("Connected", "video-gallery-block")}
+          </span>
+        </span>
+        {connectedList.length > 1 && (
+          <Button variant="link" onClick={() => setPicking(!picking)} aria-expanded={picking}>
+            {picking ? __("Done", "video-gallery-block") : __("Change", "video-gallery-block")}
+          </Button>
+        )}
+      </div>
+      {picking && (
+        <select
+          className="vgbAi__providerSelect"
+          aria-label={__("AI provider", "video-gallery-block")}
+          value={chosenId}
+          onChange={(e) => chooseProvider(e.target.value)}>
+          <option value="">{__("Automatic", "video-gallery-block")}</option>
+          {connectedList.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
+        </select>
+      )}
+    </div>
+  ) : null;
+  // The dashboard's AI Setup page: providers, keys and the rest.
+  const aiSettingsLink = (
+    <a href="edit.php?post_type=video-gallery-block&page=vgb-help-demo#/ai" target="_blank" rel="noopener noreferrer">
+      {__("AI settings", "video-gallery-block")}
+    </a>
+  );
+  const testButton = (primary) => (
+    <>
+      <Button variant={primary ? "primary" : "link"} onClick={runTest} isBusy={testing} disabled={testing}>
+        {testing ? __("Testing…", "video-gallery-block") : __("Test connection", "video-gallery-block")}
+      </Button>
+      {testResult && (
+        <Notice status={testResult.ok ? "success" : "error"} isDismissible={false} className="vgbAi__notice">
+          {testResult.text}
+        </Notice>
+      )}
+    </>
+  );
 
   const recheck = () => {
     setChecking(true);
@@ -134,8 +283,23 @@ const AiAssistant = ({ attributes, setAttributes }) => {
 
   // WordPress older than 7.0, or AI switched off on the site: show nothing,
   // the plugin works exactly as before.
-  if (!status || ["unsupported", "disabled"].includes(status.state)) {
+  if (!status) {
     return null;
+  }
+  if (["unsupported", "disabled"].includes(status.state)) {
+    return (
+      <PanelBody
+        className="bPlPanelBody vgbPanel vgbAi"
+        title={__("Edit with AI", "video-gallery-block")}
+        icon={aiIcon}
+        initialOpen={false}>
+        <p className="vgbAi__text">
+          {"unsupported" === status.state
+            ? __("Edit with AI needs WordPress 7.0 or newer. Update WordPress to use it.", "video-gallery-block")
+            : __("AI is switched off on this site. Ask the site administrator to turn it on.", "video-gallery-block")}
+        </p>
+      </PanelBody>
+    );
   }
 
   // Not set up yet: a short checklist that shows where the person is, with one
@@ -149,7 +313,8 @@ const AiAssistant = ({ attributes, setAttributes }) => {
         key: "connect",
         done: connected,
         title: __("Connect an AI provider", "video-gallery-block"),
-        text: __("Choose Google, OpenAI or Anthropic and paste its API key.", "video-gallery-block"),
+        text: __("Pick a provider, install its plugin if asked, and paste its API key. Google has a free plan with limits; OpenAI and Anthropic need a paid account.", "video-gallery-block"),
+        keys: !connected,
         button: __("Open Connectors", "video-gallery-block"),
         href: status.connectors_url,
       },
@@ -171,12 +336,13 @@ const AiAssistant = ({ attributes, setAttributes }) => {
       <PanelBody
         className="bPlPanelBody vgbPanel vgbAi"
         title={__("Edit with AI", "video-gallery-block")}
+        icon={aiIcon}
         initialOpen={false}>
         {unreachable ? (
           <>
             <p className="vgbAi__text">
               {__(
-                "Your AI provider is connected, but we could not reach it right now. Check the key under Settings, Connectors, then check again.",
+                "Your AI provider is connected, but we could not reach it right now. Check the key under Settings, Connectors, then test the connection.",
                 "video-gallery-block",
               )}
             </p>
@@ -184,10 +350,15 @@ const AiAssistant = ({ attributes, setAttributes }) => {
               <Button variant="primary" href={status.connectors_url} target="_blank" rel="noopener noreferrer">
                 {__("Open Connectors", "video-gallery-block")}
               </Button>
-              <Button variant="secondary" onClick={recheck} isBusy={checking} disabled={checking}>
-                {checking ? __("Checking…", "video-gallery-block") : __("Check again", "video-gallery-block")}
+              <Button variant="secondary" onClick={runTest} isBusy={testing} disabled={testing}>
+                {testing ? __("Testing…", "video-gallery-block") : __("Test connection", "video-gallery-block")}
               </Button>
             </div>
+            {testResult && (
+              <Notice status={testResult.ok ? "success" : "error"} isDismissible={false} className="vgbAi__notice">
+                {testResult.text}
+              </Notice>
+            )}
           </>
         ) : (
           <>
@@ -212,6 +383,16 @@ const AiAssistant = ({ attributes, setAttributes }) => {
                   <div className="vgbAi__setupBody">
                     <strong>{step.title}</strong>
                     {!step.done && <span>{step.text}</span>}
+                    {!step.done && step.keys && (
+                      <span className="vgbAi__keys">
+                        {__("Get a key:", "video-gallery-block")}{" "}
+                        <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer">Google</a>
+                        {" · "}
+                        <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">OpenAI</a>
+                        {" · "}
+                        <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener noreferrer">Anthropic</a>
+                      </span>
+                    )}
                     {i === current && (
                       <Button variant="primary" href={step.href} target="_blank" rel="noopener noreferrer">
                         {step.button}
@@ -261,6 +442,7 @@ const AiAssistant = ({ attributes, setAttributes }) => {
 
   const call = async (path, data, onDone) => {
     if (busy) return;
+    lastCall.current = () => call(path, data, onDone);
     setBusy(true);
     reset();
     try {
@@ -383,6 +565,7 @@ const AiAssistant = ({ attributes, setAttributes }) => {
     <PanelBody
       className="bPlPanelBody vgbPanel vgbAi"
       title={__("Edit with AI", "video-gallery-block")}
+        icon={aiIcon}
       initialOpen={true}>
       <div
         onKeyDown={(e) => {
@@ -434,7 +617,7 @@ const AiAssistant = ({ attributes, setAttributes }) => {
             {__("Or let AI help with your videos:", "video-gallery-block")}
           </p>
           {untitled.length > 0 && (
-            <Button variant="secondary" onClick={writeTitles} disabled={busy}>
+            <Button variant="secondary" style={{ order: 11 }} onClick={writeTitles} disabled={busy}>
               {sprintf(
                 /* translators: %d: number of videos without a title */
                 _n(
@@ -448,7 +631,7 @@ const AiAssistant = ({ attributes, setAttributes }) => {
             </Button>
           )}
           {titled.length >= 4 && (
-            <Button variant="secondary" onClick={sortAlbums} disabled={busy}>
+            <Button variant="secondary" style={{ order: 21 }} onClick={sortAlbums} disabled={busy}>
               {__("Sort videos into albums", "video-gallery-block")}
             </Button>
           )}
@@ -459,6 +642,14 @@ const AiAssistant = ({ attributes, setAttributes }) => {
         {error && (
           <Notice status="error" isDismissible={false} className="vgbAi__notice">
             {error}
+            {lastCall.current && (
+              <>
+                {" "}
+                <Button variant="link" onClick={() => lastCall.current && lastCall.current()} disabled={busy}>
+                  {__("Try again", "video-gallery-block")}
+                </Button>
+              </>
+            )}
           </Notice>
         )}
 
@@ -474,6 +665,9 @@ const AiAssistant = ({ attributes, setAttributes }) => {
 
         {hasChanges && (
           <div className="vgbAi__result">
+            <p className="vgbAi__pending">
+              {__("Preview: nothing has changed yet. Check the list, then press Apply.", "video-gallery-block")}
+            </p>
             {result.message && <p className="vgbAi__text">{result.message}</p>}
             <ul className="vgbAi__list">
               {result.changes.map((change) => (
@@ -592,6 +786,15 @@ const AiAssistant = ({ attributes, setAttributes }) => {
             </Button>
           </Notice>
         )}
+
+        <div className="vgbAi__test">
+          {providerChoice}
+          <div className="vgbAi__testLinks">
+            {testButton(false)}
+            <span aria-hidden="true">·</span>
+            {aiSettingsLink}
+          </div>
+        </div>
       </div>
     </PanelBody>
   );

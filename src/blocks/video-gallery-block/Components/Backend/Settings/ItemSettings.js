@@ -8,6 +8,18 @@ import {
 } from "../../../../../../../bpl-tools/Components";
 import { getVideoOembed } from "../../../utils/oembed";
 
+// A direct video file on another website, with no thumbnail of its own: the browser
+// is not allowed to read a picture out of it, so the gallery tile can come up black.
+const PROVIDER_LINK = /^https?:\/\/([a-z0-9-]+\.)*(youtube\.com|youtu\.be|youtube-nocookie\.com|vimeo\.com|facebook\.com|fb\.watch|dailymotion\.com|wistia\.(com|net))\//i;
+const isOtherSiteFile = (url) => {
+  if (!url || !/^https?:\/\//i.test(url) || PROVIDER_LINK.test(url)) return false;
+  try {
+    return new URL(url).hostname !== window.location.hostname;
+  } catch (e) {
+    return false;
+  }
+};
+
 const ItemSettings = ({
   attributes,
   setAttributes,
@@ -77,6 +89,14 @@ const ItemSettings = ({
         onChange={(val) => updateVideo("poster", val)}
         placeholder={__("Image link or upload", "video-gallery-block")}
       />
+      {!poster && isOtherSiteFile(video) && (
+        <p className="vgbItemField vgbItemHint">
+          {__(
+            "This video is on another website, so a thumbnail cannot be made from it automatically and the tile may look black. Add a thumbnail image above.",
+            "video-gallery-block",
+          )}
+        </p>
+      )}
 
       <TextControl
         className="vgbItemField"

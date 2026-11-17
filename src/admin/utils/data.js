@@ -203,6 +203,17 @@ export const welcomeInfo = (adminUrl = "") => ({
   // Changelogs — each list item starts with <strong>Type:</strong> for badges
   changelogs: [
     {
+      version: "1.8.0 - 17 November 2026",
+      type: "new",
+      list: [
+        __("<strong>New:</strong> Edit with AI. Describe the gallery you want and preview the changes before you apply them, write titles for videos that have none, and sort videos into albums. It needs WordPress 7.0 or newer and an AI provider connected under Settings > Connectors; nothing happens until you press a button, and you can undo it.", "video-gallery-block"),
+        __("<strong>New:</strong> A single, polite request to rate the plugin appears on the Dashboard and Plugins screens after a week of use. It can be dismissed or postponed, never returns once dismissed, and is not shown on sites with a Pro license.", "video-gallery-block"),
+        __("<strong>Improvement:</strong> Faster galleries. Cached YouTube and Vimeo thumbnails now get a smaller copy and explicit width and height, so phones and standard screens download less and the page no longer shifts while images load. The look of the gallery does not change.", "video-gallery-block"),
+        __("<strong>Fix:</strong> Lightbox video playback fixes — videos start reliably when opened, background audio stops upon switching slides, and returning to a watched YouTube video no longer freezes at 0:00.", "video-gallery-block"),
+        __("<strong>Tweak:</strong> Added Help and Demo action links on the Plugins screen row.", "video-gallery-block"),
+      ],
+    },
+    {
       version: "1.7.0 - 24 October 2026",
       type: "new",
       list: [

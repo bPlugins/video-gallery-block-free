@@ -353,10 +353,12 @@ Build Tools Used: Webpack, Babel, PostCSS, Gulp.
 
 == Changelog ==
 
-= 1.8.0 - 2 November 2026 =
+= 1.8.0 - 17 November 2026 =
 * New: Edit with AI. Describe the gallery you want and preview the changes before you apply them, write titles for videos that have none, and sort videos into albums. It needs WordPress 7.0 or newer and an AI provider connected under Settings > Connectors; nothing happens until you press a button, and you can undo it.
 * New: A single, polite request to rate the plugin appears on the Dashboard and Plugins screens after a week of use. It can be dismissed or postponed, never returns once dismissed, and is not shown on sites with a Pro license.
 * Improvement: Faster galleries. Cached YouTube and Vimeo thumbnails now get a smaller copy and explicit width and height, so phones and standard screens download less and the page no longer shifts while images load. The look of the gallery does not change.
+* Fix: Lightbox video playback fixes — videos start reliably when opened, background audio stops upon switching slides, and returning to a watched YouTube video no longer freezes at 0:00.
+* Tweak: Added Help and Demo action links on the Plugins screen row.
 
 = 1.7.0 - 28 October 2026 =
 * Security: Hardened video links and captions in the Video Gallery block. A video title or caption can no longer run script when the lightbox opens, whether the gallery video is opened from the page or from the editor. Thanks to Patchstack for the report.

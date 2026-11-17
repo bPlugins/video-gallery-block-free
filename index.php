@@ -69,6 +69,9 @@ if (function_exists('vgb_fs')) {
     // One polite, dismissible review request (admins only, after a week).
     require_once VIDGALBLK_DIR_PATH . '/includes/review-notice.php';
 
+    // BFCM promotional banner and action link.
+    require_once VIDGALBLK_DIR_PATH . '/includes/bfcm-notice.php';
+
     // Main plugin class
     if (!class_exists('VidGalBlkPlugin')) {
         class VidGalBlkPlugin {

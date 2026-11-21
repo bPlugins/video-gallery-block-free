@@ -111,7 +111,7 @@ if (function_exists('vgb_fs')) {
 
                 // The Freemius opt-in screen hides this plugin's menu until it is answered, so the page below
                 // would say "not allowed". Let Freemius show its opt-in first; it opens the first page after.
-                if ( function_exists( 'vgb_fs' ) && vgb_fs()->is_activation_mode() ) {
+                if ( function_exists( 'vgb_fs' ) && ( method_exists( vgb_fs(), 'is_activation_mode' ) ? vgb_fs()->is_activation_mode() : ( ! get_option( 'video-gallery-block-redirect', false ) || ( isset( $_GET['page'] ) && 'video-gallery-block-free-opt-in' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) ) ) ) {
                     return;
                 }
 

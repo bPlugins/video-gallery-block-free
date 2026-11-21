@@ -18,14 +18,14 @@ class AdminMenu  {
      */
     function highlightHelpDemoMenu() { ?>
         <style>
-            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"],
-            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"] *,
-            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:hover,
-            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:hover *,
-            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:focus,
-            #adminmenu a[href^="edit.php"][href$="page=vgb-help-demo"]:focus *,
-            #adminmenu li.current a[href^="edit.php"][href$="page=vgb-help-demo"],
-            #adminmenu li.current a[href^="edit.php"][href$="page=vgb-help-demo"] * {
+            #adminmenu a[href$="page=vgb-help-demo"],
+            #adminmenu a[href$="page=vgb-help-demo"] *,
+            #adminmenu a[href$="page=vgb-help-demo"]:hover,
+            #adminmenu a[href$="page=vgb-help-demo"]:hover *,
+            #adminmenu a[href$="page=vgb-help-demo"]:focus,
+            #adminmenu a[href$="page=vgb-help-demo"]:focus *,
+            #adminmenu li.current a[href$="page=vgb-help-demo"],
+            #adminmenu li.current a[href$="page=vgb-help-demo"] * {
                 color: #f18500 !important;
             }
         </style>

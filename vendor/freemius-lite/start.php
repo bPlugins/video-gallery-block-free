@@ -50,14 +50,19 @@ if ( ! class_exists( 'BPluginsFSLite' ) ) {
 			deactivate_plugins( plugin_basename( $this->plugin_file ) );
 		}
 
+		/**
+		 * Called by the other edition (free or pro) while this one is already loaded:
+		 * this edition steps aside so the one being activated takes over. Uses the real
+		 * plugin paths, so it works whatever folder each edition was installed in.
+		 */
 		public function set_basename( bool $is_premium, string $file ): void {
 			if ( ! function_exists( 'is_plugin_active' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
-			$b = basename( $file );
-			$s = $this->config->slug ?? '';
-			if ( is_plugin_active( "$s/$b" ) )     { deactivate_plugins( "$s/$b" ); }
-			if ( is_plugin_active( "$s-pro/$b" ) ) { deactivate_plugins( "$s-pro/$b" ); }
+			$mine = plugin_basename( $this->plugin_file );
+			if ( plugin_basename( $file ) !== $mine && is_plugin_active( $mine ) ) {
+				deactivate_plugins( $mine );
+			}
 		}
 	}
 }

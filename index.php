@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 }
 
 if (function_exists('vgb_fs')) {
-    vgb_fs()->set_basename(true, __FILE__);
+    vgb_fs()->set_basename(false, __FILE__);
 } else {
     /*
      * Constants.

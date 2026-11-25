@@ -40,7 +40,8 @@ const copy = (text, done) => {
 // One row per AI provider WordPress lists, like Settings → Connectors: its
 // logo, what it can do, and where it stands or the next step for it.
 // Connected ones first.
-const ProviderList = ({ list, adminUrl, connectorsUrl, current = "" }) => {
+// With onUse, a connected provider that is not in use gets a "Use this" button.
+const ProviderList = ({ list, adminUrl, connectorsUrl, current = "", onUse, busy }) => {
   const items =
     Array.isArray(list) && list.length
       ? list
@@ -63,6 +64,11 @@ const ProviderList = ({ list, adminUrl, connectorsUrl, current = "" }) => {
               <span className="vgbAiProvider__pill">{__("Connected", "video-gallery-block")}</span>
               {current === p.id && (
                 <span className="vgbAiProvider__pill is-use">{__("In use", "video-gallery-block")}</span>
+              )}
+              {onUse && current !== p.id && (
+                <button type="button" className="button" disabled={busy} onClick={() => onUse(p.id)}>
+                  {__("Use this", "video-gallery-block")}
+                </button>
               )}
               {connectorsUrl && (
                 <a className="vgbAiProvider__edit" href={connectorsUrl}>
@@ -109,19 +115,16 @@ const ProviderList = ({ list, adminUrl, connectorsUrl, current = "" }) => {
   );
 };
 
-// One capability chip: what the connected provider can (✓) or cannot (✗) do.
-const Chip = ({ on, label, off }) => (
-  <li className={"vgbAiSetup__chip " + (on ? "is-on" : "is-off")} title={on ? undefined : off}>
-    <span aria-hidden="true">{on ? "✓" : "✗"}</span> {label}
-    <span className="screen-reader-text">
-      {on ? __("(available)", "video-gallery-block") : off}
-    </span>
+// One thing the connected provider can do (what it cannot do is not shown).
+const Chip = ({ label }) => (
+  <li className="vgbAiSetup__chip is-on">
+    <span aria-hidden="true">✓</span> {label}
   </li>
 );
 
 // A card in the look of the dashboard's Settings page.
-const Card = ({ badge, badgeClass = "", title, text, children, foot }) => (
-  <section className="settingsCard">
+const Card = ({ id, badge, badgeClass = "", title, text, children, foot }) => (
+  <section className="settingsCard" id={id}>
     <header className="settingsCardHead">
       {badge && <span className={"vgbAiSetup__badge " + badgeClass}>{badge}</span>}
       <div>
@@ -302,6 +305,16 @@ const AiSetup = ({ restUrl, adminUrl }) => {
     statusClass = "is-ready";
   }
 
+  // The provider rows: every provider WordPress lists, or just the connected ones.
+  const providerRows =
+    Array.isArray(status?.available) && status.available.length
+      ? status.available
+      : (status?.providers || []).map((p) => ({ ...p, connected: true }));
+  const chosenName = providerRows.find((p) => p.id === status?.provider)?.name || status?.provider;
+
+  // Where the MCP Adapter stands (administrators only): ready, installed but off, or missing.
+  const mcp = status?.mcp;
+
   const resultLine = result && (
     <p
       className={"vgbAiSetup__result " + (result.ok ? "is-ok" : "is-bad")}
@@ -317,10 +330,12 @@ const AiSetup = ({ restUrl, adminUrl }) => {
         <span className="settingsEyebrow">{__("AI Setup", "video-gallery-block")}</span>
         <h1>{__("Build galleries with AI", "video-gallery-block")}</h1>
         <p>
-          {__(
-            "Turn on AI once and Video Gallery Block can set up a gallery from a short description. You will find it in the block's sidebar under “Edit with AI”.",
-            "video-gallery-block",
-          )}
+          {ready
+            ? __("Describe a gallery in the block's sidebar under “Edit with AI”, or connect an AI app.", "video-gallery-block")
+            : __(
+                "Turn on AI once and Video Gallery Block can set up a gallery from a short description. You will find it in the block's sidebar under “Edit with AI”.",
+                "video-gallery-block",
+              )}
         </p>
       </header>
 
@@ -329,14 +344,25 @@ const AiSetup = ({ restUrl, adminUrl }) => {
         <div className="settingsStatusBody">
           <h2>{statusTitle}</h2>
           <p>{statusText}</p>
+          {!loading && !failed && ready && (
+            <ul className="vgbAiSetup__chips">
+              <Chip label={__("Gallery setup & styles", "video-gallery-block")} />
+              <Chip label={__("Better video titles", "video-gallery-block")} />
+              <Chip label={__("Sort videos into albums", "video-gallery-block")} />
+            </ul>
+          )}
         </div>
         {!loading && (
-          <button type="button" className="vgbAiSetup__recheck" onClick={load}>
-            {refreshIcon}
-            {__("Check again", "video-gallery-block")}
-          </button>
+          <div className="vgbAiSetup__statusActions">
+            {ready && testButton}
+            <button type="button" className="vgbAiSetup__recheck" onClick={load}>
+              {refreshIcon}
+              {__("Check again", "video-gallery-block")}
+            </button>
+          </div>
         )}
       </section>
+      {ready && resultLine}
 
       {!loading && !failed && !blocked && !ready && (
         <Card
@@ -392,82 +418,40 @@ const AiSetup = ({ restUrl, adminUrl }) => {
         </Card>
       )}
 
-      {!loading && !failed && ready && (
-        <Card
-          badge={__("Ready", "video-gallery-block")}
-          badgeClass="is-ok"
-          title={__("What you can do now", "video-gallery-block")}
-          text={__(
-            "Add a Video Gallery block to any page, then open “Edit with AI” in the block's sidebar and say what you want.",
-            "video-gallery-block",
-          )}
-          foot={
-            <>
-              <div className="vgbAiSetup__actions">
-                <a className="button button-primary" href={(adminUrl || "") + "post-new.php?post_type=page"}>
-                  {__("Try it on a new page", "video-gallery-block")}
-                </a>
-                {testButton}
-              </div>
-              {resultLine}
-            </>
-          }>
-          <ul className="vgbAiSetup__chips">
-            <Chip on label={__("Gallery setup & styles", "video-gallery-block")} />
-            <Chip on label={__("Better video titles", "video-gallery-block")} />
-            <Chip on label={__("Sort videos into albums", "video-gallery-block")} />
-          </ul>
-        </Card>
-      )}
-
       {!loading && !failed && ready && Array.isArray(status.providers) && (
         <Card
+          id="vgbAiProvidersCard"
           badge={__("Provider", "video-gallery-block")}
           title={__("AI providers", "video-gallery-block")}
-          text={__(
-            "The gallery's AI uses one connected provider. Let WordPress choose, or pick one.",
-            "video-gallery-block",
-          )}>
-          <div className="vgbAiSetup__useRow">
-            <label htmlFor="vgbAiProviderSelect">{__("Use for galleries", "video-gallery-block")}</label>
-            <select
-              id="vgbAiProviderSelect"
-              className="vgbAiSetup__select"
-              value={status.provider || ""}
-              disabled={choosing}
-              onChange={(e) => chooseProvider(e.target.value)}>
-              <option value="">{__("Let WordPress choose", "video-gallery-block")}</option>
-              {(Array.isArray(status.available) && status.available.length
-                ? status.available.filter((p) => !p.suggested)
-                : status.providers.map((p) => ({ ...p, connected: true }))
-              ).map((p) => (
-                <option key={p.id} value={p.id} disabled={!p.connected}>
-                  {p.connected
-                    ? p.name
-                    : sprintf(
-                        /* translators: %s: AI provider name */
-                        __("%s (not set up)", "video-gallery-block"),
-                        p.name,
-                      )}
-                </option>
-              ))}
-            </select>
-            <span className="vgbAiSetup__saved" role="status">
-              {choosing
-                ? __("Saving…", "video-gallery-block")
-                : saved
-                ? __("✓ Saved", "video-gallery-block")
-                : ""}
-            </span>
-          </div>
-          {Array.isArray(status.available) && status.available.length > 0 && (
-            <ProviderList
-              list={status.available}
-              adminUrl={adminUrl}
-              connectorsUrl={status.connectors_url}
-              current={status.provider || ""}
-            />
-          )}
+          text={__("The gallery's AI uses one connected provider.", "video-gallery-block")}>
+          <p className="vgbAiSetup__note vgbAiSetup__chosen" role="status">
+            {choosing ? (
+              __("Saving…", "video-gallery-block")
+            ) : saved ? (
+              __("✓ Saved", "video-gallery-block")
+            ) : status.provider ? (
+              <>
+                {sprintf(
+                  /* translators: %s: AI provider name */
+                  __("You chose %s.", "video-gallery-block"),
+                  chosenName,
+                )}{" "}
+                <button type="button" className="button-link" onClick={() => chooseProvider("")}>
+                  {__("Let WordPress choose", "video-gallery-block")}
+                </button>
+              </>
+            ) : (
+              __("WordPress picks a connected provider for you. Press “Use this” to always use one.", "video-gallery-block")
+            )}
+          </p>
+          <ProviderList
+            list={providerRows}
+            adminUrl={adminUrl}
+            connectorsUrl={status.connectors_url}
+            current={status.provider || ""}
+            onUse={chooseProvider}
+            busy={choosing}
+          />
           {status.connectors_url && (
             <p className="vgbAiSetup__note">
               {__("Keys are kept by WordPress, under", "video-gallery-block")}{" "}
@@ -478,6 +462,7 @@ const AiSetup = ({ restUrl, adminUrl }) => {
       )}
 
       <Card
+        id="vgbAiAppsCard"
         badge={__("Optional", "video-gallery-block")}
         badgeClass="is-muted"
         title={__("Use it from other AI apps", "video-gallery-block")}
@@ -486,15 +471,25 @@ const AiSetup = ({ restUrl, adminUrl }) => {
           "video-gallery-block",
         )}>
         <ol className="vgbAiSetup__steps">
-          <li>
-            <span className="vgbAiSetup__num" aria-hidden="true">1</span>
+          <li className={"ready" === mcp ? "is-done" : ""}>
+            <span className="vgbAiSetup__num" aria-hidden="true">{"ready" === mcp ? "✓" : "1"}</span>
             <div>
-              <strong>{__("Install the MCP Adapter plugin", "video-gallery-block")}</strong>
-              <span>
-                <a href={(adminUrl || "") + "plugin-install.php?tab=plugin-information&plugin=mcp-adapter"}>
-                  {__("Install MCP Adapter", "video-gallery-block")}
-                </a>
-              </span>
+              <strong>
+                {"ready" === mcp
+                  ? __("The MCP Adapter is installed and running", "video-gallery-block")
+                  : __("Install the MCP Adapter plugin", "video-gallery-block")}
+              </strong>
+              {"ready" !== mcp && (
+                <span>
+                  {"installed" === mcp ? (
+                    <a href={(adminUrl || "") + "plugins.php"}>{__("Activate MCP Adapter", "video-gallery-block")}</a>
+                  ) : (
+                    <a href={(adminUrl || "") + "plugin-install.php?tab=plugin-information&plugin=mcp-adapter"}>
+                      {__("Install MCP Adapter", "video-gallery-block")}
+                    </a>
+                  )}
+                </span>
+              )}
             </div>
           </li>
           <li>

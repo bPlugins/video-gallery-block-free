@@ -1006,7 +1006,15 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    margin: 0 0 12px;
+    margin: 12px 0;
+  }
+
+  // Links and link-buttons in the panel are at least 24px tall, so they are easy to hit.
+  a,
+  .components-button.is-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
   }
 
   &__chip {

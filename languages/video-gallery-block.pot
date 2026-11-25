@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-08T06:49:00+00:00\n"
+"POT-Creation-Date: 2026-11-25T05:40:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.11.0\n"
 "X-Domain: video-gallery-block\n"
@@ -114,7 +114,7 @@ msgid "Fixed height"
 msgstr ""
 
 #: includes/ai-assistant.php:302
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:595
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:626
 msgid "Thumbnail shape"
 msgstr ""
 
@@ -147,27 +147,30 @@ msgid "Fit (no crop)"
 msgstr ""
 
 #: includes/ai-assistant.php:336
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:632
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:663
 msgid "Thumbnail fit"
 msgstr ""
 
 #: includes/ai-assistant.php:342
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:77
 #: src/blocks/video-gallery-block/utils/options.js:52
 msgid "Left"
 msgstr ""
 
 #: includes/ai-assistant.php:343
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:78
 #: src/blocks/video-gallery-block/utils/options.js:53
 msgid "Center"
 msgstr ""
 
 #: includes/ai-assistant.php:344
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:79
 #: src/blocks/video-gallery-block/utils/options.js:54
 msgid "Right"
 msgstr ""
 
 #: includes/ai-assistant.php:346
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:565
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:602
 msgid "Row alignment"
 msgstr ""
 
@@ -176,17 +179,17 @@ msgid "Open in a popup"
 msgstr ""
 
 #: includes/ai-assistant.php:353
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:799
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:857
 msgid "Play in place"
 msgstr ""
 
 #: includes/ai-assistant.php:355
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:772
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:830
 msgid "When a video is clicked"
 msgstr ""
 
 #: includes/ai-assistant.php:361
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:217
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:228
 #: src/blocks/video-gallery-block/utils/options.js:42
 msgid "Manual"
 msgstr ""
@@ -219,8 +222,8 @@ msgid "Only Shorts"
 msgstr ""
 
 #: includes/ai-assistant.php:375
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:589
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:707
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:593
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:748
 msgid "YouTube Shorts"
 msgstr ""
 
@@ -245,103 +248,158 @@ msgid "Videos per page"
 msgstr ""
 
 #: includes/ai-assistant.php:405
+msgid "Videos per Load more click"
+msgstr ""
+
+#: includes/ai-assistant.php:410
 msgid "YouTube / Vimeo channel or playlist"
 msgstr ""
 
-#: includes/ai-assistant.php:564
-#: includes/ai-assistant.php:616
-#: includes/ai-assistant.php:680
+#: includes/ai-assistant.php:567
+msgid "Text generation with Mistral AI models."
+msgstr ""
+
+#: includes/ai-assistant.php:568
+msgid "Models from many providers through one Vercel API key."
+msgstr ""
+
+#: includes/ai-assistant.php:569
+msgid "Text generation with DeepSeek models."
+msgstr ""
+
+#: includes/ai-assistant.php:570
+msgid "Models from many providers through one OpenRouter key."
+msgstr ""
+
+#: includes/ai-assistant.php:625
+#: includes/ai-assistant.php:677
+#: includes/ai-assistant.php:741
 msgid "Too many AI requests in a short time. Please wait a few minutes and try again."
 msgstr ""
 
-#: includes/ai-assistant.php:577
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:124
+#: includes/ai-assistant.php:638
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:142
 msgid "Connected. AI is working."
 msgstr ""
 
-#: includes/ai-assistant.php:607
+#: includes/ai-assistant.php:668
 msgid "Write what you would like the gallery to look like."
 msgstr ""
 
-#: includes/ai-assistant.php:622
+#: includes/ai-assistant.php:683
 msgid "This block has no settings the AI can change."
 msgstr ""
 
-#: includes/ai-assistant.php:634
+#: includes/ai-assistant.php:695
 msgid "The AI answered in a way we could not use. Please try again, or word the request a little differently."
 msgstr ""
 
-#: includes/ai-assistant.php:739
+#: includes/ai-assistant.php:800
 msgid "Every video already has a title."
 msgstr ""
 
-#: includes/ai-assistant.php:787
-#: includes/ai-assistant.php:903
+#: includes/ai-assistant.php:848
+#: includes/ai-assistant.php:964
 msgid "The AI answered in a way we could not use. Please try again."
 msgstr ""
 
-#: includes/ai-assistant.php:827
+#: includes/ai-assistant.php:888
 msgid "Add titles to at least 4 videos first, so there is something to sort."
 msgstr ""
 
-#: includes/ai-assistant.php:1001
+#: includes/ai-assistant.php:1062
 msgid "AI needs WordPress 7.0 or newer."
 msgstr ""
 
-#: includes/ai-assistant.php:1003
+#: includes/ai-assistant.php:1064
 msgid "AI is switched off on this site."
 msgstr ""
 
-#: includes/ai-assistant.php:1005
-#: includes/ai-assistant.php:1176
+#: includes/ai-assistant.php:1066
+#: includes/ai-assistant.php:1237
 msgid "Your AI connector is waiting for approval. Approve it under Tools, Connector Approvals, then try again."
 msgstr ""
 
-#: includes/ai-assistant.php:1007
+#: includes/ai-assistant.php:1068
 msgid "We could not reach your AI provider right now. Check the key under Settings, Connectors, then try again."
 msgstr ""
 
-#: includes/ai-assistant.php:1009
+#: includes/ai-assistant.php:1070
 msgid "AI is not set up yet. Connect an AI provider under Settings, Connectors."
 msgstr ""
 
-#: includes/ai-assistant.php:1076
-#: includes/ai-assistant.php:1215
+#: includes/ai-assistant.php:1137
+#: includes/ai-assistant.php:1276
 msgid "The AI could not answer right now. Please try again in a moment."
 msgstr ""
 
-#: includes/ai-assistant.php:1184
+#: includes/ai-assistant.php:1245
 msgid "The AI provider took too long to answer. Please try again."
 msgstr ""
 
-#: includes/ai-assistant.php:1192
+#: includes/ai-assistant.php:1253
 msgid "The AI provider is busy right now. Please try again in a moment."
 msgstr ""
 
 #. translators: %s: AI provider name, for example Google
-#: includes/ai-assistant.php:1203
+#: includes/ai-assistant.php:1264
 msgid "%s says its usage limit has been reached. Free keys allow very few requests: wait a few minutes, or turn on billing for the key, then try again."
 msgstr ""
 
-#: includes/ai-assistant.php:1204
+#: includes/ai-assistant.php:1265
 msgid "The AI provider says its usage limit has been reached. Wait a few minutes, or check the plan or billing with your provider, then try again."
 msgstr ""
 
-#: includes/ai-assistant.php:1211
+#: includes/ai-assistant.php:1272
 msgid "The AI provider did not accept the saved key. Check it under Settings, Connectors."
 msgstr ""
 
-#: includes/ai-assistant.php:1457
+#: includes/ai-assistant.php:1518
 msgid "On"
 msgstr ""
 
-#: includes/ai-assistant.php:1457
+#: includes/ai-assistant.php:1518
 msgid "Off"
 msgstr ""
 
-#: includes/ai-assistant.php:1463
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:71
+#: includes/ai-assistant.php:1524
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:32
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:76
 msgid "None"
+msgstr ""
+
+#: includes/bfcm-notice.php:592
+msgid "Biggest Black Friday Sale – Flat 45% OFF!"
+msgstr ""
+
+#. translators: %s: Pro plugin name
+#: includes/bfcm-notice.php:601
+msgid "Showcase your videos in a responsive, filterable gallery. Upgrade to %s to unlock 31+ advanced layouts, YouTube & Vimeo auto-feeds, Wistia support, and enhanced video SEO during this limited-time sale!"
+msgstr ""
+
+#: includes/bfcm-notice.php:622
+msgid "Unlock PRO Features →"
+msgstr ""
+
+#: includes/bfcm-notice.php:624
+msgid "Dismiss notice"
+msgstr ""
+
+#: includes/bfcm-notice.php:684
+#: includes/bfcm-notice.php:722
+msgid "Black Friday: 45% OFF"
+msgstr ""
+
+#: includes/bfcm-notice.php:727
+msgid "Use coupon code %s (Ends Dec 5th)."
+msgstr ""
+
+#: includes/bfcm-notice.php:733
+msgid "Claim Discount →"
+msgstr ""
+
+#: includes/bfcm-notice.php:736
+msgid "Dismiss"
 msgstr ""
 
 #: includes/class-vidgalblk-rest-handler.php:19
@@ -424,6 +482,59 @@ msgstr ""
 
 #: includes/feed-alerts.php:421
 msgid "Email me about feed problems"
+msgstr ""
+
+#. translators: %s: a number of years.
+#: includes/helpers.php:1007
+#: src/blocks/video-gallery-block/utils/details.js:16
+msgid "%s year ago"
+msgid_plural "%s years ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: a number of months.
+#: includes/helpers.php:1009
+#: src/blocks/video-gallery-block/utils/details.js:17
+msgid "%s month ago"
+msgid_plural "%s months ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: a number of weeks.
+#: includes/helpers.php:1011
+#: src/blocks/video-gallery-block/utils/details.js:18
+msgid "%s week ago"
+msgid_plural "%s weeks ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: a number of days.
+#: includes/helpers.php:1013
+#: src/blocks/video-gallery-block/utils/details.js:19
+msgid "%s day ago"
+msgid_plural "%s days ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: a number of hours.
+#: includes/helpers.php:1015
+#: src/blocks/video-gallery-block/utils/details.js:20
+msgid "%s hour ago"
+msgid_plural "%s hours ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: a number of minutes.
+#: includes/helpers.php:1017
+#: src/blocks/video-gallery-block/utils/details.js:21
+msgid "%s minute ago"
+msgid_plural "%s minutes ago"
+msgstr[0] ""
+msgstr[1] ""
+
+#: includes/helpers.php:1025
+#: src/blocks/video-gallery-block/utils/details.js:29
+msgid "Just now"
 msgstr ""
 
 #: includes/patterns.php:148
@@ -748,6 +859,11 @@ msgstr ""
 msgid "Video Gallery Updated"
 msgstr ""
 
+#: includes/rootPlugin/inc/Pricing.php:26
+#: includes/rootPlugin/inc/Pricing.php:27
+msgid "Upgrade"
+msgstr ""
+
 #: includes/vimeo-feed.php:39
 msgid "This is a link to one video, not a list. Paste the link of a Vimeo profile (vimeo.com/name), channel (vimeo.com/channels/…) or showcase (vimeo.com/showcase/…) instead."
 msgstr ""
@@ -842,208 +958,308 @@ msgid "We could not find that channel. Open it on YouTube and copy the link from
 msgstr ""
 
 #. translators: %d: video number within the gallery.
-#: src/blocks/video-gallery-block/render.php:152
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:917
+#: src/blocks/video-gallery-block/render.php:163
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:944
 msgid "Play video %d"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:8
+#: src/admin/Components/AiSetup.js:16
 msgid "AI needs WordPress 7.0 or newer. Update WordPress to use it."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:12
+#: src/admin/Components/AiSetup.js:20
 msgid "AI is switched off for this site, so Video Gallery Block cannot use it."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:20
+#: src/admin/Components/AiSetup.js:28
 msgid "List and read your video galleries"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:21
+#: src/admin/Components/AiSetup.js:29
 msgid "Check whether a YouTube or Vimeo feed is healthy"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:50
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:508
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:517
+#: src/admin/Components/AiSetup.js:63
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:207
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:512
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:521
 msgid "Connected"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:52
+#: src/admin/Components/AiSetup.js:65
+msgid "In use"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:69
+msgid "Edit"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:77
 msgid "Add key"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:54
+#: src/admin/Components/AiSetup.js:83
 msgid "Activate"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:58
+#: src/admin/Components/AiSetup.js:91
 msgid "Install"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:101
-msgid "Could not change the provider."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:111
-msgid "The AI answered. Everything works."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:113
-msgid "The test failed. Please try again."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:126
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:263
-msgid "Connect an AI provider"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:127
-msgid "Install a provider plugin (Google, OpenAI or Anthropic) and paste its API key under Settings, Connectors. Google has a free plan with limits; OpenAI and Anthropic need a paid account."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:134
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:266
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:298
-msgid "Open Connectors"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:142
-msgid "Allow Video Gallery Block to use it"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:143
-msgid "Approve this plugin for your provider."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:147
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:276
-msgid "Open Connector Approvals"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:154
-msgid "Test the connection"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:155
-msgid "One tiny request to your provider, so you know it works before you edit a gallery."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:159
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:190
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:301
-msgid "Testing…"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:159
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:190
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:301
-msgid "Test connection"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:168
-msgid "AI Setup"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:170
-msgid "Turn on AI once and Video Gallery Block can set up a gallery from a short description. You will find it in the block's sidebar under “Edit with AI”."
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:177
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:357
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:507
-msgid "Checking…"
+#: src/admin/Components/AiSetup.js:117
+msgid "(available)"
 msgstr ""
 
 #: src/admin/Components/AiSetup.js:180
-msgid "Could not check the AI status. Please try again."
+msgid "Could not change the provider."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:182
-#: src/admin/Components/AiSetup.js:260
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:357
-msgid "Check again"
+#: src/admin/Components/AiSetup.js:195
+msgid "The AI answered. Everything works."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:191
-msgid "AI is ready."
+#: src/admin/Components/AiSetup.js:202
+msgid "The test failed. Please try again."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:192
-msgid "Not ready yet. Follow the steps below:"
+#: src/admin/Components/AiSetup.js:222
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:241
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:354
+msgid "Testing…"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:203
-msgid "Pick a provider:"
+#: src/admin/Components/AiSetup.js:223
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:241
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:354
+msgid "Test connection"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:209
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:335
-msgid "Get a key:"
-msgstr ""
-
-#: src/admin/Components/AiSetup.js:224
 #: src/admin/Components/AiSetup.js:229
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:160
-msgid "AI provider"
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:315
+msgid "Connect an AI provider"
 msgstr ""
 
 #: src/admin/Components/AiSetup.js:230
+msgid "Install a provider plugin (Google, OpenAI or Anthropic) and paste its API key under Settings, Connectors. Google has a free plan with limits; OpenAI and Anthropic need a paid account."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:237
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:318
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:351
+msgid "Open Connectors"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:245
+msgid "Allow Video Gallery Block to use it"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:249
+msgid "Approve this plugin for your provider."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:256
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:328
+msgid "Open Connector Approvals"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:263
+msgid "Test the connection"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:264
+msgid "One tiny request to your provider, so you know it works before you edit a gallery."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:276
+msgid "AI is not set up yet"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:277
+msgid "Follow the steps below. It takes about two minutes."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:283
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:410
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:511
+msgid "Checking…"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:284
+msgid "Asking WordPress whether an AI provider is connected."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:287
+msgid "Could not check the AI status"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:288
+msgid "Please try again."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:292
+msgid "AI is not available"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:297
+msgid "AI is ready"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:298
+msgid "Your AI provider is connected. Open any Video Gallery block and use “Edit with AI” in its sidebar."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:317
+msgid "AI Setup"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:318
+msgid "Build galleries with AI"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:320
+msgid "Turn on AI once and Video Gallery Block can set up a gallery from a short description. You will find it in the block's sidebar under “Edit with AI”."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:336
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:410
+msgid "Check again"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:343
+msgid "Get started"
+msgstr ""
+
+#. translators: %d: number of steps
+#: src/admin/Components/AiSetup.js:346
+msgid "Turn on AI in %d steps"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:349
+msgid "You need an AI provider account. Your key stays in WordPress; Video Gallery Block never sees it."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:372
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:388
+msgid "Get a key:"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:397
+msgid "Ready"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:399
+msgid "What you can do now"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:400
+msgid "Add a Video Gallery block to any page, then open “Edit with AI” in the block's sidebar and say what you want."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:408
+msgid "Try it on a new page"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:416
+msgid "Gallery setup & styles"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:417
+msgid "Better video titles"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:418
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:635
+msgid "Sort videos into albums"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:425
+msgid "Provider"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:426
+msgid "AI providers"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:427
+msgid "The gallery's AI uses one connected provider. Let WordPress choose, or pick one."
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:432
+msgid "Use for galleries"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:439
 msgid "Let WordPress choose"
 msgstr ""
 
 #. translators: %s: AI provider name
-#: src/admin/Components/AiSetup.js:240
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:169
+#: src/admin/Components/AiSetup.js:449
 msgid "%s (not set up)"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:248
-msgid "Set up another provider:"
+#: src/admin/Components/AiSetup.js:457
+msgid "Saving…"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:266
-msgid "Use it from other AI apps (optional)"
+#: src/admin/Components/AiSetup.js:459
+msgid "✓ Saved"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:268
+#: src/admin/Components/AiSetup.js:473
+msgid "Keys are kept by WordPress, under"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:474
+msgid "Settings → Connectors"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:481
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:84
+msgid "Optional"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:483
+msgid "Use it from other AI apps"
+msgstr ""
+
+#: src/admin/Components/AiSetup.js:484
 msgid "Apps such as Claude or ChatGPT can look at your galleries through the WordPress MCP Adapter plugin. They act as the user you sign in with, so they can only do what that user may do."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:278
+#: src/admin/Components/AiSetup.js:492
 msgid "Install the MCP Adapter plugin"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:281
+#: src/admin/Components/AiSetup.js:495
 msgid "Install MCP Adapter"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:289
+#: src/admin/Components/AiSetup.js:503
 msgid "Sign your AI app in"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:291
+#: src/admin/Components/AiSetup.js:505
 msgid "How an AI app signs in depends on the app. The MCP Adapter guide explains the options."
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:293
+#: src/admin/Components/AiSetup.js:510
 msgid "Open the guide"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:301
+#: src/admin/Components/AiSetup.js:518
 msgid "Give the AI app this address"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:307
+#: src/admin/Components/AiSetup.js:531
 msgid "Copied"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:307
+#: src/admin/Components/AiSetup.js:532
 msgid "Copy address"
 msgstr ""
 
-#: src/admin/Components/AiSetup.js:312
-msgid "What the AI app can do:"
+#: src/admin/Components/AiSetup.js:538
+msgid "What the AI app can do"
 msgstr ""
 
 #: src/admin/Components/Settings.js:15
@@ -1096,7 +1312,7 @@ msgid "Channel Feed"
 msgstr ""
 
 #: src/admin/utils/data.js:59
-#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:91
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:111
 msgid "Albums"
 msgstr ""
 
@@ -1105,7 +1321,7 @@ msgid "Filters"
 msgstr ""
 
 #: src/admin/utils/data.js:61
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:795
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:853
 msgid "Lightbox"
 msgstr ""
 
@@ -1277,581 +1493,629 @@ msgid "Paste the code into your PHP file and replace <code>YOUR_ID</code> with t
 msgstr ""
 
 #: src/admin/utils/data.js:209
-msgid "<strong>Security:</strong> Hardened video links and captions in the Video Gallery block. A video title or caption can no longer run script when the lightbox opens, whether the gallery video is opened from the page or from the editor. Thanks to Patchstack for the report."
+msgid "<strong>New:</strong> Edit with AI. Describe the gallery you want and preview the changes before you apply them, write titles for videos that have none, and sort videos into albums. It needs WordPress 7.0 or newer and an AI provider connected under Settings > Connectors; nothing happens until you press a button, and you can undo it."
 msgstr ""
 
 #: src/admin/utils/data.js:210
-msgid "<strong>New:</strong> Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar."
+msgid "<strong>New:</strong> A single, polite request to rate the plugin appears on the Dashboard and Plugins screens after a week of use. It can be dismissed or postponed, never returns once dismissed, and is not shown on sites with a Pro license."
 msgstr ""
 
 #: src/admin/utils/data.js:211
-msgid "<strong>New:</strong> Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click \"Check now\". If YouTube or Vimeo can't be reached, the last videos stay on the page."
+msgid "<strong>Improvement:</strong> Faster galleries. Cached YouTube and Vimeo thumbnails now get a smaller copy and explicit width and height, so phones and standard screens download less and the page no longer shifts while images load. The look of the gallery does not change."
 msgstr ""
 
 #: src/admin/utils/data.js:212
-msgid "<strong>New:</strong> Paste a single video's link and the gallery offers that creator's whole channel."
+msgid "<strong>Fix:</strong> Lightbox video playback fixes — videos start reliably when opened, background audio stops upon switching slides, and returning to a watched YouTube video no longer freezes at 0:00."
 msgstr ""
 
 #: src/admin/utils/data.js:213
-msgid "<strong>New:</strong> The YouTube Shorts option (all videos, hide Shorts, only Shorts) also works for channel feeds."
+msgid "<strong>Tweak:</strong> Added Help and Demo action links on the Plugins screen row."
 msgstr ""
 
-#: src/admin/utils/data.js:214
-msgid "<strong>New:</strong> Play in place. A video can play inside its own tile instead of the lightbox (YouTube, Vimeo, Facebook and video files), one at a time."
+#: src/admin/utils/data.js:220
+msgid "<strong>Security:</strong> Hardened video links and captions in the Video Gallery block. A video title or caption can no longer run script when the lightbox opens, whether the gallery video is opened from the page or from the editor. Thanks to Patchstack for the report."
 msgstr ""
 
-#: src/admin/utils/data.js:215
-msgid "<strong>New:</strong> Feed alerts. When a feed stops updating, for example because of a wrong or expired API key, a used-up daily quota or a deleted playlist, administrators see a notice saying what is wrong and where to fix it. It can be hidden for a day, sent by email if you turn that on, and goes away by itself once the feed works again."
+#: src/admin/utils/data.js:221
+msgid "<strong>New:</strong> Show a YouTube channel or playlist, or a Vimeo profile, channel, group or showcase, as a gallery. New uploads appear by themselves. Vimeo needs no key. YouTube needs a free YouTube Data API key once, with step-by-step setup in the sidebar."
 msgstr ""
 
 #: src/admin/utils/data.js:222
-msgid "<strong>Improvement:</strong> YouTube thumbnails use the best size that exists for each video, and the live page now shows the same thumbnail as the editor instead of a cropped, blurrier one."
+msgid "<strong>New:</strong> Choose how often the gallery checks for new videos (every hour, 6 hours, 12 hours or once a day), or click \"Check now\". If YouTube or Vimeo can't be reached, the last videos stay on the page."
 msgstr ""
 
 #: src/admin/utils/data.js:223
-msgid "<strong>Improvement:</strong> Video SEO markup gives feed videos their real publish date."
+msgid "<strong>New:</strong> Paste a single video's link and the gallery offers that creator's whole channel."
 msgstr ""
 
 #: src/admin/utils/data.js:224
-msgid "<strong>Improvement:</strong> When \"delete data on uninstall\" is on, deleting the plugin also removes the YouTube API key and the cached feeds."
+msgid "<strong>New:</strong> The YouTube Shorts option (all videos, hide Shorts, only Shorts) also works for channel feeds."
 msgstr ""
 
 #: src/admin/utils/data.js:225
-msgid "<strong>Fix:</strong> Full-width galleries no longer stick out past the edge of the page in classic themes such as Hello Elementor, on computers with a visible scrollbar."
+msgid "<strong>New:</strong> Play in place. A video can play inside its own tile instead of the lightbox (YouTube, Vimeo, Facebook and video files), one at a time."
 msgstr ""
 
 #: src/admin/utils/data.js:226
-msgid "<strong>Fix:</strong> The upgrade (checkout) window opens again; it could fail with a 520 error."
+msgid "<strong>New:</strong> Feed alerts. When a feed stops updating, for example because of a wrong or expired API key, a used-up daily quota or a deleted playlist, administrators see a notice saying what is wrong and where to fix it. It can be hidden for a day, sent by email if you turn that on, and goes away by itself once the feed works again."
 msgstr ""
 
-#: src/admin/utils/data.js:227
-msgid "<strong>Fix:</strong> The lightbox no longer keeps following the mouse after the button is released outside the window."
+#: src/admin/utils/data.js:233
+msgid "<strong>Improvement:</strong> YouTube thumbnails use the best size that exists for each video, and the live page now shows the same thumbnail as the editor instead of a cropped, blurrier one."
 msgstr ""
 
-#: src/admin/utils/data.js:229
-msgid "<strong>Fix:</strong> The lightbox no longer conflicts with other plugins that also load Fancybox."
+#: src/admin/utils/data.js:234
+msgid "<strong>Improvement:</strong> Video SEO markup gives feed videos their real publish date."
 msgstr ""
 
-#: src/admin/utils/data.js:230
-msgid "<strong>Security:</strong> Hardened block CSS output."
+#: src/admin/utils/data.js:235
+msgid "<strong>Improvement:</strong> When \"delete data on uninstall\" is on, deleting the plugin also removes the YouTube API key and the cached feeds."
+msgstr ""
+
+#: src/admin/utils/data.js:236
+msgid "<strong>Fix:</strong> Full-width galleries no longer stick out past the edge of the page in classic themes such as Hello Elementor, on computers with a visible scrollbar."
 msgstr ""
 
 #: src/admin/utils/data.js:237
-msgid "<strong>Update:</strong> Freemius SDK updated to 2.13.5."
+msgid "<strong>Fix:</strong> The upgrade (checkout) window opens again; it could fail with a 520 error."
 msgstr ""
 
 #: src/admin/utils/data.js:238
+msgid "<strong>Fix:</strong> The lightbox no longer keeps following the mouse after the button is released outside the window."
+msgstr ""
+
+#: src/admin/utils/data.js:240
+msgid "<strong>Fix:</strong> The lightbox no longer conflicts with other plugins that also load Fancybox."
+msgstr ""
+
+#: src/admin/utils/data.js:241
+msgid "<strong>Security:</strong> Hardened block CSS output."
+msgstr ""
+
+#: src/admin/utils/data.js:248
+msgid "<strong>Update:</strong> Freemius SDK updated to 2.13.5."
+msgstr ""
+
+#: src/admin/utils/data.js:249
 msgid "<strong>Fix:</strong> After activating the plugin, the page no longer says you are not allowed to access it. The Freemius opt-in now opens first, then the first page of the plugin."
 msgstr ""
 
-#: src/admin/utils/data.js:245
+#: src/admin/utils/data.js:256
 msgid "<strong>New:</strong> Video play events for Google Analytics. A video now sends video_play when a visitor presses play, and video_watch_progress at 25, 50 and 75 percent and video_watch_complete when they finish. Works with files, YouTube and Vimeo. Facebook videos only report that they were opened."
 msgstr ""
 
-#: src/admin/utils/data.js:246
+#: src/admin/utils/data.js:257
 msgid "<strong>New:</strong> Video events are also sent straight to Google Analytics when gtag.js is on the page, for example with Site Kit. Google Tag Manager is no longer needed."
 msgstr ""
 
-#: src/admin/utils/data.js:247
+#: src/admin/utils/data.js:258
 msgid "<strong>Fix:</strong> Facebook Reel links now open as Facebook videos."
 msgstr ""
 
-#: src/admin/utils/data.js:254
+#: src/admin/utils/data.js:265
 msgid "<strong>Fix:</strong> Editor Hover Tooltip Visibility — fixed an issue where the tooltip for the first row of videos in the gallery would be clipped by Gutenberg's block boundaries."
 msgstr ""
 
-#: src/admin/utils/data.js:255
+#: src/admin/utils/data.js:266
 msgid "<strong>Fix:</strong> Editor Selection Border — fixed an issue where the blue selection outline would be hidden behind poster images in the editor."
 msgstr ""
 
-#: src/admin/utils/data.js:262
+#: src/admin/utils/data.js:273
 msgid "<strong>New:</strong> Animated Album Filtering — switching album filters now features smooth FLIP layout transitions (sliding into place, fade-in, and scale effects) with zero external library overhead."
 msgstr ""
 
-#: src/admin/utils/data.js:263
+#: src/admin/utils/data.js:274
 msgid "<strong>New:</strong> Editor Interaction & Double-Click Preview — single-clicking any video tile in the block editor selects it in the sidebar, while double-clicking opens the lightbox preview."
 msgstr ""
 
-#: src/admin/utils/data.js:264
+#: src/admin/utils/data.js:275
 msgid "<strong>Fix:</strong> Editor Hover Tooltip Visibility — fixed an issue where the hover hint tooltip was clipped and hidden by thumbnail overflow boundaries in the editor."
 msgstr ""
 
-#: src/admin/utils/data.js:271
+#: src/admin/utils/data.js:282
 msgid "<strong>New:</strong> Sort Order — show the gallery in the order you added the videos, or set it to Newest First / Oldest First and let the block keep it sorted automatically."
 msgstr ""
 
-#: src/admin/utils/data.js:272
+#: src/admin/utils/data.js:283
 msgid "<strong>New:</strong> Row Alignment — when the last row of a gallery doesn't fill every column, align it left, center, or right instead of it always stretching to one side."
 msgstr ""
 
-#: src/admin/utils/data.js:273
+#: src/admin/utils/data.js:284
 msgid "<strong>New:</strong> Per-Device Column & Row Gap — set the spacing between tiles separately for desktop, tablet, and mobile, the same way column counts already work per device."
 msgstr ""
 
-#: src/admin/utils/data.js:274
+#: src/admin/utils/data.js:285
 msgid "<strong>New:</strong> Facebook Video Support — add Facebook videos to the gallery alongside YouTube and Vimeo, using Facebook's public embed player. No app or API key required."
 msgstr ""
 
-#: src/admin/utils/data.js:275
+#: src/admin/utils/data.js:286
 msgid "<strong>New:</strong> GDPR Consent-Gated Embeds — a Require Consent Before Playing option shows a consent overlay in place of the player until a visitor agrees, so no third-party cookie is set before that."
 msgstr ""
 
-#: src/admin/utils/data.js:276
+#: src/admin/utils/data.js:287
 msgid "<strong>New:</strong> Google Analytics 4 Video Tracking — a Send Video Play Events to Google Analytics option pushes a video_start event (title, provider, URL) to window.dataLayer whenever a visitor plays a video. Works with GA4 or Google Tag Manager already on the site."
 msgstr ""
 
-#: src/admin/utils/data.js:277
+#: src/admin/utils/data.js:288
 msgid "<strong>New:</strong> Cached Thumbnails — YouTube and Vimeo thumbnails are downloaded into your Media Library the first time they're needed and served from your own site after that, so a thumbnail can never 404 again just because a provider reshuffled its sizes. Warms up gradually, at most one new thumbnail per page view."
 msgstr ""
 
-#: src/admin/utils/data.js:278
+#: src/admin/utils/data.js:289
 msgid "<strong>New:</strong> Load More Pagination — a Videos Per Page setting under Layout Settings starts the gallery with that many tiles and reveals the rest behind a Load More button. Off by default (0 = show everything) so no existing gallery's appearance changes on upgrade."
 msgstr ""
 
-#: src/admin/utils/data.js:279
+#: src/admin/utils/data.js:290
 msgid "<strong>New:</strong> YouTube Shorts Filter — show every video, hide Shorts, or show only Shorts, detected from the link itself with no API key needed."
 msgstr ""
 
-#: src/admin/utils/data.js:280
+#: src/admin/utils/data.js:291
 msgid "<strong>New:</strong> Play Icon on Thumbnails — a play icon now sits over every tile by default, so a gallery reads as video content before anyone hovers or clicks. Its color, background, size, and hover zoom are all customizable under Style → Item, or it can be turned off entirely under Options."
 msgstr ""
 
-#: src/admin/utils/data.js:281
+#: src/admin/utils/data.js:292
 msgid "<strong>New:</strong> Item Border & Shadow — Style → Item now has Border and Shadow controls for each individual thumbnail tile, the same way the overall gallery box already did."
 msgstr ""
 
-#: src/admin/utils/data.js:282
+#: src/admin/utils/data.js:293
 msgid "<strong>Fix:</strong> Filter button active/hover colors — the Button Hover/Active Colors control under Style → Filter had no effect on the active (current) filter button, and could leave the hover color stuck on the Load More button permanently instead of only on hover. Both now behave correctly."
 msgstr ""
 
-#: src/admin/utils/data.js:283
+#: src/admin/utils/data.js:294
 msgid "<strong>Fix:</strong> Custom player controls in the lightbox — videos now consistently get the plugin's Plyr-based controls instead of occasionally falling back to the browser's default video controls."
 msgstr ""
 
-#: src/admin/utils/data.js:290
+#: src/admin/utils/data.js:301
 msgid "<strong>New:</strong> Bulk Import — paste a list of video links, one per line, and the whole gallery is built with titles and posters filled in automatically via WordPress oEmbed."
 msgstr ""
 
-#: src/admin/utils/data.js:291
+#: src/admin/utils/data.js:302
 msgid "<strong>New:</strong> Thumbnail Shape — tiles can be 16∶9, 4∶3, 1∶1 or 9∶16 instead of a fixed pixel height, so vertical Shorts and Reels are no longer cropped."
 msgstr ""
 
-#: src/admin/utils/data.js:292
+#: src/admin/utils/data.js:303
 msgid "<strong>New:</strong> Video SEO markup (free) — each video gets Schema.org VideoObject JSON-LD so galleries can appear as video results in search."
 msgstr ""
 
-#: src/admin/utils/data.js:293
+#: src/admin/utils/data.js:304
 msgid "<strong>New:</strong> Five ready-made sections — Video gallery with album filters, Course video library, Product demo showcase, Customer video stories, and Portfolio showreel wall."
 msgstr ""
 
-#: src/admin/utils/data.js:294
+#: src/admin/utils/data.js:305
 msgid "<strong>New:</strong> Added a Show Filter Bar toggle."
 msgstr ""
 
-#: src/admin/utils/data.js:295
+#: src/admin/utils/data.js:306
 msgid "<strong>Update:</strong> The gallery is now rendered by the server, so search engines see the content and galleries no longer depend on JavaScript loading first."
 msgstr ""
 
-#: src/admin/utils/data.js:296
+#: src/admin/utils/data.js:307
 msgid "<strong>Update:</strong> Patterns arrive fully configured with headings, columns, gaps, and thumbnail height already set."
 msgstr ""
 
-#: src/admin/utils/data.js:297
+#: src/admin/utils/data.js:308
 msgid "<strong>Update:</strong> Pattern thumbnails are drawn inline for instant rendering with no broken posters."
 msgstr ""
 
-#: src/admin/utils/data.js:298
+#: src/admin/utils/data.js:309
 msgid "<strong>Update:</strong> Vimeo thumbnails — pasting a Vimeo URL now fills in the title and poster."
 msgstr ""
 
-#: src/admin/utils/data.js:299
+#: src/admin/utils/data.js:310
 msgid "<strong>Update:</strong> Removed jQuery and Isotope from the front end (~120 KB less JavaScript)."
 msgstr ""
 
-#: src/admin/utils/data.js:300
+#: src/admin/utils/data.js:311
 msgid "<strong>Update:</strong> Thumbnails are lazy-loaded with alt text; filter buttons and links carry accessible labels."
 msgstr ""
 
-#: src/admin/utils/data.js:301
+#: src/admin/utils/data.js:312
 msgid "<strong>Fix:</strong> The gallery now appears on sites that delay JavaScript (WP Rocket, LiteSpeed, Perfmatters)."
 msgstr ""
 
-#: src/admin/utils/data.js:302
+#: src/admin/utils/data.js:313
 msgid "<strong>Fix:</strong> Tablet and mobile column counts — items no longer overflow their columns."
 msgstr ""
 
-#: src/admin/utils/data.js:303
+#: src/admin/utils/data.js:314
 msgid "<strong>Fix:</strong> Album filters now work for non-English album names (Bengali, Cyrillic, Arabic, CJK, etc.)."
 msgstr ""
 
-#: src/admin/utils/data.js:304
+#: src/admin/utils/data.js:315
 msgid "<strong>Fix:</strong> Broken YouTube thumbnails — the block now steps down through available sizes."
 msgstr ""
 
-#: src/admin/utils/data.js:305
+#: src/admin/utils/data.js:316
 msgid "<strong>Fix:</strong> Captions with formatting no longer show literal HTML tags."
 msgstr ""
 
-#: src/admin/utils/data.js:306
+#: src/admin/utils/data.js:317
 msgid "<strong>Fix:</strong> One broken gallery no longer takes down every other gallery on the page."
 msgstr ""
 
-#: src/admin/utils/data.js:307
+#: src/admin/utils/data.js:318
 msgid "<strong>Fix:</strong> Galleries no longer appear in the site's own search results."
 msgstr ""
 
-#: src/admin/utils/data.js:308
+#: src/admin/utils/data.js:319
 msgid "<strong>Fix:</strong> Closing a lightbox no longer breaks other galleries on the same page."
 msgstr ""
 
-#: src/admin/utils/data.js:309
+#: src/admin/utils/data.js:320
 msgid "<strong>Fix:</strong> The editor's Get Premium link and translations now work correctly."
 msgstr ""
 
-#: src/admin/utils/data.js:310
+#: src/admin/utils/data.js:321
 msgid "<strong>Fix:</strong> The Customer video stories section now uses the full width of its surrounding section."
 msgstr ""
 
-#: src/admin/utils/data.js:317
+#: src/admin/utils/data.js:328
 msgid "<strong>Update:</strong> Improved block metadata, keywords, and search discoverability in the Gutenberg editor."
 msgstr ""
 
-#: src/admin/utils/data.js:324
+#: src/admin/utils/data.js:335
 msgid "<strong>New:</strong> Added 23 new premium blocks including Video Shorts Reel, Video Showcase Wall, Video Curriculum Accordion, Video Hotspot Scene, Video Tabs Gallery, Video Scrollytelling Showcase, Video Timeline Gallery, Video Bento Grid, Video Comparison Gallery, Video Justified Gallery, Video Expanding Panels, Video Wall with Floating Player (PiP), Video Swipe Deck, Video Marquee Wall, Video Flip Cards Gallery, Video Map Gallery, Video Stories, Video Podcast Episodes, Video Property Tour Gallery, Video Workout Planner, Video Wedding Story Gallery, Video Menu Showcase, and Video Feature Tour."
 msgstr ""
 
-#: src/admin/utils/data.js:325
+#: src/admin/utils/data.js:336
 msgid "<strong>New:</strong> Introduced a redesigned admin dashboard with an improved user experience."
 msgstr ""
 
-#: src/admin/utils/data.js:326
+#: src/admin/utils/data.js:337
 msgid "<strong>Update:</strong> Greatly improved page performance when several video blocks are used on the same page."
 msgstr ""
 
-#: src/admin/utils/data.js:327
+#: src/admin/utils/data.js:338
 msgid "<strong>Update:</strong> Videos no longer load data in the background — they now load only when played (on hover or click), reducing bandwidth and CPU usage and keeping scrolling smooth."
 msgstr ""
 
-#: src/admin/utils/data.js:328
+#: src/admin/utils/data.js:339
 msgid "<strong>Fix:</strong> Parallax Row Video Gallery: Fixed scroll stuttering by switching the parallax effect to GPU-accelerated, requestAnimationFrame-based updates and rendering posters instead of video elements until played."
 msgstr ""
 
-#: src/admin/utils/data.js:329
+#: src/admin/utils/data.js:340
 msgid "<strong>Update:</strong> Video Carousel Gallery: Cards now show a poster image and load the video only on hover; off-screen videos are fully released."
 msgstr ""
 
-#: src/admin/utils/data.js:330
+#: src/admin/utils/data.js:341
 msgid "<strong>Update:</strong> Video Slider: Now uses click-to-play, so videos no longer stream in the background."
 msgstr ""
 
-#: src/admin/utils/data.js:331
+#: src/admin/utils/data.js:342
 msgid "<strong>Update:</strong> Video Testimonial Section: Idle cards render lightweight poster images instead of video elements, and card heights are now consistent."
 msgstr ""
 
-#: src/admin/utils/data.js:332
+#: src/admin/utils/data.js:343
 msgid "<strong>Fix:</strong> Video Playlist Gallery: Up Next durations now load lazily, and fixed an issue where selecting a video from the playlist did not start playing."
 msgstr ""
 
-#: src/admin/utils/data.js:333
+#: src/admin/utils/data.js:344
 msgid "<strong>Update:</strong> Minor fixes and styling updates."
 msgstr ""
 
-#: src/admin/utils/data.js:340
+#: src/admin/utils/data.js:351
 msgid "<strong>Update:</strong> Compliance updates and security enhancements for directory guidelines."
 msgstr ""
 
-#: src/admin/utils/data.js:347
+#: src/admin/utils/data.js:358
 msgid "<strong>Fix:</strong> Fixed minor issues."
 msgstr ""
 
-#: src/admin/utils/data.js:348
+#: src/admin/utils/data.js:359
 msgid "<strong>New:</strong> Added 8 new block styles."
 msgstr ""
 
-#: src/admin/utils/data.js:349
+#: src/admin/utils/data.js:360
 msgid "<strong>New:</strong> Added new shortcode styles."
 msgstr ""
 
-#: src/admin/utils/data.js:350
+#: src/admin/utils/data.js:361
 msgid "<strong>New:</strong> Added new dashboard."
 msgstr ""
 
-#: src/admin/utils/data.js:356
+#: src/admin/utils/data.js:367
 msgid "<strong>Update:</strong> Updated Fancybox library to v5."
 msgstr ""
 
-#: src/admin/utils/data.js:362
+#: src/admin/utils/data.js:373
 msgid "<strong>New:</strong> Added option to hide the \"All\" album filter."
 msgstr ""
 
-#: src/admin/utils/data.js:369
+#: src/admin/utils/data.js:380
 msgid "<strong>New:</strong> Added custom label option for common filter."
 msgstr ""
 
-#: src/admin/utils/data.js:375
+#: src/admin/utils/data.js:386
 msgid "<strong>New:</strong> Added gallery shadow options."
 msgstr ""
 
-#: src/admin/utils/data.js:380
+#: src/admin/utils/data.js:391
 msgid "<strong>Update:</strong> Improved vertical video height handling."
 msgstr ""
 
-#: src/admin/utils/data.js:386
+#: src/admin/utils/data.js:397
 msgid "<strong>New:</strong> Added video captions."
 msgstr ""
 
-#: src/admin/utils/data.js:387
+#: src/admin/utils/data.js:398
 msgid "<strong>Update:</strong> Prevented loading scripts when block is not used."
 msgstr ""
 
-#: src/admin/utils/data.js:393
+#: src/admin/utils/data.js:404
 msgid "<strong>New:</strong> Added translation support."
 msgstr ""
 
-#: src/admin/utils/data.js:398
+#: src/admin/utils/data.js:409
 msgid "<strong>Fix:</strong> Fixed add/remove video issues."
 msgstr ""
 
-#: src/admin/utils/data.js:403
+#: src/admin/utils/data.js:414
 msgid "<strong>New:</strong> Automatic video thumbnail generation."
 msgstr ""
 
-#: src/admin/utils/data.js:408
+#: src/admin/utils/data.js:419
 msgid "<strong>New:</strong> Initial release."
 msgstr ""
 
-#: src/admin/utils/data.js:412
+#: src/admin/utils/data.js:423
 msgid "View More Changelogs"
 msgstr ""
 
-#: src/admin/utils/data.js:416
+#: src/admin/utils/data.js:427
 msgid "31 more video blocks: sliders, carousels, masonry, playlists, Shorts reels, course accordions and more."
 msgstr ""
 
-#: src/admin/utils/data.js:417
+#: src/admin/utils/data.js:428
 msgid "Live streams with LIVE and Upcoming badges, and a live player above the gallery."
 msgstr ""
 
-#: src/admin/utils/data.js:418
+#: src/admin/utils/data.js:429
 msgid "Merge up to 10 channels or playlists, show up to 1,000 videos, filter by title keywords."
 msgstr ""
 
-#: src/admin/utils/data.js:419
+#: src/admin/utils/data.js:430
 msgid "Channel feeds in 20 more blocks."
 msgstr ""
 
-#: src/admin/utils/data.js:420
+#: src/admin/utils/data.js:431
 msgid "Cards, List and Showcase layouts, with the title on the video, on hover or below it."
 msgstr ""
 
-#: src/admin/utils/data.js:421
+#: src/admin/utils/data.js:432
 msgid "Preview on hover, and actions when a video ends: next video, replay or your own button."
 msgstr ""
 
-#: src/admin/utils/data.js:422
+#: src/admin/utils/data.js:433
 msgid "View counts and like counts."
 msgstr ""
 
-#: src/admin/utils/data.js:423
+#: src/admin/utils/data.js:434
 msgid "GDPR consent in every block."
 msgstr ""
 
-#: src/admin/utils/data.js:424
+#: src/admin/utils/data.js:435
 msgid "Wistia videos in most Pro blocks."
 msgstr ""
 
-#: src/admin/utils/data.js:425
+#: src/admin/utils/data.js:436
 msgid "WooCommerce product video carousel."
 msgstr ""
 
-#: src/admin/utils/data.js:426
+#: src/admin/utils/data.js:437
 msgid "Advanced typography and overlays."
 msgstr ""
 
-#: src/admin/utils/data.js:427
+#: src/admin/utils/data.js:438
 msgid "Priority support."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:78
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:94
 msgid "Dark and modern"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:79
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:95
 msgid "Tight 4-column grid"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:80
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:96
 msgid "Big, rounded and spacious"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:81
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:97
 msgid "Hide Shorts, newest first"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:129
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:147
 msgid "We could not reach your AI provider right now."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:145
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:163
 msgid "Could not save the choice."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:162
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:197
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:222
 msgid "Automatic"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:177
-msgid "Greyed-out providers are not set up yet."
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:200
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:219
+msgid "AI provider"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:179
-msgid "Set them up"
+#. translators: %s: provider names, comma-separated.
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:204
+msgid "WordPress picks from %s"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:183
-msgid "More than one provider is connected. Choose the one to use."
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:212
+msgid "Done"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:242
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:286
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:514
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:212
+msgid "Change"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:235
+msgid "AI settings"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:293
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:338
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:567
 msgid "Edit with AI"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:246
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:298
 msgid "Edit with AI needs WordPress 7.0 or newer. Update WordPress to use it."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:247
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:299
 msgid "AI is switched off on this site. Ask the site administrator to turn it on."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:264
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:316
 msgid "Pick a provider, install its plugin if asked, and paste its API key. Google has a free plan with limits; OpenAI and Anthropic need a paid account."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:274
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:326
 msgid "Allow this plugin to use it"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:275
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:327
 msgid "Approve Video Gallery Block for your provider."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:291
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:344
 msgid "Your AI provider is connected, but we could not reach it right now. Check the key under Settings, Connectors, then test the connection."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:313
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:366
 msgid "Describe the gallery you want and AI sets it up for you. Turn it on once:"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:354
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:407
 msgid "Come back here"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:355
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:408
 msgid "Edit with AI turns on by itself."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:400
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:453
 msgid "The AI could not answer right now. Please try again."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:524
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:578
 msgid "What should the gallery look like?"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:529
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:583
 msgid "e.g. 4 columns, dark background, round corners"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:555
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:609
 msgid "Thinking…"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:556
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:610
 msgid "Preview changes"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:563
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:617
 msgid "Or let AI help with your videos:"
 msgstr ""
 
 #. translators: %d: number of videos without a title
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:569
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:623
 msgid "Write a title for %d video without one"
 msgid_plural "Write titles for %d videos without one"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:581
-msgid "Sort videos into albums"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:595
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:649
 msgid "Try again"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:605
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:659
 msgid "Nothing needed to change. Try describing it a little differently."
 msgstr ""
 
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:669
+msgid "Preview: nothing has changed yet. Check the list, then press Apply."
+msgstr ""
+
 #. translators: %d: number of settings that will change
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:629
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:686
 msgid "Apply %d changes"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:634
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:676
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:718
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:691
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:733
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:775
 msgid "Discard"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:642
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:699
 msgid "The file names did not say enough to write a title. You can type them yourself."
 msgstr ""
 
 #. translators: %d: number of titles to add
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:666
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:723
 msgid "Add %d title"
 msgid_plural "Add %d titles"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:684
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:741
 msgid "The titles did not suggest clear groups. Try again after adding more videos."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:700
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:757
 msgid "new"
 msgstr ""
 
 #. translators: %d: number of videos
 #. translators: %d: number of videos.
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:706
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:248
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:446
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:465
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:763
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:252
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:450
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:469
 msgid "%d video"
 msgid_plural "%d videos"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:715
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:772
 msgid "Apply albums"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:726
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:783
 msgid "Applied."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:728
+#: src/blocks/video-gallery-block/Components/Backend/AiAssistant.js:785
 #: src/blocks/video-gallery-block/Components/Backend/Settings/CopyFeedButton.js:70
 msgid "Undo"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Edit.js:172
+#: src/blocks/video-gallery-block/Components/Backend/Edit.js:171
+msgid "Remove these videos from the gallery"
+msgstr ""
+
+#. translators: %d: number of videos
+#: src/blocks/video-gallery-block/Components/Backend/Edit.js:175
+msgid "Remove %d video"
+msgid_plural "Remove %d videos"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Edit.js:180
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:552
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1091
+msgid "Cancel"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Edit.js:242
 msgid "Updating videos…"
 msgstr ""
 
@@ -1881,6 +2145,46 @@ msgstr ""
 
 #: src/blocks/video-gallery-block/Components/Backend/FrontShortCode/FrontShortCode.js:40
 msgid "Copy the shortcode and use it anywhere."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:19
+msgid "Animation"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:22
+msgid "Hover effect"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:29
+msgid "The picture grows a little inside its tile."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:30
+msgid "The thumbnails stay still."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:33
+msgid "Zoom"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:40
+msgid "Speed"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:45
+msgid "Visitors who turned on “reduce motion” on their device see no movement."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:49
+msgid "Slow"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:50
+msgid "Normal"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/AnimationPanel.js:51
+msgid "Fast"
 msgstr ""
 
 #. translators: %d: number of links.
@@ -1968,7 +2272,7 @@ msgid "Importing…"
 msgstr ""
 
 #: src/blocks/video-gallery-block/Components/Backend/Settings/BulkImport.js:315
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:394
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:431
 msgid "Import videos"
 msgstr ""
 
@@ -1994,634 +2298,746 @@ msgstr ""
 msgid "Copied videos are yours to reorder and edit, but won’t update by themselves."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:132
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:136
 msgid "YouTube or Vimeo link"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:148
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:152
 msgid "A channel or playlist link from YouTube, or a profile, channel or showcase from Vimeo."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:153
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:157
 msgid "Favorites: put them in a public playlist and paste its link."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:168
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:172
 msgid "Update link"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:169
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:173
 msgid "Show videos"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:173
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:177
 msgid "Paste a different link to update."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:184
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:188
 msgid "Vimeo showcase"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:185
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:232
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:189
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:242
 msgid "Vimeo"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:188
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:192
 msgid "YouTube playlist"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:189
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:193
 msgid "YouTube channel"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:206
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:440
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:210
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:444
 msgid "Loading videos…"
 msgstr ""
 
 #. translators: %s: channel or creator name.
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:221
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:225
 msgid "Show all videos from %s"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:224
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:228
 msgid "Show all videos from this creator"
 msgstr ""
 
 #. translators: %s: e.g. "5 min ago".
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:253
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:257
 msgid "updated %s"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:263
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:267
 msgid "Showing the last videos we got. Could not update just now:"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:274
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:278
 msgid "No public videos found here. Only public videos can be shown -- private and unlisted ones are left out."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:278
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:282
 msgid "No public videos found here. If you hid Shorts or kept only Shorts, try All Videos."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:310
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:314
 msgid "A free key from Google lets your site read your channel. One-time setup, about 2 minutes."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:318
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:322
 msgid "Sign in to Google Cloud and create a project (any name)."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:320
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:324
 msgid "Open Google Cloud"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:324
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:328
 msgid "Turn on “YouTube Data API v3”: click Enable."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:326
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:330
 msgid "Open the API page"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:330
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:334
 msgid "Go to Credentials → Create credentials → API key, and copy the key."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:335
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:339
 msgid "Paste it here and click Save."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:339
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:343
 msgid "YouTube API key"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:362
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:366
 msgid "Checking key…"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:365
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:369
 msgid "Save key"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:376
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:380
 msgid "The key stays on your server and is used for every gallery on this site. Visitors never see it."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:389
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:393
 msgid "1 h"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:390
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:394
 msgid "Every hour"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:394
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:398
 msgid "6 h"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:395
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:399
 msgid "Every 6 hours"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:399
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:403
 msgid "12 h"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:400
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:404
 msgid "Every 12 hours"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:404
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:408
 msgid "Daily"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:405
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:409
 msgid "Once a day"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:477
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:481
 msgid "Choose a channel or playlist"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:491
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:495
 msgid "This is a YouTube link: connect YouTube in step 2 to show its videos."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:502
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:561
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:506
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:565
 msgid "Connect YouTube"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:526
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:530
 msgid "Change key"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:532
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:536
 msgid "Only needed for YouTube links. Ask a site administrator to connect YouTube once."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:548
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1054
-msgid "Cancel"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:555
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:559
 msgid "Only needed for YouTube links. Vimeo links work without it."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:570
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:574
 msgid "How many & how often"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:576
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:580
 msgid "Number of videos"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:581
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:585
 msgid "The newest videos first. Up to 50."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:600
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:604
 msgid "Uses YouTube's own videos-only or Shorts-only list."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:604
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:608
 msgid "Works with YouTube channel links only."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:619
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:741
-msgid "Show first"
-msgstr ""
-
 #: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:623
-msgid "Then a Load More button shows the rest. 0 shows all."
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:633
-msgid "Load More button text"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:642
 msgid "Check for new videos"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:647
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:628
 msgid "New uploads appear on your site within this time."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:668
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:649
 msgid "Check now"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:65
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:656
+msgid "Pages & loading"
+msgstr ""
+
+#. translators: %d: videos on the first page.
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:663
+msgid "%d first · Load more button"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:666
+msgid "All at once"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:670
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:782
+msgid "Videos on first page"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:674
+msgid "Then a Load More button shows the rest. 0 shows all."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/FeedSource.js:706
+msgid "Load More button text"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:77
 msgid "Video"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:69
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:81
 msgid "Paste a link or upload"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:74
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:894
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:86
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:964
 msgid "Thumbnail"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:78
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:90
 msgid "Image link or upload"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:83
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:94
+msgid "This video is on another website, so a thumbnail cannot be made from it automatically and the tile may look black. Add a thumbnail image above."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/ItemSettings.js:103
 msgid "Title"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:62
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreCount.js:27
+msgid "Then show per click"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreCount.js:33
+msgid "How many more videos each Load More click shows."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreCount.js:40
+msgid "Show all the rest on one click"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreCount.js:60
+msgid "Show the rest of the videos"
+msgstr ""
+
+#. translators: %d: number of videos shown
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreCount.js:67
+msgid "Only the first %d video shows, with no Load More button."
+msgid_plural "Only the first %d videos show, with no Load More button."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreCount.js:75
+msgid "Turn off to show only these videos, with no Load More button."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:27
+msgid "Load more button"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:30
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:988
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1190
+msgid "Typography"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:37
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1002
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1039
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1204
+msgid "Colors"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:44
+msgid "Hover colors"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:51
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:933
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1017
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1219
+msgid "Padding"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:59
+msgid "Corner radius"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:70
+msgid "Alignment"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:80
+msgid "Full width"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/LoadMoreStylePanel.js:88
+msgid "Space above"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:67
 msgid "All"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:63
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:68
 msgid "Hide"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:64
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:69
 msgid "Only"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:68
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:73
 msgid "Cover"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:69
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:74
 msgid "Contain"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:70
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:75
 msgid "Fill"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:77
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:82
 msgid "Shows the whole picture, with bars where the shapes differ."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:81
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:86
 msgid "Stretches the picture to fill the thumbnail."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:85
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:90
 msgid "Shows the picture at its own size, centred."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:88
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:93
 msgid "Fills the thumbnail; the edges may be cropped."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:217
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:228
 msgid "Feed order"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:219
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:230
 msgid "Newest"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:220
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:231
 msgid "Oldest"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:226
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:237
 msgid "The order YouTube or Vimeo lists the videos in."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:227
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:238
 msgid "The order of your video list."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:230
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:241
 msgid "By the day each video was published."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:231
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:242
 msgid "By the day each video was added; older ones without a date count as the oldest."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:291
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:320
 msgid "Video source"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:294
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:323
 msgid "Where do the videos come from?"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:305
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:334
 msgid "The newest videos from a YouTube or Vimeo channel or playlist, updated by itself."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:309
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:338
 msgid "Add videos one by one, or paste many links under Import videos."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:316
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:345
 msgid "My videos"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:320
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:349
 msgid "YouTube / Vimeo"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:339
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:368
 msgid "Your own video list is kept. Switch back to “My videos” any time to get it back."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:352
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:381
 msgid "Videos"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:356
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:384
+msgid "To remove several videos, Ctrl/⌘ + click them on the canvas (Shift + click picks a run), then Remove in the toolbar."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:393
 msgid "Drag videos on the canvas to reorder them, or move this one:"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:366
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:403
 msgid "Move earlier"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:375
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:412
 msgid "Move later"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:405
-msgid "Albums & filter bar"
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:442
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1086
+msgid "Album filter bar"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:409
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:446
 msgid "Albums become filter buttons above the gallery."
 msgstr ""
 
 #. translators: %d: album number.
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:421
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:458
 msgid "Album %d"
 msgstr ""
 
 #. translators: %d: album number.
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:429
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:466
 msgid "Album %d name"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:440
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:445
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:477
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:482
 msgid "Remove this album"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:463
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:468
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:500
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:505
 msgid "Add album"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:474
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:511
 msgid "Filter bar"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:477
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:514
 msgid "Show filter bar"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:482
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:519
 msgid "A button for each album above the gallery."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:490
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:527
 msgid "“All” button label"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:497
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:534
 msgid "Leave empty to hide the filter bar."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:512
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:549
 msgid "Layout"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:514
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:551
 msgid "Columns"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:531
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:568
 msgid "Gaps"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:534
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:571
 msgid "Between columns"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:548
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:585
 msgid "Between rows"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:570
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:607
 msgid "Where a last row that isn't full sits."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:584
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:615
 msgid "Thumbnails"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:602
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:633
 msgid "Every thumbnail keeps this shape on all screens."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:603
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:634
 msgid "Every thumbnail gets the height set below."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:623
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:654
 msgid "Height"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:648
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:679
 msgid "Order"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:652
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:683
 msgid "Sort order"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:671
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:702
 msgid "Display"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:674
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:705
 msgid "Show title"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:677
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:708
 msgid "The video's title over the bottom of each thumbnail."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:684
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:715
 msgid "Show channel name"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:687
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:718
 msgid "From YouTube / Vimeo feeds."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:691
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:722
+msgid "Show upload time"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:725
+msgid "How long ago each video was uploaded, like “3 days ago”. YouTube videos you add yourself need your YouTube API key (the one channel galleries use)."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:732
 msgid "Show play icon"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:694
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:735
 msgid "A play icon over each thumbnail, so it reads as a video."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:702
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:743
 msgid "Videos shown"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:714
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:755
 msgid "Uses YouTube's own videos-only or Shorts-only list for this channel."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:719
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:760
 msgid "Applies to the YouTube videos in this gallery."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:723
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:764
 msgid "No YouTube videos are left in this gallery; set this back to All."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:748
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:789
 msgid "0 shows every video; otherwise the rest wait behind a Load more button."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:756
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:814
 msgid "Load more button text"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:768
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:826
 msgid "Playback"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:780
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:838
 msgid "Plays inside its own tile, one video at a time."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:784
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:842
 msgid "Plays inside its own tile. Tip: a 16:9 Thumbnail shape (Layout) makes it fill the tile."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:788
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:846
 msgid "Opens in a lightbox, with the other videos below it."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:806
-msgid "Popup width as aspect ratio"
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:864
+msgid "Lightbox follows the video’s shape"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:815
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:872
+msgid "Autoplay videos in the lightbox"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:875
+msgid "Starts each video when the lightbox opens or you pick another one. Turn it off to wait for a click on play."
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:885
 msgid "Privacy & SEO"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:818
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:888
 msgid "Ask before loading YouTube / Vimeo (GDPR)"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:821
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:891
 msgid "Shows a privacy notice and loads the video only after the visitor agrees. The choice is remembered for the whole site."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:828
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:898
 msgid "Send play events to Google Analytics"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:831
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:901
 msgid "Sends play, progress and finish events to GA4 or Google Tag Manager."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:838
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:908
 msgid "Video SEO markup"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:841
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:911
 msgid "Video schema for search results; turn it off if your SEO plugin adds it."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:854
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:924
 msgid "Gallery"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:856
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:926
 msgid "Background"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:863
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:947
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1078
-msgid "Padding"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:870
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:897
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:940
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:967
 msgid "Border"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:877
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:904
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:947
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:974
 msgid "Shadow"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:915
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:985
 msgid "Title & text"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:918
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1049
-msgid "Typography"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:932
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:969
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1063
-msgid "Colors"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:966
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1036
 msgid "Play icon"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:981
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1051
 msgid "Size"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:995
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1065
 msgid "Hover zoom"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1005
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1075
 msgid "How much the icon grows on hover; 1 turns it off."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1016
-msgid "Album filter bar"
-msgstr ""
-
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1019
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1089
 msgid "Button typography"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1028
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1098
 msgid "Button colors"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1035
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1105
 msgid "Hover & active colors"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1046
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1115
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1118
+msgid "Space between buttons"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1129
+msgid "Button padding"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1136
+msgid "Bar padding"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1143
+msgid "Bar margin"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1153
+msgid "Divider line"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1160
+msgid "Line color"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1166
+msgid "Line thickness"
+msgstr ""
+
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1187
 msgid "Lightbox caption"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1107
+#: src/blocks/video-gallery-block/Components/Backend/Settings/Settings.js:1250
 msgid "Add new video"
 msgstr ""
 
@@ -2666,48 +3082,48 @@ msgid_plural "%d videos could not be uploaded."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:228
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:238
 msgid "YouTube"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:236
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:246
 msgid "Facebook"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:239
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:249
 msgid "its provider"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:860
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:887
 msgid "Close video"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:881
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:908
 msgid "Click to play"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:882
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:909
 msgid "Click to preview"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:884
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:911
 msgid "Click to select · Double-click to play"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:885
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:912
 msgid "Click to select · Double-click to preview"
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1025
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1062
 msgid "Load More"
 msgstr ""
 
 #. translators: %s: video provider name, e.g. YouTube.
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1036
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1073
 msgid "This video is hosted by %s. Playing it loads their player and shares data with them, in line with their privacy policy."
 msgstr ""
 
-#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1048
+#: src/blocks/video-gallery-block/Components/Common/VideoGallery.js:1085
 msgid "Play Video"
 msgstr ""
 

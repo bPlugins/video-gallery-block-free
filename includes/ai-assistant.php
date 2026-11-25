@@ -519,8 +519,25 @@ class VidGalBlk_AI_Assistant {
 		$status = self::status();
 		if ( current_user_can( 'manage_options' ) ) {
 			$status['available'] = self::available_providers();
+			$status['mcp']       = self::mcp_adapter();
 		}
 		return rest_ensure_response( $status );
+	}
+
+	/** Where the MCP Adapter stands: ready (its address answers), installed (not active) or missing. */
+	private static function mcp_adapter() {
+		if ( rest_get_server()->get_routes( 'mcp' ) ) {
+			return 'ready';
+		}
+		if ( ! function_exists( 'get_plugins' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		foreach ( array_keys( get_plugins() ) as $file ) {
+			if ( 0 === strpos( $file, 'mcp-adapter/' ) ) {
+				return 'installed';
+			}
+		}
+		return 'missing';
 	}
 
 	/**

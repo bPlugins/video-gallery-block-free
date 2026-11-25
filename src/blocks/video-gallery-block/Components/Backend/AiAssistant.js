@@ -580,24 +580,13 @@ const AiAssistant = ({ attributes, setAttributes }) => {
           onChange={setPrompt}
           rows={3}
           maxLength={600}
+          help={__("Press Ctrl+Enter (Cmd+Enter on a Mac) to preview.", "video-gallery-block")}
           placeholder={__(
             "e.g. 4 columns, dark background, round corners",
             "video-gallery-block",
           )}
           __nextHasNoMarginBottom
         />
-      </div>
-
-      <div className="vgbAi__chips">
-        {examples().map((text) => (
-          <button
-            type="button"
-            key={text}
-            className="vgbAi__chip"
-            onClick={() => setPrompt(text)}>
-            {text}
-          </button>
-        ))}
       </div>
 
       <Button
@@ -610,6 +599,18 @@ const AiAssistant = ({ attributes, setAttributes }) => {
           : __("Preview changes", "video-gallery-block")}
       </Button>
       {busy && <Spinner />}
+
+      <div className="vgbAi__chips">
+        {examples().map((text) => (
+          <button
+            type="button"
+            key={text}
+            className="vgbAi__chip"
+            onClick={() => setPrompt(text)}>
+            {text}
+          </button>
+        ))}
+      </div>
 
       {(untitled.length > 0 || titled.length >= 4) && (
         <div className="vgbAi__more">

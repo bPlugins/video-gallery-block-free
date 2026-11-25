@@ -308,18 +308,19 @@
       }
     }
 
-    // Tooltip hint. It sits inside the tile, at the top, so the tile can clip
-    // its corners exactly as on the live page: a tile with a rounded border
-    // then has no square caption or image corners poking past the curve.
+    // Tooltip hint. It sits inside the tile, so the tile can clip its corners
+    // exactly as on the live page: a tile with a rounded border then has no
+    // square caption or image corners poking past the curve. At the bottom,
+    // because the tile's tools (drag, move, edit) take the top right.
     &::after {
       content: attr(data-editor-hint);
       position: absolute;
-      top: 8px;
+      bottom: 8px;
       left: 50%;
       width: max-content;
       max-width: calc(100% - 16px);
       text-align: center;
-      transform: translateX(-50%) translateY(-4px);
+      transform: translateX(-50%) translateY(4px);
       background: rgba(0, 0, 0, 0.85);
       color: #fff;
       font-size: 11px;

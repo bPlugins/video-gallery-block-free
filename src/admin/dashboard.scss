@@ -160,6 +160,14 @@
   ul li { padding-left: 0; border-radius: 0; &::before { content: none; display: none; } }
   p { max-width: none; margin-bottom: 0; }
 
+  // Buttons and links use the brand colour, not the WordPress admin colour scheme.
+  a:not(.button), .button-link { color: var(--bpl-dashboard-primary-color); }
+  .button { color: var(--bpl-dashboard-primary-color); border-color: var(--bpl-dashboard-primary-color); background: #fff;
+    &:hover, &:focus { color: var(--bpl-dashboard-primary-color); border-color: var(--bpl-dashboard-primary-color); background: rgba(var(--bpl-dashboard-primary-color-rgb), .08); }
+    &.button-primary { color: #fff; background: var(--bpl-dashboard-primary-color);
+      &:hover, &:focus { color: #fff; background: color-mix(in srgb, var(--bpl-dashboard-primary-color) 88%, black); }
+      &:disabled, &[disabled] { color: #8a8a8a; background: #e2e2e2; border-color: #e2e2e2; } } }
+
   .settingsStatus { align-items: flex-start; &.is-ready { background: linear-gradient(135deg, rgba(22, 163, 74, .08), rgba(22, 163, 74, .01)); border-color: rgba(22, 163, 74, .28); .settingsStatusIcon { color: #16a34a; } }
     &.is-pending .settingsStatusIcon { color: var(--bpl-dashboard-primary-color); }
     &.is-bad { background: linear-gradient(135deg, rgba(220, 38, 38, .07), rgba(220, 38, 38, .01)); border-color: rgba(220, 38, 38, .22); .settingsStatusIcon { color: #dc2626; } } }
